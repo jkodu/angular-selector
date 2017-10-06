@@ -1,0 +1,6 @@
+
+
+- $scope.$watch/ $scope.$watchCollection
+- 
+
+

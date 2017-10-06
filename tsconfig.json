@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "typeRoots": [
+            "node_modules/@types/"
+        ],
+        "types": [
+            "angular",
+            "node",
+            "rx"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "src/**/*.spec.ts"
+    ]
+}
