@@ -17,7 +17,7 @@ var CONSTANTS = {
         tab: 9
     },
     TEMPLATES: {
-        SELECTOR: "\n        <div class=\"selector-container\"\n            ng-attr-dir=\"{{ rtl ? 'rtl' : 'ltr' }}\"\n            ng-class=\"{\n                open: isOpen, \n                empty: !filteredOptions.length && \n                    (!create || !search), multiple: multiple, \n                    'has-value': hasValue(), \n                    rtl: rtl, \n                    'loading': loading, \n                    'remove-button': removeButton, \n                    disabled: disabled}\">\n            <select name=\"{{name}}\"\n                ng-hide=\"true\"\n                ng-required=\"required && !hasValue()\"\n                ng-model=\"selectedValues\"\n                multiple\n                ng-options=\"option as getObjValue(option, labelAttr) for option in selectedValues\">\n            </select>\n            <label class=\"selector-input\">\n                <ul class=\"selector-values\">\n                    <li ng-repeat=\"(index, option) in selectedValues track by index\">\n                        <div ng-include=\"viewItemTemplate\"></div>\n                        <div ng-if=\"multiple\" class=\"selector-helper\" ng-click=\"!disabled && unset(index)\">\n                            <span class=\"selector-icon\"></span>\n                        </div>\n                    </li>\n                </ul>\n                <input \n                    ng-model=\"search\" \n                    placeholder=\"{{!hasValue() ? placeholder : ''}}\" \n                    ng-model-options=\"{debounce: debounce}\"\n                    ng-disabled=\"disabled\" \n                    ng-readonly=\"disableSearch\" \n                    ng-required=\"required && !hasValue()\" \n                    autocomplete=\"off\">\n                <div ng-if=\"!multiple || loading\" \n                    class=\"selector-helper selector-global-helper\" \n                    ng-click=\"!disabled && removeButton && unset()\">\n                    <span class=\"selector-icon\"></span>\n                </div>\n            </label>\n            <ul class=\"selector-dropdown\"\n                ng-show=\"filteredOptions.length > 0 || (create && search)\">\n                <li class=\"selector-option create\"\n                    ng-class=\"{active: highlighted == -1}\"\n                    ng-if=\"create && search\"\n                    ng-include=\"dropdownCreateTemplate\"\n                    ng-mouseover=\"highlight(-1)\"\n                    ng-click=\"createOption(search)\"></li>\n                <li ng-repeat-start=\"(index, option) in filteredOptions track by index\"\n                    class=\"selector-optgroup\"\n                    ng-include=\"dropdownGroupTemplate\"\n                    ng-show=\"groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))\"></li>\n                <li ng-repeat-end\n                    ng-class=\"{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}\"\n                    class=\"selector-option\"\n                    ng-include=\"dropdownItemTemplate\"\n                    ng-mouseover=\"highlight(index)\"\n                    ng-click=\"set()\">\n                </li>\n            </ul>\n        </div>",
+        SELECTOR: "\n        <div class=\"selector-container\"\n            ng-attr-dir=\"{{ rtl ? 'rtl' : 'ltr' }}\"\n            ng-class=\"{\n                open: isOpen, \n                empty: !filteredOptions.length && \n                    (!create || !search), multiple: multiple, \n                    'has-value': hasValue(), \n                    rtl: rtl, \n                    'loading': loading, \n                    'remove-button': removeButton, \n                    disabled: disabled}\">\n            <select name=\"{{name}}\"\n                ng-hide=\"true\"\n                ng-required=\"required && !hasValue()\"\n                ng-model=\"selectedValues\"\n                multiple\n                ng-options=\"option as getObjValue(option, labelAttr) for option in selectedValues\">\n            </select>\n            <label class=\"selector-input\">\n                <ul class=\"selector-values\">\n                    <li ng-repeat=\"(index, option) in selectedValues track by index\">\n                        <div ng-include=\"viewItemTemplate\"></div>\n                        <div ng-if=\"multiple\" class=\"selector-helper\" ng-click=\"!disabled && unset(index)\">\n                            <span class=\"selector-icon\"></span>\n                        </div>\n                    </li>\n                </ul>\n                <input \n                    ng-model=\"search\" \n                    on-selector-ng-model-being-changed-name='search'\n                    on-selector-ng-model-changed='onSearchNgModelChanged'\n                    placeholder=\"{{!hasValue() ? placeholder : ''}}\" \n                    ng-model-options=\"{debounce: debounce}\"\n                    ng-disabled=\"disabled\" \n                    ng-readonly=\"disableSearch\" \n                    ng-required=\"required && !hasValue()\" \n                    autocomplete=\"off\">\n                <div ng-if=\"!multiple || loading\" \n                    class=\"selector-helper selector-global-helper\" \n                    ng-click=\"!disabled && removeButton && unset()\">\n                    <span class=\"selector-icon\"></span>\n                </div>\n            </label>\n            <ul class=\"selector-dropdown\"\n                ng-show=\"filteredOptions.length > 0 || (create && search)\">\n                <li class=\"selector-option create\"\n                    ng-class=\"{active: highlighted == -1}\"\n                    ng-if=\"create && search\"\n                    ng-include=\"dropdownCreateTemplate\"\n                    ng-mouseover=\"highlight(-1)\"\n                    ng-click=\"createOption(search)\"></li>\n                <li ng-repeat-start=\"(index, option) in filteredOptions track by index\"\n                    class=\"selector-optgroup\"\n                    ng-include=\"dropdownGroupTemplate\"\n                    ng-show=\"groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))\"></li>\n                <li ng-repeat-end\n                    ng-class=\"{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}\"\n                    class=\"selector-option\"\n                    ng-include=\"dropdownItemTemplate\"\n                    ng-mouseover=\"highlight(index)\"\n                    ng-click=\"set()\">\n                </li>\n            </ul>\n        </div>",
         ITEM_CREATE: "Add <i ng-bind=\"search\"></i>",
         ITEM_DEFAULT: "<span ng-bind=\"getObjValue(option, labelAttr) || option\"></span>",
         GROUP_DEFAULT: "<span ng-bind=\"getObjValue(option, groupAttr)\"></span>"
@@ -100,6 +100,12 @@ var SelectorDirective = (function () {
                     dropdownItemTemplate: 'selector/item-default.html',
                     dropdownCreateTemplate: 'selector/item-create.html',
                     dropdownGroupTemplate: 'selector/group-default.html'
+                };
+                scope.onSearchNgModelChanged = function (oldValue, newValue, propertyName) {
+                    console.log(oldValue, newValue, propertyName);
+                    if (scope.remote) {
+                        $timeout(fetch);
+                    }
                 };
                 if (!angular.isDefined(scope.value) && scope.multiple) {
                     scope.value = [];
@@ -220,18 +226,19 @@ var SelectorDirective = (function () {
                     scope.remoteValidation = false;
                     initDeferred.resolve();
                 }
-                else if (!angular.isDefined(scope.remoteValidation))
-                    scope.remoteValidation = false;
-                if (scope.remote)
+                else {
+                    if (!angular.isDefined(scope.remoteValidation)) {
+                        scope.remoteValidation = false;
+                    }
+                }
+                if (scope.remote) {
                     $timeout(function () {
                         $q.when(!scope.hasValue() || !scope.remoteValidation
                             ? angular.noop
                             : fetchValidation(scope.value)).then(function () {
-                            scope.$watch('search', function () {
-                                $timeout(fetch);
-                            });
                         });
                     });
+                }
                 var optionToObject = function (option, group) {
                     var object = {};
                     var element = angular.element(option);
@@ -680,5 +687,27 @@ angular
         $templateCache.put('selector/item-default.html', CONSTANTS.TEMPLATES.ITEM_DEFAULT);
         $templateCache.put('selector/group-default.html', CONSTANTS.TEMPLATES.GROUP_DEFAULT);
     }])
+    .directive("onSelectorNgModelChanged", function () {
+    return {
+        scope: {
+            onSelectorNgModelChanged: "&",
+            onSelectorNgModelBeingChangedName: '@',
+        },
+        require: "ngModel",
+        link: function (scope, element, attrs, ctrl) {
+            debugger;
+            var oldValue;
+            ctrl.$formatters.push(function (value) {
+                oldValue = value;
+                return value;
+            });
+            ctrl.$viewChangeListeners.push(function () {
+                var mN = attrs.onSelectorNgModelBeingChangedName;
+                scope.onSelectorNgModelChanged()(oldValue, ctrl.$modelValue, mN);
+                oldValue = ctrl.$modelValue;
+            });
+        }
+    };
+})
     .directive('selector', SelectorDirective.Factory());
 //# sourceMappingURL=angular-selector.js.map

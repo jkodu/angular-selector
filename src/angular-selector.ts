@@ -29,18 +29,21 @@ interface ISelectorScope extends angular.IScope {
     dropdownGroupTemplate,
 
     // CUSTOM MEMBERS ADDED to scope by old code, USED IN BINDINGS.
-    getObjValue,
-    hasValue,
-    loading,
-    search
-    highlight,
-    highlighted,
-    isOpen,
-    filteredOptions,
-    createOption,
-    selectedValues,
-    set(option?: any): void,
-    unset(index?: number): void
+    getObjValue;
+    hasValue;
+    loading;
+    search;
+    highlight;
+    highlighted;
+    isOpen;
+    filteredOptions;
+    createOption;
+    selectedValues;
+    set(option?: any): void;
+    unset(index?: number): void;
+
+    // Alternative to watchers - change listeners
+    onSearchNgModelChanged(oldValue: any, newValue: any, propertyName: string): void;
 }
 
 const CONSTANTS = {
@@ -92,6 +95,8 @@ const CONSTANTS = {
                 </ul>
                 <input 
                     ng-model="search" 
+                    on-selector-ng-model-being-changed-name='search'
+                    on-selector-ng-model-changed='onSearchNgModelChanged'
                     placeholder="{{!hasValue() ? placeholder : ''}}" 
                     ng-model-options="{debounce: debounce}"
                     ng-disabled="disabled" 
@@ -198,8 +203,6 @@ class SelectorDirective {
             controller: angular.IController,
             transclude: angular.ITranscludeFunction) => {
 
-
-
             transclude(scope, (clone: any, scope: ISelectorScope) => {
                 const filter = $filter('filter');
                 let input = angular.element(element[0].querySelector('.selector-input input'));
@@ -229,10 +232,21 @@ class SelectorDirective {
                     dropdownGroupTemplate: 'selector/group-default.html'
                 };
 
+                // watch alternative - model change listener
+                scope.onSearchNgModelChanged = (oldValue, newValue, propertyName) => {
+                    console.log(oldValue, newValue, propertyName);
+                    if(scope.remote) {
+                        $timeout(fetch);
+                    }
+                };
+
+
                 // Default attributes
                 if (!angular.isDefined(scope.value) && scope.multiple) {
                     scope.value = []
                 };
+
+
 
                 angular.forEach(defaults, (value, key) => {
                     if (!angular.isDefined(scope[key])) {
@@ -358,20 +372,21 @@ class SelectorDirective {
                     scope.remote = false;
                     scope.remoteValidation = false;
                     initDeferred.resolve();
-                } else
-                    if (!angular.isDefined(scope.remoteValidation))
+                } else {
+                    if (!angular.isDefined(scope.remoteValidation)) {
                         scope.remoteValidation = false;
-                if (scope.remote)
+                    }
+                }
+                if (scope.remote) {
                     $timeout(() => {
                         $q.when(!scope.hasValue() || !scope.remoteValidation
                             ? angular.noop
                             : fetchValidation(scope.value)
                         ).then(() => {
-                            scope.$watch('search', () => {
-                                $timeout(fetch);
-                            });
+                            // NOTE: Here used to be watcher for search attribute, wich now is moved to $viewChangeListener.
                         });
                     });
+                }
 
                 // Fill with options in the select
                 const optionToObject = (option, group?) => {
@@ -452,7 +467,6 @@ class SelectorDirective {
                     const styles = DOM_FUNCTIONS.getStyles(label);
                     const marginTop = parseFloat((<any>styles).marginTop || 0);
                     const marginLeft = parseFloat((<any>styles).marginLeft || 0);
-
                     if (label) {
                         dropdown.css({
                             top: (label.offsetTop + label.offsetHeight + marginTop) + 'px',
@@ -461,6 +475,7 @@ class SelectorDirective {
                         });
                     }
                 };
+
                 const open = () => {
                     if (scope.multiple && (scope.selectedValues || [])
                         .length >= scope.limit) return;
@@ -856,4 +871,26 @@ angular
         $templateCache.put('selector/item-default.html', CONSTANTS.TEMPLATES.ITEM_DEFAULT);
         $templateCache.put('selector/group-default.html', CONSTANTS.TEMPLATES.GROUP_DEFAULT);
     }])
+    .directive("onSelectorNgModelChanged", () => {
+        return {
+            scope: {
+                onSelectorNgModelChanged: "&",
+                onSelectorNgModelBeingChangedName: '@',
+            },
+            require: "ngModel",
+            link: function (scope: any, element, attrs, ctrl: any) {
+                debugger;
+                let oldValue;
+                ctrl.$formatters.push((value) => {
+                    oldValue = value;
+                    return value;
+                });
+                ctrl.$viewChangeListeners.push(() => {
+                    let mN = attrs.onSelectorNgModelBeingChangedName;
+                    scope.onSelectorNgModelChanged()(oldValue, ctrl.$modelValue, mN);
+                    oldValue = ctrl.$modelValue;
+                });
+            }
+        };
+    })
     .directive('selector', SelectorDirective.Factory());
