@@ -295,14 +295,14 @@ var SelectorDirective = (function () {
                         }
                         updateSelected();
                         filterOptions();
-                        scope.updateValue();
+                        updateValue();
                     }
                 };
                 scope.$watch('multiple', function () {
-                    $timeout(scope.setInputWidth);
+                    $timeout(setInputWidth);
                     initDeferred.promise.then(initialize, initialize);
                 });
-                scope.dropdownPosition = function () {
+                var dropdownPosition = function () {
                     var label = input.parent()[0];
                     var styles = DOM_FUNCTIONS.getStyles(label);
                     var marginTop = parseFloat(styles.marginTop || 0);
@@ -320,24 +320,24 @@ var SelectorDirective = (function () {
                         .length >= scope.limit)
                         return;
                     scope.isOpen = true;
-                    scope.dropdownPosition();
-                    $timeout(scope.scrollToHighlighted);
+                    dropdownPosition();
+                    $timeout(scrollToHighlighted);
                 };
                 var close = function () {
                     scope.isOpen = false;
-                    scope.resetInput();
+                    resetInput();
                     if (scope.remote) {
                         $timeout(fetch);
                     }
                     ;
                 };
-                scope.decrementHighlighted = function () {
+                var decrementHighlighted = function () {
                     scope.highlight(scope.highlighted - 1);
-                    scope.scrollToHighlighted();
+                    scrollToHighlighted();
                 };
-                scope.incrementHighlighted = function () {
+                var incrementHighlighted = function () {
                     scope.highlight(scope.highlighted + 1);
-                    scope.scrollToHighlighted();
+                    scrollToHighlighted();
                 };
                 scope.highlight = function (index) {
                     if (attrs.create && scope.search && index == -1)
@@ -345,7 +345,7 @@ var SelectorDirective = (function () {
                     else if (scope.filteredOptions.length)
                         scope.highlighted = (scope.filteredOptions.length + index) % scope.filteredOptions.length;
                 };
-                scope.scrollToHighlighted = function () {
+                var scrollToHighlighted = function () {
                     var dd = dropdown[0];
                     var option = dd.querySelectorAll('li.selector-option')[scope.highlighted];
                     var styles = DOM_FUNCTIONS.getStyles(option);
@@ -399,7 +399,7 @@ var SelectorDirective = (function () {
                     if (!scope.multiple || scope.closeAfterSelection || (scope.selectedValues || [])
                         .length >= scope.limit)
                         close();
-                    scope.resetInput();
+                    resetInput();
                     selectCtrl.$setDirty();
                 };
                 scope.unset = function (index) {
@@ -411,23 +411,24 @@ var SelectorDirective = (function () {
                             ? index
                             : scope.selectedValues.length - 1, 1);
                     }
-                    scope.resetInput();
+                    resetInput();
                     selectCtrl.$setDirty();
                 };
-                scope.keydown = function (e) {
+                var keydown = function (e) {
                     switch (e.keyCode) {
                         case CONSTANTS.KEYS.up:
                             if (!scope.isOpen)
                                 break;
-                            scope.decrementHighlighted();
+                            decrementHighlighted();
                             e.preventDefault();
                             break;
                         case CONSTANTS.KEYS.down:
                             if (!scope.isOpen) {
                                 open();
                             }
-                            else
-                                scope.incrementHighlighted();
+                            else {
+                                incrementHighlighted();
+                            }
                             e.preventDefault();
                             break;
                         case CONSTANTS.KEYS.escape:
@@ -475,7 +476,7 @@ var SelectorDirective = (function () {
                             break;
                     }
                 };
-                scope.inOptions = function (options, value) {
+                var inOptions = function (options, value) {
                     if (scope.remote)
                         return options.filter(function (option) {
                             return angular.equals(value, option);
@@ -490,7 +491,7 @@ var SelectorDirective = (function () {
                         scope.selectedValues = [];
                     if (scope.multiple)
                         scope.filteredOptions = scope.filteredOptions.filter(function (option) {
-                            return !scope.inOptions(scope.selectedValues, option);
+                            return !inOptions(scope.selectedValues, option);
                         });
                     else {
                         var index = scope.filteredOptions.indexOf(scope.selectedValues[0]);
@@ -500,7 +501,7 @@ var SelectorDirective = (function () {
                         ;
                     }
                 };
-                scope.measureWidth = function () {
+                var measureWidth = function () {
                     var width;
                     var styles = DOM_FUNCTIONS.getStyles(input[0]);
                     var shadow = angular.element('<span class="selector-shadow"></span>');
@@ -514,13 +515,13 @@ var SelectorDirective = (function () {
                     shadow.remove();
                     return width;
                 };
-                scope.setInputWidth = function () {
-                    var width = scope.measureWidth() + 1;
+                var setInputWidth = function () {
+                    var width = measureWidth() + 1;
                     input.css('width', width + 'px');
                 };
-                scope.resetInput = function () {
+                var resetInput = function () {
                     input.val('');
-                    scope.setInputWidth();
+                    setInputWidth();
                     $timeout(function () {
                         scope.search = '';
                     });
@@ -528,22 +529,23 @@ var SelectorDirective = (function () {
                 scope.$watch('[search, options, value]', function () {
                     filterOptions();
                     $timeout(function () {
-                        scope.setInputWidth();
+                        setInputWidth();
                         if (scope.isOpen) {
-                            scope.dropdownPosition();
+                            dropdownPosition();
                         }
                     });
                 }, true);
-                scope.updateValue = function (origin) {
+                var updateValue = function (origin) {
                     if (!angular.isDefined(origin)) {
                         origin = scope.selectedValues || [];
                     }
                     setValue(!scope.multiple ? origin[0] : origin);
                 };
                 scope.$watch('selectedValues', function (newValue, oldValue) {
-                    if (angular.equals(newValue, oldValue))
+                    if (angular.equals(newValue, oldValue)) {
                         return;
-                    scope.updateValue();
+                    }
+                    updateValue();
                     if (angular.isFunction(scope.change))
                         scope.change(scope.multiple ? {
                             newValue: newValue,
@@ -594,7 +596,7 @@ var SelectorDirective = (function () {
                         .then(function () {
                         updateSelected();
                         filterOptions();
-                        scope.updateValue();
+                        updateValue();
                     });
                 }, true);
                 input = angular.element(element[0].querySelector('.selector-input input'))
@@ -608,11 +610,11 @@ var SelectorDirective = (function () {
                 })
                     .on('keydown', function (e) {
                     scope.$apply(function () {
-                        scope.keydown(e);
+                        keydown(e);
                     });
                 })
                     .on('input', function () {
-                    scope.setInputWidth();
+                    setInputWidth();
                 });
                 dropdown
                     .on('mousedown', function (e) {
@@ -620,7 +622,7 @@ var SelectorDirective = (function () {
                 });
                 angular.element($window)
                     .on('resize', function () {
-                    scope.dropdownPosition();
+                    dropdownPosition();
                 });
                 scope.$watch(function () {
                     return inputCtrl.$pristine;
@@ -648,7 +650,7 @@ var SelectorDirective = (function () {
                     });
                     var indexes = scope.selectedValues
                         .map(function (option, index) {
-                        return scope.inOptions(values, option) ? index : -1;
+                        return inOptions(values, option) ? index : -1;
                     })
                         .filter(function (index) {
                         return index >= 0;
