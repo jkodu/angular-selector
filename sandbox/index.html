@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"
+    ng-app="AngularSelectorDemo">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible"
+            content="IE=edge">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1">
+
+        <title>Angular Selector On Steroids</title>
+
+        <meta name="description"
+            content="Angular Selector is a native AngularJS directive that transform a simple `<select>` box into a full html select with typeahead">
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet"
+            href="demo.css">
+
+        <link rel="stylesheet"
+            href="../dist/angular-selector.min.css">
+
+        <link rel="stylesheet"
+            href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+
+    </head>
+
+    <body ng-controller="AngularSelectorDemoCtrl"
+        itemscope
+        itemtype="http://schema.org/SoftwareApplication">
+
+        <div class="jumbotron">
+            <div class="container">
+                <h1 itemprop="name">Angular Selector On Steroids</h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <article class="examples">
+                <h2>Examples</h2>
+                <section ng-repeat="example in examples"
+                    ng-init="tab='view'">
+                    <div class="navbar">
+                        <ul class="nav nav-pills navbar-right">
+                            <li plunker></li>
+                        </ul>
+                        <h4 ng-bind-html="example.title|trustAsHtml"></h4>
+                    </div>
+
+                    <div class="tab-content"
+                        ng-if="example.service">
+                        <h4><span plunker></span></h4>
+                    </div>
+                    <div class="tab-content"
+                        ng-if="!example.service">
+                        <div class="tab-pane example"
+                            ng-class="{active:tab=='view'}"></div>
+                        <pre class="tab-pane"
+                            ng-class="{active:tab=='html'}"
+                            ng-bind-html="example.html|highlight:'html'"></pre>
+                        <pre class="tab-pane"
+                            ng-class="{active:tab=='js'}"
+                            ng-bind-html="example.js|highlight:'javascript'"
+                            ng-if="example.js"></pre>
+                    </div>
+                </section>
+            </article>
+
+        </div>
+
+
+
+        <!--
+            Scripts
+            -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="../node_modules/angular/angular.min.js"></script>
+        <script src="../dist/angular-selector.min.js"></script>
+        <script src="demo.js"></script>
+
+    </body>
+
+</html>

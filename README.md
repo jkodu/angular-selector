@@ -9,7 +9,6 @@
 
 Check out the examples page to learn more: [http://indrimuska.github.io/angular-selector](http://indrimuska.github.io/angular-selector).
 
-![Angular Selector](http://indrimuska.github.io/angular-selector/img/angular-selector.png)
 
 ### Features
 
