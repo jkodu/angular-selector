@@ -43,7 +43,7 @@ interface ISelectorScope extends angular.IScope {
     unset(index?: number): void;
 
     // Alternative to watchers - change listeners
-    onSearchNgModelChanged(oldValue: any, newValue: any, propertyName: string): void;
+    onNgModelChanged(propertyName: string, oldValue: any, newValue: any): void;
 }
 
 const CONSTANTS = {
@@ -95,8 +95,7 @@ const CONSTANTS = {
                 </ul>
                 <input 
                     ng-model="search" 
-                    on-selector-ng-model-being-changed-name='search'
-                    on-selector-ng-model-changed='onSearchNgModelChanged'
+                    on-selector-ng-model-changed='onNgModelChanged'
                     placeholder="{{!hasValue() ? placeholder : ''}}" 
                     ng-model-options="{debounce: debounce}"
                     ng-disabled="disabled" 
@@ -204,6 +203,11 @@ class SelectorDirective {
             transclude: angular.ITranscludeFunction) => {
 
             transclude(scope, (clone: any, scope: ISelectorScope) => {
+
+                $timeout(() => {
+
+                }, 0, false);
+
                 const filter = $filter('filter');
                 const DOM_SELECTOR_CONTAINER = angular.element(element[0]);
                 const DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
@@ -235,12 +239,43 @@ class SelectorDirective {
                 };
 
                 // watch alternative - model change listener
-                scope.onSearchNgModelChanged = (oldValue, newValue, propertyName) => {
+                scope.onNgModelChanged = (propertyName, oldValue, newValue) => {
                     console.log(oldValue, newValue, propertyName);
+                    if (propertyName === `search`) {
+                        _onSearchModelChanged();
+                    }
+                    if (propertyName === `selectedValues`) {
+
+                    }
+                };
+
+                const _onSearchModelChanged = () => {
                     if (scope.remote) {
                         $timeout(fetch);
                     }
-                };
+                }
+
+             
+                scope.$watch('selectedValues', (newValue, oldValue) => {
+                    if (angular.equals(newValue, oldValue)) {
+                        return;
+                    }
+                    updateValue();
+                    if (angular.isFunction(scope.change)) {
+                        scope.change(scope.multiple
+                            ? {
+                                newValue: newValue,
+                                oldValue: oldValue
+                            }
+                            : {
+                                newValue: (newValue || [])[0],
+                                oldValue: (oldValue || [])[0]
+                            });
+
+                    }
+                }, true);
+
+                // DEFAULT BOOT WATCH FNS? TODO: think through the logic
 
 
                 // Default attributes
@@ -456,23 +491,36 @@ class SelectorDirective {
                         filterOptions();
                         updateValue();
                     }
+
                 };
 
-                var e = document.getElementById('test')
-                var observer = new MutationObserver(function (event) {
-                    console.log(event)
-                })
 
-                observer.observe(e, {
-                    attributes: true,
-                    attributeFilter: ['class'],
-                    childList: false,
-                    characterData: false
-                })
-
-                scope.$watch('multiple', () => {
+                const reInitMultiple = () => {
+                    // TODO: Extract to common logging method.
+                    console.log(`Component: Angular Selector On Steroids: Log: Multiple Init invoked.`)
                     $timeout(setInputWidth);
                     initDeferred.promise.then(initialize, initialize); //TODO: WHAT IS THIS?
+                }
+
+                let _previousClassString: string = null;
+                new MutationObserver((event) => {
+                    const newClassString = (event[0].target as HTMLElement).classList.toString();
+                    if (_previousClassString &&
+                        newClassString !== _previousClassString) {
+                        const newHasMultiple = (newClassString.indexOf('multiple') !== -1);
+                        const oldHasMultiple = (_previousClassString.indexOf('multiple') !== -1);
+                        if (newHasMultiple !== oldHasMultiple) {
+                            reInitMultiple();
+                        }
+                    }
+                    // on first init
+                    if (!_previousClassString) {
+                        reInitMultiple();
+                    }
+                    _previousClassString = newClassString;
+                }).observe(DOM_SELECTOR_CONTAINER[0], {
+                    attributes: true,
+                    attributeFilter: ['class']
                 });
 
                 // Dropdown utilities
@@ -734,20 +782,6 @@ class SelectorDirective {
                     }
                     setValue(!scope.multiple ? origin[0] : origin);
                 };
-                scope.$watch('selectedValues', (newValue, oldValue) => {
-                    if (angular.equals(newValue, oldValue)) {
-                        return;
-                    }
-                    updateValue();
-                    if (angular.isFunction(scope.change))
-                        scope.change(scope.multiple ? {
-                            newValue: newValue,
-                            oldValue: oldValue
-                        } : {
-                                newValue: (newValue || [])[0],
-                                oldValue: (oldValue || [])[0]
-                            });
-                }, true);
 
                 scope.$watchCollection('options', (newValue, oldValue) => {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
@@ -889,20 +923,18 @@ angular
     .directive("onSelectorNgModelChanged", () => {
         return {
             scope: {
-                onSelectorNgModelChanged: "&",
-                onSelectorNgModelBeingChangedName: '@',
+                onSelectorNgModelChanged: "&"
             },
             require: "ngModel",
             link: function (scope: any, element, attrs, ctrl: any) {
-                debugger;
                 let oldValue;
                 ctrl.$formatters.push((value) => {
                     oldValue = value;
                     return value;
                 });
                 ctrl.$viewChangeListeners.push(() => {
-                    let mN = attrs.onSelectorNgModelBeingChangedName;
-                    scope.onSelectorNgModelChanged()(oldValue, ctrl.$modelValue, mN);
+                    const ngModelName = attrs['ngModel']; // TODO: UNDEFINED CHECK
+                    scope.onSelectorNgModelChanged()(ngModelName, oldValue, ctrl.$modelValue);
                     oldValue = ctrl.$modelValue;
                 });
             }

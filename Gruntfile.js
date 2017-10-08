@@ -78,21 +78,19 @@ module.exports = function (grunt) {
                     'dist/angular-selector.min.css': 'dist/angular-selector.min.css'
                 }
             }
-        },
-        'sync-json': {
-            options: {
-                include: ['name', 'description', 'version']
-            },
-            bower: {
-                files: {
-                    "bower.json": "package.json"
-                }
-            }
         }
     });
 
     // Default tasks.
-    grunt.registerTask('default', ['sass', 'autoprefixer', 'ts', 'copy', 'uglify', 'cssmin', 'header', 'sync-json']);
+    grunt.registerTask('default', [
+        'sass', 'autoprefixer',
+        'ts',
+        'copy',
+        // 'uglify', 
+        'cssmin',
+        // 'header', 
+        // 'sync-json'
+    ]);
     grunt.registerTask('update-patch', ['bumpup:patch', 'default']);
 
 };
