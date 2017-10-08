@@ -6,6 +6,24 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        autoprefixer: {
+            options: {
+                browsers: ['last 2 versions']
+            },
+            your_target: {
+                'src/angular-selector.css': 'src/angular-selector.css'
+            },
+        },
+        sass: {
+            default: {
+                options: {
+                    style: 'compressed'
+                },
+                files: {
+                    'src/angular-selector.css': 'src/angular-selector.scss',
+                }
+            }
+        },
         ts: {
             default: {
                 src: [
@@ -74,7 +92,7 @@ module.exports = function (grunt) {
     });
 
     // Default tasks.
-    grunt.registerTask('default', ['ts', 'copy', 'uglify', 'cssmin', 'header', 'sync-json']);
+    grunt.registerTask('default', ['sass', 'autoprefixer', 'ts', 'copy', 'uglify', 'cssmin', 'header', 'sync-json']);
     grunt.registerTask('update-patch', ['bumpup:patch', 'default']);
 
 };

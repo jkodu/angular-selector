@@ -1,3 +1,30 @@
+function getWatchers(root) {
+    root = angular.element(root || document.documentElement);
+    var watcherCount = 0;
+
+    function getElemWatchers(element) {
+        var isolateWatchers = getWatchersFromScope(element.data()
+            .$isolateScope);
+        var scopeWatchers = getWatchersFromScope(element.data()
+            .$scope);
+        var watchers = scopeWatchers.concat(isolateWatchers);
+        angular.forEach(element.children(), function (childElement) {
+            watchers = watchers.concat(getElemWatchers(angular.element(childElement)));
+        });
+        return watchers;
+    }
+
+    function getWatchersFromScope(scope) {
+        if (scope) {
+            return scope.$$watchers || [];
+        } else {
+            return [];
+        }
+    }
+
+    return getElemWatchers(root);
+}
+
 angular
     .module('AngularSelectorDemo', ['selector'])
     .controller('AngularSelectorDemoCtrl', ['$http', '$scope', function ($http, $scope) {
@@ -23,10 +50,24 @@ angular
         return {
             restrict: 'C',
             link: function ($scope, $element) {
-                if ($scope.example.service) return;
+                if ($scope.example.service) {
+                    return;
+                }
                 $element.html($scope.example.html);
                 $compile($element.contents())($scope);
                 eval($scope.example.js);
+            }
+        };
+    }])
+    .directive('setWatchCount', [function () {
+        return {
+            restrict: 'A',
+            link: function ($scope, $element) {
+                setInterval(() => {
+                    let wC = getWatchers($element[0])
+                        .length
+                    $element[0].setAttribute('watchCount', wC);
+                }, 200);
             }
         };
     }])
@@ -49,7 +90,6 @@ angular
                     css = angular.element('<input type="hidden" name="files[style.css]">'),
                     js = angular.element('<input type="hidden" name="files[script.js]">'),
                     services = '';
-
                 // plunker settings
                 form.append(angular.element('<input type="hidden" name="private" value="true">'));
                 ['select', 'angular', 'selector', 'directive', 'typeahead', 'tag'].concat(example.title.toLowerCase()
@@ -60,7 +100,6 @@ angular
                         form.append(element);
                     });
                 form.append(desc);
-
                 html.val([
                     '<!DOCTYPE html>',
                     '<html ng-app="myApp" ng-controller="ExampleCtrl as ctrl">',
