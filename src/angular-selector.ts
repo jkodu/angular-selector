@@ -205,11 +205,13 @@ class SelectorDirective {
 
             transclude(scope, (clone: any, scope: ISelectorScope) => {
                 const filter = $filter('filter');
-                let input = angular.element(element[0].querySelector('.selector-input input'));
-                const dropdown = angular.element(element[0].querySelector('.selector-dropdown'));
+                const DOM_SELECTOR_CONTAINER = angular.element(element[0]);
+                const DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
+                const DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
 
-                let inputCtrl = input.controller('ngModel');
+                let inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
                 let selectCtrl = element.find('select').controller('ngModel');
+
                 let initDeferred = $q.defer();
                 let defaults = {
                     api: {},
@@ -235,7 +237,7 @@ class SelectorDirective {
                 // watch alternative - model change listener
                 scope.onSearchNgModelChanged = (oldValue, newValue, propertyName) => {
                     console.log(oldValue, newValue, propertyName);
-                    if(scope.remote) {
+                    if (scope.remote) {
                         $timeout(fetch);
                     }
                 };
@@ -456,6 +458,18 @@ class SelectorDirective {
                     }
                 };
 
+                var e = document.getElementById('test')
+                var observer = new MutationObserver(function (event) {
+                    console.log(event)
+                })
+
+                observer.observe(e, {
+                    attributes: true,
+                    attributeFilter: ['class'],
+                    childList: false,
+                    characterData: false
+                })
+
                 scope.$watch('multiple', () => {
                     $timeout(setInputWidth);
                     initDeferred.promise.then(initialize, initialize); //TODO: WHAT IS THIS?
@@ -463,12 +477,12 @@ class SelectorDirective {
 
                 // Dropdown utilities
                 const dropdownPosition = () => {
-                    const label = input.parent()[0];
+                    const label = DOM_SELECTOR_INPUT.parent()[0];
                     const styles = DOM_FUNCTIONS.getStyles(label);
                     const marginTop = parseFloat((<any>styles).marginTop || 0);
                     const marginLeft = parseFloat((<any>styles).marginLeft || 0);
                     if (label) {
-                        dropdown.css({
+                        DOM_SELECTOR_DROPDOWN.css({
                             top: (label.offsetTop + label.offsetHeight + marginTop) + 'px',
                             left: (label.offsetLeft + marginLeft) + 'px',
                             width: label.offsetWidth + 'px'
@@ -508,7 +522,7 @@ class SelectorDirective {
                             scope.highlighted = (scope.filteredOptions.length + index) % scope.filteredOptions.length;
                 };
                 const scrollToHighlighted = () => {
-                    const dd = dropdown[0];
+                    const dd = DOM_SELECTOR_DROPDOWN[0];
                     const option = dd.querySelectorAll('li.selector-option')[scope.highlighted] as HTMLElement;
                     const styles = DOM_FUNCTIONS.getStyles(option);
                     const marginTop = parseFloat((<any>styles).marginTop || 0);
@@ -610,7 +624,7 @@ class SelectorDirective {
                             }
                             break;
                         case CONSTANTS.KEYS.backspace:
-                            if (!input.val()) {
+                            if (!DOM_SELECTOR_INPUT.val()) {
                                 const search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
                                 scope.unset();
                                 open();
@@ -673,10 +687,10 @@ class SelectorDirective {
                 // Input width utilities
                 const measureWidth = () => {
                     let width;
-                    const styles = DOM_FUNCTIONS.getStyles(input[0]);
+                    const styles = DOM_FUNCTIONS.getStyles(DOM_SELECTOR_INPUT[0]);
                     const shadow = angular.element('<span class="selector-shadow"></span>');
 
-                    shadow.text(input.val() || (!scope.hasValue() ? scope.placeholder : '') || '');
+                    shadow.text(DOM_SELECTOR_INPUT.val() || (!scope.hasValue() ? scope.placeholder : '') || '');
                     angular.element(document.body)
                         .append(shadow);
                     angular.forEach(['fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'textTransform', 'wordSpacing', 'textIndent'], function (style) {
@@ -689,11 +703,11 @@ class SelectorDirective {
 
                 const setInputWidth = () => {
                     const width = measureWidth() + 1;
-                    input.css('width', width + 'px');
+                    DOM_SELECTOR_INPUT.css('width', width + 'px');
                 };
 
                 const resetInput = () => {
-                    input.val('');
+                    DOM_SELECTOR_INPUT.val('');
                     setInputWidth();
                     $timeout(() => {
                         scope.search = '';
@@ -783,7 +797,8 @@ class SelectorDirective {
                 }, true);
 
                 // DOM event listeners
-                input = angular.element(element[0].querySelector('.selector-input input'))
+                //  = angular.element(element[0].querySelector('.selector-input input'))
+                DOM_SELECTOR_INPUT
                     .on('focus', () => {
                         $timeout(() => {
                             scope.$apply(open);
@@ -800,7 +815,7 @@ class SelectorDirective {
                     .on('input', () => {
                         setInputWidth();
                     });
-                dropdown
+                DOM_SELECTOR_DROPDOWN
                     .on('mousedown', (e) => {
                         e.preventDefault();
                     });
@@ -827,7 +842,7 @@ class SelectorDirective {
                 scope.api.open = open;
                 scope.api.close = close;
                 scope.api.focus = () => {
-                    input[0].focus();
+                    DOM_SELECTOR_INPUT[0].focus();
                 };
                 scope.api.set = (value) => {
                     return scope.value = value;
