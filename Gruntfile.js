@@ -78,9 +78,27 @@ module.exports = function (grunt) {
                     'dist/angular-selector.min.css': 'dist/angular-selector.min.css'
                 }
             }
+        },
+        watch: {
+            files: ['src/*.ts'],
+            tasks: ['ts'],
+        },
+        serve: {
+            options: {
+                port: 9000
+            },
+            path: './src'
+        },
+        connect: {
+            server: {
+                options: {
+                    port: 9001,
+                    base: 'src'
+                }
+            }
         }
     });
-
+    grunt.loadNpmTasks('grunt-contrib-watch');
     // Default tasks.
     grunt.registerTask('default', [
         'sass', 'autoprefixer',
@@ -90,6 +108,9 @@ module.exports = function (grunt) {
         'cssmin',
         // 'header', 
         // 'sync-json'
+        'serve',
+        'connect',
+        'watch'
     ]);
     grunt.registerTask('update-patch', ['bumpup:patch', 'default']);
 
