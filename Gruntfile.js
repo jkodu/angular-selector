@@ -80,8 +80,8 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            files: ['src/*.ts'],
-            tasks: ['ts'],
+            files: ['src/*.ts', 'src/*.scss'],
+            tasks: ['ts', 'sass', 'autoprefixer', 'copy'],
         },
         serve: {
             options: {
@@ -108,8 +108,8 @@ module.exports = function (grunt) {
         'cssmin',
         // 'header', 
         // 'sync-json'
-        'serve',
-        'connect',
+        // 'serve',
+        // 'connect',
         'watch'
     ]);
     grunt.registerTask('update-patch', ['bumpup:patch', 'default']);
