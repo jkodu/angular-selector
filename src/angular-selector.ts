@@ -81,6 +81,7 @@ const CONSTANTS = {
                 ng-hide="true"
                 ng-required="required && !hasValue()"
                 ng-model="selectedValues"
+            
                 multiple
                 ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">
             </select>
@@ -244,9 +245,6 @@ class SelectorDirective {
                     if (propertyName === `search`) {
                         _onSearchModelChanged();
                     }
-                    if (propertyName === `selectedValues`) {
-
-                    }
                 };
 
                 const _onSearchModelChanged = () => {
@@ -255,8 +253,7 @@ class SelectorDirective {
                     }
                 }
 
-             
-                scope.$watch('selectedValues', (newValue, oldValue) => {
+                const _onSelectedValuesChanges = (newValue, oldValue) => {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
@@ -271,9 +268,13 @@ class SelectorDirective {
                                 newValue: (newValue || [])[0],
                                 oldValue: (oldValue || [])[0]
                             });
-
                     }
-                }, true);
+                };
+
+             
+                // scope.$watch('selectedValues', (newValue, oldValue) => {
+                //     _onSelectedValuesChanges(newValue,oldValue)
+                // }, true);
 
                 // DEFAULT BOOT WATCH FNS? TODO: think through the logic
 
@@ -625,9 +626,11 @@ class SelectorDirective {
                     if (!scope.multiple || scope.closeAfterSelection || (scope.selectedValues || [])
                         .length >= scope.limit) close();
                     resetInput();
+                    _onSelectedValuesChanges(option, scope.selectedValues);
                     selectCtrl.$setDirty();
                 };
                 scope.unset = (index) => {
+                    let oldV = Object.create({}, scope.selectedValues);
                     if (!scope.multiple) {
                         scope.selectedValues = [];
                     }
@@ -639,6 +642,8 @@ class SelectorDirective {
                     }
                     resetInput();
                     selectCtrl.$setDirty();
+                    let nV = scope.selectedValues;
+                    _onSelectedValuesChanges(nV, oldV)
                 };
 
                 const keydown = (e) => {
@@ -859,17 +864,32 @@ class SelectorDirective {
                     });
 
                 // Update select controller
-                scope.$watch(() => {
-                    return inputCtrl.$pristine;
-                }, ($pristine) => {
-                    selectCtrl[$pristine ? '$setPristine' : '$setDirty']();
-                });
+                // TODO: Rajesh - mutation observer
+                // scope.$watch(() => {
+                //     return inputCtrl.$pristine;
+                // }, ($pristine) => {
+                //     selectCtrl[$pristine ? '$setPristine' : '$setDirty']();
+                // });
 
-                scope.$watch(() => {
-                    return inputCtrl.$touched;
-                }, ($touched) => {
-                    selectCtrl[$touched ? '$setTouched' : '$setUntouched']();
-                });
+                // TODO: Rajesh - mutation observer
+                // scope.$watch(() => {
+                //     return inputCtrl.$touched;
+                // }, ($touched) => {
+                //     selectCtrl[$touched ? '$setTouched' : '$setUntouched']();
+                // });
+                let _previousStateClassString: string = null;
+                new MutationObserver((event) => {
+                    const _target = (event[0].target as HTMLElement);
+                    const _inputElem = angular.element(_target).find('input')
+                    
+                    if(_inputElem) {
+                        selectCtrl[inputCtrl.$touched ? '$setTouched' : '$setUntouched']();
+                        selectCtrl[inputCtrl.$pristine ? '$setPristine' : '$setDirty']();
+                    }
+                }).observe(DOM_SELECTOR_CONTAINER[0], {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });                
 
                 // Expose APIs
                 scope.api.fetch = fetch;
