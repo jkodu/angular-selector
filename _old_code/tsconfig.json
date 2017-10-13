@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-        "target": "es2015",
-        "declaration": true,
+        "module": "commonjs",
+        "target": "es5",
         "moduleResolution": "node",
-        "declarationDir": "./dist",
+        "sourceMap": true,
         "experimentalDecorators": true,
         "typeRoots": [
             "node_modules/@types/"
@@ -11,17 +11,11 @@
         "types": [
             "angular",
             "node",
-            "rx",
-            "mocha",
-            "chai",
-            "sinon-chai",
-            "karma-chai-sinon",
-            "sinon"
+            "rx"
         ]
     },
     "exclude": [
         "node_modules",
-        "demo",
-        "dist"
+        "src/**/*.spec.ts"
     ]
 }

@@ -1,154 +1,11 @@
-interface ISelectorScope extends angular.IScope {
-    name,
-    value,
-    disabled,
-    disableSearch,
-    required,
-    multiple,
-    placeholder,
-    valueAttr,
-    labelAttr,
-    groupAttr,
-    options,
-    debounce,
-    create,
-    limit,
-    rtl,
-    api, // to type this
-    change,
-    remote,
-    remoteParam,
-    remoteValidation,
-    remoteValidationParam,
-    removeButton,
-    softDelete,
-    closeAfterSelection,
-    viewItemTemplate,
-    dropdownItemTemplate,
-    dropdownCreateTemplate,
-    dropdownGroupTemplate,
+import * as angular from 'angular';
+import { ISelector } from './interfaces';
+import { CONSTANTS } from './constants';
+import { DOM_FUNCTIONS } from './utils';
 
-    // CUSTOM MEMBERS ADDED to scope by old code, USED IN BINDINGS.
-    getObjValue;
-    hasValue;
-    loading;
-    search;
-    highlight;
-    highlighted;
-    isOpen;
-    filteredOptions;
-    createOption;
-    selectedValues;
-    set(option?: any): void;
-    unset(index?: number): void;
+export class SelectorComponent {
 
-    // Alternative to watchers - change listeners
-    onNgModelChanged(propertyName: string, oldValue: any, newValue: any): void;
-}
-
-const CONSTANTS = {
-    // Key codes
-    KEYS: {
-        up: 38,
-        down: 40,
-        left: 37,
-        right: 39,
-        escape: 27,
-        enter: 13,
-        backspace: 8,
-        delete: 46,
-        shift: 16,
-        leftCmd: 91,
-        rightCmd: 93,
-        ctrl: 17,
-        alt: 18,
-        tab: 9
-    },
-    TEMPLATES: {
-        SELECTOR: `
-        <div class="selector-container"
-            ng-attr-dir="{{ rtl ? 'rtl' : 'ltr' }}"
-            ng-class="{
-                open: isOpen, 
-                empty: !filteredOptions.length && 
-                    (!create || !search), multiple: multiple, 
-                    'has-value': hasValue(), 
-                    rtl: rtl, 
-                    'loading': loading, 
-                    'remove-button': removeButton, 
-                    disabled: disabled}">
-            <select name="{{name}}"
-                ng-hide="true"
-                ng-required="required && !hasValue()"
-                ng-model="selectedValues"
-            
-                multiple
-                ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">
-            </select>
-            <label class="selector-input">
-                <ul class="selector-values">
-                    <li ng-repeat="(index, option) in selectedValues track by index">
-                        <div ng-include="viewItemTemplate"></div>
-                        <div ng-if="multiple" class="selector-helper" ng-click="!disabled && unset(index)">
-                            <span class="selector-icon"></span>
-                        </div>
-                    </li>
-                </ul>
-                <input 
-                    ng-model="search" 
-                    on-selector-ng-model-changed='onNgModelChanged'
-                    placeholder="{{!hasValue() ? placeholder : ''}}" 
-                    ng-model-options="{debounce: debounce}"
-                    ng-disabled="disabled" 
-                    ng-readonly="disableSearch" 
-                    ng-required="required && !hasValue()" 
-                    autocomplete="off">
-                <div ng-if="!multiple || loading" 
-                    class="selector-helper selector-global-helper" 
-                    ng-click="!disabled && removeButton && unset()">
-                    <span class="selector-icon"></span>
-                </div>
-            </label>
-            <ul class="selector-dropdown"
-                ng-show="filteredOptions.length > 0 || (create && search)">
-                <li class="selector-option create"
-                    ng-class="{active: highlighted == -1}"
-                    ng-if="create && search"
-                    ng-include="dropdownCreateTemplate"
-                    ng-mouseover="highlight(-1)"
-                    ng-click="createOption(search)"></li>
-                <li ng-repeat-start="(index, option) in filteredOptions track by index"
-                    class="selector-optgroup"
-                    ng-include="dropdownGroupTemplate"
-                    ng-show="groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))"></li>
-                <li ng-repeat-end
-                    ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"
-                    class="selector-option"
-                    ng-include="dropdownItemTemplate"
-                    ng-mouseover="highlight(index)"
-                    ng-click="set()">
-                </li>
-            </ul>
-        </div>`,
-        ITEM_CREATE: `Add <i ng-bind="search"></i>`,
-        ITEM_DEFAULT: `<span ng-bind="getObjValue(option, labelAttr) || option"></span>`,
-        GROUP_DEFAULT: `<span ng-bind="getObjValue(option, groupAttr)"></span>`
-    }
-}
-
-const DOM_FUNCTIONS = {
-    getStyles: (element: HTMLElement) => {
-        return !(element instanceof HTMLElement)
-            ? {}
-            : element.ownerDocument && element.ownerDocument.defaultView.opener
-                ? element.ownerDocument.defaultView.getComputedStyle(element)
-                : window.getComputedStyle(element);
-    }
-}
-
-class SelectorDirective {
-
-    public link: (scope: ISelectorScope,
+    public link: (scope: ISelector.Scope ,
         element: angular.IAugmentedJQuery,
         attrs: angular.IAttributes,
         controller: angular.IController,
@@ -197,13 +54,13 @@ class SelectorDirective {
         private $http: angular.IHttpService,
         private $q: angular.IQService) {
 
-        SelectorDirective.prototype.link = (scope: ISelectorScope,
+        SelectorComponent.prototype.link = (scope: ISelector.Scope,
             element: angular.IAugmentedJQuery,
             attrs: angular.IAttributes,
             controller: angular.IController,
             transclude: angular.ITranscludeFunction) => {
 
-            transclude(scope, (clone: any, scope: ISelectorScope) => {
+            transclude(scope, (clone: any, scope: ISelector.Scope) => {
 
                 $timeout(() => {
 
@@ -271,7 +128,7 @@ class SelectorDirective {
                     }
                 };
 
-             
+
                 // scope.$watch('selectedValues', (newValue, oldValue) => {
                 //     _onSelectedValuesChanges(newValue,oldValue)
                 // }, true);
@@ -881,15 +738,15 @@ class SelectorDirective {
                 new MutationObserver((event) => {
                     const _target = (event[0].target as HTMLElement);
                     const _inputElem = angular.element(_target).find('input')
-                    
-                    if(_inputElem) {
+
+                    if (_inputElem) {
                         selectCtrl[inputCtrl.$touched ? '$setTouched' : '$setUntouched']();
                         selectCtrl[inputCtrl.$pristine ? '$setPristine' : '$setDirty']();
                     }
                 }).observe(DOM_SELECTOR_CONTAINER[0], {
                     attributes: true,
                     attributeFilter: ['class']
-                });                
+                });
 
                 // Expose APIs
                 scope.api.fetch = fetch;
@@ -925,39 +782,9 @@ class SelectorDirective {
 
     public static Factory() {
         let directive = ($filter, $timeout, $window, $http, $q) => {
-            return new SelectorDirective($filter, $timeout, $window, $http, $q);
+            return new SelectorComponent($filter, $timeout, $window, $http, $q);
         };
         directive['$inject'] = ['$filter', '$timeout', '$window', '$http', '$q'];
         return directive;
     }
 }
-
-angular
-    .module('selector', [])
-    .run(['$templateCache', ($templateCache) => {
-        $templateCache.put('selector/selector.html', CONSTANTS.TEMPLATES.SELECTOR);
-        $templateCache.put('selector/item-create.html', CONSTANTS.TEMPLATES.ITEM_CREATE);
-        $templateCache.put('selector/item-default.html', CONSTANTS.TEMPLATES.ITEM_DEFAULT);
-        $templateCache.put('selector/group-default.html', CONSTANTS.TEMPLATES.GROUP_DEFAULT);
-    }])
-    .directive("onSelectorNgModelChanged", () => {
-        return {
-            scope: {
-                onSelectorNgModelChanged: "&"
-            },
-            require: "ngModel",
-            link: function (scope: any, element, attrs, ctrl: any) {
-                let oldValue;
-                ctrl.$formatters.push((value) => {
-                    oldValue = value;
-                    return value;
-                });
-                ctrl.$viewChangeListeners.push(() => {
-                    const ngModelName = attrs['ngModel']; // TODO: UNDEFINED CHECK
-                    scope.onSelectorNgModelChanged()(ngModelName, oldValue, ctrl.$modelValue);
-                    oldValue = ctrl.$modelValue;
-                });
-            }
-        };
-    })
-    .directive('selector', SelectorDirective.Factory());
