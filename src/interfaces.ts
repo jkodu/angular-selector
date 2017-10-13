@@ -1,5 +1,5 @@
 
-export module ISelector {
+export namespace ISelector {
 
     export interface Scope extends angular.IScope {
         name,

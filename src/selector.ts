@@ -5,7 +5,7 @@ import { DOM_FUNCTIONS } from './utils';
 
 export class SelectorComponent {
 
-    public link: (scope: ISelector.Scope ,
+    public link: (scope: ISelector.Scope,
         element: angular.IAugmentedJQuery,
         attrs: angular.IAttributes,
         controller: angular.IController,
