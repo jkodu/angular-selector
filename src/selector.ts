@@ -1,7 +1,11 @@
 import * as angular from 'angular';
+import * as Immutable from 'immutable';
 import { ISelector } from './interfaces';
 import { CONSTANTS } from './constants';
 import { DOM_FUNCTIONS } from './utils';
+import * as Rx from 'rxjs';
+// TODO: Tree shake RxJs 
+import * as Obsr from 'obsr';
 
 export class SelectorComponent {
 
@@ -52,7 +56,8 @@ export class SelectorComponent {
         private $timeout: angular.ITimeoutService,
         private $window: angular.IWindowService,
         private $http: angular.IHttpService,
-        private $q: angular.IQService) {
+        private $q: angular.IQService,
+        private $log: angular.ILogService) {
 
         SelectorComponent.prototype.link = (scope: ISelector.Scope,
             element: angular.IAugmentedJQuery,
@@ -62,14 +67,29 @@ export class SelectorComponent {
 
             transclude(scope, (clone: any, scope: ISelector.Scope) => {
 
-                $timeout(() => {
-
-                }, 0, false);
+                let _watchers: Array<any> = [];
+                let _mutations: Array<any> = [];
+                let _subscribers: Array<Rx.Subscription> = [];
 
                 const filter = $filter('filter');
                 const DOM_SELECTOR_CONTAINER = angular.element(element[0]);
                 const DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
                 const DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
+
+                const OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT
+                    ? Rx.Observable.merge(
+                        Rx.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'),
+                        Rx.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur'),
+                        Rx.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown'),
+                        Rx.Observable.fromEvent(DOM_SELECTOR_INPUT, 'input')
+                    )
+                    : Rx.Observable.empty();
+                const OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN
+                    ? Rx.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown')
+                    : Rx.Observable.empty();
+                const OBSERVABLE_FOR_WINDOW_RESIZE = $window
+                    ? Rx.Observable.fromEvent($window, 'resze')
+                    : Rx.Observable.empty();
 
                 let inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
                 let selectCtrl = element.find('select').controller('ngModel');
@@ -95,6 +115,25 @@ export class SelectorComponent {
                     dropdownCreateTemplate: 'selector/item-create.html',
                     dropdownGroupTemplate: 'selector/group-default.html'
                 };
+
+                // DEFAULTS
+                // Default: listen to dropdown dom event
+                _subscribers.push(
+                    OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN.subscribe((e: Event) => {
+                        e.preventDefault();
+                    }, (error) => {
+                        $log.error(error);
+                    })
+                )
+                // Default: listen to window resize event
+                _subscribers.push(
+                    OBSERVABLE_FOR_WINDOW_RESIZE.subscribe((e: Event) => {
+                        dropdownPosition();
+                    }, (error) => {
+                        $log.error(error);
+                    })
+                )
+
 
                 // watch alternative - model change listener
                 scope.onNgModelChanged = (propertyName, oldValue, newValue) => {
@@ -128,25 +167,30 @@ export class SelectorComponent {
                     }
                 };
 
-
-                // scope.$watch('selectedValues', (newValue, oldValue) => {
-                //     _onSelectedValuesChanges(newValue,oldValue)
-                // }, true);
-
-                // DEFAULT BOOT WATCH FNS? TODO: think through the logic
+                _watchers.push(
+                    scope.$watch('selectedValues', (newValue, oldValue) => {
+                        // debugger;
+                        _onSelectedValuesChanges(newValue, oldValue)
+                    }, true)
+                );
 
 
                 // Default attributes
                 if (!angular.isDefined(scope.value) && scope.multiple) {
-                    scope.value = []
+                    scope.value = [];
                 };
 
-
-
+                // this is where default initialization happens
                 angular.forEach(defaults, (value, key) => {
                     if (!angular.isDefined(scope[key])) {
-                        scope[key] = value
+                        scope[key] = value;
                     };
+                });
+
+                // track selected values array
+                let observedSelectedValues = Obsr(scope.selectedValues, (key, value) => {
+                    console.log('cb k: ' + key);
+                    console.log('cb v: ' + value);
                 });
 
                 angular.forEach(['name', 'valueAttr', 'labelAttr'], (attr) => {
@@ -190,11 +234,14 @@ export class SelectorComponent {
                 };
 
                 scope.getObjValue = (obj, path) => {
-                    let key;
-                    if (!angular.isDefined(obj) || !angular.isDefined(path)) return obj;
-                    path = angular.isArray(path) ? path : path.split('.');
-                    key = path.shift();
+                    if (!angular.isDefined(obj) || !angular.isDefined(path)) {
+                        return obj;
+                    }
+                    path = angular.isArray(path)
+                        ? path
+                        : path.split('.');
 
+                    let key = path.shift();
                     if (key.indexOf('[') > 0) {
                         const match = key.match(/(\w+)\[(\d+)\]/);
                         if (match !== null) {
@@ -202,17 +249,25 @@ export class SelectorComponent {
                             key = match[2];
                         }
                     }
-                    return path.length === 0 ? obj[key] : scope.getObjValue(obj[key], path);
+                    return path.length === 0
+                        ? obj[key]
+                        : scope.getObjValue(obj[key], path);
                 };
 
                 // Value utilities
                 const setValue = (value) => {
-                    if (!scope.multiple) scope.value = scope.valueAttr == null ? value : scope.getObjValue(value || {}, scope.valueAttr);
-                    else scope.value = scope.valueAttr == null ? (value || []) : (value || [])
-                        .map((option) => {
-                            return scope.getObjValue(option, scope.valueAttr);
-                        });
-                };
+                    scope.value =
+                        (!scope.multiple)
+                            ? scope.valueAttr == null
+                                ? value
+                                : scope.getObjValue(value || {}, scope.valueAttr)
+                            : scope.valueAttr == null
+                                ? (value || [])
+                                : (value || [])
+                                    .map((option) => {
+                                        return scope.getObjValue(option, scope.valueAttr);
+                                    });
+                }
 
                 scope.hasValue = () => {
                     return scope.multiple ? (scope.value || [])
@@ -223,13 +278,15 @@ export class SelectorComponent {
                 const request = (paramName, paramValue, remote, remoteParam) => {
                     let promise, remoteOptions = {};
                     if (scope.disabled) return $q.reject();
-                    if (!angular.isDefined(remote))
+                    if (!angular.isDefined(remote)) {
                         throw 'Remote attribute is not defined';
+                    }
 
                     scope.loading = true;
                     scope.options = [];
                     remoteOptions[paramName] = paramValue;
                     promise = remote(remoteOptions);
+
                     if (typeof promise.then !== 'function') {
                         const settings = {
                             method: 'GET',
@@ -241,17 +298,22 @@ export class SelectorComponent {
                         settings.params[remoteParam] = paramValue;
                         promise = $http(settings as any);
                     }
-                    promise
-                        .then((data) => {
+
+                    promise.then(
+                        (data) => {
                             scope.options = data.data || data;
                             filterOptions();
                             scope.loading = false;
                             initDeferred.resolve();
-                        }, (error) => {
+                        },
+                        (error) => {
                             scope.loading = false;
                             initDeferred.reject();
-                            throw 'Error while fetching data: ' + (error.message || error);
+                            const errorMsg = 'Error while fetching data: ' + (error.message || error);
+                            $log.error(errorMsg);
+                            throw errorMsg;
                         });
+
                     return promise;
                 };
 
@@ -341,9 +403,13 @@ export class SelectorComponent {
                     }
                     if (scope.hasValue()) {
                         if (!scope.multiple) {
-                            if (angular.isArray(scope.value)) scope.value = scope.value[0];
+                            if (angular.isArray(scope.value)) {
+                                scope.value = scope.value[0];
+                            }
                         } else {
-                            if (!angular.isArray(scope.value)) scope.value = [scope.value];
+                            if (!angular.isArray(scope.value)) {
+                                scope.value = [scope.value];
+                            }
                         }
                         updateSelected();
                         filterOptions();
@@ -361,7 +427,7 @@ export class SelectorComponent {
                 }
 
                 let _previousClassString: string = null;
-                new MutationObserver((event) => {
+                const m2 = new MutationObserver((event) => {
                     const newClassString = (event[0].target as HTMLElement).classList.toString();
                     if (_previousClassString &&
                         newClassString !== _previousClassString) {
@@ -376,10 +442,12 @@ export class SelectorComponent {
                         reInitMultiple();
                     }
                     _previousClassString = newClassString;
-                }).observe(DOM_SELECTOR_CONTAINER[0], {
+                })
+                m2.observe(DOM_SELECTOR_CONTAINER[0], {
                     attributes: true,
                     attributeFilter: ['class']
                 });
+                _mutations.push(m2);
 
                 // Dropdown utilities
                 const dropdownPosition = () => {
@@ -397,12 +465,15 @@ export class SelectorComponent {
                 };
 
                 const open = () => {
-                    if (scope.multiple && (scope.selectedValues || [])
-                        .length >= scope.limit) return;
+                    if (scope.multiple &&
+                        (scope.selectedValues || []).length >= scope.limit) {
+                        return;
+                    }
                     scope.isOpen = true;
                     dropdownPosition();
                     $timeout(scrollToHighlighted);
                 };
+
                 const close = () => {
                     scope.isOpen = false;
                     resetInput();
@@ -433,20 +504,22 @@ export class SelectorComponent {
                     const styles = DOM_FUNCTIONS.getStyles(option);
                     const marginTop = parseFloat((<any>styles).marginTop || 0);
                     const marginBottom = parseFloat((<any>styles).marginBottom || 0);
-
                     if (!scope.filteredOptions.length) {
                         return;
                     }
+                    if (option) {
+                        if (option.offsetTop + option.offsetHeight + marginBottom > dd.scrollTop + dd.offsetHeight) {
+                            $timeout(() => {
+                                dd.scrollTop = option.offsetTop + option.offsetHeight + marginBottom - dd.offsetHeight;
+                            });
+                        }
 
-                    if (option.offsetTop + option.offsetHeight + marginBottom > dd.scrollTop + dd.offsetHeight)
-                        $timeout(() => {
-                            dd.scrollTop = option.offsetTop + option.offsetHeight + marginBottom - dd.offsetHeight;
-                        });
-
-                    if (option.offsetTop - marginTop < dd.scrollTop)
-                        $timeout(() => {
-                            dd.scrollTop = option.offsetTop - marginTop;
-                        });
+                        if (option.offsetTop - marginTop < dd.scrollTop) {
+                            $timeout(() => {
+                                dd.scrollTop = option.offsetTop - marginTop;
+                            });
+                        }
+                    }
                 };
                 scope.createOption = (value) => {
                     $q.when((() => {
@@ -467,27 +540,36 @@ export class SelectorComponent {
                         });
                 };
                 scope.set = (option) => {
-                    if (scope.multiple && (scope.selectedValues || [])
-                        .length >= scope.limit) return;
 
-                    if (!angular.isDefined(option))
+                    if (scope.multiple &&
+                        (scope.selectedValues || []).length >= scope.limit) {
+                        return;
+                    };
+
+                    if (!angular.isDefined(option)) {
                         option = scope.filteredOptions[scope.highlighted];
-
-                    if (!scope.multiple) scope.selectedValues = [option];
-                    else {
-                        if (!scope.selectedValues)
-                            scope.selectedValues = [];
-                        if (scope.selectedValues.indexOf(option) < 0)
-                            scope.selectedValues.push(option);
                     }
-                    if (!scope.multiple || scope.closeAfterSelection || (scope.selectedValues || [])
-                        .length >= scope.limit) close();
+
+                    if (!scope.multiple) {
+                        scope.selectedValues = [option];
+                    }
+                    else {
+                        if (!scope.selectedValues) {
+                            scope.selectedValues = [];
+                        }
+                        if (scope.selectedValues.indexOf(option) < 0) {
+                            scope.selectedValues.push(option);
+                        }
+                    }
+
+                    if (!scope.multiple || scope.closeAfterSelection ||
+                        (scope.selectedValues || []).length >= scope.limit) {
+                        close();
+                    }
                     resetInput();
-                    _onSelectedValuesChanges(option, scope.selectedValues);
                     selectCtrl.$setDirty();
                 };
                 scope.unset = (index) => {
-                    let oldV = Object.create({}, scope.selectedValues);
                     if (!scope.multiple) {
                         scope.selectedValues = [];
                     }
@@ -499,8 +581,6 @@ export class SelectorComponent {
                     }
                     resetInput();
                     selectCtrl.$setDirty();
-                    let nV = scope.selectedValues;
-                    _onSelectedValuesChanges(nV, oldV)
                 };
 
                 const keydown = (e) => {
@@ -581,11 +661,14 @@ export class SelectorComponent {
 
                 const filterOptions = () => {
                     scope.filteredOptions = filter(scope.options || [], scope.search);
-                    if (!angular.isArray(scope.selectedValues)) scope.selectedValues = [];
-                    if (scope.multiple)
+                    if (!angular.isArray(scope.selectedValues)) {
+                        scope.selectedValues = [];
+                    }
+                    if (scope.multiple) {
                         scope.filteredOptions = scope.filteredOptions.filter((option) => {
                             return !inOptions(scope.selectedValues, option);
                         });
+                    }
                     else {
                         const index = scope.filteredOptions.indexOf(scope.selectedValues[0]);
                         if (index >= 0) {
@@ -624,18 +707,20 @@ export class SelectorComponent {
                     });
                 };
 
-                scope.$watch('[search, options, value]', () => {
-                    // hide selected items
-                    filterOptions();
-                    $timeout(() => {
-                        // set input width
-                        setInputWidth();
-                        // repositionate dropdown
-                        if (scope.isOpen) {
-                            dropdownPosition();
-                        }
-                    });
-                }, true);
+                _watchers.push(
+                    scope.$watch('[search, options, value]', () => {
+                        // hide selected items
+                        filterOptions();
+                        $timeout(() => {
+                            // set input width
+                            setInputWidth();
+                            // repositionate dropdown
+                            if (scope.isOpen) {
+                                dropdownPosition();
+                            }
+                        });
+                    }, true)
+                );
 
                 // Update value
                 const updateValue = (origin?) => {
@@ -645,26 +730,25 @@ export class SelectorComponent {
                     setValue(!scope.multiple ? origin[0] : origin);
                 };
 
-                scope.$watchCollection('options', (newValue, oldValue) => {
-                    if (angular.equals(newValue, oldValue) || scope.remote) {
-                        return;
-                    };
-                    updateSelected();
-                });
+                _watchers.push(
+                    scope.$watchCollection('options', (newValue, oldValue) => {
+                        if (angular.equals(newValue, oldValue) || scope.remote) {
+                            return;
+                        };
+                        updateSelected();
+                    })
+                );
 
                 // Update selected values
                 const updateSelected = () => {
-                    if (!scope.multiple) {
-                        scope.selectedValues =
-                            (scope.options || [])
+                    scope.selectedValues =
+                        (!scope.multiple)
+                            ? (scope.options || [])
                                 .filter((option) => {
                                     return optionEquals(option);
                                 })
-                                .slice(0, 1);
-                    }
-                    else {
-                        scope.selectedValues =
-                            (scope.value || [])
+                                .slice(0, 1)
+                            : (scope.value || [])
                                 .map((value) => {
                                     return filter(scope.options, (option) => {
                                         return optionEquals(option, value);
@@ -674,79 +758,69 @@ export class SelectorComponent {
                                     return angular.isDefined(value);
                                 })
                                 .slice(0, scope.limit);
-                    }
                 };
 
-                scope.$watch('value', (newValue, oldValue) => {
-                    if (angular.equals(newValue, oldValue)) {
-                        return;
-                    }
-                    $q
-                        .when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
+                _watchers.push(
+                    scope.$watch('value', (newValue, oldValue) => {
+                        if (angular.equals(newValue, oldValue)) {
+                            return;
+                        }
+                        $q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
                             ? angular.noop
-                            : fetchValidation(newValue))
-                        .then(() => {
-                            updateSelected();
-                            filterOptions();
-                            updateValue();
-                        });
-                }, true);
+                            : fetchValidation(newValue)).then(() => {
+                                updateSelected();
+                                filterOptions();
+                                updateValue();
+                            });
+                    }, true)
+                );
 
                 // DOM event listeners
                 //  = angular.element(element[0].querySelector('.selector-input input'))
-                DOM_SELECTOR_INPUT
-                    .on('focus', () => {
-                        $timeout(() => {
-                            scope.$apply(open);
-                        });
-                    })
-                    .on('blur', () => {
-                        scope.$apply(close);
-                    })
-                    .on('keydown', (e) => {
-                        scope.$apply(() => {
-                            keydown(e);
-                        });
-                    })
-                    .on('input', () => {
-                        setInputWidth();
-                    });
-                DOM_SELECTOR_DROPDOWN
-                    .on('mousedown', (e) => {
-                        e.preventDefault();
-                    });
-                angular.element($window)
-                    .on('resize', () => {
-                        dropdownPosition();
-                    });
 
-                // Update select controller
-                // TODO: Rajesh - mutation observer
-                // scope.$watch(() => {
-                //     return inputCtrl.$pristine;
-                // }, ($pristine) => {
-                //     selectCtrl[$pristine ? '$setPristine' : '$setDirty']();
-                // });
+                _subscribers.push(
+                    OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe((e: FocusEvent | KeyboardEvent | Event) => {
+                        if (e.type === 'focus') {
+                            $timeout(() => {
+                                scope.$apply(open);
+                            });
+                        }
+                        if (e.type === 'blur') {
+                            scope.$apply(close);
+                        }
+                        if (e.type === 'keydown') {
+                            scope.$apply(() => {
+                                keydown(e);
+                            });
+                        }
+                        if (e.type === 'input') {
+                            setInputWidth();
+                        }
+                    }, (error: any) => {
+                        $log.error(error);
+                    })
+                );
 
-                // TODO: Rajesh - mutation observer
-                // scope.$watch(() => {
-                //     return inputCtrl.$touched;
-                // }, ($touched) => {
-                //     selectCtrl[$touched ? '$setTouched' : '$setUntouched']();
-                // });
-                let _previousStateClassString: string = null;
-                new MutationObserver((event) => {
+
+
+
+                const m1 = new MutationObserver((event) => {
                     const _target = (event[0].target as HTMLElement);
-                    const _inputElem = angular.element(_target).find('input')
-
+                    const _inputElem = angular.element(_target).find('input');
                     if (_inputElem) {
-                        selectCtrl[inputCtrl.$touched ? '$setTouched' : '$setUntouched']();
-                        selectCtrl[inputCtrl.$pristine ? '$setPristine' : '$setDirty']();
+                        selectCtrl[inputCtrl.$touched
+                            ? '$setTouched'
+                            : '$setUntouched']();
+                        selectCtrl[inputCtrl.$pristine
+                            ? '$setPristine'
+                            : '$setDirty']();
                     }
-                }).observe(DOM_SELECTOR_CONTAINER[0], {
+                })
+                m1.observe(DOM_SELECTOR_CONTAINER[0], {
                     attributes: true,
                     attributeFilter: ['class']
                 });
+                _mutations.push(m1);
 
                 // Expose APIs
                 scope.api.fetch = fetch;
@@ -759,14 +833,18 @@ export class SelectorComponent {
                     return scope.value = value;
                 };
                 scope.api.unset = (value) => {
-                    const values = !value ? scope.selectedValues : (scope.selectedValues || [])
-                        .filter((option) => {
-                            return optionEquals(option, value);
-                        });
+                    const values = !value
+                        ? scope.selectedValues
+                        : (scope.selectedValues || [])
+                            .filter((option) => {
+                                return optionEquals(option, value);
+                            });
                     const indexes =
                         scope.selectedValues
                             .map((option, index) => {
-                                return inOptions(values, option) ? index : -1;
+                                return inOptions(values, option)
+                                    ? index
+                                    : -1;
                             })
                             .filter((index) => {
                                 return index >= 0;
@@ -776,15 +854,53 @@ export class SelectorComponent {
                     });
                 };
 
+                // destroy
+                scope.$on('$destroy', () => {
+                    // dispose watchers
+                    if (_watchers && _watchers.length) {
+                        // call all unbind on the watchers
+                        _watchers.forEach((wFn: Function) => {
+                            if (wFn && angular.isFunction(wFn)) {
+                                wFn();
+                            }
+                        });
+                        // reset watchers array
+                        _watchers = null;
+                    }
+
+                    // dispose all mutation observers;
+                    if (_mutations && _mutations.length) {
+                        _mutations.forEach((m: MutationObserver) => {
+                            m.disconnect();
+                        });
+                        _mutations = null;
+                    }
+
+                    // dispose subscribers
+                    if (_subscribers && _subscribers.length) {
+                        _subscribers.forEach((s: Rx.Subscription) => {
+                            s.unsubscribe();
+                        });
+                        _subscribers = null;
+                    }
+                });
+
             });
         }
     }
 
     public static Factory() {
-        let directive = ($filter, $timeout, $window, $http, $q) => {
-            return new SelectorComponent($filter, $timeout, $window, $http, $q);
+        let directive = ($filter, $timeout, $window, $http, $q, $log) => {
+            return new SelectorComponent($filter, $timeout, $window, $http, $q, $log);
         };
-        directive['$inject'] = ['$filter', '$timeout', '$window', '$http', '$q'];
+        directive['$inject'] = [
+            '$filter',
+            '$timeout',
+            '$window',
+            '$http',
+            '$q',
+            '$log'
+        ];
         return directive;
     }
 }

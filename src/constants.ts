@@ -34,7 +34,6 @@ export const CONSTANTS = {
                 ng-hide="true"
                 ng-required="required && !hasValue()"
                 ng-model="selectedValues"
-            
                 multiple
                 ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">
             </select>

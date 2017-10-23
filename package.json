@@ -60,6 +60,9 @@
     },
     "dependencies": {
         "angular": "^1.6.6",
+        "array-tracker": "0.0.5",
+        "immutable": "^3.8.2",
+        "obsr": "^1.0.3",
         "rxjs": "^5.4.3"
     }
 }

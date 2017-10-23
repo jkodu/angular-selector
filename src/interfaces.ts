@@ -1,4 +1,5 @@
 
+
 export namespace ISelector {
 
     export interface Scope extends angular.IScope {
@@ -41,7 +42,7 @@ export namespace ISelector {
         isOpen;
         filteredOptions;
         createOption;
-        selectedValues;
+        selectedValues : Array<any>;
         set(option?: any): void;
         unset(index?: number): void;
 

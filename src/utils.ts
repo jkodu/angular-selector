@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/operator/merge';
 
 export const DOM_FUNCTIONS = {
     getStyles: (element: HTMLElement) => {
