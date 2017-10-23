@@ -1,7 +1,7 @@
-import * as angular from 'angular';
-import * as Immutable from 'immutable';
+declare const angular;
+
 import { ISelector } from './interfaces';
-import { CONSTANTS } from './constants';
+import { KEYS } from './constants';
 import { DOM_FUNCTIONS } from './utils';
 import * as Rx from 'rxjs';
 // TODO: Tree shake RxJs 
@@ -9,17 +9,11 @@ import * as Obsr from 'obsr';
 
 export class SelectorComponent {
 
-    public link: (scope: ISelector.Scope,
-        element: angular.IAugmentedJQuery,
-        attrs: angular.IAttributes,
-        controller: angular.IController,
-        transclude: angular.ITranscludeFunction) => void;
-
+    public link: (scope: ISelector.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, controller: angular.IController, transclude: angular.ITranscludeFunction) => void;
     public restrict: string = 'EAC';
     public replace: boolean = true;
     public transclude: boolean = true;
     public templateUrl: string = 'selector/selector.html';
-
     public scope: any = {
         name: '@?',
         value: '=model',
@@ -58,6 +52,10 @@ export class SelectorComponent {
         private $http: angular.IHttpService,
         private $q: angular.IQService,
         private $log: angular.ILogService) {
+
+        const CONSOLE_LOGGER = (message: string) => {
+            $log.error(`Component: Selector On Sterorids: ${message}`);
+        }
 
         SelectorComponent.prototype.link = (scope: ISelector.Scope,
             element: angular.IAugmentedJQuery,
@@ -175,7 +173,7 @@ export class SelectorComponent {
                 });
 
                 // track selected values array
-                let observedSelectedValues = Obsr(scope.selectedValues, (key, value) => {
+                let observedSelectedValues = Obsr(scope.options, (key, value) => {
                     console.log('cb k: ' + key);
                     console.log('cb v: ' + value);
                 });
@@ -402,15 +400,17 @@ export class SelectorComponent {
                         filterOptions();
                         updateValue();
                     }
-
                 };
 
-
                 const reInitMultiple = () => {
-                    // TODO: Extract to common logging method.
-                    console.log(`Component: Angular Selector On Steroids: Log: Multiple Init invoked.`)
                     $timeout(setInputWidth);
-                    initDeferred.promise.then(initialize, initialize); //TODO: WHAT IS THIS?
+                    initDeferred
+                        .promise
+                        .then(() => {
+                            initialize();
+                        }, () => {
+                            CONSOLE_LOGGER(`Cannot initialize, promise init error!`);
+                        });
                 }
 
                 let _previousClassString: string = null;
@@ -581,12 +581,12 @@ export class SelectorComponent {
 
                 const keydown = (e) => {
                     switch (e.keyCode) {
-                        case CONSTANTS.KEYS.up:
+                        case KEYS.up:
                             if (!scope.isOpen) break;
                             decrementHighlighted();
                             e.preventDefault();
                             break;
-                        case CONSTANTS.KEYS.down:
+                        case KEYS.down:
                             if (!scope.isOpen) {
                                 open();
                             }
@@ -595,11 +595,11 @@ export class SelectorComponent {
                             }
                             e.preventDefault();
                             break;
-                        case CONSTANTS.KEYS.escape:
+                        case KEYS.escape:
                             scope.highlight(0);
                             close();
                             break;
-                        case CONSTANTS.KEYS.enter:
+                        case KEYS.enter:
                             if (scope.isOpen) {
                                 if (attrs.create && scope.search && scope.highlighted == -1)
                                     scope.createOption(e.target.value);
@@ -609,7 +609,7 @@ export class SelectorComponent {
                                 e.preventDefault();
                             }
                             break;
-                        case CONSTANTS.KEYS.backspace:
+                        case KEYS.backspace:
                             if (!DOM_SELECTOR_INPUT.val()) {
                                 const search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
                                 scope.unset();
@@ -621,14 +621,14 @@ export class SelectorComponent {
                                 e.preventDefault();
                             }
                             break;
-                        case CONSTANTS.KEYS.left:
-                        case CONSTANTS.KEYS.right:
-                        case CONSTANTS.KEYS.shift:
-                        case CONSTANTS.KEYS.ctrl:
-                        case CONSTANTS.KEYS.alt:
-                        case CONSTANTS.KEYS.tab:
-                        case CONSTANTS.KEYS.leftCmd:
-                        case CONSTANTS.KEYS.rightCmd:
+                        case KEYS.left:
+                        case KEYS.right:
+                        case KEYS.shift:
+                        case KEYS.ctrl:
+                        case KEYS.alt:
+                        case KEYS.tab:
+                        case KEYS.leftCmd:
+                        case KEYS.rightCmd:
                             break;
                         default:
                             if (!scope.multiple && scope.hasValue()) {
@@ -734,6 +734,7 @@ export class SelectorComponent {
 
                 _watchers.push(
                     scope.$watchCollection('options', (newValue, oldValue) => {
+                        console.log('options changes');
                         if (angular.equals(newValue, oldValue) || scope.remote) {
                             return;
                         };
@@ -769,19 +770,19 @@ export class SelectorComponent {
                         if (angular.equals(newValue, oldValue)) {
                             return;
                         }
-                        $q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
-                            ? angular.noop
-                            : fetchValidation(newValue)).then(() => {
-                                updateSelected();
-                                filterOptions();
-                                updateValue();
-                            });
+                        $q.when(
+                            !scope.remote || !scope.remoteValidation || !scope.hasValue()
+                                ? angular.noop
+                                : fetchValidation(newValue)).then(() => {
+                                    updateSelected();
+                                    filterOptions();
+                                    updateValue();
+                                }
+                            );
                     }, true)
                 );
 
                 // DOM event listeners
-                //  = angular.element(element[0].querySelector('.selector-input input'))
-
                 _subscribers.push(
                     OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe((e: FocusEvent | KeyboardEvent | Event) => {
                         if (e.type === 'focus') {

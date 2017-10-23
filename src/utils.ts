@@ -1,6 +1,3 @@
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/operator/merge';
-
 export const DOM_FUNCTIONS = {
     getStyles: (element: HTMLElement) => {
         return !(element instanceof HTMLElement)
@@ -9,4 +6,4 @@ export const DOM_FUNCTIONS = {
                 ? element.ownerDocument.defaultView.getComputedStyle(element)
                 : window.getComputedStyle(element);
     }
-}
+};

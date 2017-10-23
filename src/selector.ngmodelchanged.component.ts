@@ -3,8 +3,7 @@ export class SelectorNgModelChangedComponent {
     public link: (scope: angular.IScope,
         element: angular.IAugmentedJQuery,
         attrs: angular.IAttributes,
-        controller: angular.IController,
-        transclude: angular.ITranscludeFunction) => void;
+        controller: angular.IController) => void;
 
     public require: string = 'ngModel';
     public scope: any = {
@@ -16,7 +15,7 @@ export class SelectorNgModelChangedComponent {
         SelectorNgModelChangedComponent.prototype.link = (scope: angular.IScope,
             element: angular.IAugmentedJQuery,
             attrs: angular.IAttributes,
-            controller: angular.IController, ) => {
+            controller: angular.IController) => {
 
             let oldValue;
             controller.$formatters.push((value) => {
@@ -35,7 +34,7 @@ export class SelectorNgModelChangedComponent {
     }
 
     public static Factory() {
-        let directive = ($filter, $timeout, $window, $http, $q, $log) => {
+        let directive = () => {
             return new SelectorNgModelChangedComponent();
         };
         directive['$inject'] = [];
