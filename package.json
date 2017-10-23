@@ -1,6 +1,6 @@
 {
     "name": "angular-selector-on-steroids",
-    "version": "0.4.6",
+    "version": "1.0.0",
     "description": "",
     "main": "dist/rxy-form.js",
     "types": "dist/rxy-form.d.ts",
@@ -17,7 +17,7 @@
         "dev": "npm run build &&  cd ./demo && webpack --watch --watch-poll"
     },
     "keywords": [],
-    "author": "",
+    "author": "jkodu",
     "license": "ISC",
     "devDependencies": {
         "@types/angular": "^1.6.32",
