@@ -2,14 +2,15 @@
 import * as  hljs from 'highlight.js';
 import * as angular from 'angular';
 import { getWatchers } from './utils';
-import { ex_single_element, ex_multiple_element } from './examples';
+import { ex_single_element, ex_multiple_element, ex_remote_fetching } from './examples';
 
 import AngularSelectorOnSteroids from '../src/index';
 new AngularSelectorOnSteroids().init();
 
 const examples = [
+  ex_remote_fetching,
   ex_single_element,
-  ex_multiple_element
+  ex_multiple_element,
 ];
 
 angular

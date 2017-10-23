@@ -18,7 +18,8 @@ export const CONSTANTS = {
         tab: 9
     },
     TEMPLATES: {
-        SELECTOR: `<div class="selector-container"
+        SELECTOR: `
+        <div class="selector-container"
             ng-attr-dir="{{ rtl ? 'rtl' : 'ltr' }}"
             ng-class="{
                 open: isOpen, 
