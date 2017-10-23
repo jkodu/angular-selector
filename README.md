@@ -15,14 +15,9 @@ npm install --save angular-selector-on-steroids
 You can then use it like so:
 
 ```js
-import RxyTsModulePluginBoilerplate from '../src/index';
+import AngularSelectorOnSteroids from '../src/index';
+new AngularSelectorOnSteroids().init();
 
-const dom = {
-  dataDom: document.querySelector('#dataDom')
-};
-
-const text = new RxyTsModulePluginBoilerplate().greetUser(`Newton!`);
-dom.dataDom.textContent = text;
 ```
 
 ```html
@@ -45,8 +40,7 @@ dom.dataDom.textContent = text;
         </style>
     </head>
     <body>
-        <main id='dataDom'>
-        </main>
+     
     </body>
 </html>
 ```

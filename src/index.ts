@@ -7,7 +7,7 @@ import { ISelector } from './interfaces';
 import { CONSTANTS } from './constants';
 import { SelectorComponent } from './selector';
 
-const MODULE_NAME = `selector`;
+const MODULE_NAME = `selectorOnSteroids`;
 
 export default class AngularSelectorOnSteroids {
 
