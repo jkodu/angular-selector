@@ -14,3 +14,5 @@ export const KEYS = {
     alt: 18,
     tab: 9
 };
+
+export const EMPTY_TEMPLATE = ``;

@@ -1,5 +1,8 @@
 import { ISelector } from './interfaces';
 import { CONSOLE_LOGGER } from './utils';
+import { EMPTY_TEMPLATE } from './constants';
+import { Observable, Subject, Subscription } from 'rxjs';
+
 export class SelectorDropdownItemsComponent {
 
     public link: (scope: ISelector.DropdownItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => void;
@@ -10,107 +13,104 @@ export class SelectorDropdownItemsComponent {
     public scope: ISelector.DropdownItemsComponent.Scope | any = {
         input: '<',
         output: '<',
-    }
-
-    private PARENT_REFS: any = {
-        // auto constructed object
     };
 
+    private _subscribers: Subscription[] = [];
 
-    private getGroupTpl(option, index, filteredOptions) {
-        if (this.PARENT_REFS.groupAttr &&
-            (this.PARENT_REFS.getObjValue(option, this.PARENT_REFS.groupAttr) &&
-                index == 0 ||
-                this.PARENT_REFS.getObjValue(filteredOptions[index - 1], this.PARENT_REFS.groupAttr) !=
-                this.PARENT_REFS.getObjValue(option, this.PARENT_REFS.groupAttr))) {
-            return `
-            <li
-                class="selector-optgroup">
-                ${JSON.stringify(option)}
-            </li>                                      
-            `;
-            // TODO: ng-bind - group template
+    private getGroupTpl(option, index: number, filteredOptions: any[], groupAttr, getObjValue) {
+        if (groupAttr) {
+            const boundValue = getObjValue(option, groupAttr);
+            if (groupAttr &&
+                (boundValue && index === 0 || getObjValue(filteredOptions[index - 1],
+                    groupAttr) !== boundValue)) {
+                return `
+                <li
+                    class="selector-optgroup">
+                    <span>${boundValue}</span>
+                </li>                                      
+                `;
+            } else {
+                return EMPTY_TEMPLATE;
+            }
         } else {
-            return ``;
+            return EMPTY_TEMPLATE;
         }
     };
 
-    private getItemTpl(option, index, filteredOptions, highlighted) {
+    private getItemTpl(option, index, filteredOptions, highlighted, groupAttr, getObjValue) {
         let cls = `
             ${highlighted === index ? 'active' : ''} 
-            ${this.PARENT_REFS.groupAttr && this.PARENT_REFS.getObjValue(option, this.PARENT_REFS.groupAttr) ? 'grouped' : ''}
+            ${groupAttr && getObjValue(option, groupAttr) ? 'grouped' : ''}
         `;
+        let boundValue = getObjValue(option, groupAttr);
+        boundValue = boundValue
+            ? boundValue
+            : typeof option === 'object'
+                ? JSON.stringify(option)
+                : option;
         return `
             <li
                 class="selector-option ${cls}">
-                ${JSON.stringify(option)}
+                <span>${boundValue}</span>
             </li>`;
-            // TODO: 
-            // ng-bind - item template
-            // ng-mouseover="highlight(index)"
-            // ng-click="set()"
+        // TODO:
+        // ng-mouseover="highlight(index)"
+        // ng-click="set()"
     };
 
 
     constructor($log: angular.ILogService) {
-
 
         SelectorDropdownItemsComponent.prototype.link =
             (scope: ISelector.DropdownItemsComponent.Scope,
                 element: angular.IAugmentedJQuery,
                 attrs: angular.IAttributes) => {
 
+                Observable.fromEvent(element[0], 'click enter').subscribe((e) => {
+                    //todo: get selection ???
+                    console.log(`test: ${e}`);
+                });
 
-                const render = (items: Array<any>, highlighted: number) => {
-
-                    let tpl = `
+                const render = (items: Array<any>, highlighted: number, groupAttr, getObjValue) => {
+                    const tpl = `
                         ${items
                             .map((currentValue: any, index: number, array: Array<any>) => `
-                                ${this.getGroupTpl(currentValue, index, array)}
-                                ${this.getItemTpl(currentValue, index, array, highlighted)}
+                                ${this.getGroupTpl(currentValue, index, array, groupAttr, getObjValue)}
+                                ${this.getItemTpl(currentValue, index, array, highlighted, groupAttr, getObjValue)}
                             `).join(' ')
-                        }
-                      
-                    `;
+                        }`;
                     element[0].innerHTML = tpl;
                 };
 
-                const destroy = () => {
-
-                };
-
-                if (scope &&
-                    scope.input &&
+                if (scope.input &&
                     scope.output) {
 
                     // TODO: Move to post link?
-                    scope.input
-                        .subscribe(
-                        (inputData: ISelector.DropdownItemsComponent.Input$) => {
-
-                            switch (inputData.type) {
-                                case ISelector.DropdownItemsComponent.StreamType.BOOT:
-                                    {
-                                        this.PARENT_REFS['groupAttr'] = inputData.groupAttr;
-                                        this.PARENT_REFS['getObjValue'] = inputData.getObjValue;
-                                    }
-                                case ISelector.DropdownItemsComponent.StreamType.RENDER:
-                                    {
-                                        if (inputData.filteredOptions && inputData.filteredOptions.length) {
-                                            render(inputData.filteredOptions, inputData.highlighted);
-                                        }
-                                    }
-                                case ISelector.DropdownItemsComponent.StreamType.DESTROY:
-                                    {
-                                        destroy();
-                                    }
-                            }
-
-                        },
-                        (error: any) => {
-                            CONSOLE_LOGGER($log, `Cannot initialize, promise init error!`);
-                        });
+                    this._subscribers.push(
+                        scope.input
+                            .subscribe(
+                            (inputData: ISelector.DropdownItemsComponent.Input$) => {
+                                if (inputData.filteredOptions && inputData.filteredOptions.length) {
+                                    render(inputData.filteredOptions, inputData.highlighted, inputData.groupAttr, inputData.getObjValue);
+                                }
+                            },
+                            (error: any) => {
+                                CONSOLE_LOGGER($log, `Cannot initialize, promise init error!`);
+                            })
+                    );
                 }
+
+
+                scope.$on('$destroy', () => {
+                    // dispose subscribers
+                    if (this._subscribers && this._subscribers.length) {
+                        this._subscribers.forEach((s: Subscription) => {
+                            s.unsubscribe();
+                        });
+                        this._subscribers = null;
+                    }
+                    console.log('item destroyed, check if this is called');
+                });
 
             }
     }
@@ -123,3 +123,5 @@ export class SelectorDropdownItemsComponent {
         return directive;
     }
 }
+
+// TO Destroy

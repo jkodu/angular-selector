@@ -147,13 +147,6 @@ export class SelectorComponent {
                     };
                 });
 
-                // BOOT - dropdown templates
-                scope.filteredOptionsInput$.next({
-                    type: ISelector.DropdownItemsComponent.StreamType.BOOT,
-                    groupAttr: scope.groupAttr,
-                    getObjValue: scope.getObjValue
-                } as ISelector.DropdownItemsComponent.Input$);
-
                 // create custom scope properties
                 scope.onNgModelChanged = (propertyName, oldValue, newValue) => { // watch alternative - model change listener
                     if (propertyName === `search`) {
@@ -186,7 +179,8 @@ export class SelectorComponent {
 
                 const _onFilteredOptionsChanged = (newFilteredOptions) => {
                     scope.filteredOptionsInput$.next({
-                        type: ISelector.DropdownItemsComponent.StreamType.RENDER,
+                        groupAttr: scope.groupAttr,
+                        getObjValue: scope.getObjValue,
                         filteredOptions: newFilteredOptions,
                         highlighted: scope.highlighted
                     } as ISelector.DropdownItemsComponent.Input$);

@@ -66,18 +66,11 @@ export namespace ISelector {
 
     export namespace DropdownItemsComponent {
 
-        export enum StreamType {
-            BOOT= "BOOT",
-            RENDER= "RENDER",
-            DESTROY= "DESTROY"
-        }
-
         export interface Input$ {
-            type: StreamType;
-            groupAttr?: any;
-            getObjValue?: any;
-            filteredOptions?: any[];
-            highlighted?: number;
+            groupAttr: any;
+            getObjValue: any;
+            filteredOptions: any[];
+            highlighted: number;
         }
 
         export interface Output$ {
