@@ -7,3 +7,8 @@ export const DOM_FUNCTIONS = {
                 : window.getComputedStyle(element);
     }
 };
+
+
+export const CONSOLE_LOGGER = ($log: angular.ILogService,message: string) => {
+    $log.error(`Component: Selector On Sterorids: ${message}`);
+}

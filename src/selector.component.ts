@@ -2,19 +2,19 @@ declare const angular;
 
 import { ISelector } from './interfaces';
 import { KEYS } from './constants';
-import { DOM_FUNCTIONS } from './utils';
-import * as Rx from 'rxjs';
-// TODO: Tree shake RxJs 
+import { DOM_FUNCTIONS, CONSOLE_LOGGER } from './utils';
+import { Subject, Observable, Subscription } from 'rxjs';
 import * as Obsr from 'obsr';
 
 export class SelectorComponent {
 
-    public link: (scope: ISelector.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, controller: angular.IController, transclude: angular.ITranscludeFunction) => void;
+    public link: (scope: ISelector.BaseComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, controller: angular.IController, transclude: angular.ITranscludeFunction) => void;
     public restrict: string = 'EAC';
     public replace: boolean = true;
     public transclude: boolean = true;
     public templateUrl: string = 'selector/selector.html';
-    public scope: any = {
+
+    public scope: ISelector.BaseComponent.Scope | any = {
         name: '@?',
         value: '=model',
         disabled: '=?disable',
@@ -42,7 +42,8 @@ export class SelectorComponent {
         viewItemTemplate: '=?',
         dropdownItemTemplate: '=?',
         dropdownCreateTemplate: '=?',
-        dropdownGroupTemplate: '=?'
+        dropdownGroupTemplate: '=?',
+        angularCompileItems: '<'
     };
 
     constructor(
@@ -53,21 +54,17 @@ export class SelectorComponent {
         private $q: angular.IQService,
         private $log: angular.ILogService) {
 
-        const CONSOLE_LOGGER = (message: string) => {
-            $log.error(`Component: Selector On Sterorids: ${message}`);
-        }
-
-        SelectorComponent.prototype.link = (scope: ISelector.Scope,
+        SelectorComponent.prototype.link = (scope: ISelector.BaseComponent.Scope,
             element: angular.IAugmentedJQuery,
             attrs: angular.IAttributes,
             controller: angular.IController,
             transclude: angular.ITranscludeFunction) => {
 
-            transclude(scope, (clone: any, scope: ISelector.Scope) => {
+            transclude(scope, (clone: any, scope: ISelector.BaseComponent.Scope) => {
 
                 let _watchers: Array<any> = [];
                 let _mutations: Array<any> = [];
-                let _subscribers: Array<Rx.Subscription> = [];
+                let _subscribers: Array<Subscription> = [];
 
                 const filter = $filter('filter');
                 const DOM_SELECTOR_CONTAINER = angular.element(element[0]);
@@ -75,19 +72,19 @@ export class SelectorComponent {
                 const DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
 
                 const OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT
-                    ? Rx.Observable.merge(
-                        Rx.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'),
-                        Rx.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur'),
-                        Rx.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown'),
-                        Rx.Observable.fromEvent(DOM_SELECTOR_INPUT, 'input')
+                    ? Observable.merge(
+                        Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'),
+                        Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur'),
+                        Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown'),
+                        Observable.fromEvent(DOM_SELECTOR_INPUT, 'input')
                     )
-                    : Rx.Observable.empty();
+                    : Observable.empty();
                 const OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN
-                    ? Rx.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown')
-                    : Rx.Observable.empty();
+                    ? Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown')
+                    : Observable.empty();
                 const OBSERVABLE_FOR_WINDOW_RESIZE = $window
-                    ? Rx.Observable.fromEvent($window, 'resze')
-                    : Rx.Observable.empty();
+                    ? Observable.fromEvent($window, 'resze')
+                    : Observable.empty();
 
                 let inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
                 let selectCtrl = element.find('select').controller('ngModel');
@@ -111,7 +108,12 @@ export class SelectorComponent {
                     viewItemTemplate: 'selector/item-default.html',
                     dropdownItemTemplate: 'selector/item-default.html',
                     dropdownCreateTemplate: 'selector/item-create.html',
-                    dropdownGroupTemplate: 'selector/group-default.html'
+                    dropdownGroupTemplate: 'selector/group-default.html',
+                    angularCompileItems: false,
+                    selectedValuesInput$: new Subject(),
+                    selectedValuesOutput$: new Subject(),
+                    filteredOptionsInput$: new Subject(),
+                    filteredOptionsOutput$: new Subject(),
                 };
 
                 // DEFAULTS
@@ -133,8 +135,27 @@ export class SelectorComponent {
                 )
 
 
-                // watch alternative - model change listener
-                scope.onNgModelChanged = (propertyName, oldValue, newValue) => {
+                // Default attributes
+                if (!angular.isDefined(scope.value) && scope.multiple) {
+                    scope.value = [];
+                };
+
+                // this is where default initialization happens
+                angular.forEach(defaults, (value, key) => {
+                    if (!angular.isDefined(scope[key])) {
+                        scope[key] = value;
+                    };
+                });
+
+                // BOOT - dropdown templates
+                scope.filteredOptionsInput$.next({
+                    type: ISelector.DropdownItemsComponent.StreamType.BOOT,
+                    groupAttr: scope.groupAttr,
+                    getObjValue: scope.getObjValue
+                } as ISelector.DropdownItemsComponent.Input$);
+
+                // create custom scope properties
+                scope.onNgModelChanged = (propertyName, oldValue, newValue) => { // watch alternative - model change listener
                     if (propertyName === `search`) {
                         if (scope.remote) {
                             $timeout(fetch);
@@ -142,7 +163,7 @@ export class SelectorComponent {
                     }
                 };
 
-                const _onSelectedValuesChanges = (oldValue, newValue) => {
+                const _onSelectedValuesChanged = (oldValue, newValue) => {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
@@ -158,19 +179,19 @@ export class SelectorComponent {
                                 oldValue: (oldValue || [])[0]
                             });
                     }
+                    if (scope.angularCompileItems === false) {
+                        scope.selectedValuesInput$.next(scope.selectedValues);
+                    }
                 };
 
-                // Default attributes
-                if (!angular.isDefined(scope.value) && scope.multiple) {
-                    scope.value = [];
-                };
+                const _onFilteredOptionsChanged = (newFilteredOptions) => {
+                    scope.filteredOptionsInput$.next({
+                        type: ISelector.DropdownItemsComponent.StreamType.RENDER,
+                        filteredOptions: newFilteredOptions,
+                        highlighted: scope.highlighted
+                    } as ISelector.DropdownItemsComponent.Input$);
+                }
 
-                // this is where default initialization happens
-                angular.forEach(defaults, (value, key) => {
-                    if (!angular.isDefined(scope[key])) {
-                        scope[key] = value;
-                    };
-                });
 
                 // track selected values array
                 let observedSelectedValues = Obsr(scope.options, (key, value) => {
@@ -409,7 +430,7 @@ export class SelectorComponent {
                         .then(() => {
                             initialize();
                         }, () => {
-                            CONSOLE_LOGGER(`Cannot initialize, promise init error!`);
+                            CONSOLE_LOGGER($log, `Cannot initialize, promise init error!`);
                         });
                 }
 
@@ -552,7 +573,7 @@ export class SelectorComponent {
                             scope.selectedValues.push(option);
                         }
                     }
-                    _onSelectedValuesChanges(_oldSelectedValues, scope.selectedValues);
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
 
                     if (!scope.multiple || scope.closeAfterSelection ||
                         (scope.selectedValues || []).length >= scope.limit) {
@@ -574,7 +595,7 @@ export class SelectorComponent {
                                 ? index
                                 : scope.selectedValues.length - 1, 1);
                     }
-                    _onSelectedValuesChanges(_oldSelectedValues, scope.selectedValues);
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                     resetInput();
                     selectCtrl.$setDirty();
                 };
@@ -601,11 +622,14 @@ export class SelectorComponent {
                             break;
                         case KEYS.enter:
                             if (scope.isOpen) {
-                                if (attrs.create && scope.search && scope.highlighted == -1)
+                                if (attrs.create && scope.search && scope.highlighted == -1) {
                                     scope.createOption(e.target.value);
-                                else
-                                    if (scope.filteredOptions.length)
+                                }
+                                else {
+                                    if (scope.filteredOptions.length) {
                                         scope.set();
+                                    }
+                                }
                                 e.preventDefault();
                             }
                             break;
@@ -660,7 +684,6 @@ export class SelectorComponent {
 
                 const filterOptions = () => {
                     scope.filteredOptions = filter(scope.options || [], scope.search);
-
                     const _oldSelectedValues = Object.assign([], scope.selectedValues);
                     if (!angular.isArray(scope.selectedValues)) {
                         scope.selectedValues = [];
@@ -676,7 +699,8 @@ export class SelectorComponent {
                             scope.highlight(index)
                         };
                     }
-                    _onSelectedValuesChanges(_oldSelectedValues, scope.selectedValues);
+                    _onFilteredOptionsChanged(scope.filteredOptions);
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 };
 
                 // Input width utilities
@@ -734,7 +758,6 @@ export class SelectorComponent {
 
                 _watchers.push(
                     scope.$watchCollection('options', (newValue, oldValue) => {
-                        console.log('options changes');
                         if (angular.equals(newValue, oldValue) || scope.remote) {
                             return;
                         };
@@ -762,7 +785,7 @@ export class SelectorComponent {
                                     return angular.isDefined(value);
                                 })
                                 .slice(0, scope.limit);
-                    _onSelectedValuesChanges(_oldSelectedValues, scope.selectedValues);
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 };
 
                 _watchers.push(
@@ -883,7 +906,7 @@ export class SelectorComponent {
 
                     // dispose subscribers
                     if (_subscribers && _subscribers.length) {
-                        _subscribers.forEach((s: Rx.Subscription) => {
+                        _subscribers.forEach((s: Subscription) => {
                             s.unsubscribe();
                         });
                         _subscribers = null;

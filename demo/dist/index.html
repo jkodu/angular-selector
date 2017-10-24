@@ -240,8 +240,7 @@
 
         <div class="container">
             <article class="examples">
-
-                <section ng-repeat="example in examples"
+                <section ng-repeat="example in examples track by $index"
                     ng-init="tab='view'">
                     <div class="navbar">
                         <!-- <ul class="nav nav-pills navbar-right">
@@ -258,13 +257,13 @@
                         ng-if="!example.service">
                         <div class="tab-pane example"
                             ng-class="{active:tab=='view'}"></div>
-                        <pre class="tab-pane"
+                        <!-- <pre class="tab-pane"
                             ng-class="{active:tab=='html'}"
                             ng-bind-html="example.html|highlight:'html'"></pre>
                         <pre class="tab-pane"
                             ng-class="{active:tab=='js'}"
                             ng-bind-html="example.js|highlight:'javascript'"
-                            ng-if="example.js"></pre>
+                            ng-if="example.js"></pre> -->
                     </div>
                 </section>
             </article>
@@ -275,6 +274,6 @@
             -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
-    <script type="text/javascript" src="app.js?e24995306e0594353837"></script></body>
+    <script type="text/javascript" src="app.js?423915ab5f66ab0a8f4f"></script></body>
 
 </html>
