@@ -60,8 +60,7 @@ export const TEMPLATE_SELECTOR = () => {
                 <span class="selector-icon"></span>
             </div>
         </label>
-        <ul class="selector-dropdown"
-            ng-show="filteredOptions.length > 0 || (create && search)">
+        <ul class="selector-dropdown">
 
             <li 
                 class="selector-option create"
@@ -72,10 +71,16 @@ export const TEMPLATE_SELECTOR = () => {
                 ng-click="createOption(search)">
             </li>
 
+            <li 
+                class="selector-option no-data"                
+                ng-show="!filteredOptions || filteredOptions.length <= 0">
+                No Data
+            </li>
+
             <sos-dropdown-items
                 ng-if="angularCompileItems === false"
-                input='filteredOptionsInput$'
-                output='filteredOptionsOutput$'>
+                ng-show='filteredOptions.length > 0'
+                input='filteredOptionsInput$'>
             </sos-dropdown-items>
 
             <li 
@@ -83,11 +88,12 @@ export const TEMPLATE_SELECTOR = () => {
                 ng-repeat-start="(index, option) in filteredOptions track by $index"
                 class="selector-optgroup"
                 ng-include="dropdownGroupTemplate"
-                ng-show="groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">
+                ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">
             </li>
 
             <li 
                 ng-if="angularCompileItems === true"
+                ng-show="filteredOptions.length > 0"
                 ng-repeat-end
                 ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"
                 class="selector-option"

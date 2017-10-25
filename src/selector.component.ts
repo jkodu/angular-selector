@@ -114,8 +114,7 @@ export class SelectorComponent {
                     angularCompileItems: false,
                     selectedValuesInput$: new Subject(),
                     selectedValuesOutput$: new Subject(),
-                    filteredOptionsInput$: new Subject(),
-                    filteredOptionsOutput$: new Subject(),
+                    filteredOptionsInput$: new Subject()
                 };
 
                 // DEFAULTS
@@ -179,11 +178,11 @@ export class SelectorComponent {
                     }
                 };
 
-                const _onFilteredOptionsChanged = (newFilteredOptions) => {
+                const _onFilteredOptionsChanged = () => {
                     scope.filteredOptionsInput$.next({
                         groupAttr: scope.groupAttr,
                         getObjValue: scope.getObjValue,
-                        filteredOptions: newFilteredOptions,
+                        filteredOptions: scope.filteredOptions,
                         highlighted: scope.highlighted,
                         set: scope.set
                     } as ISelector.DropdownItemsComponent.Input$);
@@ -279,8 +278,13 @@ export class SelectorComponent {
 
                 // Remote fetching
                 const request = (paramName, paramValue, remote, remoteParam) => {
-                    let promise, remoteOptions = {};
-                    if (scope.disabled) return $q.reject();
+                    let promise,
+                        remoteOptions = {};
+
+                    if (scope.disabled) {
+                        return $q.reject();
+                    }
+
                     if (!angular.isDefined(remote)) {
                         throw 'Remote attribute is not defined';
                     }
@@ -303,8 +307,9 @@ export class SelectorComponent {
                     }
 
                     promise.then(
-                        (data) => {
-                            scope.options = data.data || data;
+                        (response) => {
+                            const options = response.data || response;
+                            scope.options = options;
                             filterOptions();
                             scope.loading = false;
                             initDeferred.resolve();
@@ -497,7 +502,7 @@ export class SelectorComponent {
                 };
 
                 const incrementHighlighted = () => {
-                    scope.highlight(scope.highlighted + 1);
+                    scope.highlight(scope.highlighted + 1);                    
                     scrollToHighlighted();
                 };
                 scope.highlight = (index) => {
@@ -509,6 +514,7 @@ export class SelectorComponent {
                             scope.highlighted = (scope.filteredOptions.length + index) % scope.filteredOptions.length;
                         }
                     }
+                    _onFilteredOptionsChanged();
                 };
                 const scrollToHighlighted = () => {
                     const dd = DOM_SELECTOR_DROPDOWN[0];
@@ -726,7 +732,7 @@ export class SelectorComponent {
                             scope.highlight(index);
                         };
                     }
-                    _onFilteredOptionsChanged(scope.filteredOptions);
+                    _onFilteredOptionsChanged();
                     _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 };
 
@@ -821,7 +827,7 @@ export class SelectorComponent {
                             return;
                         }
                         $q.when(
-                            !scope.remote || !scope.remoteValidation || !scope.hasValue()
+                            (!scope.remote || !scope.remoteValidation || !scope.hasValue())
                                 ? angular.noop
                                 : fetchValidation(newValue)).then(() => {
                                     updateSelected();

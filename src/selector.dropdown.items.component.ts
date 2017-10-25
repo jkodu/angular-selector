@@ -11,8 +11,7 @@ export class SelectorDropdownItemsComponent {
     public templateUrl: string = 'selector/selector-dropdown-item.html';
 
     public scope: ISelector.DropdownItemsComponent.Scope | any = {
-        input: '<',
-        output: '<',
+        input: '<'
     };
 
     private _subscribers: Subscription[] = [];
@@ -76,8 +75,7 @@ export class SelectorDropdownItemsComponent {
                         }
                     });
 
-                if (scope.input &&
-                    scope.output) {
+                if (scope.input) {
 
                     // TODO: Move to post link?
                     this._subscribers.push(

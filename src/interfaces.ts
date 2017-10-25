@@ -44,7 +44,6 @@ export namespace ISelector {
 
             filteredOptions: Array<any>;
             filteredOptionsInput$: Subject<ISelector.DropdownItemsComponent.Input$>;
-            filteredOptionsOutput$: Subject<ISelector.DropdownItemsComponent.Output$>;
 
             createOption;
 
@@ -73,14 +72,9 @@ export namespace ISelector {
             filteredOptions: any[];
             highlighted: number;
         }
-
-        export interface Output$ {
-
-        }
-
+    
         export interface Scope extends angular.IScope {
             input: Subject<Input$>;
-            output: Subject<Output$>;
         }
     }
 
