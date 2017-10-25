@@ -68,6 +68,7 @@ export const TEMPLATE_SELECTOR = () => {
                 ng-class="{active: highlighted == -1}"
                 ng-if="create && search"
                 ng-include="dropdownCreateTemplate"
+                ng-mouseover="highlight(-1)"
                 ng-click="createOption(search)">
             </li>
 
@@ -91,6 +92,7 @@ export const TEMPLATE_SELECTOR = () => {
                 ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"
                 class="selector-option"
                 ng-include="dropdownItemTemplate"
+                ng-mouseover="highlight(index)"
                 ng-click="set()">
             </li>
         </ul>

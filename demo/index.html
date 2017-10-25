@@ -240,7 +240,7 @@
 
         <div class="container">
             <article class="examples">
-                <section ng-repeat="example in examples track by $index"
+                <section ng-repeat="example in examples track by index"
                     ng-init="tab='view'">
                     <div class="navbar">
                         <!-- <ul class="nav nav-pills navbar-right">
@@ -268,11 +268,6 @@
                 </section>
             </article>
         </div>
-
-        <!--
-            Scripts
-            -->
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
     </body>
 

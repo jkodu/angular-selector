@@ -476,27 +476,31 @@ export class SelectorComponent {
                     }
                     scope.isOpen = true;
                     dropdownPosition();
+                    if (scope.remote) {
+                        $timeout(fetch);
+                    };
                     $timeout(scrollToHighlighted);
                 };
 
                 const close = () => {
                     scope.isOpen = false;
                     resetInput();
-                    if (scope.remote) {
-                        $timeout(fetch);
-                    };
+                    // Note: not necessary to make a fetch call on close
+                    // if (scope.remote) {
+                    //     $timeout(fetch);
+                    // };
                 };
 
                 const decrementHighlighted = () => {
-                    highlight(scope.highlighted - 1);
+                    scope.highlight(scope.highlighted - 1);
                     scrollToHighlighted();
                 };
 
                 const incrementHighlighted = () => {
-                    highlight(scope.highlighted + 1);
+                    scope.highlight(scope.highlighted + 1);
                     scrollToHighlighted();
                 };
-                const highlight = (index) => {
+                scope.highlight = (index) => {
                     if (attrs.create && scope.search && index == -1) {
                         scope.highlighted = -1;
                     }
@@ -550,14 +554,19 @@ export class SelectorComponent {
                 };
                 scope.set = (option?: any, index?: number) => {
 
-                    if(angular.isDefined(index) && index > -1 ) {
-                        highlight(index);
-                    }
-
                     if (scope.multiple &&
                         (scope.selectedValues || []).length >= scope.limit) {
                         return;
                     };
+
+                    if (angular.isDefined(index) &&
+                        index > -1) {
+                        if (!scope.multiple) {
+                            scope.highlight(index);
+                        } else {
+                            scope.highlight(-1);
+                        }
+                    }
 
                     if (!angular.isDefined(option)) {
                         option = scope.filteredOptions[scope.highlighted];
@@ -605,48 +614,60 @@ export class SelectorComponent {
                 const keydown = (e) => {
                     switch (e.keyCode) {
                         case KEYS.up:
-                            if (!scope.isOpen) break;
-                            decrementHighlighted();
-                            e.preventDefault();
-                            break;
+                            {
+                                if (!scope.isOpen) {
+                                    break;
+                                }
+                                decrementHighlighted();
+                                e.preventDefault();
+                                break;
+                            }
                         case KEYS.down:
-                            if (!scope.isOpen) {
-                                open();
-                            }
-                            else {
-                                incrementHighlighted();
-                            }
-                            e.preventDefault();
-                            break;
-                        case KEYS.escape:
-                            highlight(0);
-                            close();
-                            break;
-                        case KEYS.enter:
-                            if (scope.isOpen) {
-                                if (attrs.create && scope.search && scope.highlighted == -1) {
-                                    scope.createOption(e.target.value);
+                            {
+                                if (!scope.isOpen) {
+                                    open();
                                 }
                                 else {
-                                    if (scope.filteredOptions.length) {
-                                        scope.set();
-                                    }
+                                    incrementHighlighted();
                                 }
                                 e.preventDefault();
+                                break;
                             }
-                            break;
+                        case KEYS.escape:
+                            {
+                                scope.highlight(0);
+                                close();
+                                break;
+                            }
+                        case KEYS.enter:
+                            {
+                                if (scope.isOpen) {
+                                    if (attrs.create && scope.search && scope.highlighted == -1) {
+                                        scope.createOption(e.target.value);
+                                    }
+                                    else {
+                                        if (scope.filteredOptions.length) {
+                                            scope.set();
+                                        }
+                                    }
+                                    e.preventDefault();
+                                }
+                                break;
+                            }
                         case KEYS.backspace:
-                            if (!DOM_SELECTOR_INPUT.val()) {
-                                const search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
-                                scope.unset();
-                                open();
-                                if (scope.softDelete && !scope.disableSearch)
-                                    $timeout(() => {
-                                        scope.search = search;
-                                    });
-                                e.preventDefault();
+                            {
+                                if (!DOM_SELECTOR_INPUT.val()) {
+                                    const search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
+                                    scope.unset();
+                                    open();
+                                    if (scope.softDelete && !scope.disableSearch)
+                                        $timeout(() => {
+                                            scope.search = search;
+                                        });
+                                    e.preventDefault();
+                                }
+                                break;
                             }
-                            break;
                         case KEYS.left:
                         case KEYS.right:
                         case KEYS.shift:
@@ -655,15 +676,19 @@ export class SelectorComponent {
                         case KEYS.tab:
                         case KEYS.leftCmd:
                         case KEYS.rightCmd:
-                            break;
-                        default:
-                            if (!scope.multiple && scope.hasValue()) {
-                                e.preventDefault();
-                            } else {
-                                open();
-                                highlight(0);
+                            {
+                                break;
                             }
-                            break;
+                        default:
+                            {
+                                if (!scope.multiple && scope.hasValue()) {
+                                    e.preventDefault();
+                                } else {
+                                    open();
+                                    scope.highlight(0);
+                                }
+                                break;
+                            }
                     }
                 };
 
@@ -698,7 +723,7 @@ export class SelectorComponent {
                     else {
                         const index = scope.filteredOptions.indexOf(scope.selectedValues[0]);
                         if (index >= 0) {
-                            highlight(index);
+                            scope.highlight(index);
                         };
                     }
                     _onFilteredOptionsChanged(scope.filteredOptions);

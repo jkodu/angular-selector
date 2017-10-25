@@ -70,8 +70,8 @@ export class SelectorDropdownItemsComponent {
                     .subscribe((e: Event | MouseEvent) => {
                         if (e.type === 'click') {
                             if(this._parentReferences['set']) {
-                                const index = e.srcElement.getAttribute('data-index');
-                                this._parentReferences['set'](undefined, index);
+                                const index = parseInt(e.srcElement.getAttribute('data-index'));
+                                this._parentReferences['set'](undefined, index < -1 ? -1 : index);
                             }
                         }
                     });
