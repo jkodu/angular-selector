@@ -10,5 +10,5 @@ export const DOM_FUNCTIONS = {
 
 
 export const CONSOLE_LOGGER = ($log: angular.ILogService,message: string) => {
-    $log.error(`Component: Selector On Sterorids: ${message}`);
+    $log.info(`Component: Selector On Sterorids: ${message}`);
 }

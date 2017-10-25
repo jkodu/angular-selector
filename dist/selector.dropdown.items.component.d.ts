@@ -6,9 +6,9 @@ export declare class SelectorDropdownItemsComponent {
     restrict: string;
     templateUrl: string;
     scope: ISelector.DropdownItemsComponent.Scope | any;
-    private PARENT_REFS;
-    private getGroupTpl(option, index, filteredOptions);
-    private getItemTpl(option, index, filteredOptions, highlighted);
+    private _subscribers;
+    private getGroupTpl(option, index, filteredOptions, groupAttr, getObjValue);
+    private getItemTpl(option, index, filteredOptions, highlighted, groupAttr, getObjValue);
     constructor($log: angular.ILogService);
     static Factory(): ($log: any) => SelectorDropdownItemsComponent;
 }

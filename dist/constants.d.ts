@@ -14,3 +14,4 @@ export declare const KEYS: {
     alt: number;
     tab: number;
 };
+export declare const EMPTY_TEMPLATE = "";

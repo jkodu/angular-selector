@@ -53,7 +53,7 @@ export namespace ISelector {
             selectedValuesOutput$: Subject<Array<any>>;
 
 
-            set(option?: any): void;
+            set(option?: any, index?: number): void;
             unset(index?: number): void;
 
             // Alternative to watchers - change listeners
@@ -68,7 +68,8 @@ export namespace ISelector {
 
         export interface Input$ {
             groupAttr: any;
-            getObjValue: any;
+            getObjValue: Function;
+            set: Function;
             filteredOptions: any[];
             highlighted: number;
         }

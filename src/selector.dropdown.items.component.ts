@@ -16,19 +16,15 @@ export class SelectorDropdownItemsComponent {
     };
 
     private _subscribers: Subscription[] = [];
+    private _parentReferences: any = {
+        // dynamically constructed object
+    }
 
-    private getGroupTpl(option, index: number, filteredOptions: any[], groupAttr, getObjValue) {
-        if (groupAttr) {
-            const boundValue = getObjValue(option, groupAttr);
-            if (groupAttr &&
-                (boundValue && index === 0 || getObjValue(filteredOptions[index - 1],
-                    groupAttr) !== boundValue)) {
-                return `
-                <li
-                    class="selector-optgroup">
-                    <span>${boundValue}</span>
-                </li>                                      
-                `;
+    private getGroupTpl(option, index: number, filteredOptions: any[]) {
+        if (this._parentReferences.groupAttr) {
+            const boundValue = this._parentReferences.getObjValue(option, this._parentReferences.groupAttr);
+            if (boundValue && index === 0 || this._parentReferences.getObjValue(filteredOptions[index - 1], this._parentReferences.groupAttr) !== boundValue) {
+                return `<li class="selector-optgroup">${boundValue}</li>`;
             } else {
                 return EMPTY_TEMPLATE;
             }
@@ -37,27 +33,30 @@ export class SelectorDropdownItemsComponent {
         }
     };
 
-    private getItemTpl(option, index, filteredOptions, highlighted, groupAttr, getObjValue) {
+    private getItemTpl(option, index, filteredOptions, highlighted) {
         let cls = `
             ${highlighted === index ? 'active' : ''} 
-            ${groupAttr && getObjValue(option, groupAttr) ? 'grouped' : ''}
+            ${this._parentReferences.groupAttr && this._parentReferences.getObjValue(option, this._parentReferences.groupAttr) ? 'grouped' : ''}
         `;
-        let boundValue = getObjValue(option, groupAttr);
+        let boundValue = this._parentReferences.getObjValue(option, this._parentReferences.groupAttr);
         boundValue = boundValue
             ? boundValue
             : typeof option === 'object'
                 ? JSON.stringify(option)
                 : option;
-        return `
-            <li
-                class="selector-option ${cls}">
-                <span>${boundValue}</span>
-            </li>`;
-        // TODO:
-        // ng-mouseover="highlight(index)"
-        // ng-click="set()"
+        return `<li class="selector-option ${cls}" data-index="${index}">${boundValue}</li>`;
     };
 
+    private getRenderableItems = (items: Array<any>, highlighted: number) => {
+        const tpl = `
+            ${items
+                .map((currentValue: any, index: number, array: Array<any>) => `
+                    ${this.getGroupTpl(currentValue, index, array)}
+                    ${this.getItemTpl(currentValue, index, array, highlighted)}
+                `).join(' ')
+            }`;
+        return tpl;
+    };
 
     constructor($log: angular.ILogService) {
 
@@ -66,21 +65,16 @@ export class SelectorDropdownItemsComponent {
                 element: angular.IAugmentedJQuery,
                 attrs: angular.IAttributes) => {
 
-                Observable.fromEvent(element[0], 'click enter').subscribe((e) => {
-                    //todo: get selection ???
-                    console.log(`test: ${e}`);
-                });
 
-                const render = (items: Array<any>, highlighted: number, groupAttr, getObjValue) => {
-                    const tpl = `
-                        ${items
-                            .map((currentValue: any, index: number, array: Array<any>) => `
-                                ${this.getGroupTpl(currentValue, index, array, groupAttr, getObjValue)}
-                                ${this.getItemTpl(currentValue, index, array, highlighted, groupAttr, getObjValue)}
-                            `).join(' ')
-                        }`;
-                    element[0].innerHTML = tpl;
-                };
+                Observable.fromEvent(element[0], 'click')
+                    .subscribe((e: Event | MouseEvent) => {
+                        if (e.type === 'click') {
+                            if(this._parentReferences['set']) {
+                                const index = e.srcElement.getAttribute('data-index');
+                                this._parentReferences['set'](undefined, index);
+                            }
+                        }
+                    });
 
                 if (scope.input &&
                     scope.output) {
@@ -91,7 +85,17 @@ export class SelectorDropdownItemsComponent {
                             .subscribe(
                             (inputData: ISelector.DropdownItemsComponent.Input$) => {
                                 if (inputData.filteredOptions && inputData.filteredOptions.length) {
-                                    render(inputData.filteredOptions, inputData.highlighted, inputData.groupAttr, inputData.getObjValue);
+                                    if (!this._parentReferences.hasOwnProperty('groupAttr') ||
+                                        !this._parentReferences.hasOwnProperty('getObjValue')) {
+                                        this._parentReferences['groupAttr'] = inputData.groupAttr;
+                                        this._parentReferences['getObjValue'] = inputData.getObjValue;
+                                        this._parentReferences['set'] = inputData.set;
+                                    }
+                                    CONSOLE_LOGGER($log, `Re-drawing items/ options.`);
+                                    element[0].innerHTML = this.getRenderableItems(
+                                        inputData.filteredOptions,
+                                        inputData.highlighted
+                                    );
                                 }
                             },
                             (error: any) => {

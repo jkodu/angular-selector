@@ -64,6 +64,7 @@
         "array-tracker": "0.0.5",
         "immutable": "^3.8.2",
         "obsr": "^1.0.3",
-        "rxjs": "^5.4.3"
+        "rxjs": "^5.4.3",
+        "virtual-dom": "^2.1.1"
     }
 }

@@ -14,6 +14,8 @@ export class SelectorComponent {
     public transclude: boolean = true;
     public templateUrl: string = 'selector/selector.html';
 
+
+
     public scope: ISelector.BaseComponent.Scope | any = {
         name: '@?',
         value: '=model',
@@ -182,7 +184,8 @@ export class SelectorComponent {
                         groupAttr: scope.groupAttr,
                         getObjValue: scope.getObjValue,
                         filteredOptions: newFilteredOptions,
-                        highlighted: scope.highlighted
+                        highlighted: scope.highlighted,
+                        set: scope.set
                     } as ISelector.DropdownItemsComponent.Input$);
                 }
 
@@ -485,15 +488,15 @@ export class SelectorComponent {
                 };
 
                 const decrementHighlighted = () => {
-                    scope.highlight(scope.highlighted - 1);
+                    highlight(scope.highlighted - 1);
                     scrollToHighlighted();
                 };
 
                 const incrementHighlighted = () => {
-                    scope.highlight(scope.highlighted + 1);
+                    highlight(scope.highlighted + 1);
                     scrollToHighlighted();
                 };
-                scope.highlight = (index) => {
+                const highlight = (index) => {
                     if (attrs.create && scope.search && index == -1) {
                         scope.highlighted = -1;
                     }
@@ -527,24 +530,29 @@ export class SelectorComponent {
                     }
                 };
                 scope.createOption = (value) => {
-                    $q.when((() => {
-                        let option = {};
-                        if (angular.isFunction(scope.create)) {
-                            option = scope.create({
-                                input: value
-                            });
-                        } else {
-                            setObjValue(option, scope.labelAttr, value);
-                            setObjValue(option, scope.valueAttr || 'value', value);
-                        }
-                        return option;
-                    })())
+                    $q
+                        .when((() => {
+                            let option = {};
+                            if (angular.isFunction(scope.create)) {
+                                option = scope.create({
+                                    input: value
+                                });
+                            } else {
+                                setObjValue(option, scope.labelAttr, value);
+                                setObjValue(option, scope.valueAttr || 'value', value);
+                            }
+                            return option;
+                        })())
                         .then((option) => {
                             scope.options.push(option);
                             scope.set(option);
                         });
                 };
-                scope.set = (option) => {
+                scope.set = (option?: any, index?: number) => {
+
+                    if(angular.isDefined(index) && index > -1 ) {
+                        highlight(index);
+                    }
 
                     if (scope.multiple &&
                         (scope.selectedValues || []).length >= scope.limit) {
@@ -611,7 +619,7 @@ export class SelectorComponent {
                             e.preventDefault();
                             break;
                         case KEYS.escape:
-                            scope.highlight(0);
+                            highlight(0);
                             close();
                             break;
                         case KEYS.enter:
@@ -653,7 +661,7 @@ export class SelectorComponent {
                                 e.preventDefault();
                             } else {
                                 open();
-                                scope.highlight(0);
+                                highlight(0);
                             }
                             break;
                     }
@@ -690,7 +698,7 @@ export class SelectorComponent {
                     else {
                         const index = scope.filteredOptions.indexOf(scope.selectedValues[0]);
                         if (index >= 0) {
-                            scope.highlight(index)
+                            highlight(index);
                         };
                     }
                     _onFilteredOptionsChanged(scope.filteredOptions);
