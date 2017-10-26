@@ -9,7 +9,6 @@ const PATHS = {
 }
 
 module.exports = {
-
     entry: {
         'app': PATHS.src + '/index.ts'
     },

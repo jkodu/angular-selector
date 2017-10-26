@@ -1,5 +1,6 @@
-// External
-import * as angular from 'angular';
+require('es6-object-assign').polyfill();
+
+declare const angular;
 
 // Internal
 import './index.pcss';
@@ -22,7 +23,6 @@ export default class AngularSelectorOnSteroids {
   constructor() { }
 
   init() {
-
     const module =
       angular.module(MODULE_NAME, [])
         .run(['$templateCache', ($templateCache) => {
@@ -35,9 +35,7 @@ export default class AngularSelectorOnSteroids {
         .directive('onSelectorNgModelChanged', SelectorNgModelChangedComponent.Factory())
         .directive('sosDropdownItems', SelectorDropdownItemsComponent.Factory())
         .directive(MODULE_NAME, SelectorComponent.Factory());
-
     return module;
-
   }
 
 }

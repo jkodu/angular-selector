@@ -11,13 +11,16 @@
         "types": [
             "angular",
             "node",
-            "rx",
+            "rxjs",
             "mocha",
             "chai",
             "sinon-chai",
             "karma-chai-sinon",
             "sinon"
         ]
+    },
+    "awesomeTypescriptLoaderOptions": {
+        "useBabel": true
     },
     "exclude": [
         "node_modules",

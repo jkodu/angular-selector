@@ -64,12 +64,11 @@ export class SelectorDropdownItemsComponent {
                 element: angular.IAugmentedJQuery,
                 attrs: angular.IAttributes) => {
 
-
                 Observable.fromEvent(element[0], 'click')
                     .subscribe((e: Event | MouseEvent) => {
                         if (e.type === 'click') {
-                            if(this._parentReferences['set']) {
-                                const index = parseInt(e.srcElement.getAttribute('data-index'));
+                            if (this._parentReferences['set']) {
+                                const index = (parseInt(e.srcElement.getAttribute('data-index')));
                                 this._parentReferences['set'](undefined, index < -1 ? -1 : index);
                             }
                         }

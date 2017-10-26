@@ -12,6 +12,10 @@ const PATHS = {
 
 module.exports = {
 
+    externals: {
+        angular: 'angular'
+    },
+
     entry: {
         [pkgName]: PATHS.src + '/index.ts'
     },

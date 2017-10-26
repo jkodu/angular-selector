@@ -1,6 +1,7 @@
 
 import * as  hljs from 'highlight.js';
 import * as angular from 'angular';
+
 import { getWatchers } from './utils';
 import { ex_single_element, ex_multiple_element, ex_remote_fetching } from './examples';
 

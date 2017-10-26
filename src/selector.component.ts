@@ -4,7 +4,6 @@ import { ISelector } from './interfaces';
 import { KEYS } from './constants';
 import { DOM_FUNCTIONS, CONSOLE_LOGGER } from './utils';
 import { Subject, Observable, Subscription } from 'rxjs';
-import * as Obsr from 'obsr';
 
 export class SelectorComponent {
 
@@ -187,13 +186,6 @@ export class SelectorComponent {
                         set: scope.set
                     } as ISelector.DropdownItemsComponent.Input$);
                 }
-
-
-                // track selected values array
-                let observedSelectedValues = Obsr(scope.options, (key, value) => {
-                    console.log('cb k: ' + key);
-                    console.log('cb v: ' + value);
-                });
 
                 angular.forEach(['name', 'valueAttr', 'labelAttr'], (attr) => {
                     if (!attrs[attr]) attrs[attr] = scope[attr];
@@ -484,7 +476,9 @@ export class SelectorComponent {
                     if (scope.remote) {
                         $timeout(fetch);
                     };
-                    $timeout(scrollToHighlighted);
+                    if(!scope.multiple) {
+                        $timeout(scrollToHighlighted);
+                    }
                 };
 
                 const close = () => {
@@ -502,9 +496,10 @@ export class SelectorComponent {
                 };
 
                 const incrementHighlighted = () => {
-                    scope.highlight(scope.highlighted + 1);                    
+                    scope.highlight(scope.highlighted + 1);
                     scrollToHighlighted();
                 };
+
                 scope.highlight = (index) => {
                     if (attrs.create && scope.search && index == -1) {
                         scope.highlighted = -1;
@@ -567,18 +562,16 @@ export class SelectorComponent {
 
                     if (angular.isDefined(index) &&
                         index > -1) {
-                        if (!scope.multiple) {
-                            scope.highlight(index);
-                        } else {
-                            scope.highlight(-1);
-                        }
+                        scope.highlight(index);
+                    } else {
+                        scope.highlight(-1);
                     }
 
                     if (!angular.isDefined(option)) {
                         option = scope.filteredOptions[scope.highlighted];
                     }
 
-                    const _oldSelectedValues = Object.assign([], scope.selectedValues);
+                    const _oldSelectedValues = (<any>Object).assign([], scope.selectedValues);
                     if (!scope.multiple) {
                         scope.selectedValues = [option];
                     }
@@ -602,7 +595,7 @@ export class SelectorComponent {
                 };
 
                 scope.unset = (index) => {
-                    const _oldSelectedValues = Object.assign([], scope.selectedValues);
+                    const _oldSelectedValues = (<any>Object).assign([], scope.selectedValues);
                     if (!scope.multiple) {
                         scope.selectedValues = [];
                     }
@@ -717,7 +710,7 @@ export class SelectorComponent {
 
                 const filterOptions = () => {
                     scope.filteredOptions = filter(scope.options || [], scope.search);
-                    const _oldSelectedValues = Object.assign([], scope.selectedValues);
+                    const _oldSelectedValues = (<any>Object).assign([], scope.selectedValues);
                     if (!angular.isArray(scope.selectedValues)) {
                         scope.selectedValues = [];
                     }
@@ -800,7 +793,7 @@ export class SelectorComponent {
 
                 // Update selected values
                 const updateSelected = () => {
-                    const _oldSelectedValues = Object.assign([], scope.selectedValues);
+                    const _oldSelectedValues = (<any>Object).assign([], scope.selectedValues);
                     scope.selectedValues =
                         (!scope.multiple)
                             ? (scope.options || [])
