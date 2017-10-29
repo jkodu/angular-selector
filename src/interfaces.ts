@@ -52,7 +52,7 @@ export namespace ISelector {
             selectedValuesOutput$: Subject<Array<any>>;
 
 
-            set(option?: any, index?: number): void;
+            set(option?: any): void;
             unset(index?: number): void;
 
             // Alternative to watchers - change listeners
@@ -71,8 +71,9 @@ export namespace ISelector {
             set: Function;
             filteredOptions: any[];
             highlighted: number;
+            highlight: Function;
         }
-    
+
         export interface Scope extends angular.IScope {
             input: Subject<Input$>;
         }

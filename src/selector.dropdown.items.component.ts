@@ -64,15 +64,22 @@ export class SelectorDropdownItemsComponent {
                 element: angular.IAugmentedJQuery,
                 attrs: angular.IAttributes) => {
 
-                Observable.fromEvent(element[0], 'click')
-                    .subscribe((e: Event | MouseEvent) => {
-                        if (e.type === 'click') {
-                            if (this._parentReferences['set']) {
-                                const index = (parseInt(e.srcElement.getAttribute('data-index')));
-                                this._parentReferences['set'](undefined, index < -1 ? -1 : index);
-                            }
+
+                Observable.merge(
+                    Observable.fromEvent(element[0], 'mouseover'),
+                    Observable.fromEvent(element[0], 'click')
+                ).subscribe((e: Event | MouseEvent) => {
+                    if (e.type === 'mouseover') {
+                        const index = (parseInt(e.srcElement.getAttribute('data-index')));
+                        this._parentReferences['highlight'](index < -1 ? -1 : index);
+                    }
+                    console.log(e.type);
+                    if (e.type === 'click') {
+                        if (this._parentReferences['set']) {
+                            this._parentReferences['set'](undefined);
                         }
-                    });
+                    }
+                });
 
                 if (scope.input) {
 
@@ -83,10 +90,13 @@ export class SelectorDropdownItemsComponent {
                             (inputData: ISelector.DropdownItemsComponent.Input$) => {
                                 if (inputData.filteredOptions && inputData.filteredOptions.length) {
                                     if (!this._parentReferences.hasOwnProperty('groupAttr') ||
-                                        !this._parentReferences.hasOwnProperty('getObjValue')) {
+                                        !this._parentReferences.hasOwnProperty('getObjValue') ||
+                                        !this._parentReferences.hasOwnProperty('set') ||
+                                        !this._parentReferences.hasOwnProperty('highlight')) {
                                         this._parentReferences['groupAttr'] = inputData.groupAttr;
                                         this._parentReferences['getObjValue'] = inputData.getObjValue;
                                         this._parentReferences['set'] = inputData.set;
+                                        this._parentReferences['highlight'] = inputData.highlight;
                                     }
                                     CONSOLE_LOGGER($log, `Re-drawing items/ options.`);
                                     element[0].innerHTML = this.getRenderableItems(

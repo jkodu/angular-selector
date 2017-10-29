@@ -183,7 +183,8 @@ export class SelectorComponent {
                         getObjValue: scope.getObjValue,
                         filteredOptions: scope.filteredOptions,
                         highlighted: scope.highlighted,
-                        set: scope.set
+                        set: scope.set,
+                        highlight: scope.highlight
                     } as ISelector.DropdownItemsComponent.Input$);
                 }
 
@@ -553,19 +554,19 @@ export class SelectorComponent {
                             scope.set(option);
                         });
                 };
-                scope.set = (option?: any, index?: number) => {
+                scope.set = (option?: any) => {
 
                     if (scope.multiple &&
                         (scope.selectedValues || []).length >= scope.limit) {
                         return;
                     };
 
-                    if (angular.isDefined(index) &&
-                        index > -1) {
-                        scope.highlight(index);
-                    } else {
-                        scope.highlight(-1);
-                    }
+                    // if (angular.isDefined(index) &&
+                    //     index > -1) {
+                    //     scope.highlight(index);
+                    // } else {
+                    //     scope.highlight(-1);
+                    // }
 
                     if (!angular.isDefined(option)) {
                         option = scope.filteredOptions[scope.highlighted];
