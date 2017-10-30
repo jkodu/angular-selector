@@ -1,9 +1,9 @@
 {
     "name": "angular-selector-on-steroids",
-    "version": "1.0.0",
+    "version": "3.0.0",
     "description": "",
-    "main": "dist/rxy-form.js",
-    "types": "dist/rxy-form.d.ts",
+    "main": "dist/angular-selector-on-steroids.js",
+    "types": "dist/index.d.ts",
     "files": [
         "demo/browserImport/index.html",
         "dist"
