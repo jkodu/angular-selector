@@ -5,12 +5,17 @@ import * as angular from 'angular';
 import { getWatchers } from './utils';
 import { ex_single_element, ex_multiple_element, ex_remote_fetching } from './examples';
 
+// import * as AngularSelectorOnSteroids from '../dist/angular-selector-on-steroids';
+// new AngularSelectorOnSteroids.default().init();
+
 import AngularSelectorOnSteroids from '../src/index';
 new AngularSelectorOnSteroids().init();
 
 const examples = [
   ex_remote_fetching
 ];
+
+
 
 angular
   .module('AngularSelectorDemo', ['selectorOnSteroids'])

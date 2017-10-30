@@ -121,10 +121,12 @@ export class SelectorComponent {
                 _subscribers.push(
                     OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN.subscribe((e: Event) => {
                         e.preventDefault();
+                        e.stopPropagation();
                     }, (error) => {
                         $log.error(error);
                     })
-                )
+                );
+                
                 // Default: listen to window resize event
                 _subscribers.push(
                     OBSERVABLE_FOR_WINDOW_RESIZE.subscribe((e: Event) => {
@@ -477,7 +479,7 @@ export class SelectorComponent {
                     if (scope.remote) {
                         $timeout(fetch);
                     };
-                    if(!scope.multiple) {
+                    if (!scope.multiple) {
                         $timeout(scrollToHighlighted);
                     }
                 };
@@ -560,13 +562,10 @@ export class SelectorComponent {
                         (scope.selectedValues || []).length >= scope.limit) {
                         return;
                     };
-
-                    // if (angular.isDefined(index) &&
-                    //     index > -1) {
-                    //     scope.highlight(index);
-                    // } else {
-                    //     scope.highlight(-1);
-                    // }
+                    
+                    if (scope.multiple) {
+                        scope.highlight(-1);
+                    }
 
                     if (!angular.isDefined(option)) {
                         option = scope.filteredOptions[scope.highlighted];

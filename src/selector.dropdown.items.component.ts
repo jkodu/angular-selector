@@ -64,25 +64,23 @@ export class SelectorDropdownItemsComponent {
                 element: angular.IAugmentedJQuery,
                 attrs: angular.IAttributes) => {
 
-
                 Observable.merge(
-                    Observable.fromEvent(element[0], 'mouseover'),
+                    Observable.fromEvent(element[0], 'mouseenter'),
                     Observable.fromEvent(element[0], 'click')
                 ).subscribe((e: Event | MouseEvent) => {
                     if (e.type === 'mouseover') {
                         const index = (parseInt(e.srcElement.getAttribute('data-index')));
                         this._parentReferences['highlight'](index < -1 ? -1 : index);
                     }
-                    console.log(e.type);
                     if (e.type === 'click') {
                         if (this._parentReferences['set']) {
                             this._parentReferences['set'](undefined);
                         }
                     }
+                    e.stopPropagation();
                 });
 
                 if (scope.input) {
-
                     // TODO: Move to post link?
                     this._subscribers.push(
                         scope.input
