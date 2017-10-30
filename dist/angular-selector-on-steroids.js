@@ -6496,15 +6496,15 @@ __webpack_require__(72).polyfill();
 const MODULE_NAME = `selectorOnSteroids`;
 class AngularSelectorOnSteroids {
     constructor() {}
-    init() {
+    init(debug = false) {
         const module = angular.module(MODULE_NAME, []).run(['$templateCache', $templateCache => {
-            $templateCache.put('selector/selector.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["d" /* TEMPLATE_SELECTOR */])());
-            $templateCache.put('selector/selector-dropdown-item.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["e" /* TEMPLATE_SELECTOR_DROPDOWN_ITEMS */])());
-            $templateCache.put('selector/selector-selected-item.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["f" /* TEMPLATE_SELECTOR_SELECTED_ITEMS */])());
-            $templateCache.put('selector/item-create.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["b" /* TEMPLATE_ITEM_CREATE */])());
-            $templateCache.put('selector/item-default.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["c" /* TEMPLATE_ITEM_DEFAULT */])());
-            $templateCache.put('selector/group-default.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["a" /* TEMPLATE_GROUP_DEFAULT */])());
-        }]).directive('onSelectorNgModelChanged', __WEBPACK_IMPORTED_MODULE_2__selector_ngmodelchanged_component__["a" /* SelectorNgModelChangedComponent */].Factory()).directive('sosSelectedItems', __WEBPACK_IMPORTED_MODULE_3__selector_selected_items_component__["a" /* SelectorSelectedItemsComponent */].Factory()).directive('sosDropdownItems', __WEBPACK_IMPORTED_MODULE_4__selector_dropdown_items_component__["a" /* SelectorDropdownItemsComponent */].Factory()).directive(MODULE_NAME, __WEBPACK_IMPORTED_MODULE_5__selector_component__["a" /* SelectorComponent */].Factory());
+            $templateCache.put('selector-on-steroids/selector.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["d" /* TEMPLATE_SELECTOR */])());
+            $templateCache.put('selector-on-steroids/selector-dropdown-item.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["e" /* TEMPLATE_SELECTOR_DROPDOWN_ITEMS */])());
+            $templateCache.put('selector-on-steroids/selector-selected-item.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["f" /* TEMPLATE_SELECTOR_SELECTED_ITEMS */])());
+            $templateCache.put('selector-on-steroids/item-create.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["b" /* TEMPLATE_ITEM_CREATE */])());
+            $templateCache.put('selector-on-steroids/item-default.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["c" /* TEMPLATE_ITEM_DEFAULT */])());
+            $templateCache.put('selector-on-steroids/group-default.html', Object(__WEBPACK_IMPORTED_MODULE_1__templates__["a" /* TEMPLATE_GROUP_DEFAULT */])());
+        }]).directive('onSelectorNgModelChanged', __WEBPACK_IMPORTED_MODULE_2__selector_ngmodelchanged_component__["a" /* SelectorNgModelChangedComponent */].Factory(debug)).directive('sosSelectedItems', __WEBPACK_IMPORTED_MODULE_3__selector_selected_items_component__["a" /* SelectorSelectedItemsComponent */].Factory(debug)).directive('sosDropdownItems', __WEBPACK_IMPORTED_MODULE_4__selector_dropdown_items_component__["a" /* SelectorDropdownItemsComponent */].Factory(debug)).directive(MODULE_NAME, __WEBPACK_IMPORTED_MODULE_5__selector_component__["a" /* SelectorComponent */].Factory(debug));
         return module;
     }
 }
@@ -7307,7 +7307,7 @@ class SelectorNgModelChangedComponent {
             });
         };
     }
-    static Factory() {
+    static Factory(debug) {
         let directive = () => {
             return new SelectorNgModelChangedComponent();
         };
@@ -7329,10 +7329,11 @@ class SelectorNgModelChangedComponent {
 
 
 class SelectorSelectedItemsComponent {
-    constructor($log) {
+    constructor($log, debug) {
+        this.debug = debug;
         this.replace = true;
         this.restrict = 'E';
-        this.templateUrl = 'selector/selector-selected-item.html';
+        this.templateUrl = 'selector-on-steroids/selector-selected-item.html';
         this.scope = {
             input: '<'
         };
@@ -7365,10 +7366,14 @@ class SelectorSelectedItemsComponent {
                             this._parentReferences['disabled'] = inputData.disabled;
                         }
                         element[0].innerHTML = this.getRenderableItems(inputData.selectedValues);
-                        Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* CONSOLE_LOGGER */])($log, `Re-drawing selected items/ options.`);
+                        if (this.debug) {
+                            Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* CONSOLE_LOGGER */])($log, `Re-drawing selected items/ options.`);
+                        }
                     }
                 }, error => {
-                    Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* CONSOLE_LOGGER */])($log, `Cannot initialize, Selector Selected Items Component!`);
+                    if (this.debug) {
+                        Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* CONSOLE_LOGGER */])($log, `Cannot initialize, Selector Selected Items Component!`);
+                    }
                 }));
             }
             scope.$on('$destroy', () => {
@@ -7382,9 +7387,9 @@ class SelectorSelectedItemsComponent {
             });
         };
     }
-    static Factory() {
+    static Factory(debug) {
         let directive = $log => {
-            return new SelectorSelectedItemsComponent($log);
+            return new SelectorSelectedItemsComponent($log, debug);
         };
         directive['$inject'] = ['$log'];
         return directive;
@@ -21466,10 +21471,11 @@ exports.AnimationFrameScheduler = AnimationFrameScheduler;
 
 
 class SelectorDropdownItemsComponent {
-    constructor($log) {
+    constructor($log, debug) {
+        this.debug = debug;
         this.replace = true;
         this.restrict = 'E';
-        this.templateUrl = 'selector/selector-dropdown-item.html';
+        this.templateUrl = 'selector-on-steroids/selector-dropdown-item.html';
         this.scope = {
             input: '<'
         };
@@ -21508,10 +21514,14 @@ class SelectorDropdownItemsComponent {
                             this._parentReferences['highlight'] = inputData.highlight;
                         }
                         element[0].innerHTML = this.getRenderableItems(inputData.filteredOptions, inputData.highlighted);
-                        Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* CONSOLE_LOGGER */])($log, `Re-drawing items/ options.`);
+                        if (this.debug) {
+                            Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* CONSOLE_LOGGER */])($log, `Re-drawing items/ options.`);
+                        }
                     }
                 }, error => {
-                    Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* CONSOLE_LOGGER */])($log, `Cannot initialize, Selector Dropdown Items Component!`);
+                    if (this.debug) {
+                        Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* CONSOLE_LOGGER */])($log, `Cannot initialize, Selector Dropdown Items Component!`);
+                    }
                 }));
             }
             scope.$on('$destroy', () => {
@@ -21525,9 +21535,9 @@ class SelectorDropdownItemsComponent {
             });
         };
     }
-    static Factory() {
+    static Factory(debug) {
         let directive = $log => {
-            return new SelectorDropdownItemsComponent($log);
+            return new SelectorDropdownItemsComponent($log, debug);
         };
         directive['$inject'] = ['$log'];
         return directive;
@@ -21550,17 +21560,18 @@ class SelectorDropdownItemsComponent {
 
 
 class SelectorComponent {
-    constructor($filter, $timeout, $window, $http, $q, $log) {
+    constructor($filter, $timeout, $window, $http, $q, $log, debug) {
         this.$filter = $filter;
         this.$timeout = $timeout;
         this.$window = $window;
         this.$http = $http;
         this.$q = $q;
         this.$log = $log;
+        this.debug = debug;
         this.restrict = 'EAC';
         this.replace = true;
         this.transclude = true;
-        this.templateUrl = 'selector/selector.html';
+        this.templateUrl = 'selector-on-steroids/selector.html';
         this.scope = {
             name: '@?',
             value: '=model',
@@ -21622,10 +21633,10 @@ class SelectorComponent {
                     remoteParam: 'q',
                     remoteValidationParam: 'value',
                     removeButton: true,
-                    viewItemTemplate: 'selector/item-default.html',
-                    dropdownItemTemplate: 'selector/item-default.html',
-                    dropdownCreateTemplate: 'selector/item-create.html',
-                    dropdownGroupTemplate: 'selector/group-default.html',
+                    viewItemTemplate: 'selector-on-steroids/item-default.html',
+                    dropdownItemTemplate: 'selector-on-steroids/item-default.html',
+                    dropdownCreateTemplate: 'selector-on-steroids/item-create.html',
+                    dropdownGroupTemplate: 'selector-on-steroids/group-default.html',
                     steroids: true,
                     selectedValuesInput$: new __WEBPACK_IMPORTED_MODULE_2_rxjs__["Subject"](),
                     filteredOptionsInput$: new __WEBPACK_IMPORTED_MODULE_2_rxjs__["Subject"]()
@@ -21885,7 +21896,9 @@ class SelectorComponent {
                     initDeferred.promise.then(() => {
                         initialize();
                     }, () => {
-                        Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* CONSOLE_LOGGER */])($log, `Cannot initialize, promise init error!`);
+                        if (this.debug) {
+                            Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* CONSOLE_LOGGER */])($log, `Cannot initialize, promise init error!`);
+                        }
                     });
                 };
                 let _previousClassString = null;
@@ -22312,9 +22325,9 @@ class SelectorComponent {
             });
         };
     }
-    static Factory() {
+    static Factory(debug) {
         let directive = ($filter, $timeout, $window, $http, $q, $log) => {
-            return new SelectorComponent($filter, $timeout, $window, $http, $q, $log);
+            return new SelectorComponent($filter, $timeout, $window, $http, $q, $log, debug);
         };
         directive['$inject'] = ['$filter', '$timeout', '$window', '$http', '$q', '$log'];
         return directive;

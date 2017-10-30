@@ -24,21 +24,21 @@ export default class AngularSelectorOnSteroids {
 
   constructor() { }
 
-  init() {
+  init(debug: boolean = false) {
     const module =
       angular.module(MODULE_NAME, [])
         .run(['$templateCache', ($templateCache) => {
-          $templateCache.put('selector/selector.html', TEMPLATE_SELECTOR());
-          $templateCache.put('selector/selector-dropdown-item.html', TEMPLATE_SELECTOR_DROPDOWN_ITEMS());
-          $templateCache.put('selector/selector-selected-item.html', TEMPLATE_SELECTOR_SELECTED_ITEMS());
-          $templateCache.put('selector/item-create.html', TEMPLATE_ITEM_CREATE());
-          $templateCache.put('selector/item-default.html', TEMPLATE_ITEM_DEFAULT());
-          $templateCache.put('selector/group-default.html', TEMPLATE_GROUP_DEFAULT());
+          $templateCache.put('selector-on-steroids/selector.html', TEMPLATE_SELECTOR());
+          $templateCache.put('selector-on-steroids/selector-dropdown-item.html', TEMPLATE_SELECTOR_DROPDOWN_ITEMS());
+          $templateCache.put('selector-on-steroids/selector-selected-item.html', TEMPLATE_SELECTOR_SELECTED_ITEMS());
+          $templateCache.put('selector-on-steroids/item-create.html', TEMPLATE_ITEM_CREATE());
+          $templateCache.put('selector-on-steroids/item-default.html', TEMPLATE_ITEM_DEFAULT());
+          $templateCache.put('selector-on-steroids/group-default.html', TEMPLATE_GROUP_DEFAULT());
         }])
-        .directive('onSelectorNgModelChanged', SelectorNgModelChangedComponent.Factory())
-        .directive('sosSelectedItems', SelectorSelectedItemsComponent.Factory())
-        .directive('sosDropdownItems', SelectorDropdownItemsComponent.Factory())        
-        .directive(MODULE_NAME, SelectorComponent.Factory());
+        .directive('onSelectorNgModelChanged', SelectorNgModelChangedComponent.Factory(debug))
+        .directive('sosSelectedItems', SelectorSelectedItemsComponent.Factory(debug))
+        .directive('sosDropdownItems', SelectorDropdownItemsComponent.Factory(debug))        
+        .directive(MODULE_NAME, SelectorComponent.Factory(debug));
     return module;
   }
 

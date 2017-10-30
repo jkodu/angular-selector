@@ -11,7 +11,7 @@ export class SelectorComponent {
     public restrict: string = 'EAC';
     public replace: boolean = true;
     public transclude: boolean = true;
-    public templateUrl: string = 'selector/selector.html';
+    public templateUrl: string = 'selector-on-steroids/selector.html';
 
 
 
@@ -53,7 +53,8 @@ export class SelectorComponent {
         private $window: angular.IWindowService,
         private $http: angular.IHttpService,
         private $q: angular.IQService,
-        private $log: angular.ILogService) {
+        private $log: angular.ILogService,
+        private debug) {
 
         SelectorComponent.prototype.link = (scope: ISelector.BaseComponent.Scope,
             element: angular.IAugmentedJQuery,
@@ -106,10 +107,10 @@ export class SelectorComponent {
                     remoteParam: 'q',
                     remoteValidationParam: 'value',
                     removeButton: true,
-                    viewItemTemplate: 'selector/item-default.html',
-                    dropdownItemTemplate: 'selector/item-default.html',
-                    dropdownCreateTemplate: 'selector/item-create.html',
-                    dropdownGroupTemplate: 'selector/group-default.html',
+                    viewItemTemplate: 'selector-on-steroids/item-default.html',
+                    dropdownItemTemplate: 'selector-on-steroids/item-default.html',
+                    dropdownCreateTemplate: 'selector-on-steroids/item-create.html',
+                    dropdownGroupTemplate: 'selector-on-steroids/group-default.html',
                     steroids: true,
                     selectedValuesInput$: new Subject(),
                     filteredOptionsInput$: new Subject()
@@ -434,7 +435,9 @@ export class SelectorComponent {
                         .then(() => {
                             initialize();
                         }, () => {
-                            CONSOLE_LOGGER($log, `Cannot initialize, promise init error!`);
+                            if(this.debug) {
+                                CONSOLE_LOGGER($log, `Cannot initialize, promise init error!`);
+                            }                            
                         });
                 }
 
@@ -946,9 +949,9 @@ export class SelectorComponent {
         }
     }
 
-    public static Factory() {
+    public static Factory(debug: boolean) {
         let directive = ($filter, $timeout, $window, $http, $q, $log) => {
-            return new SelectorComponent($filter, $timeout, $window, $http, $q, $log);
+            return new SelectorComponent($filter, $timeout, $window, $http, $q, $log, debug);
         };
         directive['$inject'] = [
             '$filter',

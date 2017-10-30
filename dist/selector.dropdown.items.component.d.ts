@@ -1,6 +1,7 @@
 /// <reference types="angular" />
 import { ISelector } from './interfaces';
 export declare class SelectorDropdownItemsComponent {
+    private debug;
     link: (scope: ISelector.DropdownItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => void;
     replace: boolean;
     restrict: string;
@@ -9,6 +10,6 @@ export declare class SelectorDropdownItemsComponent {
     private _subscribers;
     private _parentReferences;
     private getRenderableItems;
-    constructor($log: angular.ILogService);
-    static Factory(): ($log: any) => SelectorDropdownItemsComponent;
+    constructor($log: angular.ILogService, debug: boolean);
+    static Factory(debug: boolean): ($log: any) => SelectorDropdownItemsComponent;
 }

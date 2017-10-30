@@ -7,7 +7,7 @@ export class SelectorDropdownItemsComponent {
     public link: (scope: ISelector.DropdownItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => void;
     public replace: boolean = true;
     public restrict: string = 'E';
-    public templateUrl: string = 'selector/selector-dropdown-item.html';
+    public templateUrl: string = 'selector-on-steroids/selector-dropdown-item.html';
     public scope: ISelector.DropdownItemsComponent.Scope | any = {
         input: '<'
     };
@@ -20,7 +20,7 @@ export class SelectorDropdownItemsComponent {
         return `${items.map((currentValue: any, index: number, array: Array<any>) => `${GET_DROPDOWN_GROUP_TEMPLATE(currentValue, index, array, this._parentReferences)}${GET_DROPDOWN_ITEM_TEMPLATE(currentValue, index, array, this._parentReferences, highlighted)}`).join(' ')}`;
     };
 
-    constructor($log: angular.ILogService) {
+    constructor($log: angular.ILogService, private debug: boolean) {
 
         SelectorDropdownItemsComponent.prototype.link =
             (scope: ISelector.DropdownItemsComponent.Scope,
@@ -69,11 +69,15 @@ export class SelectorDropdownItemsComponent {
                                         inputData.filteredOptions,
                                         inputData.highlighted
                                     );
-                                    CONSOLE_LOGGER($log, `Re-drawing items/ options.`);
+                                    if (this.debug) {
+                                        CONSOLE_LOGGER($log, `Re-drawing items/ options.`);
+                                    }
                                 }
                             },
                             (error: any) => {
-                                CONSOLE_LOGGER($log, `Cannot initialize, Selector Dropdown Items Component!`);
+                                if (this.debug) {
+                                    CONSOLE_LOGGER($log, `Cannot initialize, Selector Dropdown Items Component!`);
+                                }
                             })
                     );
                 }
@@ -92,9 +96,9 @@ export class SelectorDropdownItemsComponent {
             }
     }
 
-    public static Factory() {
+    public static Factory(debug: boolean) {
         let directive = ($log) => {
-            return new SelectorDropdownItemsComponent($log);
+            return new SelectorDropdownItemsComponent($log, debug);
         };
         directive['$inject'] = ['$log'];
         return directive;

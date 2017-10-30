@@ -7,7 +7,7 @@ export class SelectorSelectedItemsComponent {
     public link: (scope: ISelector.SelectedItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => void;
     public replace: boolean = true;
     public restrict: string = 'E';
-    public templateUrl: string = 'selector/selector-selected-item.html';
+    public templateUrl: string = 'selector-on-steroids/selector-selected-item.html';
     public scope: ISelector.SelectedItemsComponent.Scope | any = {
         input: '<'
     };
@@ -20,7 +20,7 @@ export class SelectorSelectedItemsComponent {
         return `${items.map((currentValue: any, index: number, array: Array<any>) => `${GET_SELECTED_ITEM_TEMPLATE(currentValue, index, array, this._parentReferences)}`).join(' ')}`;
     };
 
-    constructor($log: angular.ILogService) {
+    constructor($log: angular.ILogService, private debug: boolean) {
 
         SelectorSelectedItemsComponent.prototype.link =
             (scope: ISelector.SelectedItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => {
@@ -58,11 +58,15 @@ export class SelectorSelectedItemsComponent {
                                         this._parentReferences['disabled'] = inputData.disabled;
                                     }
                                     element[0].innerHTML = this.getRenderableItems(inputData.selectedValues);
-                                    CONSOLE_LOGGER($log, `Re-drawing selected items/ options.`);
+                                    if (this.debug) {
+                                        CONSOLE_LOGGER($log, `Re-drawing selected items/ options.`);
+                                    }
                                 }
                             },
                             (error: any) => {
-                                CONSOLE_LOGGER($log, `Cannot initialize, Selector Selected Items Component!`);
+                                if (this.debug) {
+                                    CONSOLE_LOGGER($log, `Cannot initialize, Selector Selected Items Component!`);
+                                }
                             })
                     );
                 }
@@ -80,9 +84,9 @@ export class SelectorSelectedItemsComponent {
             }
     }
 
-    public static Factory() {
+    public static Factory(debug: boolean) {
         let directive = ($log) => {
-            return new SelectorSelectedItemsComponent($log);
+            return new SelectorSelectedItemsComponent($log, debug);
         };
         directive['$inject'] = ['$log'];
         return directive;

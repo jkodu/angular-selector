@@ -33,7 +33,7 @@ export class SelectorNgModelChangedComponent {
 
     }
 
-    public static Factory() {
+    public static Factory(debug: boolean) {
         let directive = () => {
             return new SelectorNgModelChangedComponent();
         };

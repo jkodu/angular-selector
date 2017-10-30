@@ -4,5 +4,5 @@ export declare class SelectorNgModelChangedComponent {
     require: string;
     scope: any;
     constructor();
-    static Factory(): () => SelectorNgModelChangedComponent;
+    static Factory(debug: boolean): () => SelectorNgModelChangedComponent;
 }
