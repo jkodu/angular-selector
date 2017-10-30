@@ -23,7 +23,12 @@ module.exports = {
     output: {
         path: PATHS.dist,
         filename: '[name].js',
-        library: 'index',
+        library: pkgName.split('-')
+            .map((string) => {
+                return string.charAt(0)
+                    .toUpperCase() + string.slice(1);
+            })
+            .join(''),
         libraryTarget: 'umd'
     },
 

@@ -1,6 +1,6 @@
 {
     "name": "angular-selector-on-steroids",
-    "version": "3.0.0",
+    "version": "4.0.0",
     "description": "",
     "main": "dist/angular-selector-on-steroids.js",
     "types": "dist/index.d.ts",
@@ -14,6 +14,7 @@
         "lint": "tslint 'src/**/*.ts' 'demo/src/**/*.ts'",
         "test": "npm run lint && karma start",
         "serve": "http-server ./demo/dist",
+        "serve-no-build": "http-server ./demo/no_build_tool",
         "dev": "npm run build &&  cd ./demo && webpack --watch --watch-poll"
     },
     "keywords": [],
