@@ -8,8 +8,6 @@ export declare class SelectorDropdownItemsComponent {
     scope: ISelector.DropdownItemsComponent.Scope | any;
     private _subscribers;
     private _parentReferences;
-    private getGroupTpl(option, index, filteredOptions);
-    private getItemTpl(option, index, filteredOptions, highlighted);
     private getRenderableItems;
     constructor($log: angular.ILogService);
     static Factory(): ($log: any) => SelectorDropdownItemsComponent;

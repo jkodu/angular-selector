@@ -2,7 +2,7 @@ declare const angular;
 
 import { ISelector } from './interfaces';
 import { KEYS } from './constants';
-import { DOM_FUNCTIONS, CONSOLE_LOGGER } from './utils';
+import { GET_DOM_STYLES, CONSOLE_LOGGER } from './utils';
 import { Subject, Observable, Subscription } from 'rxjs';
 
 export class SelectorComponent {
@@ -44,7 +44,7 @@ export class SelectorComponent {
         dropdownItemTemplate: '=?',
         dropdownCreateTemplate: '=?',
         dropdownGroupTemplate: '=?',
-        angularCompileItems: '<'
+        steroids: '<'
     };
 
     constructor(
@@ -110,9 +110,8 @@ export class SelectorComponent {
                     dropdownItemTemplate: 'selector/item-default.html',
                     dropdownCreateTemplate: 'selector/item-create.html',
                     dropdownGroupTemplate: 'selector/group-default.html',
-                    angularCompileItems: false,
+                    steroids: true,
                     selectedValuesInput$: new Subject(),
-                    selectedValuesOutput$: new Subject(),
                     filteredOptionsInput$: new Subject()
                 };
 
@@ -126,7 +125,7 @@ export class SelectorComponent {
                         $log.error(error);
                     })
                 );
-                
+
                 // Default: listen to window resize event
                 _subscribers.push(
                     OBSERVABLE_FOR_WINDOW_RESIZE.subscribe((e: Event) => {
@@ -172,10 +171,16 @@ export class SelectorComponent {
                             : {
                                 newValue: (newValue || [])[0],
                                 oldValue: (oldValue || [])[0]
-                            });
+                            }
+                        );
                     }
-                    if (scope.angularCompileItems === false) {
-                        scope.selectedValuesInput$.next(scope.selectedValues);
+                    if (scope.steroids) {
+                        scope.selectedValuesInput$.next({
+                            groupAttr: scope.groupAttr,
+                            getObjValue: scope.getObjValue,
+                            unset: scope.unset,
+                            selectedValues: scope.selectedValues
+                        } as ISelector.SelectedItemsComponent.Input$);
                     }
                 };
 
@@ -457,7 +462,7 @@ export class SelectorComponent {
                 // Dropdown utilities
                 const dropdownPosition = () => {
                     const label = DOM_SELECTOR_INPUT.parent()[0];
-                    const styles = DOM_FUNCTIONS.getStyles(label);
+                    const styles = GET_DOM_STYLES(label);
                     const marginTop = parseFloat((<any>styles).marginTop || 0);
                     const marginLeft = parseFloat((<any>styles).marginLeft || 0);
                     if (label) {
@@ -514,10 +519,11 @@ export class SelectorComponent {
                     }
                     _onFilteredOptionsChanged();
                 };
+                
                 const scrollToHighlighted = () => {
                     const dd = DOM_SELECTOR_DROPDOWN[0];
                     const option = dd.querySelectorAll('li.selector-option')[scope.highlighted] as HTMLElement;
-                    const styles = DOM_FUNCTIONS.getStyles(option);
+                    const styles = GET_DOM_STYLES(option);
                     const marginTop = parseFloat((<any>styles).marginTop || 0);
                     const marginBottom = parseFloat((<any>styles).marginBottom || 0);
                     if (!scope.filteredOptions.length) {
@@ -558,14 +564,9 @@ export class SelectorComponent {
                 };
                 scope.set = (option?: any) => {
 
-                    if (scope.multiple &&
-                        (scope.selectedValues || []).length >= scope.limit) {
+                    if (scope.multiple && (scope.selectedValues || []).length >= scope.limit) {
                         return;
                     };
-                    
-                    if (scope.multiple) {
-                        scope.highlight(-1);
-                    }
 
                     if (!angular.isDefined(option)) {
                         option = scope.filteredOptions[scope.highlighted];
@@ -732,7 +733,7 @@ export class SelectorComponent {
                 // Input width utilities
                 const measureWidth = () => {
                     let width;
-                    const styles = DOM_FUNCTIONS.getStyles(DOM_SELECTOR_INPUT[0]);
+                    const styles = GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
                     const shadow = angular.element('<span class="selector-shadow"></span>');
 
                     shadow.text(DOM_SELECTOR_INPUT.val() || (!scope.hasValue() ? scope.placeholder : '') || '');

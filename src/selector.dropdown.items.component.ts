@@ -1,6 +1,5 @@
 import { ISelector } from './interfaces';
-import { CONSOLE_LOGGER } from './utils';
-import { EMPTY_TEMPLATE } from './constants';
+import { CONSOLE_LOGGER, GET_GROUP_TEMPLATE, GET_ITEM_TEMPLATE } from './utils';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 export class SelectorDropdownItemsComponent {
@@ -9,52 +8,16 @@ export class SelectorDropdownItemsComponent {
     public replace: boolean = true;
     public restrict: string = 'E';
     public templateUrl: string = 'selector/selector-dropdown-item.html';
-
     public scope: ISelector.DropdownItemsComponent.Scope | any = {
         input: '<'
     };
-
     private _subscribers: Subscription[] = [];
     private _parentReferences: any = {
         // dynamically constructed object
     }
 
-    private getGroupTpl(option, index: number, filteredOptions: any[]) {
-        if (this._parentReferences.groupAttr) {
-            const boundValue = this._parentReferences.getObjValue(option, this._parentReferences.groupAttr);
-            if (boundValue && index === 0 || this._parentReferences.getObjValue(filteredOptions[index - 1], this._parentReferences.groupAttr) !== boundValue) {
-                return `<li class="selector-optgroup">${boundValue}</li>`;
-            } else {
-                return EMPTY_TEMPLATE;
-            }
-        } else {
-            return EMPTY_TEMPLATE;
-        }
-    };
-
-    private getItemTpl(option, index, filteredOptions, highlighted) {
-        let cls = `
-            ${highlighted === index ? 'active' : ''} 
-            ${this._parentReferences.groupAttr && this._parentReferences.getObjValue(option, this._parentReferences.groupAttr) ? 'grouped' : ''}
-        `;
-        let boundValue = this._parentReferences.getObjValue(option, this._parentReferences.groupAttr);
-        boundValue = boundValue
-            ? boundValue
-            : typeof option === 'object'
-                ? JSON.stringify(option)
-                : option;
-        return `<li class="selector-option ${cls}" data-index="${index}">${boundValue}</li>`;
-    };
-
     private getRenderableItems = (items: Array<any>, highlighted: number) => {
-        const tpl = `
-            ${items
-                .map((currentValue: any, index: number, array: Array<any>) => `
-                    ${this.getGroupTpl(currentValue, index, array)}
-                    ${this.getItemTpl(currentValue, index, array, highlighted)}
-                `).join(' ')
-            }`;
-        return tpl;
+        return `${items.map((currentValue: any, index: number, array: Array<any>) => `${GET_GROUP_TEMPLATE(currentValue, index, array, this._parentReferences)}${GET_ITEM_TEMPLATE(currentValue, index, array, this._parentReferences, highlighted)}`).join(' ')}`;
     };
 
     constructor($log: angular.ILogService) {
@@ -70,9 +33,15 @@ export class SelectorDropdownItemsComponent {
                 ).subscribe((e: Event | MouseEvent) => {
                     if (e.type === 'mouseover') {
                         const index = (parseInt(e.srcElement.getAttribute('data-index')));
-                        this._parentReferences['highlight'](index < -1 ? -1 : index);
+                        if (this._parentReferences['highlight']) {
+                            this._parentReferences['highlight'](index < -1 ? -1 : index);
+                        }
                     }
                     if (e.type === 'click') {
+                        const index = (parseInt(e.srcElement.getAttribute('data-index')));
+                        if (this._parentReferences['highlight']) {
+                            this._parentReferences['highlight'](index < -1 ? -1 : index);
+                        }
                         if (this._parentReferences['set']) {
                             this._parentReferences['set'](undefined);
                         }
@@ -96,15 +65,15 @@ export class SelectorDropdownItemsComponent {
                                         this._parentReferences['set'] = inputData.set;
                                         this._parentReferences['highlight'] = inputData.highlight;
                                     }
-                                    CONSOLE_LOGGER($log, `Re-drawing items/ options.`);
                                     element[0].innerHTML = this.getRenderableItems(
                                         inputData.filteredOptions,
                                         inputData.highlighted
                                     );
+                                    CONSOLE_LOGGER($log, `Re-drawing items/ options.`);
                                 }
                             },
                             (error: any) => {
-                                CONSOLE_LOGGER($log, `Cannot initialize, promise init error!`);
+                                CONSOLE_LOGGER($log, `Cannot initialize, Selector Dropdown Items Component!`);
                             })
                     );
                 }
@@ -118,7 +87,6 @@ export class SelectorDropdownItemsComponent {
                         });
                         this._subscribers = null;
                     }
-                    console.log('item destroyed, check if this is called');
                 });
 
             }

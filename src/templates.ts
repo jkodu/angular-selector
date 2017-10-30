@@ -9,6 +9,10 @@ export const TEMPLATE_GROUP_DEFAULT = () => {
     return `<span ng-bind="getObjValue(option, groupAttr)"></span>`;
 }
 
+export const TEMPLATE_SELECTOR_SELECTED_ITEMS = () => {
+    return `<div></div>`;
+}
+
 export const TEMPLATE_SELECTOR_DROPDOWN_ITEMS = () => {
     return `<div></div>`;
 }
@@ -35,6 +39,7 @@ export const TEMPLATE_SELECTOR = () => {
         <label class="selector-input">
             <ul class="selector-values">
                 <li 
+                    ng-if="steroids === false"
                     ng-repeat="(index, option) in selectedValues track by $index">
                     <div ng-include="viewItemTemplate"></div>
                     <div 
@@ -44,6 +49,12 @@ export const TEMPLATE_SELECTOR = () => {
                         <span class="selector-icon"></span>
                     </div>
                 </li>
+
+                <sos-selected-items
+                    ng-if="steroids === true"
+                    input='selectedValuesInput$'>
+                </sos-selected-items>
+
             </ul>
             <input 
                 ng-model="search" 
@@ -78,13 +89,13 @@ export const TEMPLATE_SELECTOR = () => {
             </li>
 
             <sos-dropdown-items
-                ng-if="angularCompileItems === false"
+                ng-if="steroids === true"
                 ng-show='filteredOptions.length > 0'
                 input='filteredOptionsInput$'>
             </sos-dropdown-items>
 
             <li 
-                ng-if="angularCompileItems === true"
+                ng-if="steroids === false"
                 ng-repeat-start="(index, option) in filteredOptions track by $index"
                 class="selector-optgroup"
                 ng-include="dropdownGroupTemplate"
@@ -92,7 +103,7 @@ export const TEMPLATE_SELECTOR = () => {
             </li>
 
             <li 
-                ng-if="angularCompileItems === true"
+                ng-if="steroids === false"
                 ng-show="filteredOptions.length > 0"
                 ng-repeat-end
                 ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"

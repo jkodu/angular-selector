@@ -48,9 +48,7 @@ export namespace ISelector {
             createOption;
 
             selectedValues: Array<any>;
-            selectedValuesInput$: Subject<Array<any>>;
-            selectedValuesOutput$: Subject<Array<any>>;
-
+            selectedValuesInput$: Subject<ISelector.SelectedItemsComponent.Input$>;
 
             set(option?: any): void;
             unset(index?: number): void;
@@ -59,7 +57,7 @@ export namespace ISelector {
             onNgModelChanged(propertyName: string, oldValue: any, newValue: any): void;
 
             // optional rendering of rows in angular
-            angularCompileItems: boolean;
+            steroids: boolean;
         }
     }
 
@@ -74,6 +72,18 @@ export namespace ISelector {
             highlight: Function;
         }
 
+        export interface Scope extends angular.IScope {
+            input: Subject<Input$>;
+        }
+    }
+
+    export namespace SelectedItemsComponent {
+        export interface Input$ {
+            groupAttr: any;
+            getObjValue: Function;
+            unset: Function;
+            selectedValues: any[];
+        }
         export interface Scope extends angular.IScope {
             input: Subject<Input$>;
         }

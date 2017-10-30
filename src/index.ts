@@ -10,9 +10,11 @@ import {
   TEMPLATE_ITEM_CREATE,
   TEMPLATE_ITEM_DEFAULT,
   TEMPLATE_SELECTOR,
-  TEMPLATE_SELECTOR_DROPDOWN_ITEMS
+  TEMPLATE_SELECTOR_DROPDOWN_ITEMS,
+  TEMPLATE_SELECTOR_SELECTED_ITEMS
 } from './templates';
 import { SelectorNgModelChangedComponent } from './selector.ngmodelchanged.component';
+import { SelectorSelectedItemsComponent } from './selector.selected.items.component';
 import { SelectorDropdownItemsComponent } from './selector.dropdown.items.component';
 import { SelectorComponent } from './selector.component';
 
@@ -28,12 +30,14 @@ export default class AngularSelectorOnSteroids {
         .run(['$templateCache', ($templateCache) => {
           $templateCache.put('selector/selector.html', TEMPLATE_SELECTOR());
           $templateCache.put('selector/selector-dropdown-item.html', TEMPLATE_SELECTOR_DROPDOWN_ITEMS());
+          $templateCache.put('selector/selector-selected-item.html', TEMPLATE_SELECTOR_SELECTED_ITEMS());
           $templateCache.put('selector/item-create.html', TEMPLATE_ITEM_CREATE());
           $templateCache.put('selector/item-default.html', TEMPLATE_ITEM_DEFAULT());
           $templateCache.put('selector/group-default.html', TEMPLATE_GROUP_DEFAULT());
         }])
         .directive('onSelectorNgModelChanged', SelectorNgModelChangedComponent.Factory())
-        .directive('sosDropdownItems', SelectorDropdownItemsComponent.Factory())
+        .directive('sosSelectedItems', SelectorSelectedItemsComponent.Factory())
+        .directive('sosDropdownItems', SelectorDropdownItemsComponent.Factory())        
         .directive(MODULE_NAME, SelectorComponent.Factory());
     return module;
   }
