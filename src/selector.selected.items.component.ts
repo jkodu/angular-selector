@@ -1,5 +1,5 @@
 import { ISelector } from './interfaces';
-import { CONSOLE_LOGGER, GET_ITEM_TEMPLATE } from './utils';
+import { CONSOLE_LOGGER, GET_SELECTED_ITEM_TEMPLATE } from './utils';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 export class SelectorSelectedItemsComponent {
@@ -17,13 +17,27 @@ export class SelectorSelectedItemsComponent {
     }
 
     private getRenderableItems = (items: Array<any>) => {
-        return `${items.map((currentValue: any, index: number, array: Array<any>) => `${GET_ITEM_TEMPLATE(currentValue, index, array, this._parentReferences)}`).join(' ')}`;
+        return `${items.map((currentValue: any, index: number, array: Array<any>) => `${GET_SELECTED_ITEM_TEMPLATE(currentValue, index, array, this._parentReferences)}`).join(' ')}`;
     };
 
     constructor($log: angular.ILogService) {
 
         SelectorSelectedItemsComponent.prototype.link =
             (scope: ISelector.SelectedItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) => {
+
+                Observable.fromEvent(element[0], 'click')
+                    .subscribe((e: Event | MouseEvent) => {
+                        if (e.type === 'click') {
+                            if (e.srcElement.classList.contains('selector-icon')) {
+                                const index = (parseInt(e.srcElement.getAttribute('data-index')));
+                                if (this._parentReferences['unset']) {
+                                    this._parentReferences['unset'](index < -1 ? -1 : index);
+                                }
+                            }
+                        }
+                        e.stopPropagation();
+                    });
+
 
                 if (scope.input) {
                     // TODO: Move to post link?
@@ -34,10 +48,14 @@ export class SelectorSelectedItemsComponent {
                                 if (inputData.selectedValues && inputData.selectedValues.length) {
                                     if (!this._parentReferences.hasOwnProperty('groupAttr') ||
                                         !this._parentReferences.hasOwnProperty('getObjValue') ||
-                                        !this._parentReferences.hasOwnProperty('unset')) {
+                                        !this._parentReferences.hasOwnProperty('unset') ||
+                                        !this._parentReferences.hasOwnProperty('multiple') ||
+                                        !this._parentReferences.hasOwnProperty('disabled')) {
                                         this._parentReferences['groupAttr'] = inputData.groupAttr;
                                         this._parentReferences['getObjValue'] = inputData.getObjValue;
                                         this._parentReferences['unset'] = inputData.unset;
+                                        this._parentReferences['multiple'] = inputData.multiple;
+                                        this._parentReferences['disabled'] = inputData.disabled;
                                     }
                                     element[0].innerHTML = this.getRenderableItems(inputData.selectedValues);
                                     CONSOLE_LOGGER($log, `Re-drawing selected items/ options.`);

@@ -179,7 +179,9 @@ export class SelectorComponent {
                             groupAttr: scope.groupAttr,
                             getObjValue: scope.getObjValue,
                             unset: scope.unset,
-                            selectedValues: scope.selectedValues
+                            selectedValues: scope.selectedValues,
+                            multiple: scope.multiple,
+                            disabled: scope.disabled
                         } as ISelector.SelectedItemsComponent.Input$);
                     }
                 };
@@ -519,7 +521,7 @@ export class SelectorComponent {
                     }
                     _onFilteredOptionsChanged();
                 };
-                
+
                 const scrollToHighlighted = () => {
                     const dd = DOM_SELECTOR_DROPDOWN[0];
                     const option = dd.querySelectorAll('li.selector-option')[scope.highlighted] as HTMLElement;

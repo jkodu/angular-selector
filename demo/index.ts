@@ -15,8 +15,6 @@ const examples = [
   ex_remote_fetching
 ];
 
-
-
 angular
   .module('AngularSelectorDemo', ['selectorOnSteroids'])
   .controller('AngularSelectorDemoCtrl', ['$scope', function ($scope) {

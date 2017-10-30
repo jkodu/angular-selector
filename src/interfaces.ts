@@ -83,6 +83,8 @@ export namespace ISelector {
             getObjValue: Function;
             unset: Function;
             selectedValues: any[];
+            multiple: boolean;
+            disabled: boolean;
         }
         export interface Scope extends angular.IScope {
             input: Subject<Input$>;

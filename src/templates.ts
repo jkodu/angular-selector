@@ -84,7 +84,14 @@ export const TEMPLATE_SELECTOR = () => {
 
             <li 
                 class="selector-option no-data"                
-                ng-show="!filteredOptions || filteredOptions.length <= 0">
+                ng-show="loading === true">
+                Loading
+            </li>
+
+            <li 
+                class="selector-option no-data"                
+                ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"
+                >
                 No Data
             </li>
 

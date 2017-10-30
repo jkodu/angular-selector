@@ -2375,7 +2375,19 @@ exports.GET_DOM_STYLES = function (element) {
             ? element.ownerDocument.defaultView.getComputedStyle(element)
             : window.getComputedStyle(element);
 };
-exports.GET_ITEM_TEMPLATE = function (option, index, filteredOptions, parentReferences, highlighted) {
+exports.GET_SELECTED_ITEM_TEMPLATE = function (option, index, filteredOptions, parentReferences) {
+    var boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
+    boundValue = boundValue
+        ? boundValue
+        : typeof option === 'object'
+            ? JSON.stringify(option)
+            : option;
+    var closeButton = parentReferences.multiple
+        ? "<div class=\"selector-helper\"><span class=\"selector-icon\" data-index=\"" + index + "\"></span></div>"
+        : "";
+    return "<li>" + boundValue + " " + closeButton + "</li>";
+};
+exports.GET_DROPDOWN_ITEM_TEMPLATE = function (option, index, filteredOptions, parentReferences, highlighted) {
     var cls = ((highlighted && highlighted === index) ? 'active' : '') + " " + (parentReferences.groupAttr && parentReferences.getObjValue(option, parentReferences.groupAttr) ? 'grouped' : '');
     var boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
     boundValue = boundValue
@@ -2385,7 +2397,7 @@ exports.GET_ITEM_TEMPLATE = function (option, index, filteredOptions, parentRefe
             : option;
     return "<li class=\"selector-option " + cls + "\" data-index=\"" + index + "\">" + boundValue + "</li>";
 };
-exports.GET_GROUP_TEMPLATE = function (option, index, filteredOptions, parentReferences) {
+exports.GET_DROPDOWN_GROUP_TEMPLATE = function (option, index, filteredOptions, parentReferences) {
     if (parentReferences.groupAttr) {
         var boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
         if (boundValue && index === 0 || parentReferences.getObjValue(filteredOptions[index - 1], parentReferences.groupAttr) !== boundValue) {
@@ -41028,7 +41040,9 @@ var SelectorComponent = /** @class */ (function () {
                             groupAttr: scope.groupAttr,
                             getObjValue: scope.getObjValue,
                             unset: scope.unset,
-                            selectedValues: scope.selectedValues
+                            selectedValues: scope.selectedValues,
+                            multiple: scope.multiple,
+                            disabled: scope.disabled
                         });
                     }
                 };
@@ -41766,7 +41780,7 @@ var SelectorDropdownItemsComponent = /** @class */ (function () {
         this._subscribers = [];
         this._parentReferences = {};
         this.getRenderableItems = function (items, highlighted) {
-            return "" + items.map(function (currentValue, index, array) { return "" + utils_1.GET_GROUP_TEMPLATE(currentValue, index, array, _this._parentReferences) + utils_1.GET_ITEM_TEMPLATE(currentValue, index, array, _this._parentReferences, highlighted); }).join(' ');
+            return "" + items.map(function (currentValue, index, array) { return "" + utils_1.GET_DROPDOWN_GROUP_TEMPLATE(currentValue, index, array, _this._parentReferences) + utils_1.GET_DROPDOWN_ITEM_TEMPLATE(currentValue, index, array, _this._parentReferences, highlighted); }).join(' ');
         };
         SelectorDropdownItemsComponent.prototype.link =
             function (scope, element, attrs) {
@@ -41879,6 +41893,7 @@ exports.SelectorNgModelChangedComponent = SelectorNgModelChangedComponent;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = __webpack_require__(30);
+var rxjs_1 = __webpack_require__(43);
 var SelectorSelectedItemsComponent = /** @class */ (function () {
     function SelectorSelectedItemsComponent($log) {
         var _this = this;
@@ -41891,10 +41906,22 @@ var SelectorSelectedItemsComponent = /** @class */ (function () {
         this._subscribers = [];
         this._parentReferences = {};
         this.getRenderableItems = function (items) {
-            return "" + items.map(function (currentValue, index, array) { return "" + utils_1.GET_ITEM_TEMPLATE(currentValue, index, array, _this._parentReferences); }).join(' ');
+            return "" + items.map(function (currentValue, index, array) { return "" + utils_1.GET_SELECTED_ITEM_TEMPLATE(currentValue, index, array, _this._parentReferences); }).join(' ');
         };
         SelectorSelectedItemsComponent.prototype.link =
             function (scope, element, attrs) {
+                rxjs_1.Observable.fromEvent(element[0], 'click')
+                    .subscribe(function (e) {
+                    if (e.type === 'click') {
+                        if (e.srcElement.classList.contains('selector-icon')) {
+                            var index = (parseInt(e.srcElement.getAttribute('data-index')));
+                            if (_this._parentReferences['unset']) {
+                                _this._parentReferences['unset'](index < -1 ? -1 : index);
+                            }
+                        }
+                    }
+                    e.stopPropagation();
+                });
                 if (scope.input) {
                     // TODO: Move to post link?
                     _this._subscribers.push(scope.input
@@ -41902,10 +41929,14 @@ var SelectorSelectedItemsComponent = /** @class */ (function () {
                         if (inputData.selectedValues && inputData.selectedValues.length) {
                             if (!_this._parentReferences.hasOwnProperty('groupAttr') ||
                                 !_this._parentReferences.hasOwnProperty('getObjValue') ||
-                                !_this._parentReferences.hasOwnProperty('unset')) {
+                                !_this._parentReferences.hasOwnProperty('unset') ||
+                                !_this._parentReferences.hasOwnProperty('multiple') ||
+                                !_this._parentReferences.hasOwnProperty('disabled')) {
                                 _this._parentReferences['groupAttr'] = inputData.groupAttr;
                                 _this._parentReferences['getObjValue'] = inputData.getObjValue;
                                 _this._parentReferences['unset'] = inputData.unset;
+                                _this._parentReferences['multiple'] = inputData.multiple;
+                                _this._parentReferences['disabled'] = inputData.disabled;
                             }
                             element[0].innerHTML = _this.getRenderableItems(inputData.selectedValues);
                             utils_1.CONSOLE_LOGGER($log, "Re-drawing selected items/ options.");
@@ -41961,7 +41992,7 @@ exports.TEMPLATE_SELECTOR_DROPDOWN_ITEMS = function () {
     return "<div></div>";
 };
 exports.TEMPLATE_SELECTOR = function () {
-    return "<div class=\"selector-container\"\n        ng-attr-dir=\"{{ rtl ? 'rtl' : 'ltr' }}\"\n        ng-class=\"{\n            open: isOpen, \n            empty: !filteredOptions.length && \n                (!create || !search), multiple: multiple, \n                'has-value': hasValue(), \n                rtl: rtl, \n                'loading': loading, \n                'remove-button': removeButton, \n                disabled: disabled}\">\n        <select name=\"{{name}}\"\n            ng-hide=\"true\"\n            ng-required=\"required && !hasValue()\"\n            ng-model=\"selectedValues\"\n            multiple\n            ng-options=\"option as getObjValue(option, labelAttr) for option in selectedValues\">\n        </select>\n        <label class=\"selector-input\">\n            <ul class=\"selector-values\">\n                <li \n                    ng-if=\"steroids === false\"\n                    ng-repeat=\"(index, option) in selectedValues track by $index\">\n                    <div ng-include=\"viewItemTemplate\"></div>\n                    <div \n                        ng-if=\"multiple\" \n                        class=\"selector-helper\" \n                        ng-click=\"!disabled && unset(index)\">\n                        <span class=\"selector-icon\"></span>\n                    </div>\n                </li>\n\n                <sos-selected-items\n                    ng-if=\"steroids === true\"\n                    input='selectedValuesInput$'>\n                </sos-selected-items>\n\n            </ul>\n            <input \n                ng-model=\"search\" \n                on-selector-ng-model-changed='onNgModelChanged'\n                placeholder=\"{{!hasValue() ? placeholder : ''}}\" \n                ng-model-options=\"{debounce: debounce}\"\n                ng-disabled=\"disabled\" \n                ng-readonly=\"disableSearch\" \n                ng-required=\"required && !hasValue()\" \n                autocomplete=\"off\">\n            <div ng-if=\"!multiple || loading\" \n                class=\"selector-helper selector-global-helper\" \n                ng-click=\"!disabled && removeButton && unset()\">\n                <span class=\"selector-icon\"></span>\n            </div>\n        </label>\n        <ul class=\"selector-dropdown\">\n\n            <li \n                class=\"selector-option create\"\n                ng-class=\"{active: highlighted == -1}\"\n                ng-if=\"create && search\"\n                ng-include=\"dropdownCreateTemplate\"\n                ng-mouseover=\"highlight(-1)\"\n                ng-click=\"createOption(search)\">\n            </li>\n\n            <li \n                class=\"selector-option no-data\"                \n                ng-show=\"!filteredOptions || filteredOptions.length <= 0\">\n                No Data\n            </li>\n\n            <sos-dropdown-items\n                ng-if=\"steroids === true\"\n                ng-show='filteredOptions.length > 0'\n                input='filteredOptionsInput$'>\n            </sos-dropdown-items>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-repeat-start=\"(index, option) in filteredOptions track by $index\"\n                class=\"selector-optgroup\"\n                ng-include=\"dropdownGroupTemplate\"\n                ng-show=\"filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))\">\n            </li>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-show=\"filteredOptions.length > 0\"\n                ng-repeat-end\n                ng-class=\"{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}\"\n                class=\"selector-option\"\n                ng-include=\"dropdownItemTemplate\"\n                ng-mouseover=\"highlight(index)\"\n                ng-click=\"set()\">\n            </li>\n        </ul>\n    </div>";
+    return "<div class=\"selector-container\"\n        ng-attr-dir=\"{{ rtl ? 'rtl' : 'ltr' }}\"\n        ng-class=\"{\n            open: isOpen, \n            empty: !filteredOptions.length && \n                (!create || !search), multiple: multiple, \n                'has-value': hasValue(), \n                rtl: rtl, \n                'loading': loading, \n                'remove-button': removeButton, \n                disabled: disabled}\">\n        <select name=\"{{name}}\"\n            ng-hide=\"true\"\n            ng-required=\"required && !hasValue()\"\n            ng-model=\"selectedValues\"\n            multiple\n            ng-options=\"option as getObjValue(option, labelAttr) for option in selectedValues\">\n        </select>\n        <label class=\"selector-input\">\n            <ul class=\"selector-values\">\n                <li \n                    ng-if=\"steroids === false\"\n                    ng-repeat=\"(index, option) in selectedValues track by $index\">\n                    <div ng-include=\"viewItemTemplate\"></div>\n                    <div \n                        ng-if=\"multiple\" \n                        class=\"selector-helper\" \n                        ng-click=\"!disabled && unset(index)\">\n                        <span class=\"selector-icon\"></span>\n                    </div>\n                </li>\n\n                <sos-selected-items\n                    ng-if=\"steroids === true\"\n                    input='selectedValuesInput$'>\n                </sos-selected-items>\n\n            </ul>\n            <input \n                ng-model=\"search\" \n                on-selector-ng-model-changed='onNgModelChanged'\n                placeholder=\"{{!hasValue() ? placeholder : ''}}\" \n                ng-model-options=\"{debounce: debounce}\"\n                ng-disabled=\"disabled\" \n                ng-readonly=\"disableSearch\" \n                ng-required=\"required && !hasValue()\" \n                autocomplete=\"off\">\n            <div ng-if=\"!multiple || loading\" \n                class=\"selector-helper selector-global-helper\" \n                ng-click=\"!disabled && removeButton && unset()\">\n                <span class=\"selector-icon\"></span>\n            </div>\n        </label>\n        <ul class=\"selector-dropdown\">\n\n            <li \n                class=\"selector-option create\"\n                ng-class=\"{active: highlighted == -1}\"\n                ng-if=\"create && search\"\n                ng-include=\"dropdownCreateTemplate\"\n                ng-mouseover=\"highlight(-1)\"\n                ng-click=\"createOption(search)\">\n            </li>\n\n            <li \n                class=\"selector-option no-data\"                \n                ng-show=\"loading === true\">\n                Loading\n            </li>\n\n            <li \n                class=\"selector-option no-data\"                \n                ng-show=\"!loading && (!filteredOptions || filteredOptions.length <= 0)\"\n                >\n                No Data\n            </li>\n\n            <sos-dropdown-items\n                ng-if=\"steroids === true\"\n                ng-show='filteredOptions.length > 0'\n                input='filteredOptionsInput$'>\n            </sos-dropdown-items>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-repeat-start=\"(index, option) in filteredOptions track by $index\"\n                class=\"selector-optgroup\"\n                ng-include=\"dropdownGroupTemplate\"\n                ng-show=\"filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))\">\n            </li>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-show=\"filteredOptions.length > 0\"\n                ng-repeat-end\n                ng-class=\"{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}\"\n                class=\"selector-option\"\n                ng-include=\"dropdownItemTemplate\"\n                ng-mouseover=\"highlight(index)\"\n                ng-click=\"set()\">\n            </li>\n        </ul>\n    </div>";
 };
 
 

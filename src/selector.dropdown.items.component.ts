@@ -1,5 +1,5 @@
 import { ISelector } from './interfaces';
-import { CONSOLE_LOGGER, GET_GROUP_TEMPLATE, GET_ITEM_TEMPLATE } from './utils';
+import { CONSOLE_LOGGER, GET_DROPDOWN_GROUP_TEMPLATE, GET_DROPDOWN_ITEM_TEMPLATE } from './utils';
 import { Observable, Subject, Subscription } from 'rxjs';
 
 export class SelectorDropdownItemsComponent {
@@ -17,7 +17,7 @@ export class SelectorDropdownItemsComponent {
     }
 
     private getRenderableItems = (items: Array<any>, highlighted: number) => {
-        return `${items.map((currentValue: any, index: number, array: Array<any>) => `${GET_GROUP_TEMPLATE(currentValue, index, array, this._parentReferences)}${GET_ITEM_TEMPLATE(currentValue, index, array, this._parentReferences, highlighted)}`).join(' ')}`;
+        return `${items.map((currentValue: any, index: number, array: Array<any>) => `${GET_DROPDOWN_GROUP_TEMPLATE(currentValue, index, array, this._parentReferences)}${GET_DROPDOWN_ITEM_TEMPLATE(currentValue, index, array, this._parentReferences, highlighted)}`).join(' ')}`;
     };
 
     constructor($log: angular.ILogService) {
