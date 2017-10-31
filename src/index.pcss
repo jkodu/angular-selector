@@ -81,7 +81,9 @@
         margin: 0;
         border: 0;
         display: inline;
-        li {
+        
+        >li,
+        >div>li {
             padding: 0;
             margin: 0;
             border: 0;
@@ -168,7 +170,9 @@
         .selector-values {
             float: left;
             float: none;
-            li {
+            
+            >li,
+            >div>li {
                 padding: .2em .6em;
                 margin: 0 .15em .25em;
                 border-width: 1px;
@@ -196,11 +200,14 @@
             }
             .selector-values {
                 float: right;
-                li {
+                
+                >li,
+                >div>li {
                     float: right;
                 }
             }
-            &.remove-button .selector-values li {
+            &.remove-button .selector-values>li, 
+            &.remove-button .selector-values>div>li, {
                 padding-right: .6em;
                 padding-left: 1.9em;
             }
@@ -222,7 +229,8 @@
                     background: var(--black_10);
                 }
             }
-            .selector-values li {
+            .selector-values>li,
+            .selector-values>div>li {
                 padding-right: 1.9em;
             }
             &.rtl .selector-helper {
@@ -390,33 +398,40 @@
     box-shadow: 0 1px 3px var(--black_10);
     //Instead of the line below you could use @include box-sizing($bs)
     box-sizing: border-box;
-    li {
+    >li,
+    >div>li {
         padding: .65em .8em;
         overflow: hidden;
         cursor: pointer;
     }
 
-        .selector-optgroup {
-            background: var(--color_romance_approx);
-            border-top: 1px solid var(--color_gallery_approx);
-            border-bottom: 1px solid var(--color_gallery_approx);
+    .selector-optgroup {
+        background: var(--color_romance_approx);
+        border-top: 1px solid var(--color_gallery_approx);
+        border-bottom: 1px solid var(--color_gallery_approx);
+    }
+    .selector-option {
+        &:hover {
+            background: var(--color_zircon_approx);
         }
-        .selector-option {
-            &:hover {
-                background: var(--color_zircon_approx);
-            }
-            &.grouped {
-                padding-left: 1.6em;
-            }
+        &.grouped {
+            padding-left: 1.6em;
+        }
+        &.active {
+            background: var(--color_zircon_approx);
+        }
+        &.no-data{
+
+        }
+        &.loading{
+            
+        }
+        &.create {
+            color: var(--color_fiord_60_approx);
             &.active {
-                background: var(--color_zircon_approx);
-            }
-            &.create {
-                color: var(--color_fiord_60_approx);
-                &.active {
-                    color: var(--color_fiord_approx);
-                }
+                color: var(--color_fiord_approx);
             }
         }
+    }
     
 }

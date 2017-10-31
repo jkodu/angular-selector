@@ -1,7 +1,6 @@
 declare const angular;
 
 import { ISelector } from './interfaces';
-import { KEYS } from './constants';
 import { GET_DOM_STYLES, CONSOLE_LOGGER } from './utils';
 import { Subject, Observable, Subscription } from 'rxjs';
 
@@ -61,6 +60,23 @@ export class SelectorComponent {
             attrs: angular.IAttributes,
             controller: angular.IController,
             transclude: angular.ITranscludeFunction) => {
+
+            const KEYS = {
+                up: 38,
+                down: 40,
+                left: 37,
+                right: 39,
+                escape: 27,
+                enter: 13,
+                backspace: 8,
+                delete: 46,
+                shift: 16,
+                leftCmd: 91,
+                rightCmd: 93,
+                ctrl: 17,
+                alt: 18,
+                tab: 9
+            };
 
             transclude(scope, (clone: any, scope: ISelector.BaseComponent.Scope) => {
 
@@ -435,9 +451,9 @@ export class SelectorComponent {
                         .then(() => {
                             initialize();
                         }, () => {
-                            if(this.debug) {
+                            if (this.debug) {
                                 CONSOLE_LOGGER($log, `Cannot initialize, promise init error!`);
-                            }                            
+                            }
                         });
                 }
 
@@ -527,7 +543,7 @@ export class SelectorComponent {
 
                 const scrollToHighlighted = () => {
                     const dd = DOM_SELECTOR_DROPDOWN[0];
-                    const option = dd.querySelectorAll('li.selector-option')[scope.highlighted] as HTMLElement;
+                    const option = dd.querySelectorAll('li.selector-option.js-data-item')[scope.highlighted] as HTMLElement;
                     const styles = GET_DOM_STYLES(option);
                     const marginTop = parseFloat((<any>styles).marginTop || 0);
                     const marginBottom = parseFloat((<any>styles).marginBottom || 0);
@@ -540,7 +556,6 @@ export class SelectorComponent {
                                 dd.scrollTop = option.offsetTop + option.offsetHeight + marginBottom - dd.offsetHeight;
                             });
                         }
-
                         if (option.offsetTop - marginTop < dd.scrollTop) {
                             $timeout(() => {
                                 dd.scrollTop = option.offsetTop - marginTop;

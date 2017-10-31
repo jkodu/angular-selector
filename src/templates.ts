@@ -38,8 +38,8 @@ export const TEMPLATE_SELECTOR = () => {
         </select>
         <label class="selector-input">
             <ul class="selector-values">
+
                 <li 
-                    ng-if="steroids === false"
                     ng-repeat="(index, option) in selectedValues track by $index">
                     <div ng-include="viewItemTemplate"></div>
                     <div 
@@ -49,11 +49,6 @@ export const TEMPLATE_SELECTOR = () => {
                         <span class="selector-icon"></span>
                     </div>
                 </li>
-
-                <sos-selected-items
-                    ng-if="steroids === true"
-                    input='selectedValuesInput$'>
-                </sos-selected-items>
 
             </ul>
             <input 
@@ -83,13 +78,13 @@ export const TEMPLATE_SELECTOR = () => {
             </li>
 
             <li 
-                class="selector-option no-data"                
+                class="selector-option loading"
                 ng-show="loading === true">
-                Loading
+                Loading...
             </li>
 
             <li 
-                class="selector-option no-data"                
+                class="selector-option no-data"
                 ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"
                 >
                 No Data
@@ -114,7 +109,7 @@ export const TEMPLATE_SELECTOR = () => {
                 ng-show="filteredOptions.length > 0"
                 ng-repeat-end
                 ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"
-                class="selector-option"
+                class="selector-option js-data-item"
                 ng-include="dropdownItemTemplate"
                 ng-mouseover="highlight(index)"
                 ng-click="set()">
@@ -123,3 +118,23 @@ export const TEMPLATE_SELECTOR = () => {
     </div>`;
 
 };
+
+
+// <li 
+// ng-if="steroids === false"
+// ng-repeat="(index, option) in selectedValues track by $index">
+// <div ng-include="viewItemTemplate"></div>
+// <div 
+//     ng-if="multiple" 
+//     class="selector-helper" 
+//     ng-click="!disabled && unset(index)">
+//     <span class="selector-icon"></span>
+// </div>
+// </li>
+
+
+
+// <sos-selected-items
+// ng-if="steroids === true"
+// input='selectedValuesInput$'>
+// </sos-selected-items>

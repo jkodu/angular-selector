@@ -2387,10 +2387,11 @@ const GET_SELECTED_ITEM_TEMPLATE = (option, index, filteredOptions, parentRefere
 /* harmony export (immutable) */ __webpack_exports__["e"] = GET_SELECTED_ITEM_TEMPLATE;
 
 const GET_DROPDOWN_ITEM_TEMPLATE = (option, index, filteredOptions, parentReferences, highlighted) => {
-    const cls = `${highlighted && highlighted === index ? 'active' : ''} ${parentReferences.groupAttr && parentReferences.getObjValue(option, parentReferences.groupAttr) ? 'grouped' : ''}`;
+    console.log(highlighted, index);
+    const cls = `${highlighted === index ? 'active' : ''} ${parentReferences.groupAttr && parentReferences.getObjValue(option, parentReferences.groupAttr) ? 'grouped' : ''}`;
     let boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
     boundValue = boundValue ? boundValue : typeof option === 'object' ? JSON.stringify(option) : option;
-    return `<li class="selector-option ${cls}" data-index="${index}">${boundValue}</li>`;
+    return `<li class="selector-option js-data-item ${cls}" data-index="${index}">${boundValue}</li>`;
 };
 /* harmony export (immutable) */ __webpack_exports__["d"] = GET_DROPDOWN_ITEM_TEMPLATE;
 
@@ -6604,7 +6605,7 @@ exports = module.exports = __webpack_require__(75)(undefined);
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n@keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n[selector] {\r\n    display: none;\r\n}\r\n\r\n.selector {\r\n    display: none;\r\n}\r\n\r\n.selector-container {\r\n    display: block;\r\n    position: relative;\r\n    font-size: 1em;\r\n    line-height: normal;\r\n    color: #495c68;\r\n    //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n}\r\n\r\n.selector-container input {\r\n        font-size: 1em;\r\n        line-height: normal;\r\n        color: #495c68;\r\n        //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n        outline: none;\r\n        background: none !important;\r\n        border-color: transparent !important;\r\n        width: 2px;\r\n        display: inline-block;\r\n        cursor: pointer;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        display: inline;\r\n    }\r\n\r\n.selector-container.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.rtl .selector-helper {\r\n            right: inherit;\r\n            left: 0;\r\n        }\r\n\r\n.selector-container .selector-values {\r\n        list-style: none;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        display: inline;\r\n    }\r\n\r\n.selector-container .selector-values li {\r\n            padding: 0;\r\n            margin: 0;\r\n            border: 0;\r\n            display: inline;\r\n        }\r\n\r\n.selector-container .selector-values li >div {\r\n                padding: 0;\r\n                margin: 0;\r\n                border: 0;\r\n                display: inline;\r\n            }\r\n\r\n.selector-container.open input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.open .selector-input {\r\n            background: none;\r\n            border-bottom-color: #eee;\r\n            padding-right: 2.6em;\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px 4px 0 0;\r\n        }\r\n\r\n.selector-container.open .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.open .selector-dropdown {\r\n            display: block;\r\n        }\r\n\r\n.selector-container.open.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.open.empty .selector-input {\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px;\r\n            border-bottom-color: #bbb;\r\n        }\r\n\r\n.selector-container.has-value input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.has-value.remove-button .selector-helper {\r\n                border-left: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon:after {\r\n                    content: '\\D7';\r\n                    display: table-cell;\r\n                    position: relative;\r\n                    top: 0;\r\n                    left: 0;\r\n                    margin: 0;\r\n                    border: none;\r\n                    height: 100%;\r\n                    text-align: center;\r\n                    vertical-align: middle;\r\n                }\r\n\r\n.selector-container.has-value.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.disabled {\r\n        opacity: .6;\r\n    }\r\n\r\n.selector-container.multiple input {\r\n            float: left;\r\n            padding: .2em .6em;\r\n            margin: 0 .15em .25em;\r\n            border-width: 1px;\r\n            border-style: solid;\r\n            float: left;\r\n            line-height: normal;\r\n        }\r\n\r\n.selector-container.multiple .selector-values {\r\n            float: left;\r\n            float: none;\r\n        }\r\n\r\n.selector-container.multiple .selector-values li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple.rtl input {\r\n                float: right;\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values {\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values li {\r\n                    float: right;\r\n                }\r\n\r\n.selector-container.multiple.rtl.remove-button .selector-values li {\r\n                padding-right: .6em;\r\n                padding-left: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple .selector-input {\r\n            padding: .5em .55em .2em .55em !important;\r\n            cursor: text;\r\n            background: #fff;\r\n            //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);\r\n        }\r\n\r\n.selector-container.multiple.remove-button .selector-helper {\r\n                display: block;\r\n                width: 1.3em;\r\n                border-left: 1px solid #0987d6;\r\n                cursor: pointer;\r\n            }\r\n\r\n.selector-container.multiple.remove-button .selector-helper:hover {\r\n                    background: rgba(0, 0, 0, .1);\r\n                }\r\n\r\n.selector-container.multiple.remove-button .selector-values li {\r\n                padding-right: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #0987d6;\r\n            }\r\n\r\n.selector-container.multiple .selector-helper {\r\n            display: none;\r\n        }\r\n\r\n.selector-container.multiple.loading .selector-input {\r\n                padding-right: 3em !important;\r\n            }\r\n\r\n.selector-container.multiple.loading .selector-global-helper {\r\n                margin: .75em .8em;\r\n                border-left: none;\r\n                border-right: none;\r\n            }\r\n\r\n.selector-container.multiple.loading.rtl .selector-input {\r\n                    padding-right: .55em !important;\r\n                    padding-left: 3em !important;\r\n                }\r\n\r\n.selector-container.multiple.loading.rtl.has-value .selector-input {\r\n                    padding-right: .25em !important;\r\n                }\r\n\r\n.selector-container.multiple.has-value .selector-input {\r\n            padding-left: .35em !important;\r\n            padding-right: .35em !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon:after {\r\n                    content: '';\r\n                    width: 100%;\r\n                    height: 100%;\r\n                    margin: 0;\r\n                    top: 0;\r\n                    left: 0;\r\n                    opacity: .5;\r\n                    border-top: 1px solid #545a6a;\r\n                    border-bottom: 1px solid #d4d4db;\r\n                    border-left: 1px solid #545a6a;\r\n                    border-right: 1px solid #d4d4db;\r\n                    -webkit-animation: selector-rotate .5s linear infinite;\r\n                            animation: selector-rotate .5s linear infinite;\r\n                    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                    border-radius: 100%;\r\n                }\r\n\r\n.selector-container.loading .selector-helper.selector-global-helper {\r\n            width: 1.3em;\r\n            height: 1.3em;\r\n            margin: .65em .7em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value .selector-input {\r\n            padding-right: 3.5em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 3.5em;\r\n        }\r\n\r\n.selector-input {\r\n    display: block;\r\n    margin: 0;\r\n    position: relative;\r\n    width: 100%;\r\n    padding: .8em 2.6em .7em .7em;\r\n    overflow: hidden;\r\n    cursor: pointer;\r\n    border: 1px solid #bbb;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 0 rgba(0, 0, 0, .05), inset 0 1px 0 rgba(255, 255, 255, .8);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 4px;\r\n    font-weight: inherit;\r\n    background-color: #f9f9f9;\r\n    background-image: linear-gradient(#fafafa, #eee);\r\n}\r\n\r\n.selector-input input {\r\n        padding-left: 0 !important;\r\n        padding-right: 0 !important;\r\n        border-left: 0 !important;\r\n        border-right: 0 !important;\r\n        max-width: 100% !important;\r\n    }\r\n\r\n.selector-helper {\r\n    position: absolute;\r\n    display: block;\r\n    width: 2.6em;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n}\r\n\r\n.selector-helper .selector-icon {\r\n        display: block;\r\n        position: relative;\r\n        height: 100%;\r\n    }\r\n\r\n.selector-helper .selector-icon:after {\r\n            content: '';\r\n            display: block;\r\n            position: absolute;\r\n            top: 50%;\r\n            left: 50%;\r\n            margin-top: -.1em;\r\n            margin-left: -.4em;\r\n            width: 0;\r\n            height: 0;\r\n            border: .4em solid #888;\r\n            border-left-color: transparent;\r\n            border-right-color: transparent;\r\n            border-bottom: none;\r\n        }\r\n\r\n.selector-shadow {\r\n    padding-left: 0 !important;\r\n    padding-right: 0 !important;\r\n    border-left: 0 !important;\r\n    border-right: 0 !important;\r\n    max-width: 100% !important;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    white-space: pre;\r\n    margin: 0;\r\n}\r\n\r\n.selector-dropdown {\r\n    display: none;\r\n    list-style: none;\r\n    padding: 0 !important;\r\n    margin: 0 !important;\r\n    position: absolute;\r\n    z-index: 1;\r\n    background: #fff;\r\n    border: 1px solid #ccc;\r\n    border-top: 0;\r\n    max-height: 15.5em;\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n    z-index: 1000;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 0 0 3px 3px;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    \r\n}\r\n\r\n.selector-dropdown li {\r\n        padding: .65em .8em;\r\n        overflow: hidden;\r\n        cursor: pointer;\r\n    }\r\n\r\n.selector-dropdown .selector-optgroup {\r\n            background: #fefefe;\r\n            border-top: 1px solid #eee;\r\n            border-bottom: 1px solid #eee;\r\n        }\r\n\r\n.selector-dropdown .selector-option:hover {\r\n                background: #f5fafd;\r\n            }\r\n\r\n.selector-dropdown .selector-option.grouped {\r\n                padding-left: 1.6em;\r\n            }\r\n\r\n.selector-dropdown .selector-option.active {\r\n                background: #f5fafd;\r\n            }\r\n\r\n.selector-dropdown .selector-option.create {\r\n                color: rgba(73, 92, 104, .6);\r\n            }\r\n\r\n.selector-dropdown .selector-option.create.active {\r\n                    color: #495c68;\r\n                }", ""]);
+exports.push([module.i, "@-webkit-keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n@keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n[selector] {\r\n    display: none;\r\n}\r\n\r\n.selector {\r\n    display: none;\r\n}\r\n\r\n.selector-container {\r\n    display: block;\r\n    position: relative;\r\n    font-size: 1em;\r\n    line-height: normal;\r\n    color: #495c68;\r\n    //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n}\r\n\r\n.selector-container input {\r\n        font-size: 1em;\r\n        line-height: normal;\r\n        color: #495c68;\r\n        //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n        outline: none;\r\n        background: none !important;\r\n        border-color: transparent !important;\r\n        width: 2px;\r\n        display: inline-block;\r\n        cursor: pointer;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        display: inline;\r\n    }\r\n\r\n.selector-container.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.rtl .selector-helper {\r\n            right: inherit;\r\n            left: 0;\r\n        }\r\n\r\n.selector-container .selector-values {\r\n        list-style: none;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        display: inline;\r\n    }\r\n\r\n.selector-container .selector-values >li,\r\n        .selector-container .selector-values >div>li {\r\n            padding: 0;\r\n            margin: 0;\r\n            border: 0;\r\n            display: inline;\r\n        }\r\n\r\n.selector-container .selector-values >li >div, .selector-container .selector-values >div>li >div {\r\n                padding: 0;\r\n                margin: 0;\r\n                border: 0;\r\n                display: inline;\r\n            }\r\n\r\n.selector-container.open input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.open .selector-input {\r\n            background: none;\r\n            border-bottom-color: #eee;\r\n            padding-right: 2.6em;\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px 4px 0 0;\r\n        }\r\n\r\n.selector-container.open .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.open .selector-dropdown {\r\n            display: block;\r\n        }\r\n\r\n.selector-container.open.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.open.empty .selector-input {\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px;\r\n            border-bottom-color: #bbb;\r\n        }\r\n\r\n.selector-container.has-value input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.has-value.remove-button .selector-helper {\r\n                border-left: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon:after {\r\n                    content: '\\D7';\r\n                    display: table-cell;\r\n                    position: relative;\r\n                    top: 0;\r\n                    left: 0;\r\n                    margin: 0;\r\n                    border: none;\r\n                    height: 100%;\r\n                    text-align: center;\r\n                    vertical-align: middle;\r\n                }\r\n\r\n.selector-container.has-value.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.disabled {\r\n        opacity: .6;\r\n    }\r\n\r\n.selector-container.multiple input {\r\n            float: left;\r\n            padding: .2em .6em;\r\n            margin: 0 .15em .25em;\r\n            border-width: 1px;\r\n            border-style: solid;\r\n            float: left;\r\n            line-height: normal;\r\n        }\r\n\r\n.selector-container.multiple .selector-values {\r\n            float: left;\r\n            float: none;\r\n        }\r\n\r\n.selector-container.multiple .selector-values >li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple .selector-values >div>li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple.rtl input {\r\n                float: right;\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values {\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values >li,\r\n                .selector-container.multiple.rtl .selector-values >div>li {\r\n                    float: right;\r\n                }\r\n\r\n.selector-container.multiple.rtl.remove-button .selector-values>li, \r\n            .selector-container.multiple.rtl.remove-button .selector-values>div>li, \r\n            .selector-container.multiple.rtl  {\r\n                padding-right: .6em;\r\n                padding-left: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple .selector-input {\r\n            padding: .5em .55em .2em .55em !important;\r\n            cursor: text;\r\n            background: #fff;\r\n            //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);\r\n        }\r\n\r\n.selector-container.multiple.remove-button .selector-helper {\r\n                display: block;\r\n                width: 1.3em;\r\n                border-left: 1px solid #0987d6;\r\n                cursor: pointer;\r\n            }\r\n\r\n.selector-container.multiple.remove-button .selector-helper:hover {\r\n                    background: rgba(0, 0, 0, .1);\r\n                }\r\n\r\n.selector-container.multiple.remove-button .selector-values>li,\r\n            .selector-container.multiple.remove-button .selector-values>div>li {\r\n                padding-right: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #0987d6;\r\n            }\r\n\r\n.selector-container.multiple .selector-helper {\r\n            display: none;\r\n        }\r\n\r\n.selector-container.multiple.loading .selector-input {\r\n                padding-right: 3em !important;\r\n            }\r\n\r\n.selector-container.multiple.loading .selector-global-helper {\r\n                margin: .75em .8em;\r\n                border-left: none;\r\n                border-right: none;\r\n            }\r\n\r\n.selector-container.multiple.loading.rtl .selector-input {\r\n                    padding-right: .55em !important;\r\n                    padding-left: 3em !important;\r\n                }\r\n\r\n.selector-container.multiple.loading.rtl.has-value .selector-input {\r\n                    padding-right: .25em !important;\r\n                }\r\n\r\n.selector-container.multiple.has-value .selector-input {\r\n            padding-left: .35em !important;\r\n            padding-right: .35em !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon:after {\r\n                    content: '';\r\n                    width: 100%;\r\n                    height: 100%;\r\n                    margin: 0;\r\n                    top: 0;\r\n                    left: 0;\r\n                    opacity: .5;\r\n                    border-top: 1px solid #545a6a;\r\n                    border-bottom: 1px solid #d4d4db;\r\n                    border-left: 1px solid #545a6a;\r\n                    border-right: 1px solid #d4d4db;\r\n                    -webkit-animation: selector-rotate .5s linear infinite;\r\n                            animation: selector-rotate .5s linear infinite;\r\n                    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                    border-radius: 100%;\r\n                }\r\n\r\n.selector-container.loading .selector-helper.selector-global-helper {\r\n            width: 1.3em;\r\n            height: 1.3em;\r\n            margin: .65em .7em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value .selector-input {\r\n            padding-right: 3.5em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 3.5em;\r\n        }\r\n\r\n.selector-input {\r\n    display: block;\r\n    margin: 0;\r\n    position: relative;\r\n    width: 100%;\r\n    padding: .8em 2.6em .7em .7em;\r\n    overflow: hidden;\r\n    cursor: pointer;\r\n    border: 1px solid #bbb;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 0 rgba(0, 0, 0, .05), inset 0 1px 0 rgba(255, 255, 255, .8);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 4px;\r\n    font-weight: inherit;\r\n    background-color: #f9f9f9;\r\n    background-image: linear-gradient(#fafafa, #eee);\r\n}\r\n\r\n.selector-input input {\r\n        padding-left: 0 !important;\r\n        padding-right: 0 !important;\r\n        border-left: 0 !important;\r\n        border-right: 0 !important;\r\n        max-width: 100% !important;\r\n    }\r\n\r\n.selector-helper {\r\n    position: absolute;\r\n    display: block;\r\n    width: 2.6em;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n}\r\n\r\n.selector-helper .selector-icon {\r\n        display: block;\r\n        position: relative;\r\n        height: 100%;\r\n    }\r\n\r\n.selector-helper .selector-icon:after {\r\n            content: '';\r\n            display: block;\r\n            position: absolute;\r\n            top: 50%;\r\n            left: 50%;\r\n            margin-top: -.1em;\r\n            margin-left: -.4em;\r\n            width: 0;\r\n            height: 0;\r\n            border: .4em solid #888;\r\n            border-left-color: transparent;\r\n            border-right-color: transparent;\r\n            border-bottom: none;\r\n        }\r\n\r\n.selector-shadow {\r\n    padding-left: 0 !important;\r\n    padding-right: 0 !important;\r\n    border-left: 0 !important;\r\n    border-right: 0 !important;\r\n    max-width: 100% !important;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    white-space: pre;\r\n    margin: 0;\r\n}\r\n\r\n.selector-dropdown {\r\n    display: none;\r\n    list-style: none;\r\n    padding: 0 !important;\r\n    margin: 0 !important;\r\n    position: absolute;\r\n    z-index: 1;\r\n    background: #fff;\r\n    border: 1px solid #ccc;\r\n    border-top: 0;\r\n    max-height: 15.5em;\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n    z-index: 1000;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 0 0 3px 3px;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    \r\n}\r\n\r\n.selector-dropdown >li,\r\n    .selector-dropdown >div>li {\r\n        padding: .65em .8em;\r\n        overflow: hidden;\r\n        cursor: pointer;\r\n    }\r\n\r\n.selector-dropdown .selector-optgroup {\r\n        background: #fefefe;\r\n        border-top: 1px solid #eee;\r\n        border-bottom: 1px solid #eee;\r\n    }\r\n\r\n.selector-dropdown .selector-option:hover {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.grouped {\r\n            padding-left: 1.6em;\r\n        }\r\n\r\n.selector-dropdown .selector-option.active {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.no-data{\r\n\r\n        }\r\n\r\n.selector-dropdown .selector-option.loading{\r\n            \r\n        }\r\n\r\n.selector-dropdown .selector-option.create {\r\n            color: rgba(73, 92, 104, .6);\r\n        }\r\n\r\n.selector-dropdown .selector-option.create.active {\r\n                color: #495c68;\r\n            }", ""]);
 
 // exports
 
@@ -7196,8 +7197,8 @@ const TEMPLATE_SELECTOR = () => {
         </select>
         <label class="selector-input">
             <ul class="selector-values">
+
                 <li 
-                    ng-if="steroids === false"
                     ng-repeat="(index, option) in selectedValues track by $index">
                     <div ng-include="viewItemTemplate"></div>
                     <div 
@@ -7207,11 +7208,6 @@ const TEMPLATE_SELECTOR = () => {
                         <span class="selector-icon"></span>
                     </div>
                 </li>
-
-                <sos-selected-items
-                    ng-if="steroids === true"
-                    input='selectedValuesInput$'>
-                </sos-selected-items>
 
             </ul>
             <input 
@@ -7241,13 +7237,13 @@ const TEMPLATE_SELECTOR = () => {
             </li>
 
             <li 
-                class="selector-option no-data"                
+                class="selector-option loading"
                 ng-show="loading === true">
-                Loading
+                Loading...
             </li>
 
             <li 
-                class="selector-option no-data"                
+                class="selector-option no-data"
                 ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"
                 >
                 No Data
@@ -7272,7 +7268,7 @@ const TEMPLATE_SELECTOR = () => {
                 ng-show="filteredOptions.length > 0"
                 ng-repeat-end
                 ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"
-                class="selector-option"
+                class="selector-option js-data-item"
                 ng-include="dropdownItemTemplate"
                 ng-mouseover="highlight(index)"
                 ng-click="set()">
@@ -7282,6 +7278,21 @@ const TEMPLATE_SELECTOR = () => {
 };
 /* harmony export (immutable) */ __webpack_exports__["d"] = TEMPLATE_SELECTOR;
 
+// <li 
+// ng-if="steroids === false"
+// ng-repeat="(index, option) in selectedValues track by $index">
+// <div ng-include="viewItemTemplate"></div>
+// <div 
+//     ng-if="multiple" 
+//     class="selector-helper" 
+//     ng-click="!disabled && unset(index)">
+//     <span class="selector-icon"></span>
+// </div>
+// </li>
+// <sos-selected-items
+// ng-if="steroids === true"
+// input='selectedValuesInput$'>
+// </sos-selected-items>
 
 /***/ }),
 /* 79 */
@@ -21552,11 +21563,9 @@ class SelectorDropdownItemsComponent {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(365);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs__);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs__);
 
 
 class SelectorComponent {
@@ -21604,6 +21613,22 @@ class SelectorComponent {
             steroids: '<'
         };
         SelectorComponent.prototype.link = (scope, element, attrs, controller, transclude) => {
+            const KEYS = {
+                up: 38,
+                down: 40,
+                left: 37,
+                right: 39,
+                escape: 27,
+                enter: 13,
+                backspace: 8,
+                delete: 46,
+                shift: 16,
+                leftCmd: 91,
+                rightCmd: 93,
+                ctrl: 17,
+                alt: 18,
+                tab: 9
+            };
             transclude(scope, (clone, scope) => {
                 let _watchers = [];
                 let _mutations = [];
@@ -21612,9 +21637,9 @@ class SelectorComponent {
                 const DOM_SELECTOR_CONTAINER = angular.element(element[0]);
                 const DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
                 const DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
-                const OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT ? __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].merge(__WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].fromEvent(DOM_SELECTOR_INPUT, 'focus'), __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].fromEvent(DOM_SELECTOR_INPUT, 'blur'), __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].fromEvent(DOM_SELECTOR_INPUT, 'keydown'), __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].fromEvent(DOM_SELECTOR_INPUT, 'input')) : __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].empty();
-                const OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN ? __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown') : __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].empty();
-                const OBSERVABLE_FOR_WINDOW_RESIZE = $window ? __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].fromEvent($window, 'resze') : __WEBPACK_IMPORTED_MODULE_2_rxjs__["Observable"].empty();
+                const OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT ? __WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].merge(__WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].fromEvent(DOM_SELECTOR_INPUT, 'focus'), __WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].fromEvent(DOM_SELECTOR_INPUT, 'blur'), __WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].fromEvent(DOM_SELECTOR_INPUT, 'keydown'), __WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].fromEvent(DOM_SELECTOR_INPUT, 'input')) : __WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].empty();
+                const OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN ? __WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown') : __WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].empty();
+                const OBSERVABLE_FOR_WINDOW_RESIZE = $window ? __WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].fromEvent($window, 'resze') : __WEBPACK_IMPORTED_MODULE_1_rxjs__["Observable"].empty();
                 let inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
                 let selectCtrl = element.find('select').controller('ngModel');
                 let initDeferred = $q.defer();
@@ -21638,8 +21663,8 @@ class SelectorComponent {
                     dropdownCreateTemplate: 'selector-on-steroids/item-create.html',
                     dropdownGroupTemplate: 'selector-on-steroids/group-default.html',
                     steroids: true,
-                    selectedValuesInput$: new __WEBPACK_IMPORTED_MODULE_2_rxjs__["Subject"](),
-                    filteredOptionsInput$: new __WEBPACK_IMPORTED_MODULE_2_rxjs__["Subject"]()
+                    selectedValuesInput$: new __WEBPACK_IMPORTED_MODULE_1_rxjs__["Subject"](),
+                    filteredOptionsInput$: new __WEBPACK_IMPORTED_MODULE_1_rxjs__["Subject"]()
                 };
                 // DEFAULTS
                 // Default: listen to dropdown dom event
@@ -21897,7 +21922,7 @@ class SelectorComponent {
                         initialize();
                     }, () => {
                         if (this.debug) {
-                            Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* CONSOLE_LOGGER */])($log, `Cannot initialize, promise init error!`);
+                            Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* CONSOLE_LOGGER */])($log, `Cannot initialize, promise init error!`);
                         }
                     });
                 };
@@ -21925,7 +21950,7 @@ class SelectorComponent {
                 // Dropdown utilities
                 const dropdownPosition = () => {
                     const label = DOM_SELECTOR_INPUT.parent()[0];
-                    const styles = Object(__WEBPACK_IMPORTED_MODULE_1__utils__["b" /* GET_DOM_STYLES */])(label);
+                    const styles = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* GET_DOM_STYLES */])(label);
                     const marginTop = parseFloat(styles.marginTop || 0);
                     const marginLeft = parseFloat(styles.marginLeft || 0);
                     if (label) {
@@ -21978,8 +22003,8 @@ class SelectorComponent {
                 };
                 const scrollToHighlighted = () => {
                     const dd = DOM_SELECTOR_DROPDOWN[0];
-                    const option = dd.querySelectorAll('li.selector-option')[scope.highlighted];
-                    const styles = Object(__WEBPACK_IMPORTED_MODULE_1__utils__["b" /* GET_DOM_STYLES */])(option);
+                    const option = dd.querySelectorAll('li.selector-option.js-data-item')[scope.highlighted];
+                    const styles = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* GET_DOM_STYLES */])(option);
                     const marginTop = parseFloat(styles.marginTop || 0);
                     const marginBottom = parseFloat(styles.marginBottom || 0);
                     if (!scope.filteredOptions.length) {
@@ -22054,7 +22079,7 @@ class SelectorComponent {
                 };
                 const keydown = e => {
                     switch (e.keyCode) {
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].up:
+                        case KEYS.up:
                             {
                                 if (!scope.isOpen) {
                                     break;
@@ -22063,7 +22088,7 @@ class SelectorComponent {
                                 e.preventDefault();
                                 break;
                             }
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].down:
+                        case KEYS.down:
                             {
                                 if (!scope.isOpen) {
                                     open();
@@ -22073,13 +22098,13 @@ class SelectorComponent {
                                 e.preventDefault();
                                 break;
                             }
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].escape:
+                        case KEYS.escape:
                             {
                                 scope.highlight(0);
                                 close();
                                 break;
                             }
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].enter:
+                        case KEYS.enter:
                             {
                                 if (scope.isOpen) {
                                     if (attrs.create && scope.search && scope.highlighted == -1) {
@@ -22093,7 +22118,7 @@ class SelectorComponent {
                                 }
                                 break;
                             }
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].backspace:
+                        case KEYS.backspace:
                             {
                                 if (!DOM_SELECTOR_INPUT.val()) {
                                     const search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
@@ -22106,14 +22131,14 @@ class SelectorComponent {
                                 }
                                 break;
                             }
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].left:
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].right:
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].shift:
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].ctrl:
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].alt:
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].tab:
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].leftCmd:
-                        case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* KEYS */].rightCmd:
+                        case KEYS.left:
+                        case KEYS.right:
+                        case KEYS.shift:
+                        case KEYS.ctrl:
+                        case KEYS.alt:
+                        case KEYS.tab:
+                        case KEYS.leftCmd:
+                        case KEYS.rightCmd:
                             {
                                 break;
                             }
@@ -22165,7 +22190,7 @@ class SelectorComponent {
                 // Input width utilities
                 const measureWidth = () => {
                     let width;
-                    const styles = Object(__WEBPACK_IMPORTED_MODULE_1__utils__["b" /* GET_DOM_STYLES */])(DOM_SELECTOR_INPUT[0]);
+                    const styles = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* GET_DOM_STYLES */])(DOM_SELECTOR_INPUT[0]);
                     const shadow = angular.element('<span class="selector-shadow"></span>');
                     shadow.text(DOM_SELECTOR_INPUT.val() || (!scope.hasValue() ? scope.placeholder : '') || '');
                     angular.element(document.body).append(shadow);
@@ -22334,30 +22359,6 @@ class SelectorComponent {
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = SelectorComponent;
-
-
-/***/ }),
-/* 365 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-const KEYS = {
-    up: 38,
-    down: 40,
-    left: 37,
-    right: 39,
-    escape: 27,
-    enter: 13,
-    backspace: 8,
-    delete: 46,
-    shift: 16,
-    leftCmd: 91,
-    rightCmd: 93,
-    ctrl: 17,
-    alt: 18,
-    tab: 9
-};
-/* harmony export (immutable) */ __webpack_exports__["a"] = KEYS;
 
 
 /***/ })
