@@ -1,36 +1,26 @@
 export class SelectorNgModelChangedComponent {
 
-    public link: (scope: angular.IScope,
-        element: angular.IAugmentedJQuery,
-        attrs: angular.IAttributes,
-        controller: angular.IController) => void;
-
     public require: string = 'ngModel';
     public scope: any = {
         onSelectorNgModelChanged: '&'
     };
 
     constructor() {
+        this.link = this.link.bind(this);
+    }
 
-        SelectorNgModelChangedComponent.prototype.link = (scope: angular.IScope,
-            element: angular.IAugmentedJQuery,
-            attrs: angular.IAttributes,
-            controller: angular.IController) => {
+    link = (scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, controller: angular.IController) => {
+        let oldValue;
+        controller.$formatters.push((value) => {
+            oldValue = value;
+            return value;
+        });
+        controller.$viewChangeListeners.push(() => {
+            const ngModelName = attrs['ngModel']; // TODO: UNDEFINED CHECK
 
-            let oldValue;
-            controller.$formatters.push((value) => {
-                oldValue = value;
-                return value;
-            });
-            controller.$viewChangeListeners.push(() => {
-                const ngModelName = attrs['ngModel']; // TODO: UNDEFINED CHECK
-
-                (<any>scope).onSelectorNgModelChanged()(ngModelName, oldValue, controller.$modelValue);
-                oldValue = controller.$modelValue;
-            });
-
-        }
-
+            (<any>scope).onSelectorNgModelChanged()(ngModelName, oldValue, controller.$modelValue);
+            oldValue = controller.$modelValue;
+        });
     }
 
     public static Factory(debug: boolean) {

@@ -65,6 +65,8 @@ export namespace ISelector {
 
         export interface Input$ {
             groupAttr: any;
+            valueAttr: any;
+            labelAttr: any;
             getObjValue: Function;
             set: Function;
             filteredOptions: any[];
@@ -80,6 +82,8 @@ export namespace ISelector {
     export namespace SelectedItemsComponent {
         export interface Input$ {
             groupAttr: any;
+            valueAttr: any;
+            labelAttr: any;
             getObjValue: Function;
             unset: Function;
             selectedValues: any[];

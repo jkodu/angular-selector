@@ -1,7 +1,7 @@
 export const ex_single_element = {
     "title": "Single element",
     "html": "<select set-watch-count selector-on-steroids\n\tmodel=\"browser\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
-    "js": "$scope.browser = \"GC\";\n\n$scope.browsers = [\n\t{ value: \"GC\", label: \"Chrome\" },\n\t{ value: \"FF\", label: \"Firefox\" },\n\t{ value: \"AS\", label: \"Safari\" },\n\t{ value: \"IE\", label: \"Internet Explorer\" }\n];"
+    "js": "$scope.browser = \"GCX\";\n\n$scope.browsers = [\n\t{ value: \"GCX\", label: \"ChromeX\" },\n\t{ value: \"FFY\", label: \"FirefoxY\" },\n\t{ value: \"ASZ\", label: \"SafariZ\" },\n\t{ value: \"IEA\", label: \"Internet ExplorerShit\" }\n];"
 };
 
 export const ex_multiple_element = {

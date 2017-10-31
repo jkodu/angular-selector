@@ -49,6 +49,8 @@ export const TEMPLATE_SELECTOR = () => {
                         <span class="selector-icon"></span>
                     </div>
                 </li>
+                
+            
 
             </ul>
             <input 
@@ -119,18 +121,6 @@ export const TEMPLATE_SELECTOR = () => {
 
 };
 
-
-// <li 
-// ng-if="steroids === false"
-// ng-repeat="(index, option) in selectedValues track by $index">
-// <div ng-include="viewItemTemplate"></div>
-// <div 
-//     ng-if="multiple" 
-//     class="selector-helper" 
-//     ng-click="!disabled && unset(index)">
-//     <span class="selector-icon"></span>
-// </div>
-// </li>
 
 
 

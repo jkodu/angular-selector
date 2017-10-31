@@ -12,8 +12,9 @@ import AngularSelectorOnSteroids from '../src/index';
 new AngularSelectorOnSteroids().init();
 
 const examples = [
-  ex_multiple_element
-  // ex_remote_fetching
+  ex_single_element,
+  ex_multiple_element,
+  ex_remote_fetching
 ];
 
 angular
