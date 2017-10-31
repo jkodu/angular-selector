@@ -20,7 +20,6 @@ export const GET_SELECTED_ITEM_TEMPLATE = (option: any, index: number, filteredO
 };
 
 export const GET_DROPDOWN_ITEM_TEMPLATE = (option: any, index: number, filteredOptions: any[], parentReferences: any, highlighted: number) => {
-    console.log(highlighted, index);
     const cls = `${highlighted === index ? 'active' : ''} ${parentReferences.groupAttr && parentReferences.getObjValue(option, parentReferences.groupAttr) ? 'grouped' : ''}`;
     let boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
     boundValue = boundValue

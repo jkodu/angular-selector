@@ -2387,7 +2387,6 @@ const GET_SELECTED_ITEM_TEMPLATE = (option, index, filteredOptions, parentRefere
 /* harmony export (immutable) */ __webpack_exports__["e"] = GET_SELECTED_ITEM_TEMPLATE;
 
 const GET_DROPDOWN_ITEM_TEMPLATE = (option, index, filteredOptions, parentReferences, highlighted) => {
-    console.log(highlighted, index);
     const cls = `${highlighted === index ? 'active' : ''} ${parentReferences.groupAttr && parentReferences.getObjValue(option, parentReferences.groupAttr) ? 'grouped' : ''}`;
     let boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
     boundValue = boundValue ? boundValue : typeof option === 'object' ? JSON.stringify(option) : option;

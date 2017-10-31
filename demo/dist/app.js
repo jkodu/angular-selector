@@ -2388,7 +2388,6 @@ exports.GET_SELECTED_ITEM_TEMPLATE = function (option, index, filteredOptions, p
     return "<li>" + boundValue + " " + closeButton + "</li>";
 };
 exports.GET_DROPDOWN_ITEM_TEMPLATE = function (option, index, filteredOptions, parentReferences, highlighted) {
-    console.log(highlighted, index);
     var cls = (highlighted === index ? 'active' : '') + " " + (parentReferences.groupAttr && parentReferences.getObjValue(option, parentReferences.groupAttr) ? 'grouped' : '');
     var boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
     boundValue = boundValue
