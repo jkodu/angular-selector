@@ -21913,6 +21913,9 @@ class SelectorComponent {
             };
             const reInitMultiple = () => {
                 this.$timeout(setInputWidth);
+                if (scope.remote) {
+                    this.$timeout(fetch);
+                }
                 initDeferred.promise.then(() => {
                     initialize();
                 }, () => {
@@ -21965,7 +21968,6 @@ class SelectorComponent {
                 if (scope.remote) {
                     this.$timeout(fetch);
                 }
-                ;
                 if (!scope.multiple) {
                     this.$timeout(scrollToHighlighted);
                 }
@@ -21975,7 +21977,7 @@ class SelectorComponent {
                 resetInput();
                 // Note: not necessary to make a fetch call on close
                 // if (scope.remote) {
-                //     $timeout(fetch);
+                //     this.$timeout(fetch);
                 // };
             };
             const decrementHighlighted = () => {

@@ -3,7 +3,12 @@ import * as  hljs from 'highlight.js';
 import * as angular from 'angular';
 
 import { getWatchers } from './utils';
-import { ex_single_element, ex_multiple_element, ex_remote_fetching } from './examples';
+import {
+  ex_single_element,
+  ex_multiple_element,
+  ex_remote_fetching,
+  ex_remote_fetching_with_validation
+} from './examples';
 
 // import * as AngularSelectorOnSteroids from '../dist/angular-selector-on-steroids';
 // new AngularSelectorOnSteroids.default().init();
@@ -14,7 +19,8 @@ new AngularSelectorOnSteroids().init();
 const examples = [
   ex_single_element,
   ex_multiple_element,
-  ex_remote_fetching
+  ex_remote_fetching,
+  ex_remote_fetching_with_validation
 ];
 
 angular

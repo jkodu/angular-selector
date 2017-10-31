@@ -1,7 +1,7 @@
 export const ex_single_element = {
     "title": "Single element",
     "html": "<select set-watch-count selector-on-steroids\n\tmodel=\"browser\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
-    "js": "$scope.browser = \"GCX\";\n\n$scope.browsers = [\n\t{ value: \"GCX\", label: \"ChromeX\" },\n\t{ value: \"FFY\", label: \"FirefoxY\" },\n\t{ value: \"ASZ\", label: \"SafariZ\" },\n\t{ value: \"IEA\", label: \"Internet ExplorerShit\" }\n];"
+    "js": "$scope.browser = \"GCX\";\n\n$scope.browsers = [\n\t{ value: \"GCX\", label: \"ChromeX\" },\n\t{ value: \"FFY\", label: \"FirefoxY\" },\n\t{ value: \"ASZ\", label: \"SafariZ\" },\n\t{ value: \"IEA\", label: \"Internet ExplorerS\" }\n];"
 };
 
 export const ex_multiple_element = {
@@ -35,7 +35,7 @@ export const ex_rtl_support = {
 export const ex_remote_fetching = {
     "title": "Remote fetching",
     "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmulti=\"true\"\n\tmodel=\"countries\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tvalue-attr=\"code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
-    "js": "$scope.remoteConfig = {\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\tvar countries = angular.fromJson(data).RestResponse.result;\n\t\treturn countries.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};"
+    "js": "$scope.countries = [ \"DZ\", \"AX\" ];\n\n$scope.remoteConfig = {\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\tvar countries = angular.fromJson(data).RestResponse.result;\n\t\treturn countries.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};"
 };
 
 export const ex_remote_fetching_with_validation = {

@@ -345,7 +345,7 @@ export class SelectorComponent {
                     (error) => {
                         scope.loading = false;
                         initDeferred.reject();
-                        const errorMsg = 'Error while fetching data: ' + (error.message || error);                        
+                        const errorMsg = 'Error while fetching data: ' + (error.message || error);
                         CONSOLE_LOGGER(this.$log, errorMsg);
                         throw errorMsg;
                     });
@@ -435,7 +435,8 @@ export class SelectorComponent {
 
             // Initialization
             const initialize = () => {
-                if (!scope.remote && (!angular.isArray(scope.options) || !scope.options.length)) {
+                if (!scope.remote &&
+                    (!angular.isArray(scope.options) || !scope.options.length)) {
                     fillWithHtml();
                 }
                 if (scope.hasValue()) {
@@ -456,6 +457,9 @@ export class SelectorComponent {
 
             const reInitMultiple = () => {
                 this.$timeout(setInputWidth);
+                if (scope.remote) {
+                    this.$timeout(fetch);
+                }
                 initDeferred
                     .promise
                     .then(() => {
@@ -514,7 +518,7 @@ export class SelectorComponent {
                 dropdownPosition();
                 if (scope.remote) {
                     this.$timeout(fetch);
-                };
+                }
                 if (!scope.multiple) {
                     this.$timeout(scrollToHighlighted);
                 }
@@ -525,7 +529,7 @@ export class SelectorComponent {
                 resetInput();
                 // Note: not necessary to make a fetch call on close
                 // if (scope.remote) {
-                //     $timeout(fetch);
+                //     this.$timeout(fetch);
                 // };
             };
 
@@ -573,6 +577,7 @@ export class SelectorComponent {
                     }
                 }
             };
+
             scope.createOption = (value) => {
                 this.$q
                     .when((() => {
@@ -592,6 +597,7 @@ export class SelectorComponent {
                         scope.set(option);
                     });
             };
+
             scope.set = (option?: any) => {
 
                 if (scope.multiple && (scope.selectedValues || []).length >= scope.limit) {
@@ -882,13 +888,10 @@ export class SelectorComponent {
                     if (e.type === 'input') {
                         setInputWidth();
                     }
-                }, (error: any) => {                    
+                }, (error: any) => {
                     CONSOLE_LOGGER(this.$log, error);
                 })
             );
-
-
-
 
             const m1 = new MutationObserver((event) => {
                 const _target = (event[0].target as HTMLElement);
