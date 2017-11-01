@@ -83,7 +83,7 @@
         display: inline;
         
         >li,
-        >div>li {
+        >div li {
             padding: 0;
             margin: 0;
             border: 0;
@@ -172,7 +172,7 @@
             float: none;
             
             >li,
-            >div>li {
+            >div li {
                 padding: .2em .6em;
                 margin: 0 .15em .25em;
                 border-width: 1px;
@@ -202,12 +202,12 @@
                 float: right;
                 
                 >li,
-                >div>li {
+                >div li {
                     float: right;
                 }
             }
             &.remove-button .selector-values>li, 
-            &.remove-button .selector-values>div>li, {
+            &.remove-button .selector-values>div li, {
                 padding-right: .6em;
                 padding-left: 1.9em;
             }
@@ -230,7 +230,7 @@
                 }
             }
             .selector-values>li,
-            .selector-values>div>li {
+            .selector-values>div li {
                 padding-right: 1.9em;
             }
             &.rtl .selector-helper {
@@ -399,7 +399,7 @@
     //Instead of the line below you could use @include box-sizing($bs)
     box-sizing: border-box;
     >li,
-    >div>li {
+    >div li {
         padding: .65em .8em;
         overflow: hidden;
         cursor: pointer;

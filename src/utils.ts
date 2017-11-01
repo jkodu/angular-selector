@@ -6,7 +6,7 @@ export const GET_SELECTED_ITEM_TEMPLATE = (option: any, index: number, filteredO
             ? JSON.stringify(option)
             : option;
     const closeButton = parentReferences.multiple
-        ? `<div class="selector-helper"><span class="selector-icon" data-index="${index}"></span></div>`
+        ? `<div class="selector-helper"><span class="selector-icon" dir="${index}"></span></div>`
         : ``;
     return `<li>${boundValue} ${closeButton}</li>`;
 };

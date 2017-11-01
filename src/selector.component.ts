@@ -2,7 +2,12 @@ declare const angular;
 
 import { ISelector } from './interfaces';
 import { CONSOLE_LOGGER } from './utils';
-import { Subject, Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/empty';
+import 'rxjs/add/observable/fromEvent';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 export class SelectorComponent {
 
@@ -336,14 +341,22 @@ export class SelectorComponent {
 
                 promise.then(
                     (response) => {
-                        const options = response.data || response;
-                        scope.options = options;
-                        filterOptions();
-                        scope.loading = false;
-                        initDeferred.resolve();
+                        this.$timeout(() => {
+                            scope.$apply(() => {
+                                const options = response.data || response;
+                                scope.options = options;
+                                filterOptions();
+                                scope.loading = false;
+                                initDeferred.resolve();
+                            });
+                        });
                     },
                     (error) => {
-                        scope.loading = false;
+                        this.$timeout(() => {
+                            scope.$apply(() => {
+                                scope.loading = false;
+                            });
+                        });
                         initDeferred.reject();
                         const errorMsg = 'Error while fetching data: ' + (error.message || error);
                         CONSOLE_LOGGER(this.$log, errorMsg);
@@ -686,6 +699,9 @@ export class SelectorComponent {
                                         scope.set();
                                     }
                                 }
+                                if(scope.multiple) {
+                                    open();
+                                }
                                 e.preventDefault();
                             }
                             break;
@@ -747,6 +763,7 @@ export class SelectorComponent {
 
             const filterOptions = () => {
                 scope.filteredOptions = filter(scope.options || [], scope.search);
+
                 const _oldSelectedValues = angular.copy(scope.selectedValues);
                 if (!angular.isArray(scope.selectedValues)) {
                     scope.selectedValues = [];
@@ -792,8 +809,11 @@ export class SelectorComponent {
                 DOM_SELECTOR_INPUT.val('');
                 setInputWidth();
                 this.$timeout(() => {
-                    scope.search = '';
+                    scope.$apply(() => {
+                        scope.search = '';
+                    });
                 });
+
             };
 
             _watchers.push(
@@ -861,7 +881,7 @@ export class SelectorComponent {
                         (!scope.remote || !scope.remoteValidation || !scope.hasValue())
                             ? angular.noop
                             : fetchValidation(newValue)).then(() => {
-                                updateSelected();
+                                // updateSelected();
                                 filterOptions();
                                 updateValue();
                             }
@@ -878,7 +898,9 @@ export class SelectorComponent {
                         });
                     }
                     if (e.type === 'blur') {
-                        scope.$apply(close);
+                        this.$timeout(() => {
+                            scope.$apply(close);
+                        });
                     }
                     if (e.type === 'keydown') {
                         scope.$apply(() => {

@@ -1,6 +1,10 @@
 import { ISelector } from './interfaces';
 import { CONSOLE_LOGGER, GET_SELECTED_ITEM_TEMPLATE } from './utils';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/fromEvent';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 export class SelectorSelectedItemsComponent {
 
@@ -10,9 +14,8 @@ export class SelectorSelectedItemsComponent {
     public scope: ISelector.SelectedItemsComponent.Scope | any = {
         input: '<'
     };
-  
+
     constructor(private $log: angular.ILogService, private debug: boolean) {
-        this.link = this.link.bind(this);
     }
 
     link(scope: ISelector.SelectedItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
@@ -30,7 +33,7 @@ export class SelectorSelectedItemsComponent {
             .subscribe((e: Event | MouseEvent) => {
                 if (e.type === 'click') {
                     if (e.srcElement.classList.contains('selector-icon')) {
-                        const index = (parseInt(e.srcElement.getAttribute('data-index')));
+                        const index = (parseInt(e.srcElement.getAttribute('dir')));
                         if (_parentReferences['unset']) {
                             _parentReferences['unset'](index < -1 ? -1 : index);
                         }

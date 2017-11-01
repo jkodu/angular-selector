@@ -6,7 +6,6 @@ export class SelectorNgModelChangedComponent {
     };
 
     constructor() {
-        this.link = this.link.bind(this);
     }
 
     link = (scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, controller: angular.IController) => {

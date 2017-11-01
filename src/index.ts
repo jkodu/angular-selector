@@ -1,5 +1,3 @@
-require('es6-object-assign').polyfill();
-
 declare const angular;
 
 // Internal
@@ -14,7 +12,7 @@ import {
   TEMPLATE_SELECTOR_SELECTED_ITEMS
 } from './templates';
 import { SelectorNgModelChangedComponent } from './selector.ngmodelchanged.component';
-import { SelectorSelectedItemsComponent } from './selector.selected.items.component';
+// import { SelectorSelectedItemsComponent } from './selector.selected.items.component';
 import { SelectorDropdownItemsComponent } from './selector.dropdown.items.component';
 import { SelectorComponent } from './selector.component';
 
@@ -36,7 +34,7 @@ export default class AngularSelectorOnSteroids {
           $templateCache.put('selector-on-steroids/group-default.html', TEMPLATE_GROUP_DEFAULT());
         }])
         .directive('onSelectorNgModelChanged', SelectorNgModelChangedComponent.Factory(debug))
-        .directive('sosSelectedItems', SelectorSelectedItemsComponent.Factory(debug))
+        // .directive('sosSelectedItems', SelectorSelectedItemsComponent.Factory(debug))
         .directive('sosDropdownItems', SelectorDropdownItemsComponent.Factory(debug))        
         .directive(MODULE_NAME, SelectorComponent.Factory(debug));
     return module;
