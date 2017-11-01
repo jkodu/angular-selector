@@ -63,7 +63,390 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 78);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(5);
+module.exports = angular;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ex_single_element = {
+    "title": "Single element",
+    "html": "<select set-watch-count selector-on-steroids\n\tmodel=\"browser\"\n\steroids=\"false\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
+    "js": "$scope.browser = \"GCX\";\n\n$scope.browsers = [\n\t{ value: \"GCX\", label: \"ChromeX\" },\n\t{ value: \"FFY\", label: \"FirefoxY\" },\n\t{ value: \"ASZ\", label: \"SafariZ\" },\n\t{ value: \"IEA\", label: \"Internet ExplorerS\" }\n];"
+};
+exports.ex_multiple_element = {
+    "title": "Multiple elements",
+    "html": "<select set-watch-count selector-on-steroids\n\tmulti=\"true\"\n\tmodel=\"myBrowsers\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myBrowsers|json\"></code>\n</p>",
+    "js": "$scope.myBrowsers = [ \"GC\", \"AS\" ];\n\n$scope.browsers = [\n\t{ value: \"GC\", label: \"Chrome\" },\n\t{ value: \"FF\", label: \"Firefox\" },\n\t{ value: \"AS\", label: \"Safari\" },\n\t{ value: \"IE\", label: \"Internet Explorer\" }\n];"
+};
+exports.ex_return_entire_obj = {
+    "title": "Return entire object(s)",
+    "html": "<!-- just DON'T add `value-attr` attribute! -->\n<select set-watch-count selector-on-steroids\n\tmodel=\"browser\"\n\toptions=\"browsers\"\n\tlabel-attr=\"name\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
+    "js": "$scope.browser = { name: \"Firefox\" };\n\n$scope.browsers = [\n\t{ name: \"Chrome\" },\n\t{ name: \"Firefox\" },\n\t{ name: \"Safari\" },\n\t{ name: \"Internet Explorer\" }\n];"
+};
+exports.ex_custom_template = {
+    "title": "Custom template",
+    "html": "<script type=\"text/ng-template\" id=\"selector/demo/browserWithURL\">\n\t{{option.label}}\n\t<a class=\"small\" ng-href=\"{{option.url}}\" ng-bind=\"option.url\"></a>\n</script>\n\n<script type=\"text/ng-template\" id=\"selector/demo/browserWithIcon\">\n\t<img ng-src=\"{{option.icon}}\"> {{option.label}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmulti=\"true\"\n\tmodel=\"myBrowsers\"\n\toptions=\"browsers\"\n\tvalue-attr=\"code\"\n\tview-item-template=\"'selector/demo/browserWithURL'\"\n\tdropdown-item-template=\"'selector/demo/browserWithIcon'\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myBrowsers|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://www.iconfinder.com/iconsets/logotypes\" target=\"_blank\">\n\t\tLogotypes\n\t</a>\n</p>",
+    "js": "$scope.myBrowsers = [ \"AS\" ];\n\n$scope.browsers = [\n\t{\n\t\tcode: \"GC\",\n\t\tlabel: \"Chrome\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-24.png\",\n\t\turl: \"https://www.google.it/chrome\"\n\t},\n\t{\n\t\tcode: \"FF\",\n\t\tlabel: \"Firefox\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/firefox-24.png\",\n\t\turl: \"https://www.mozilla.org/firefox\"\n\t},\n\t{\n\t\tcode: \"AS\",\n\t\tlabel: \"Safari\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/safari-24.png\",\n\t\turl: \"http://www.apple.com/safari/\"\n\t},\n\t{\n\t\tcode: \"IE\",\n\t\tlabel: \"Internet Explorer\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/internet-explorer-24.png\",\n\t\turl: \"http://windows.microsoft.com/internet-explorer\"\n\t}\n];"
+};
+exports.ex_fill_options_from_html = {
+    "title": "Fill options from HTML",
+    "html": "<script type=\"text/ng-template\" id=\"selector/demo/currency\">\n\t<kbd ng-bind=\"option.symbol\"></kbd>&nbsp;\n\t<b ng-bind=\"option.code\"></b> - {{option.label}}\n</script>\n\n<script type=\"text/ng-template\" id=\"selector/demo/currencyGroup\">\n\t<img class=\"currency-group\"\n\t\tng-src=\"http://files.softicons.com/download/web-icons/fatcow-hosting-additional-icons-by-fatcow/png/32x32/{{\n\t\t\toption.zone == 'Europe' ? 'flag_european_union' : 'wallet'\n\t\t}}.png\">&nbsp;\n\t{{option.zone}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"currency\"\n\toptions=\"currencies\"\n\tvalue-attr=\"value\"\n\tgroup-attr=\"zone\"\n\tview-item-template=\"'selector/demo/currency'\"\n\tdropdown-item-template=\"'selector/demo/currency'\"\n\tdropdown-group-template=\"'selector/demo/currencyGroup'\">\n\t\n\t<optgroup label=\"Europe\">\n\t\t<option value=\"2\"\n\t\t\tdata-code=\"EUR\"\n\t\t\tdata-symbol=\"€\">Euro Member Countries</option>\n\t\t<option value=\"3\"\n\t\t\tdata-code=\"GBP\"\n\t\t\tdata-symbol=\"£\">United Kingdom Pound</option>\n\t\t<option value=\"5\"\n\t\t\tdata-code=\"SEK\"\n\t\t\tdata-symbol=\"kr\"\n\t\t\tselected>Sweden Krona</option>\n\t</optgroup>\n\t<optgroup label=\"Others\">\n\t\t<option value=\"1\"\n\t\t\tdata-code=\"USD\"\n\t\t\tdata-symbol=\"$\">United States Dollar</option>\n\t\t<option value=\"4\"\n\t\t\tdata-code=\"EUR\"\n\t\t\tdata-symbol=\"¥\">Japan Yen</option>\n\t</optgroup>\n\t\n</select>\n\n<p>\n\tCurrent value: <code ng-bind=\"currency|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"http://www.softicons.com/web-icons/fatcow-hosting-additional-icons-by-fatcow\" target=\"_blank\">\n\t\tFatCow Hosting Additional Icons\n\t</a>\n</p>\n\n<p ng-init=\"show=false\">\n\t<a ng-click=\"show=!show\">Hide/show all options</a>\n\t<pre ng-show=\"show\" ng-bind=\"currencies|json\"></pre>\n</p>"
+};
+exports.ex_rtl_support = {
+    "title": "RTL Support",
+    "html": "<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"multi\"> Multiple\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"rtl\"> RTL\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"remove\"> Remove button\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"restore\"> Restore on backspace\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"disabled\"> Disabled\n</label>\n\n<select set-watch-count selector-on-steroids\n\trtl=\"rtl\"\n\tmulti=\"multi\"\n\tmodel=\"language\"\n\tdisable=\"disabled\"\n\toptions=\"languages\"\n\tvalue-attr=\"value\"\n\tlabel-attr=\"value\"\n\tremove-button=\"remove\"\n\tsoft-delete=\"restore\"\n\tplaceholder=\"Choose your favourite language(s)...\">\n\t\n\t<option value=\"PHP\"></option>\n\t<option value=\"Java\"></option>\n\t<option value=\"Ruby\"></option>\n\t<option value=\"Node\"></option>\n\t\n</select>\n\n<p>\n\tCurrent value: <code ng-bind=\"language|json\"></code>\n</p>"
+};
+exports.ex_remote_fetching = {
+    "title": "Remote fetching",
+    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmulti=\"true\"\n\tmodel=\"countries\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tvalue-attr=\"code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
+    "js": "$scope.countries = [ \"DZ\", \"AX\" ];\n\n$scope.remoteConfig = {\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\tvar countries = angular.fromJson(data).RestResponse.result;\n\t\treturn countries.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};"
+};
+exports.ex_remote_fetching_with_validation = {
+    "title": "Remote fetching and validation",
+    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"country\"\n\tvalue-attr=\"code\"\n\tdebounce=\"200\"\n\tremote=\"remote\"\n\tremote-param=\"{{remoteParam}}\"\n\tremote-validation=\"remoteValidation(value)\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"country|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
+    "js": "var options = {\n\turl: 'http://services.groupkt.com/country/',\n\tmethod: 'GET',\n\tcache: true,\n\ttransformResponse: function (data) {\n\t\tvar result = angular.fromJson(data).RestResponse.result;\n\t\tif (!angular.isArray(result)) result = [result];\n\t\treturn result.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};\n\n$scope.country = 'SV';\n\n$scope.remote = angular.copy(options);\n$scope.remote.url += 'search';\n$scope.remoteParam = 'text';\n\n$scope.remoteValidation = function (value) {\n\tvar settings = angular.copy(options);\n\tsettings.url += 'get/iso2code/' + value;\n\treturn settings;\n}"
+};
+exports.ex_remote_fetching_with_custom_service = {
+    "title": "Remote fetching with custom service",
+    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"country\"\n\tvalue-attr=\"code\"\n\tdebounce=\"200\"\n\tremote=\"remote(search)\"\n\tremote-validation=\"validate(value)\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"country|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
+    "js": "$scope.country = 'SV';\n\n$scope.remote = function (search) {\n\treturn $countries.search(search);\n};\n$scope.validate = function (value) {\n\treturn $countries.validate(value);\n};",
+    "service": {
+        "name": "$countries",
+        "deps": ["$http", "$q"],
+        "js": "var options = {\n\turl: 'http://services.groupkt.com/country/',\n\tmethod: 'GET',\n\tcache: true,\n\ttransformResponse: function (data) {\n\t\tvar result = angular.fromJson(data).RestResponse.result;\n\t\tif (!angular.isArray(result)) result = [result];\n\t\treturn result.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};\n\nfunction Countries() {}\nCountries.prototype.search = function (search) {\n\tif (!search) return $q.resolve([]);\n\tvar settings = angular.copy(options);\n\tsettings.url += 'search';\n\tsettings.params = { text: search };\n\treturn $http(settings);\n};\nCountries.prototype.validate = function (value) {\n\tif (!value) return $q.resolve([]);\n\tvar settings = angular.copy(options);\n\tsettings.url += 'get/iso2code/' + value;\n\treturn $http(settings);\n};\n\nreturn new Countries();"
+    }
+};
+exports.ex_apis = {
+    "title": "APIs",
+    "html": "<div class=\"btn-group\">\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.open()\">\n\t\tOpen\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.focus()\">\n\t\tFocus\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.close()\">\n\t\tClose\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.fetch()\">\n\t\tFetch\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.set('SXM')\">\n\t\tSet <code>SXM</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.set('ITA')\">\n\t\tSet <code>ITA</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.unset('ITA')\">\n\t\tUnset <code>ITA</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.unset()\">\n\t\tUnset all\n\t</button>\n</div>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"countries\"\n\tmulti=\"true\"\n\tapi=\"countriesAPI\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tlabel-attr=\"name\"\n\tvalue-attr=\"alpha3_code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>",
+    "js": "$scope.remoteConfig = {\n\tcache: false,\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\treturn angular.fromJson(data).RestResponse.result;\n\t}\n};"
+};
+exports.ex_change_options_dynamically = {
+    "title": "Change options dynamically",
+    "html": "<div class=\"btn-group\">\n\t<button class=\"btn btn-default\"\n\t\tng-class=\"{active:zone=='global'}\"\n\t\tng-click=\"zone='global'\">\n\t\tGlobal Rivers\n\t</button>\n\t<button class=\"btn btn-default\"\n\t\tng-class=\"{active:zone=='european'}\"\n\t\tng-click=\"zone='european'\">\n\t\tEuropean Rivers\n\t</button>\n</div>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"river\"\n\toptions=\"rivers\"\n\tlabel-attr=\"name\"\n\tplaceholder=\"Select a river...\"></select>\n\n<dl class=\"dl-horizontal\">\n\t<dt>River</dt>\n\t<dd ng-bind=\"river.name || '-'\"></dd>\n\t\n\t<dt>Length</dt>\n\t<dd ng-bind=\"river.length ? (river.length | number) + ' km' : '-'\"></dd>\n\t\n\t<dt>Outflow</dt>\n\t<dd ng-bind=\"river.outflow || '-'\"></dd>\n</dl>\n\n<p>\n\tCurrent value: <code ng-bind=\"river|json\"></code>\n</p>",
+    "js": "$scope.zone = \"global\";\n\n$scope.globalRivers = [\n\t{ name: \"Nile\",        length: 6690, outflow: \"Mediterranean\" },\n\t{ name: \"Amazon\",      length: 6296, outflow: \"Atlantic Ocean\" },\n\t{ name: \"Mississippi\", length: 5970, outflow: \"Gulf of Mexico\" },\n\t{ name: \"Yangtze\",     length: 5797, outflow: \"China Sea\" },\n\t{ name: \"Ob\",          length: 5567, outflow: \"Gulf of Ob\" },\n\t{ name: \"Yellow\",      length: 4667, outflow: \"Gulf of Chihli\" },\n\t{ name: \"Yenisei\",     length: 4506, outflow: \"Arctic Ocean\" },\n\t{ name: \"Paraná\",      length: 4498, outflow: \"Río de la Plata\" },\n\t{ name: \"Irtish\",      length: 4438, outflow: \"Ob River\" },\n\t{ name: \"Chambeshi\",   length: 4371, outflow: \"Atlantic Ocean\" }\n];\n\n$scope.europeanRivers = [\n\t{ name: \"Volga\",       length: 3692, outflow: \"Caspian Sea\" },\n\t{ name: \"Danube\",      length: 2860, outflow: \"Black Sea\" },\n\t{ name: \"Ural\",        length: 2428, outflow: \"Caspian Sea\" },\n\t{ name: \"Dnieper\",     length: 2290, outflow: \"Black Sea\" },\n\t{ name: \"Don\",         length: 1950, outflow: \"Sea of Azov\" },\n\t{ name: \"Pechora\",     length: 1809, outflow: \"Arctic Ocean\" },\n\t{ name: \"Kama\",        length: 1805, outflow: \"Volga\" },\n\t{ name: \"Oka\",         length: 1500, outflow: \"Volga\" },\n\t{ name: \"Belaya\",      length: 1430, outflow: \"Kama\" },\n\t{ name: \"Dniester\",    length: 1362, outflow: \"Black Sea\" }\n];\n\n$scope.$watch('zone', function (zone) {\n\t$scope.rivers = $scope[zone + 'Rivers'];\n\t// select first\n\t$scope.river = $scope.rivers[0];\n});"
+};
+exports.ex_create_custom_options = {
+    "title": "Create custom options",
+    "html": "<select set-watch-count selector-on-steroids\n\tmodel=\"myHobbies\"\n\tmulti=\"true\"\n\toptions=\"hobbies\"\n\tvalue-attr=\"value\"\n\tplaceholder=\"Which are your hobbies? (type something that is not in the list)\"\n\tcreate=\"createFunction(input)\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myHobbies|json\"></code>\n</p>",
+    "js": "$scope.hobbies =[\n\t{ value: 0, label: \"Basketball\" },\n\t{ value: 1, label: \"Videogames\" },\n\t{ value: 2, label: \"Travelling\" }\n];\n\n$scope.createFunction = function (input) {\n\t// format the option and return it\n\treturn {\n\t\tvalue: $scope.hobbies.length,\n\t\tlabel: input\n\t};\n};"
+};
+exports.ex_create_custom_options_using_promise = {
+    "title": "Create custom options (using <code>Promise</code>)",
+    "html": "<div ng-show=\"!creation.active\">\n\t<select set-watch-count selector-on-steroids\n\t\tmodel=\"myHobbies\"\n\t\tmulti=\"true\"\n\t\toptions=\"hobbies\"\n\t\tvalue-attr=\"value\"\n\t\tplaceholder=\"Which are your hobbies? (type something that is not in the list)\"\n\t\tcreate=\"creation.show(input)\"></select>\n\t\n\t<p>\n\t\tCurrent value: <code ng-bind=\"myHobbies|json\"></code>\n\t</p>\n</div>\n\n<form ng-show=\"creation.active\" ng-submit=\"creation.insert()\">\n\t<div class=\"form-group\">\n\t\t<label>Value</label>\n\t\t<input ng-model=\"creation.value\" required autofocus\n\t\t\tplaceholder=\"value\" class=\"form-control\">\n\t</div>\n\t<div class=\"form-group\">\n\t\t<label>Label</label>\n\t\t<input ng-model=\"creation.label\" required\n\t\t\tplaceholder=\"label\" class=\"form-control\">\n\t</div>\n\t<button type=\"submit\" class=\"btn btn-success\">\n\t\tInsert value!\n\t</button>\n\t<button type=\"button\" class=\"btn btn-default\"\n\t\tng-click=\"creation.cancel()\">\n\t\tCancel\n\t</button>\n</form>",
+    "js": "$scope.hobbies = [\n\t{ value: 0, label: \"Basketball\" },\n\t{ value: 1, label: \"Videogames\" },\n\t{ value: 2, label: \"Travelling\" }\n];\n\n$scope.creation = {\n\tactive: false,\n\tdeferred: null,\n\tshow: function (input) {\n\t\tthis.deferred = $q.defer();\n\t\tthis.active   = true;\n\t\tthis.value    = $scope.hobbies.length;\n\t\tthis.label    = input;\n\t\treturn this.deferred.promise;\n\t},\n\tinsert: function () {\n\t\tthis.active = false;\n\t\tthis.deferred.resolve({\n\t\t\tvalue: this.value,\n\t\t\tlabel: this.label\n\t\t});\n\t},\n\tcancel: function () {\n\t\tthis.active = false;\n\t\tthis.deferred.reject();\n\t}\n};"
+};
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var angular = __webpack_require__(0);
+exports.getWatchers = function (root) {
+    root = angular.element(root || document.documentElement);
+    var watcherCount = 0;
+    function getElemWatchers(element) {
+        var isolateWatchers = getWatchersFromScope(element.data()
+            .$isolateScope);
+        var scopeWatchers = getWatchersFromScope(element.data()
+            .$scope);
+        var watchers = scopeWatchers.concat(isolateWatchers);
+        angular.forEach(element.children(), function (childElement) {
+            watchers = watchers.concat(getElemWatchers(angular.element(childElement)));
+        });
+        return watchers;
+    }
+    function getWatchersFromScope(scope) {
+        if (scope) {
+            return scope.$$watchers || [];
+        }
+        else {
+            return [];
+        }
+    }
+    return getElemWatchers(root);
+};
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var hljs = __webpack_require__(7);
+
+hljs.registerLanguage('1c', __webpack_require__(8));
+hljs.registerLanguage('abnf', __webpack_require__(9));
+hljs.registerLanguage('accesslog', __webpack_require__(10));
+hljs.registerLanguage('actionscript', __webpack_require__(11));
+hljs.registerLanguage('ada', __webpack_require__(12));
+hljs.registerLanguage('apache', __webpack_require__(13));
+hljs.registerLanguage('applescript', __webpack_require__(14));
+hljs.registerLanguage('cpp', __webpack_require__(38));
+hljs.registerLanguage('arduino', __webpack_require__(15));
+hljs.registerLanguage('armasm', __webpack_require__(16));
+hljs.registerLanguage('xml', __webpack_require__(180));
+hljs.registerLanguage('asciidoc', __webpack_require__(17));
+hljs.registerLanguage('aspectj', __webpack_require__(18));
+hljs.registerLanguage('autohotkey', __webpack_require__(19));
+hljs.registerLanguage('autoit', __webpack_require__(20));
+hljs.registerLanguage('avrasm', __webpack_require__(21));
+hljs.registerLanguage('awk', __webpack_require__(22));
+hljs.registerLanguage('axapta', __webpack_require__(23));
+hljs.registerLanguage('bash', __webpack_require__(24));
+hljs.registerLanguage('basic', __webpack_require__(25));
+hljs.registerLanguage('bnf', __webpack_require__(26));
+hljs.registerLanguage('brainfuck', __webpack_require__(27));
+hljs.registerLanguage('cal', __webpack_require__(28));
+hljs.registerLanguage('capnproto', __webpack_require__(29));
+hljs.registerLanguage('ceylon', __webpack_require__(30));
+hljs.registerLanguage('clean', __webpack_require__(31));
+hljs.registerLanguage('clojure', __webpack_require__(33));
+hljs.registerLanguage('clojure-repl', __webpack_require__(32));
+hljs.registerLanguage('cmake', __webpack_require__(34));
+hljs.registerLanguage('coffeescript', __webpack_require__(35));
+hljs.registerLanguage('coq', __webpack_require__(36));
+hljs.registerLanguage('cos', __webpack_require__(37));
+hljs.registerLanguage('crmsh', __webpack_require__(39));
+hljs.registerLanguage('crystal', __webpack_require__(40));
+hljs.registerLanguage('cs', __webpack_require__(41));
+hljs.registerLanguage('csp', __webpack_require__(42));
+hljs.registerLanguage('css', __webpack_require__(43));
+hljs.registerLanguage('d', __webpack_require__(44));
+hljs.registerLanguage('markdown', __webpack_require__(104));
+hljs.registerLanguage('dart', __webpack_require__(45));
+hljs.registerLanguage('delphi', __webpack_require__(46));
+hljs.registerLanguage('diff', __webpack_require__(47));
+hljs.registerLanguage('django', __webpack_require__(48));
+hljs.registerLanguage('dns', __webpack_require__(49));
+hljs.registerLanguage('dockerfile', __webpack_require__(50));
+hljs.registerLanguage('dos', __webpack_require__(51));
+hljs.registerLanguage('dsconfig', __webpack_require__(52));
+hljs.registerLanguage('dts', __webpack_require__(53));
+hljs.registerLanguage('dust', __webpack_require__(54));
+hljs.registerLanguage('ebnf', __webpack_require__(55));
+hljs.registerLanguage('elixir', __webpack_require__(56));
+hljs.registerLanguage('elm', __webpack_require__(57));
+hljs.registerLanguage('ruby', __webpack_require__(144));
+hljs.registerLanguage('erb', __webpack_require__(58));
+hljs.registerLanguage('erlang-repl', __webpack_require__(59));
+hljs.registerLanguage('erlang', __webpack_require__(60));
+hljs.registerLanguage('excel', __webpack_require__(61));
+hljs.registerLanguage('fix', __webpack_require__(62));
+hljs.registerLanguage('flix', __webpack_require__(63));
+hljs.registerLanguage('fortran', __webpack_require__(64));
+hljs.registerLanguage('fsharp', __webpack_require__(65));
+hljs.registerLanguage('gams', __webpack_require__(66));
+hljs.registerLanguage('gauss', __webpack_require__(67));
+hljs.registerLanguage('gcode', __webpack_require__(68));
+hljs.registerLanguage('gherkin', __webpack_require__(69));
+hljs.registerLanguage('glsl', __webpack_require__(70));
+hljs.registerLanguage('go', __webpack_require__(71));
+hljs.registerLanguage('golo', __webpack_require__(72));
+hljs.registerLanguage('gradle', __webpack_require__(73));
+hljs.registerLanguage('groovy', __webpack_require__(74));
+hljs.registerLanguage('haml', __webpack_require__(75));
+hljs.registerLanguage('handlebars', __webpack_require__(76));
+hljs.registerLanguage('haskell', __webpack_require__(77));
+hljs.registerLanguage('haxe', __webpack_require__(78));
+hljs.registerLanguage('hsp', __webpack_require__(79));
+hljs.registerLanguage('htmlbars', __webpack_require__(80));
+hljs.registerLanguage('http', __webpack_require__(81));
+hljs.registerLanguage('hy', __webpack_require__(82));
+hljs.registerLanguage('inform7', __webpack_require__(83));
+hljs.registerLanguage('ini', __webpack_require__(84));
+hljs.registerLanguage('irpf90', __webpack_require__(85));
+hljs.registerLanguage('java', __webpack_require__(86));
+hljs.registerLanguage('javascript', __webpack_require__(87));
+hljs.registerLanguage('jboss-cli', __webpack_require__(88));
+hljs.registerLanguage('json', __webpack_require__(89));
+hljs.registerLanguage('julia', __webpack_require__(91));
+hljs.registerLanguage('julia-repl', __webpack_require__(90));
+hljs.registerLanguage('kotlin', __webpack_require__(92));
+hljs.registerLanguage('lasso', __webpack_require__(93));
+hljs.registerLanguage('ldif', __webpack_require__(94));
+hljs.registerLanguage('leaf', __webpack_require__(95));
+hljs.registerLanguage('less', __webpack_require__(96));
+hljs.registerLanguage('lisp', __webpack_require__(97));
+hljs.registerLanguage('livecodeserver', __webpack_require__(98));
+hljs.registerLanguage('livescript', __webpack_require__(99));
+hljs.registerLanguage('llvm', __webpack_require__(100));
+hljs.registerLanguage('lsl', __webpack_require__(101));
+hljs.registerLanguage('lua', __webpack_require__(102));
+hljs.registerLanguage('makefile', __webpack_require__(103));
+hljs.registerLanguage('mathematica', __webpack_require__(105));
+hljs.registerLanguage('matlab', __webpack_require__(106));
+hljs.registerLanguage('maxima', __webpack_require__(107));
+hljs.registerLanguage('mel', __webpack_require__(108));
+hljs.registerLanguage('mercury', __webpack_require__(109));
+hljs.registerLanguage('mipsasm', __webpack_require__(110));
+hljs.registerLanguage('mizar', __webpack_require__(111));
+hljs.registerLanguage('perl', __webpack_require__(125));
+hljs.registerLanguage('mojolicious', __webpack_require__(112));
+hljs.registerLanguage('monkey', __webpack_require__(113));
+hljs.registerLanguage('moonscript', __webpack_require__(114));
+hljs.registerLanguage('n1ql', __webpack_require__(115));
+hljs.registerLanguage('nginx', __webpack_require__(116));
+hljs.registerLanguage('nimrod', __webpack_require__(117));
+hljs.registerLanguage('nix', __webpack_require__(118));
+hljs.registerLanguage('nsis', __webpack_require__(119));
+hljs.registerLanguage('objectivec', __webpack_require__(120));
+hljs.registerLanguage('ocaml', __webpack_require__(121));
+hljs.registerLanguage('openscad', __webpack_require__(122));
+hljs.registerLanguage('oxygene', __webpack_require__(123));
+hljs.registerLanguage('parser3', __webpack_require__(124));
+hljs.registerLanguage('pf', __webpack_require__(126));
+hljs.registerLanguage('php', __webpack_require__(127));
+hljs.registerLanguage('pony', __webpack_require__(128));
+hljs.registerLanguage('powershell', __webpack_require__(129));
+hljs.registerLanguage('processing', __webpack_require__(130));
+hljs.registerLanguage('profile', __webpack_require__(131));
+hljs.registerLanguage('prolog', __webpack_require__(132));
+hljs.registerLanguage('protobuf', __webpack_require__(133));
+hljs.registerLanguage('puppet', __webpack_require__(134));
+hljs.registerLanguage('purebasic', __webpack_require__(135));
+hljs.registerLanguage('python', __webpack_require__(136));
+hljs.registerLanguage('q', __webpack_require__(137));
+hljs.registerLanguage('qml', __webpack_require__(138));
+hljs.registerLanguage('r', __webpack_require__(139));
+hljs.registerLanguage('rib', __webpack_require__(140));
+hljs.registerLanguage('roboconf', __webpack_require__(141));
+hljs.registerLanguage('routeros', __webpack_require__(142));
+hljs.registerLanguage('rsl', __webpack_require__(143));
+hljs.registerLanguage('ruleslanguage', __webpack_require__(145));
+hljs.registerLanguage('rust', __webpack_require__(146));
+hljs.registerLanguage('scala', __webpack_require__(147));
+hljs.registerLanguage('scheme', __webpack_require__(148));
+hljs.registerLanguage('scilab', __webpack_require__(149));
+hljs.registerLanguage('scss', __webpack_require__(150));
+hljs.registerLanguage('shell', __webpack_require__(151));
+hljs.registerLanguage('smali', __webpack_require__(152));
+hljs.registerLanguage('smalltalk', __webpack_require__(153));
+hljs.registerLanguage('sml', __webpack_require__(154));
+hljs.registerLanguage('sqf', __webpack_require__(155));
+hljs.registerLanguage('sql', __webpack_require__(156));
+hljs.registerLanguage('stan', __webpack_require__(157));
+hljs.registerLanguage('stata', __webpack_require__(158));
+hljs.registerLanguage('step21', __webpack_require__(159));
+hljs.registerLanguage('stylus', __webpack_require__(160));
+hljs.registerLanguage('subunit', __webpack_require__(161));
+hljs.registerLanguage('swift', __webpack_require__(162));
+hljs.registerLanguage('taggerscript', __webpack_require__(163));
+hljs.registerLanguage('yaml', __webpack_require__(182));
+hljs.registerLanguage('tap', __webpack_require__(164));
+hljs.registerLanguage('tcl', __webpack_require__(165));
+hljs.registerLanguage('tex', __webpack_require__(166));
+hljs.registerLanguage('thrift', __webpack_require__(167));
+hljs.registerLanguage('tp', __webpack_require__(168));
+hljs.registerLanguage('twig', __webpack_require__(169));
+hljs.registerLanguage('typescript', __webpack_require__(170));
+hljs.registerLanguage('vala', __webpack_require__(171));
+hljs.registerLanguage('vbnet', __webpack_require__(172));
+hljs.registerLanguage('vbscript', __webpack_require__(174));
+hljs.registerLanguage('vbscript-html', __webpack_require__(173));
+hljs.registerLanguage('verilog', __webpack_require__(175));
+hljs.registerLanguage('vhdl', __webpack_require__(176));
+hljs.registerLanguage('vim', __webpack_require__(177));
+hljs.registerLanguage('x86asm', __webpack_require__(178));
+hljs.registerLanguage('xl', __webpack_require__(179));
+hljs.registerLanguage('xquery', __webpack_require__(181));
+hljs.registerLanguage('zephir', __webpack_require__(183));
+
+module.exports = hljs;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["AngularSelectorOnSteroids"] = factory();
+	else
+		root["AngularSelectorOnSteroids"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 32);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -72,9 +455,9 @@
 
 "use strict";
 
-var root_1 = __webpack_require__(7);
-var toSubscriber_1 = __webpack_require__(547);
-var observable_1 = __webpack_require__(23);
+var root_1 = __webpack_require__(2);
+var toSubscriber_1 = __webpack_require__(41);
+var observable_1 = __webpack_require__(19);
 /**
  * A representation of any set of values over any amount of time. This is the most basic building block
  * of RxJS.
@@ -330,6 +713,63 @@ exports.Observable = Observable;
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+module.exports = isWidget
+
+function isWidget(w) {
+    return w && w.type === "Widget"
+}
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+// CommonJS / Node have global context exposed as "global" variable.
+// We don't want to include the whole node.d.ts this this compilation unit so we'll just fake
+// the global "global" var for now.
+var __window = typeof window !== 'undefined' && window;
+var __self = typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' &&
+    self instanceof WorkerGlobalScope && self;
+var __global = typeof global !== 'undefined' && global;
+var _root = __window || __global || __self;
+exports.root = _root;
+// Workaround Closure Compiler restriction: The body of a goog.module cannot use throw.
+// This is needed when used with angular/tsickle which inserts a goog.module statement.
+// Wrap in IIFE
+(function () {
+    if (!_root) {
+        throw new Error('RxJS could not find any global context (window, self, global)');
+    }
+})();
+//# sourceMappingURL=root.js.map
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = "2"
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var version = __webpack_require__(3)
+
+module.exports = isVirtualNode
+
+function isVirtualNode(x) {
+    return x && x.type === "VirtualNode" && x.version === version
+}
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -339,10 +779,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var isFunction_1 = __webpack_require__(28);
-var Subscription_1 = __webpack_require__(4);
-var Observer_1 = __webpack_require__(43);
-var rxSubscriber_1 = __webpack_require__(24);
+var isFunction_1 = __webpack_require__(11);
+var Subscription_1 = __webpack_require__(6);
+var Observer_1 = __webpack_require__(18);
+var rxSubscriber_1 = __webpack_require__(13);
 /**
  * Implements the {@link Observer} interface and extends the
  * {@link Subscription} class. While the {@link Observer} is the public API for
@@ -599,137 +1039,17 @@ var SafeSubscriber = (function (_super) {
 //# sourceMappingURL=Subscriber.js.map
 
 /***/ }),
-/* 2 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Subscriber_1 = __webpack_require__(1);
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-var OuterSubscriber = (function (_super) {
-    __extends(OuterSubscriber, _super);
-    function OuterSubscriber() {
-        _super.apply(this, arguments);
-    }
-    OuterSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
-        this.destination.next(innerValue);
-    };
-    OuterSubscriber.prototype.notifyError = function (error, innerSub) {
-        this.destination.error(error);
-    };
-    OuterSubscriber.prototype.notifyComplete = function (innerSub) {
-        this.destination.complete();
-    };
-    return OuterSubscriber;
-}(Subscriber_1.Subscriber));
-exports.OuterSubscriber = OuterSubscriber;
-//# sourceMappingURL=OuterSubscriber.js.map
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var root_1 = __webpack_require__(7);
-var isArrayLike_1 = __webpack_require__(69);
-var isPromise_1 = __webpack_require__(71);
-var isObject_1 = __webpack_require__(70);
-var Observable_1 = __webpack_require__(0);
-var iterator_1 = __webpack_require__(18);
-var InnerSubscriber_1 = __webpack_require__(268);
-var observable_1 = __webpack_require__(23);
-function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
-    var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
-    if (destination.closed) {
-        return null;
-    }
-    if (result instanceof Observable_1.Observable) {
-        if (result._isScalar) {
-            destination.next(result.value);
-            destination.complete();
-            return null;
-        }
-        else {
-            return result.subscribe(destination);
-        }
-    }
-    else if (isArrayLike_1.isArrayLike(result)) {
-        for (var i = 0, len = result.length; i < len && !destination.closed; i++) {
-            destination.next(result[i]);
-        }
-        if (!destination.closed) {
-            destination.complete();
-        }
-    }
-    else if (isPromise_1.isPromise(result)) {
-        result.then(function (value) {
-            if (!destination.closed) {
-                destination.next(value);
-                destination.complete();
-            }
-        }, function (err) { return destination.error(err); })
-            .then(null, function (err) {
-            // Escaping the Promise trap: globally throw unhandled errors
-            root_1.root.setTimeout(function () { throw err; });
-        });
-        return destination;
-    }
-    else if (result && typeof result[iterator_1.iterator] === 'function') {
-        var iterator = result[iterator_1.iterator]();
-        do {
-            var item = iterator.next();
-            if (item.done) {
-                destination.complete();
-                break;
-            }
-            destination.next(item.value);
-            if (destination.closed) {
-                break;
-            }
-        } while (true);
-    }
-    else if (result && typeof result[observable_1.observable] === 'function') {
-        var obs = result[observable_1.observable]();
-        if (typeof obs.subscribe !== 'function') {
-            destination.error(new TypeError('Provided object does not correctly implement Symbol.observable'));
-        }
-        else {
-            return obs.subscribe(new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex));
-        }
-    }
-    else {
-        var value = isObject_1.isObject(result) ? 'an invalid object' : "'" + result + "'";
-        var msg = ("You provided " + value + " where a stream was expected.")
-            + ' You can provide an Observable, Promise, Array, or Iterable.';
-        destination.error(new TypeError(msg));
-    }
-    return null;
-}
-exports.subscribeToResult = subscribeToResult;
-//# sourceMappingURL=subscribeToResult.js.map
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var isArray_1 = __webpack_require__(11);
-var isObject_1 = __webpack_require__(70);
-var isFunction_1 = __webpack_require__(28);
-var tryCatch_1 = __webpack_require__(8);
-var errorObject_1 = __webpack_require__(6);
-var UnsubscriptionError_1 = __webpack_require__(67);
+var isArray_1 = __webpack_require__(42);
+var isObject_1 = __webpack_require__(16);
+var isFunction_1 = __webpack_require__(11);
+var tryCatch_1 = __webpack_require__(17);
+var errorObject_1 = __webpack_require__(12);
+var UnsubscriptionError_1 = __webpack_require__(43);
 /**
  * Represents a disposable resource, such as the execution of an Observable. A
  * Subscription has one important method, `unsubscribe`, that takes no argument
@@ -918,7 +1238,240 @@ function flattenUnsubscriptionErrors(errors) {
 //# sourceMappingURL=Subscription.js.map
 
 /***/ }),
-/* 5 */
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var version = __webpack_require__(3)
+
+module.exports = isVirtualText
+
+function isVirtualText(x) {
+    return x && x.type === "VirtualText" && x.version === version
+}
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+module.exports = isThunk
+
+function isThunk(t) {
+    return t && t.type === "Thunk"
+}
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = isHook
+
+function isHook(hook) {
+    return hook &&
+      (typeof hook.hook === "function" && !hook.hasOwnProperty("hook") ||
+       typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
+}
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isFunction(x) {
+    return typeof x === 'function';
+}
+exports.isFunction = isFunction;
+//# sourceMappingURL=isFunction.js.map
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// typeof any so that it we don't have to cast when comparing a result to the error object
+exports.errorObject = { e: {} };
+//# sourceMappingURL=errorObject.js.map
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__(2);
+var Symbol = root_1.root.Symbol;
+exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
+    Symbol.for('rxSubscriber') : '@@rxSubscriber';
+/**
+ * @deprecated use rxSubscriber instead
+ */
+exports.$$rxSubscriber = exports.rxSubscriber;
+//# sourceMappingURL=rxSubscriber.js.map
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+var nativeIsArray = Array.isArray
+var toString = Object.prototype.toString
+
+module.exports = nativeIsArray || isArray
+
+function isArray(obj) {
+    return toString.call(obj) === "[object Array]"
+}
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var GET_SELECTED_ITEM_TEMPLATE = exports.GET_SELECTED_ITEM_TEMPLATE = function GET_SELECTED_ITEM_TEMPLATE(option, index, filteredOptions, parentReferences) {
+    var boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
+    boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
+    var closeButton = parentReferences.multiple ? '<div class="selector-helper"><span class="selector-icon" id="sos-data-index-' + index + '"></span></div>' : '';
+    return '<li>' + boundValue + ' ' + closeButton + '</li>';
+};
+var CONSOLE_LOGGER = exports.CONSOLE_LOGGER = function CONSOLE_LOGGER($log, message) {
+    $log.info('Component: Selector On Sterorids: ' + message);
+};
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isObject(x) {
+    return x != null && typeof x === 'object';
+}
+exports.isObject = isObject;
+//# sourceMappingURL=isObject.js.map
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var errorObject_1 = __webpack_require__(12);
+var tryCatchTarget;
+function tryCatcher() {
+    try {
+        return tryCatchTarget.apply(this, arguments);
+    }
+    catch (e) {
+        errorObject_1.errorObject.e = e;
+        return errorObject_1.errorObject;
+    }
+}
+function tryCatch(fn) {
+    tryCatchTarget = fn;
+    return tryCatcher;
+}
+exports.tryCatch = tryCatch;
+;
+//# sourceMappingURL=tryCatch.js.map
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.empty = {
+    closed: true,
+    next: function (value) { },
+    error: function (err) { throw err; },
+    complete: function () { }
+};
+//# sourceMappingURL=Observer.js.map
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__(2);
+function getSymbolObservable(context) {
+    var $$observable;
+    var Symbol = context.Symbol;
+    if (typeof Symbol === 'function') {
+        if (Symbol.observable) {
+            $$observable = Symbol.observable;
+        }
+        else {
+            $$observable = Symbol('observable');
+            Symbol.observable = $$observable;
+        }
+    }
+    else {
+        $$observable = '@@observable';
+    }
+    return $$observable;
+}
+exports.getSymbolObservable = getSymbolObservable;
+exports.observable = getSymbolObservable(root_1.root);
+/**
+ * @deprecated use observable instead
+ */
+exports.$$observable = exports.observable;
+//# sourceMappingURL=observable.js.map
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(0);
+var merge_1 = __webpack_require__(44);
+Observable_1.Observable.merge = merge_1.merge;
+//# sourceMappingURL=merge.js.map
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -929,11 +1482,4860 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Observable_1 = __webpack_require__(0);
-var Subscriber_1 = __webpack_require__(1);
-var Subscription_1 = __webpack_require__(4);
-var ObjectUnsubscribedError_1 = __webpack_require__(26);
-var SubjectSubscription_1 = __webpack_require__(45);
-var rxSubscriber_1 = __webpack_require__(24);
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var EmptyObservable = (function (_super) {
+    __extends(EmptyObservable, _super);
+    function EmptyObservable(scheduler) {
+        _super.call(this);
+        this.scheduler = scheduler;
+    }
+    /**
+     * Creates an Observable that emits no items to the Observer and immediately
+     * emits a complete notification.
+     *
+     * <span class="informal">Just emits 'complete', and nothing else.
+     * </span>
+     *
+     * <img src="./img/empty.png" width="100%">
+     *
+     * This static operator is useful for creating a simple Observable that only
+     * emits the complete notification. It can be used for composing with other
+     * Observables, such as in a {@link mergeMap}.
+     *
+     * @example <caption>Emit the number 7, then complete.</caption>
+     * var result = Rx.Observable.empty().startWith(7);
+     * result.subscribe(x => console.log(x));
+     *
+     * @example <caption>Map and flatten only odd numbers to the sequence 'a', 'b', 'c'</caption>
+     * var interval = Rx.Observable.interval(1000);
+     * var result = interval.mergeMap(x =>
+     *   x % 2 === 1 ? Rx.Observable.of('a', 'b', 'c') : Rx.Observable.empty()
+     * );
+     * result.subscribe(x => console.log(x));
+     *
+     * // Results in the following to the console:
+     * // x is equal to the count on the interval eg(0,1,2,3,...)
+     * // x will occur every 1000ms
+     * // if x % 2 is equal to 1 print abc
+     * // if x % 2 is not equal to 1 nothing will be output
+     *
+     * @see {@link create}
+     * @see {@link never}
+     * @see {@link of}
+     * @see {@link throw}
+     *
+     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
+     * the emission of the complete notification.
+     * @return {Observable} An "empty" Observable: emits only the complete
+     * notification.
+     * @static true
+     * @name empty
+     * @owner Observable
+     */
+    EmptyObservable.create = function (scheduler) {
+        return new EmptyObservable(scheduler);
+    };
+    EmptyObservable.dispatch = function (arg) {
+        var subscriber = arg.subscriber;
+        subscriber.complete();
+    };
+    EmptyObservable.prototype._subscribe = function (subscriber) {
+        var scheduler = this.scheduler;
+        if (scheduler) {
+            return scheduler.schedule(EmptyObservable.dispatch, 0, { subscriber: subscriber });
+        }
+        else {
+            subscriber.complete();
+        }
+    };
+    return EmptyObservable;
+}(Observable_1.Observable));
+exports.EmptyObservable = EmptyObservable;
+//# sourceMappingURL=EmptyObservable.js.map
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isScheduler(value) {
+    return value && typeof value.schedule === 'function';
+}
+exports.isScheduler = isScheduler;
+//# sourceMappingURL=isScheduler.js.map
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(0);
+var fromEvent_1 = __webpack_require__(55);
+Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
+//# sourceMappingURL=fromEvent.js.map
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var version = __webpack_require__(3)
+
+VirtualPatch.NONE = 0
+VirtualPatch.VTEXT = 1
+VirtualPatch.VNODE = 2
+VirtualPatch.WIDGET = 3
+VirtualPatch.PROPS = 4
+VirtualPatch.ORDER = 5
+VirtualPatch.INSERT = 6
+VirtualPatch.REMOVE = 7
+VirtualPatch.THUNK = 8
+
+module.exports = VirtualPatch
+
+function VirtualPatch(type, vNode, patch) {
+    this.type = Number(type)
+    this.vNode = vNode
+    this.patch = patch
+}
+
+VirtualPatch.prototype.version = version
+VirtualPatch.prototype.type = "VirtualPatch"
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isVNode = __webpack_require__(4)
+var isVText = __webpack_require__(7)
+var isWidget = __webpack_require__(1)
+var isThunk = __webpack_require__(8)
+
+module.exports = handleThunk
+
+function handleThunk(a, b) {
+    var renderedA = a
+    var renderedB = b
+
+    if (isThunk(b)) {
+        renderedB = renderThunk(b, a)
+    }
+
+    if (isThunk(a)) {
+        renderedA = renderThunk(a, null)
+    }
+
+    return {
+        a: renderedA,
+        b: renderedB
+    }
+}
+
+function renderThunk(thunk, previous) {
+    var renderedThunk = thunk.vnode
+
+    if (!renderedThunk) {
+        renderedThunk = thunk.vnode = thunk.render(previous)
+    }
+
+    if (!(isVNode(renderedThunk) ||
+            isVText(renderedThunk) ||
+            isWidget(renderedThunk))) {
+        throw new Error("thunk did not return a valid node");
+    }
+
+    return renderedThunk
+}
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isObject(x) {
+	return typeof x === "object" && x !== null;
+};
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var topLevel = typeof global !== 'undefined' ? global :
+    typeof window !== 'undefined' ? window : {}
+var minDoc = __webpack_require__(63);
+
+var doccy;
+
+if (typeof document !== 'undefined') {
+    doccy = document;
+} else {
+    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
+
+    if (!doccy) {
+        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
+    }
+}
+
+module.exports = doccy;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var document = __webpack_require__(27)
+
+var applyProperties = __webpack_require__(29)
+
+var isVNode = __webpack_require__(4)
+var isVText = __webpack_require__(7)
+var isWidget = __webpack_require__(1)
+var handleThunk = __webpack_require__(25)
+
+module.exports = createElement
+
+function createElement(vnode, opts) {
+    var doc = opts ? opts.document || document : document
+    var warn = opts ? opts.warn : null
+
+    vnode = handleThunk(vnode).a
+
+    if (isWidget(vnode)) {
+        return vnode.init()
+    } else if (isVText(vnode)) {
+        return doc.createTextNode(vnode.text)
+    } else if (!isVNode(vnode)) {
+        if (warn) {
+            warn("Item is not a valid virtual dom node", vnode)
+        }
+        return null
+    }
+
+    var node = (vnode.namespace === null) ?
+        doc.createElement(vnode.tagName) :
+        doc.createElementNS(vnode.namespace, vnode.tagName)
+
+    var props = vnode.properties
+    applyProperties(node, props)
+
+    var children = vnode.children
+
+    for (var i = 0; i < children.length; i++) {
+        var childNode = createElement(children[i], opts)
+        if (childNode) {
+            node.appendChild(childNode)
+        }
+    }
+
+    return node
+}
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(26)
+var isHook = __webpack_require__(9)
+
+module.exports = applyProperties
+
+function applyProperties(node, props, previous) {
+    for (var propName in props) {
+        var propValue = props[propName]
+
+        if (propValue === undefined) {
+            removeProperty(node, propName, propValue, previous);
+        } else if (isHook(propValue)) {
+            removeProperty(node, propName, propValue, previous)
+            if (propValue.hook) {
+                propValue.hook(node,
+                    propName,
+                    previous ? previous[propName] : undefined)
+            }
+        } else {
+            if (isObject(propValue)) {
+                patchObject(node, props, previous, propName, propValue);
+            } else {
+                node[propName] = propValue
+            }
+        }
+    }
+}
+
+function removeProperty(node, propName, propValue, previous) {
+    if (previous) {
+        var previousValue = previous[propName]
+
+        if (!isHook(previousValue)) {
+            if (propName === "attributes") {
+                for (var attrName in previousValue) {
+                    node.removeAttribute(attrName)
+                }
+            } else if (propName === "style") {
+                for (var i in previousValue) {
+                    node.style[i] = ""
+                }
+            } else if (typeof previousValue === "string") {
+                node[propName] = ""
+            } else {
+                node[propName] = null
+            }
+        } else if (previousValue.unhook) {
+            previousValue.unhook(node, propName, propValue)
+        }
+    }
+}
+
+function patchObject(node, props, previous, propName, propValue) {
+    var previousValue = previous ? previous[propName] : undefined
+
+    // Set attributes
+    if (propName === "attributes") {
+        for (var attrName in propValue) {
+            var attrValue = propValue[attrName]
+
+            if (attrValue === undefined) {
+                node.removeAttribute(attrName)
+            } else {
+                node.setAttribute(attrName, attrValue)
+            }
+        }
+
+        return
+    }
+
+    if(previousValue && isObject(previousValue) &&
+        getPrototype(previousValue) !== getPrototype(propValue)) {
+        node[propName] = propValue
+        return
+    }
+
+    if (!isObject(node[propName])) {
+        node[propName] = {}
+    }
+
+    var replacer = propName === "style" ? "" : undefined
+
+    for (var k in propValue) {
+        var value = propValue[k]
+        node[propName][k] = (value === undefined) ? replacer : value
+    }
+}
+
+function getPrototype(value) {
+    if (Object.getPrototypeOf) {
+        return Object.getPrototypeOf(value)
+    } else if (value.__proto__) {
+        return value.__proto__
+    } else if (value.constructor) {
+        return value.constructor.prototype
+    }
+}
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var version = __webpack_require__(3)
+var isVNode = __webpack_require__(4)
+var isWidget = __webpack_require__(1)
+var isThunk = __webpack_require__(8)
+var isVHook = __webpack_require__(9)
+
+module.exports = VirtualNode
+
+var noProperties = {}
+var noChildren = []
+
+function VirtualNode(tagName, properties, children, key, namespace) {
+    this.tagName = tagName
+    this.properties = properties || noProperties
+    this.children = children || noChildren
+    this.key = key != null ? String(key) : undefined
+    this.namespace = (typeof namespace === "string") ? namespace : null
+
+    var count = (children && children.length) || 0
+    var descendants = 0
+    var hasWidgets = false
+    var hasThunks = false
+    var descendantHooks = false
+    var hooks
+
+    for (var propName in properties) {
+        if (properties.hasOwnProperty(propName)) {
+            var property = properties[propName]
+            if (isVHook(property) && property.unhook) {
+                if (!hooks) {
+                    hooks = {}
+                }
+
+                hooks[propName] = property
+            }
+        }
+    }
+
+    for (var i = 0; i < count; i++) {
+        var child = children[i]
+        if (isVNode(child)) {
+            descendants += child.count || 0
+
+            if (!hasWidgets && child.hasWidgets) {
+                hasWidgets = true
+            }
+
+            if (!hasThunks && child.hasThunks) {
+                hasThunks = true
+            }
+
+            if (!descendantHooks && (child.hooks || child.descendantHooks)) {
+                descendantHooks = true
+            }
+        } else if (!hasWidgets && isWidget(child)) {
+            if (typeof child.destroy === "function") {
+                hasWidgets = true
+            }
+        } else if (!hasThunks && isThunk(child)) {
+            hasThunks = true;
+        }
+    }
+
+    this.count = count + descendants
+    this.hasWidgets = hasWidgets
+    this.hasThunks = hasThunks
+    this.hooks = hooks
+    this.descendantHooks = descendantHooks
+}
+
+VirtualNode.prototype.version = version
+VirtualNode.prototype.type = "VirtualNode"
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var version = __webpack_require__(3)
+
+module.exports = VirtualText
+
+function VirtualText(text) {
+    this.text = String(text)
+}
+
+VirtualText.prototype.version = version
+VirtualText.prototype.type = "VirtualText"
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.AngularSelectorOnSteroids = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // Internal
+
+// import { SelectorSelectedItemsComponent } from './selector.selected.items.component';
+
+
+__webpack_require__(33);
+
+var _templates = __webpack_require__(38);
+
+var _selectorNgmodelchanged = __webpack_require__(39);
+
+var _selectorDropdownItems = __webpack_require__(40);
+
+var _selector = __webpack_require__(79);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var MODULE_NAME = 'selectorOnSteroids';
+
+var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () {
+    function AngularSelectorOnSteroids() {
+        _classCallCheck(this, AngularSelectorOnSteroids);
+    }
+
+    _createClass(AngularSelectorOnSteroids, [{
+        key: 'init',
+        value: function init() {
+            var debug = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+            var module = angular.module(MODULE_NAME, []).run(['$templateCache', function ($templateCache) {
+                $templateCache.put('selector-on-steroids/selector.html', (0, _templates.TEMPLATE_SELECTOR)());
+                $templateCache.put('selector-on-steroids/selector-dropdown-item.html', (0, _templates.TEMPLATE_SELECTOR_DROPDOWN_ITEMS)());
+                $templateCache.put('selector-on-steroids/selector-selected-item.html', (0, _templates.TEMPLATE_SELECTOR_SELECTED_ITEMS)());
+                $templateCache.put('selector-on-steroids/item-create.html', (0, _templates.TEMPLATE_ITEM_CREATE)());
+                $templateCache.put('selector-on-steroids/item-default.html', (0, _templates.TEMPLATE_ITEM_DEFAULT)());
+                $templateCache.put('selector-on-steroids/group-default.html', (0, _templates.TEMPLATE_GROUP_DEFAULT)());
+            }]).directive('onSelectorNgModelChanged', _selectorNgmodelchanged.SelectorNgModelChangedComponent.Factory(debug)).directive('sosDropdownItems', _selectorDropdownItems.SelectorDropdownItemsComponent.Factory(debug)).directive(MODULE_NAME, _selector.SelectorComponent.Factory(debug));
+            return module;
+        }
+    }]);
+
+    return AngularSelectorOnSteroids;
+}();
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(34);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(36)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js??ref--1-1!../node_modules/postcss-loader/lib/index.js!./index.pcss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js??ref--1-1!../node_modules/postcss-loader/lib/index.js!./index.pcss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(35)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "@-webkit-keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n@keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n[selector] {\r\n    display: none;\r\n}\r\n\r\n.selector {\r\n    display: none;\r\n}\r\n\r\n.selector-container {\r\n    display: block;\r\n    position: relative;\r\n    font-size: 1em;\r\n    line-height: normal;\r\n    color: #495c68;\r\n    //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n}\r\n\r\n.selector-container input {\r\n        font-size: 1em;\r\n        line-height: normal;\r\n        color: #495c68;\r\n        //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n        outline: none;\r\n        background: none !important;\r\n        border-color: transparent !important;\r\n        width: 2px;\r\n        display: inline-block;\r\n        cursor: pointer;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        display: inline;\r\n    }\r\n\r\n.selector-container.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.rtl .selector-helper {\r\n            right: inherit;\r\n            left: 0;\r\n        }\r\n\r\n.selector-container .selector-values {\r\n        list-style: none;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        display: inline;\r\n    }\r\n\r\n.selector-container .selector-values >li,\r\n        .selector-container .selector-values >div li {\r\n            padding: 0;\r\n            margin: 0;\r\n            border: 0;\r\n            display: inline;\r\n        }\r\n\r\n.selector-container .selector-values >li >div, .selector-container .selector-values >div li >div {\r\n                padding: 0;\r\n                margin: 0;\r\n                border: 0;\r\n                display: inline;\r\n            }\r\n\r\n.selector-container.open input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.open .selector-input {\r\n            background: none;\r\n            border-bottom-color: #eee;\r\n            padding-right: 2.6em;\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px 4px 0 0;\r\n        }\r\n\r\n.selector-container.open .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.open .selector-dropdown {\r\n            display: block;\r\n        }\r\n\r\n.selector-container.open.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.open.empty .selector-input {\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px;\r\n            border-bottom-color: #bbb;\r\n        }\r\n\r\n.selector-container.has-value input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.has-value.remove-button .selector-helper {\r\n                border-left: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon:after {\r\n                    content: '\\D7';\r\n                    display: table-cell;\r\n                    position: relative;\r\n                    top: 0;\r\n                    left: 0;\r\n                    margin: 0;\r\n                    border: none;\r\n                    height: 100%;\r\n                    text-align: center;\r\n                    vertical-align: middle;\r\n                }\r\n\r\n.selector-container.has-value.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.disabled {\r\n        opacity: .6;\r\n    }\r\n\r\n.selector-container.multiple input {\r\n            float: left;\r\n            padding: .2em .6em;\r\n            margin: 0 .15em .25em;\r\n            border-width: 1px;\r\n            border-style: solid;\r\n            float: left;\r\n            line-height: normal;\r\n        }\r\n\r\n.selector-container.multiple .selector-values {\r\n            float: left;\r\n            float: none;\r\n        }\r\n\r\n.selector-container.multiple .selector-values >li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple .selector-values >div li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple.rtl input {\r\n                float: right;\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values {\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values >li,\r\n                .selector-container.multiple.rtl .selector-values >div li {\r\n                    float: right;\r\n                }\r\n\r\n.selector-container.multiple.rtl.remove-button .selector-values>li, \r\n            .selector-container.multiple.rtl.remove-button .selector-values>div li, \r\n            .selector-container.multiple.rtl  {\r\n                padding-right: .6em;\r\n                padding-left: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple .selector-input {\r\n            padding: .5em .55em .2em .55em !important;\r\n            cursor: text;\r\n            background: #fff;\r\n            //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);\r\n        }\r\n\r\n.selector-container.multiple.remove-button .selector-helper {\r\n                display: block;\r\n                width: 1.3em;\r\n                border-left: 1px solid #0987d6;\r\n                cursor: pointer;\r\n            }\r\n\r\n.selector-container.multiple.remove-button .selector-helper:hover {\r\n                    background: rgba(0, 0, 0, .1);\r\n                }\r\n\r\n.selector-container.multiple.remove-button .selector-values>li,\r\n            .selector-container.multiple.remove-button .selector-values>div li {\r\n                padding-right: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #0987d6;\r\n            }\r\n\r\n.selector-container.multiple .selector-helper {\r\n            display: none;\r\n        }\r\n\r\n.selector-container.multiple.loading .selector-input {\r\n                padding-right: 3em !important;\r\n            }\r\n\r\n.selector-container.multiple.loading .selector-global-helper {\r\n                margin: .75em .8em;\r\n                border-left: none;\r\n                border-right: none;\r\n            }\r\n\r\n.selector-container.multiple.loading.rtl .selector-input {\r\n                    padding-right: .55em !important;\r\n                    padding-left: 3em !important;\r\n                }\r\n\r\n.selector-container.multiple.loading.rtl.has-value .selector-input {\r\n                    padding-right: .25em !important;\r\n                }\r\n\r\n.selector-container.multiple.has-value .selector-input {\r\n            padding-left: .35em !important;\r\n            padding-right: .35em !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon:after {\r\n                    content: '';\r\n                    width: 100%;\r\n                    height: 100%;\r\n                    margin: 0;\r\n                    top: 0;\r\n                    left: 0;\r\n                    opacity: .5;\r\n                    border-top: 1px solid #545a6a;\r\n                    border-bottom: 1px solid #d4d4db;\r\n                    border-left: 1px solid #545a6a;\r\n                    border-right: 1px solid #d4d4db;\r\n                    -webkit-animation: selector-rotate .5s linear infinite;\r\n                            animation: selector-rotate .5s linear infinite;\r\n                    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                    border-radius: 100%;\r\n                }\r\n\r\n.selector-container.loading .selector-helper.selector-global-helper {\r\n            width: 1.3em;\r\n            height: 1.3em;\r\n            margin: .65em .7em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value .selector-input {\r\n            padding-right: 3.5em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 3.5em;\r\n        }\r\n\r\n.selector-input {\r\n    display: block;\r\n    margin: 0;\r\n    position: relative;\r\n    width: 100%;\r\n    padding: .8em 2.6em .7em .7em;\r\n    overflow: hidden;\r\n    cursor: pointer;\r\n    border: 1px solid #bbb;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 0 rgba(0, 0, 0, .05), inset 0 1px 0 rgba(255, 255, 255, .8);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 4px;\r\n    font-weight: inherit;\r\n    background-color: #f9f9f9;\r\n    background-image: linear-gradient(#fafafa, #eee);\r\n}\r\n\r\n.selector-input input {\r\n        padding-left: 0 !important;\r\n        padding-right: 0 !important;\r\n        border-left: 0 !important;\r\n        border-right: 0 !important;\r\n        max-width: 100% !important;\r\n    }\r\n\r\n.selector-helper {\r\n    position: absolute;\r\n    display: block;\r\n    width: 2.6em;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n}\r\n\r\n.selector-helper .selector-icon {\r\n        display: block;\r\n        position: relative;\r\n        height: 100%;\r\n    }\r\n\r\n.selector-helper .selector-icon:after {\r\n            content: '';\r\n            display: block;\r\n            position: absolute;\r\n            top: 50%;\r\n            left: 50%;\r\n            margin-top: -.1em;\r\n            margin-left: -.4em;\r\n            width: 0;\r\n            height: 0;\r\n            border: .4em solid #888;\r\n            border-left-color: transparent;\r\n            border-right-color: transparent;\r\n            border-bottom: none;\r\n        }\r\n\r\n.selector-shadow {\r\n    padding-left: 0 !important;\r\n    padding-right: 0 !important;\r\n    border-left: 0 !important;\r\n    border-right: 0 !important;\r\n    max-width: 100% !important;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    white-space: pre;\r\n    margin: 0;\r\n}\r\n\r\n.selector-dropdown {\r\n    display: none;\r\n    list-style: none;\r\n    padding: 0 !important;\r\n    margin: 0 !important;\r\n    position: absolute;\r\n    z-index: 1;\r\n    background: #fff;\r\n    border: 1px solid #ccc;\r\n    border-top: 0;\r\n    max-height: 15.5em;\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n    z-index: 1000;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 0 0 3px 3px;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    \r\n}\r\n\r\n.selector-dropdown >li,\r\n    .selector-dropdown >div li {\r\n        padding: .65em .8em;\r\n        overflow: hidden;\r\n        cursor: pointer;\r\n    }\r\n\r\n.selector-dropdown .selector-optgroup {\r\n        background: #fefefe;\r\n        border-top: 1px solid #eee;\r\n        border-bottom: 1px solid #eee;\r\n    }\r\n\r\n.selector-dropdown .selector-option:hover {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.grouped {\r\n            padding-left: 1.6em;\r\n        }\r\n\r\n.selector-dropdown .selector-option.active {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.no-data{\r\n\r\n        }\r\n\r\n.selector-dropdown .selector-option.loading{\r\n            \r\n        }\r\n\r\n.selector-dropdown .selector-option.create {\r\n            color: rgba(73, 92, 104, .6);\r\n        }\r\n\r\n.selector-dropdown .selector-option.create.active {\r\n                color: #495c68;\r\n            }", ""]);
+
+// exports
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
+		}
+
+		return memo[selector]
+	};
+})(function (target) {
+	return document.querySelector(target)
+});
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(37);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton) options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+	if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var TEMPLATE_ITEM_CREATE = exports.TEMPLATE_ITEM_CREATE = function TEMPLATE_ITEM_CREATE() {
+    return "Add <i ng-bind=\"search\"></i>";
+};
+var TEMPLATE_ITEM_DEFAULT = exports.TEMPLATE_ITEM_DEFAULT = function TEMPLATE_ITEM_DEFAULT() {
+    return "<span ng-bind=\"getObjValue(option, labelAttr) || option\"></span>";
+};
+var TEMPLATE_GROUP_DEFAULT = exports.TEMPLATE_GROUP_DEFAULT = function TEMPLATE_GROUP_DEFAULT() {
+    return "<span ng-bind=\"getObjValue(option, groupAttr)\"></span>";
+};
+var TEMPLATE_SELECTOR_SELECTED_ITEMS = exports.TEMPLATE_SELECTOR_SELECTED_ITEMS = function TEMPLATE_SELECTOR_SELECTED_ITEMS() {
+    return "<div></div>";
+};
+var TEMPLATE_SELECTOR_DROPDOWN_ITEMS = exports.TEMPLATE_SELECTOR_DROPDOWN_ITEMS = function TEMPLATE_SELECTOR_DROPDOWN_ITEMS() {
+    return "<div></div>";
+};
+var TEMPLATE_SELECTOR = exports.TEMPLATE_SELECTOR = function TEMPLATE_SELECTOR() {
+    return "<div class=\"selector-container\"\n        ng-attr-dir=\"{{ rtl ? 'rtl' : 'ltr' }}\"\n        ng-class=\"{\n            open: isOpen, \n            empty: !filteredOptions.length && \n                (!create || !search), multiple: multiple, \n                'has-value': hasValue(), \n                rtl: rtl, \n                'loading': loading, \n                'remove-button': removeButton, \n                disabled: disabled}\">\n        <select name=\"{{name}}\"\n            ng-hide=\"true\"\n            ng-required=\"required && !hasValue()\"\n            ng-model=\"selectedValues\"\n            multiple\n            ng-options=\"option as getObjValue(option, labelAttr) for option in selectedValues\">\n        </select>\n        <label class=\"selector-input\">\n            <ul class=\"selector-values\">\n\n                <li \n                    ng-repeat=\"(index, option) in selectedValues track by $index\">\n                    <div ng-include=\"viewItemTemplate\"></div>\n                    <div \n                        ng-if=\"multiple\" \n                        class=\"selector-helper\" \n                        ng-click=\"!disabled && unset(index)\">\n                        <span class=\"selector-icon\"></span>\n                    </div>\n                </li>\n                \n            \n\n            </ul>\n            <input \n                ng-model=\"search\" \n                on-selector-ng-model-changed='onNgModelChanged'\n                placeholder=\"{{!hasValue() ? placeholder : ''}}\" \n                ng-model-options=\"{debounce: debounce}\"\n                ng-disabled=\"disabled\" \n                ng-readonly=\"disableSearch\" \n                ng-required=\"required && !hasValue()\" \n                autocomplete=\"off\">\n            <div ng-if=\"!multiple || loading\" \n                class=\"selector-helper selector-global-helper\" \n                ng-click=\"!disabled && removeButton && unset()\">\n                <span class=\"selector-icon\"></span>\n            </div>\n        </label>\n        <ul class=\"selector-dropdown\">\n\n            <li \n                class=\"selector-option create\"\n                ng-class=\"{active: highlighted == -1}\"\n                ng-if=\"create && search\"\n                ng-include=\"dropdownCreateTemplate\"\n                ng-mouseover=\"highlight(-1)\"\n                ng-click=\"createOption(search)\">\n            </li>\n\n            <li \n                class=\"selector-option loading\"\n                ng-show=\"loading === true\">\n                Loading...\n            </li>\n\n            <li \n                class=\"selector-option no-data\"\n                ng-show=\"!loading && (!filteredOptions || filteredOptions.length <= 0)\"\n                >\n                No Data\n            </li>\n\n            <sos-dropdown-items\n                ng-if=\"steroids === true\"\n                ng-show='filteredOptions.length > 0'\n                input='filteredOptionsInput$'>\n            </sos-dropdown-items>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-repeat-start=\"(index, option) in filteredOptions track by $index\"\n                class=\"selector-optgroup\"\n                ng-include=\"dropdownGroupTemplate\"\n                ng-show=\"filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))\">\n            </li>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-show=\"filteredOptions.length > 0\"\n                ng-repeat-end\n                ng-class=\"{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}\"\n                class=\"selector-option js-data-item\"\n                ng-include=\"dropdownItemTemplate\"\n                ng-mouseover=\"highlight(index)\"\n                ng-click=\"set()\">\n            </li>\n        </ul>\n    </div>";
+};
+// <sos-selected-items
+// ng-if="steroids === true"
+// input='selectedValuesInput$'>
+// </sos-selected-items>
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var SelectorNgModelChangedComponent = exports.SelectorNgModelChangedComponent = function () {
+    function SelectorNgModelChangedComponent() {
+        _classCallCheck(this, SelectorNgModelChangedComponent);
+
+        this.require = 'ngModel';
+        this.scope = {
+            onSelectorNgModelChanged: '&'
+        };
+        this.link = function (scope, element, attrs, controller) {
+            var oldValue = void 0;
+            controller.$formatters.push(function (value) {
+                oldValue = value;
+                return value;
+            });
+            controller.$viewChangeListeners.push(function () {
+                var ngModelName = attrs['ngModel']; // TODO: UNDEFINED CHECK
+                scope.onSelectorNgModelChanged()(ngModelName, oldValue, controller.$modelValue);
+                oldValue = controller.$modelValue;
+            });
+        };
+    }
+
+    _createClass(SelectorNgModelChangedComponent, null, [{
+        key: 'Factory',
+        value: function Factory(debug) {
+            var directive = function directive() {
+                return new SelectorNgModelChangedComponent();
+            };
+            directive['$inject'] = [];
+            return directive;
+        }
+    }]);
+
+    return SelectorNgModelChangedComponent;
+}();
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.SelectorDropdownItemsComponent = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _templateObject = _taggedTemplateLiteral(['<li class="selector-option js-data-item ', '" id="sos-data-index-', '">', '</li>'], ['<li class="selector-option js-data-item ', '" id="sos-data-index-', '">', '</li>']),
+    _templateObject2 = _taggedTemplateLiteral(['<li class="selector-optgroup">', '</li>'], ['<li class="selector-optgroup">', '</li>']),
+    _templateObject3 = _taggedTemplateLiteral([''], ['']),
+    _templateObject4 = _taggedTemplateLiteral(['', ''], ['', '']),
+    _templateObject5 = _taggedTemplateLiteral(['<span>', '', '</span>'], ['<span>', '', '</span>']),
+    _templateObject6 = _taggedTemplateLiteral(['<div>', '</div>'], ['<div>', '</div>']);
+
+var _utils = __webpack_require__(15);
+
+var _Observable = __webpack_require__(0);
+
+__webpack_require__(20);
+
+__webpack_require__(23);
+
+var _virtualDom = __webpack_require__(57);
+
+var vdom = _interopRequireWildcard(_virtualDom);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var hyperx = __webpack_require__(77);
+
+var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = function () {
+    function SelectorDropdownItemsComponent($log, debug) {
+        _classCallCheck(this, SelectorDropdownItemsComponent);
+
+        this.$log = $log;
+        this.debug = debug;
+        this.replace = true;
+        this.restrict = 'E';
+        this.templateUrl = 'selector-on-steroids/selector-dropdown-item.html';
+        this.scope = {
+            input: '<'
+        };
+    }
+
+    _createClass(SelectorDropdownItemsComponent, [{
+        key: 'link',
+        value: function link(scope, element, attrs) {
+            var _this = this;
+
+            var hx = hyperx(vdom.h, {
+                vdom: true
+            });
+            var _subscribers = [];
+            var _parentReferences = {};
+            var _isBooted = false;
+            var _isFirstRendered = false;
+            var _tree = null;
+            var _rootNode = null;
+            var GET_DROPDOWN_ITEM_TEMPLATE = function GET_DROPDOWN_ITEM_TEMPLATE(option, index, filteredOptions, highlighted) {
+                var cls = (highlighted === index ? 'active' : '') + ' ' + (_parentReferences.groupAttr && _parentReferences.getObjValue(option, _parentReferences.groupAttr) ? 'grouped' : '');
+                var boundValue = _parentReferences.getObjValue(option, _parentReferences.labelAttr);
+                boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
+                return hx(_templateObject, cls, index, boundValue);
+            };
+            var GET_DROPDOWN_GROUP_TEMPLATE = function GET_DROPDOWN_GROUP_TEMPLATE(option, index, filteredOptions) {
+                if (_parentReferences.groupAttr) {
+                    var boundValue = _parentReferences.getObjValue(option, _parentReferences.groupAttr);
+                    if (boundValue && index === 0 || _parentReferences.getObjValue(filteredOptions[index - 1], _parentReferences.groupAttr) !== boundValue) {
+                        return hx(_templateObject2, boundValue);
+                    } else {
+                        return hx(_templateObject3);
+                    }
+                } else {
+                    return hx(_templateObject3);
+                }
+            };
+            var getRenderableItems = function getRenderableItems(items, highlighted) {
+                var liList = hx(_templateObject4, items.map(function (currentValue, index, array) {
+                    return hx(_templateObject5, GET_DROPDOWN_GROUP_TEMPLATE(currentValue, index, array), GET_DROPDOWN_ITEM_TEMPLATE(currentValue, index, array, highlighted));
+                }));
+                var tpl = hx(_templateObject6, liList);
+                return tpl;
+            };
+            _Observable.Observable.merge(_Observable.Observable.fromEvent(element[0], 'mouseenter'), _Observable.Observable.fromEvent(element[0], 'click')).subscribe(function (e) {
+                if (e.type === 'mouseover') {
+                    var index = parseInt(e.srcElement.getAttribute('id').replace('sos-data-index-', ''));
+                    if (_parentReferences['highlight']) {
+                        _parentReferences['highlight'](index < -1 ? -1 : index);
+                    }
+                }
+                if (e.type === 'click') {
+                    var _index = parseInt(e.srcElement.getAttribute('id').replace('sos-data-index-', ''));
+                    if (_parentReferences['highlight']) {
+                        _parentReferences['highlight'](_index < -1 ? -1 : _index);
+                    }
+                    if (_parentReferences['set']) {
+                        _parentReferences['set'](undefined);
+                    }
+                }
+                e.stopPropagation();
+            });
+            if (scope.input) {
+                // TODO: Move to post link?
+                _subscribers.push(scope.input.subscribe(function (inputData) {
+                    if (inputData.filteredOptions && inputData.filteredOptions.length) {
+                        if (!_isBooted) {
+                            if (!_parentReferences.hasOwnProperty('groupAttr') || !_parentReferences.hasOwnProperty('valueAttr') || !_parentReferences.hasOwnProperty('labelAttr') || !_parentReferences.hasOwnProperty('getObjValue') || !_parentReferences.hasOwnProperty('set') || !_parentReferences.hasOwnProperty('highlight')) {
+                                _parentReferences['groupAttr'] = inputData.groupAttr;
+                                _parentReferences['valueAttr'] = inputData.valueAttr;
+                                _parentReferences['labelAttr'] = inputData.labelAttr;
+                                _parentReferences['getObjValue'] = inputData.getObjValue;
+                                _parentReferences['set'] = inputData.set;
+                                _parentReferences['highlight'] = inputData.highlight;
+                                _isBooted = true;
+                            }
+                        }
+                        if (_isBooted) {
+                            if (!_isFirstRendered) {
+                                var tpl = getRenderableItems(inputData.filteredOptions, inputData.highlighted);
+                                _tree = tpl;
+                                _rootNode = vdom.create(_tree);
+                                element[0].appendChild(_rootNode);
+                                // element[0].innerHTML = _rootNode;
+                                _isFirstRendered = true;
+                            } else {
+                                var _tpl = getRenderableItems(inputData.filteredOptions, inputData.highlighted);
+                                var newTree = _tpl;
+                                var patches = vdom.diff(_tree, newTree);
+                                _rootNode = vdom.patch(_rootNode, patches);
+                                _tree = newTree;
+                            }
+                        }
+                        if (_this.debug) {
+                            (0, _utils.CONSOLE_LOGGER)(_this.$log, 'Re-drawing items/ options.');
+                        }
+                    }
+                }, function (error) {
+                    if (_this.debug) {
+                        (0, _utils.CONSOLE_LOGGER)(_this.$log, 'Cannot initialize, Selector Dropdown Items Component!');
+                    }
+                }));
+            }
+            scope.$on('$destroy', function () {
+                // dispose subscribers
+                if (_subscribers && _subscribers.length) {
+                    _subscribers.forEach(function (s) {
+                        s.unsubscribe();
+                    });
+                    _subscribers = null;
+                }
+            });
+        }
+    }], [{
+        key: 'Factory',
+        value: function Factory(debug) {
+            var directive = function directive($log) {
+                return new SelectorDropdownItemsComponent($log, debug);
+            };
+            directive['$inject'] = ['$log'];
+            return directive;
+        }
+    }]);
+
+    return SelectorDropdownItemsComponent;
+}();
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Subscriber_1 = __webpack_require__(5);
+var rxSubscriber_1 = __webpack_require__(13);
+var Observer_1 = __webpack_require__(18);
+function toSubscriber(nextOrObserver, error, complete) {
+    if (nextOrObserver) {
+        if (nextOrObserver instanceof Subscriber_1.Subscriber) {
+            return nextOrObserver;
+        }
+        if (nextOrObserver[rxSubscriber_1.rxSubscriber]) {
+            return nextOrObserver[rxSubscriber_1.rxSubscriber]();
+        }
+    }
+    if (!nextOrObserver && !error && !complete) {
+        return new Subscriber_1.Subscriber(Observer_1.empty);
+    }
+    return new Subscriber_1.Subscriber(nextOrObserver, error, complete);
+}
+exports.toSubscriber = toSubscriber;
+//# sourceMappingURL=toSubscriber.js.map
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
+//# sourceMappingURL=isArray.js.map
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * An error thrown when one or more errors have occurred during the
+ * `unsubscribe` of a {@link Subscription}.
+ */
+var UnsubscriptionError = (function (_super) {
+    __extends(UnsubscriptionError, _super);
+    function UnsubscriptionError(errors) {
+        _super.call(this);
+        this.errors = errors;
+        var err = Error.call(this, errors ?
+            errors.length + " errors occurred during unsubscription:\n  " + errors.map(function (err, i) { return ((i + 1) + ") " + err.toString()); }).join('\n  ') : '');
+        this.name = err.name = 'UnsubscriptionError';
+        this.stack = err.stack;
+        this.message = err.message;
+    }
+    return UnsubscriptionError;
+}(Error));
+exports.UnsubscriptionError = UnsubscriptionError;
+//# sourceMappingURL=UnsubscriptionError.js.map
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var merge_1 = __webpack_require__(45);
+exports.merge = merge_1.mergeStatic;
+//# sourceMappingURL=merge.js.map
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(0);
+var ArrayObservable_1 = __webpack_require__(46);
+var mergeAll_1 = __webpack_require__(48);
+var isScheduler_1 = __webpack_require__(22);
+/* tslint:enable:max-line-length */
+/**
+ * Creates an output Observable which concurrently emits all values from every
+ * given input Observable.
+ *
+ * <span class="informal">Flattens multiple Observables together by blending
+ * their values into one Observable.</span>
+ *
+ * <img src="./img/merge.png" width="100%">
+ *
+ * `merge` subscribes to each given input Observable (either the source or an
+ * Observable given as argument), and simply forwards (without doing any
+ * transformation) all the values from all the input Observables to the output
+ * Observable. The output Observable only completes once all input Observables
+ * have completed. Any error delivered by an input Observable will be immediately
+ * emitted on the output Observable.
+ *
+ * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var timer = Rx.Observable.interval(1000);
+ * var clicksOrTimer = clicks.merge(timer);
+ * clicksOrTimer.subscribe(x => console.log(x));
+ *
+ * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
+ * var timer1 = Rx.Observable.interval(1000).take(10);
+ * var timer2 = Rx.Observable.interval(2000).take(6);
+ * var timer3 = Rx.Observable.interval(500).take(10);
+ * var concurrent = 2; // the argument
+ * var merged = timer1.merge(timer2, timer3, concurrent);
+ * merged.subscribe(x => console.log(x));
+ *
+ * @see {@link mergeAll}
+ * @see {@link mergeMap}
+ * @see {@link mergeMapTo}
+ * @see {@link mergeScan}
+ *
+ * @param {ObservableInput} other An input Observable to merge with the source
+ * Observable. More than one input Observables may be given as argument.
+ * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
+ * Observables being subscribed to concurrently.
+ * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
+ * concurrency of input Observables.
+ * @return {Observable} An Observable that emits items that are the result of
+ * every input Observable.
+ * @method merge
+ * @owner Observable
+ */
+function merge() {
+    var observables = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        observables[_i - 0] = arguments[_i];
+    }
+    return this.lift.call(mergeStatic.apply(void 0, [this].concat(observables)));
+}
+exports.merge = merge;
+/* tslint:enable:max-line-length */
+/**
+ * Creates an output Observable which concurrently emits all values from every
+ * given input Observable.
+ *
+ * <span class="informal">Flattens multiple Observables together by blending
+ * their values into one Observable.</span>
+ *
+ * <img src="./img/merge.png" width="100%">
+ *
+ * `merge` subscribes to each given input Observable (as arguments), and simply
+ * forwards (without doing any transformation) all the values from all the input
+ * Observables to the output Observable. The output Observable only completes
+ * once all input Observables have completed. Any error delivered by an input
+ * Observable will be immediately emitted on the output Observable.
+ *
+ * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var timer = Rx.Observable.interval(1000);
+ * var clicksOrTimer = Rx.Observable.merge(clicks, timer);
+ * clicksOrTimer.subscribe(x => console.log(x));
+ *
+ * // Results in the following:
+ * // timer will emit ascending values, one every second(1000ms) to console
+ * // clicks logs MouseEvents to console everytime the "document" is clicked
+ * // Since the two streams are merged you see these happening
+ * // as they occur.
+ *
+ * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
+ * var timer1 = Rx.Observable.interval(1000).take(10);
+ * var timer2 = Rx.Observable.interval(2000).take(6);
+ * var timer3 = Rx.Observable.interval(500).take(10);
+ * var concurrent = 2; // the argument
+ * var merged = Rx.Observable.merge(timer1, timer2, timer3, concurrent);
+ * merged.subscribe(x => console.log(x));
+ *
+ * // Results in the following:
+ * // - First timer1 and timer2 will run concurrently
+ * // - timer1 will emit a value every 1000ms for 10 iterations
+ * // - timer2 will emit a value every 2000ms for 6 iterations
+ * // - after timer1 hits it's max iteration, timer2 will
+ * //   continue, and timer3 will start to run concurrently with timer2
+ * // - when timer2 hits it's max iteration it terminates, and
+ * //   timer3 will continue to emit a value every 500ms until it is complete
+ *
+ * @see {@link mergeAll}
+ * @see {@link mergeMap}
+ * @see {@link mergeMapTo}
+ * @see {@link mergeScan}
+ *
+ * @param {...ObservableInput} observables Input Observables to merge together.
+ * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
+ * Observables being subscribed to concurrently.
+ * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
+ * concurrency of input Observables.
+ * @return {Observable} an Observable that emits items that are the result of
+ * every input Observable.
+ * @static true
+ * @name merge
+ * @owner Observable
+ */
+function mergeStatic() {
+    var observables = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        observables[_i - 0] = arguments[_i];
+    }
+    var concurrent = Number.POSITIVE_INFINITY;
+    var scheduler = null;
+    var last = observables[observables.length - 1];
+    if (isScheduler_1.isScheduler(last)) {
+        scheduler = observables.pop();
+        if (observables.length > 1 && typeof observables[observables.length - 1] === 'number') {
+            concurrent = observables.pop();
+        }
+    }
+    else if (typeof last === 'number') {
+        concurrent = observables.pop();
+    }
+    if (scheduler === null && observables.length === 1 && observables[0] instanceof Observable_1.Observable) {
+        return observables[0];
+    }
+    return new ArrayObservable_1.ArrayObservable(observables, scheduler).lift(new mergeAll_1.MergeAllOperator(concurrent));
+}
+exports.mergeStatic = mergeStatic;
+//# sourceMappingURL=merge.js.map
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Observable_1 = __webpack_require__(0);
+var ScalarObservable_1 = __webpack_require__(47);
+var EmptyObservable_1 = __webpack_require__(21);
+var isScheduler_1 = __webpack_require__(22);
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var ArrayObservable = (function (_super) {
+    __extends(ArrayObservable, _super);
+    function ArrayObservable(array, scheduler) {
+        _super.call(this);
+        this.array = array;
+        this.scheduler = scheduler;
+        if (!scheduler && array.length === 1) {
+            this._isScalar = true;
+            this.value = array[0];
+        }
+    }
+    ArrayObservable.create = function (array, scheduler) {
+        return new ArrayObservable(array, scheduler);
+    };
+    /**
+     * Creates an Observable that emits some values you specify as arguments,
+     * immediately one after the other, and then emits a complete notification.
+     *
+     * <span class="informal">Emits the arguments you provide, then completes.
+     * </span>
+     *
+     * <img src="./img/of.png" width="100%">
+     *
+     * This static operator is useful for creating a simple Observable that only
+     * emits the arguments given, and the complete notification thereafter. It can
+     * be used for composing with other Observables, such as with {@link concat}.
+     * By default, it uses a `null` IScheduler, which means the `next`
+     * notifications are sent synchronously, although with a different IScheduler
+     * it is possible to determine when those notifications will be delivered.
+     *
+     * @example <caption>Emit 10, 20, 30, then 'a', 'b', 'c', then start ticking every second.</caption>
+     * var numbers = Rx.Observable.of(10, 20, 30);
+     * var letters = Rx.Observable.of('a', 'b', 'c');
+     * var interval = Rx.Observable.interval(1000);
+     * var result = numbers.concat(letters).concat(interval);
+     * result.subscribe(x => console.log(x));
+     *
+     * @see {@link create}
+     * @see {@link empty}
+     * @see {@link never}
+     * @see {@link throw}
+     *
+     * @param {...T} values Arguments that represent `next` values to be emitted.
+     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
+     * the emissions of the `next` notifications.
+     * @return {Observable<T>} An Observable that emits each given input value.
+     * @static true
+     * @name of
+     * @owner Observable
+     */
+    ArrayObservable.of = function () {
+        var array = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            array[_i - 0] = arguments[_i];
+        }
+        var scheduler = array[array.length - 1];
+        if (isScheduler_1.isScheduler(scheduler)) {
+            array.pop();
+        }
+        else {
+            scheduler = null;
+        }
+        var len = array.length;
+        if (len > 1) {
+            return new ArrayObservable(array, scheduler);
+        }
+        else if (len === 1) {
+            return new ScalarObservable_1.ScalarObservable(array[0], scheduler);
+        }
+        else {
+            return new EmptyObservable_1.EmptyObservable(scheduler);
+        }
+    };
+    ArrayObservable.dispatch = function (state) {
+        var array = state.array, index = state.index, count = state.count, subscriber = state.subscriber;
+        if (index >= count) {
+            subscriber.complete();
+            return;
+        }
+        subscriber.next(array[index]);
+        if (subscriber.closed) {
+            return;
+        }
+        state.index = index + 1;
+        this.schedule(state);
+    };
+    ArrayObservable.prototype._subscribe = function (subscriber) {
+        var index = 0;
+        var array = this.array;
+        var count = array.length;
+        var scheduler = this.scheduler;
+        if (scheduler) {
+            return scheduler.schedule(ArrayObservable.dispatch, 0, {
+                array: array, index: index, count: count, subscriber: subscriber
+            });
+        }
+        else {
+            for (var i = 0; i < count && !subscriber.closed; i++) {
+                subscriber.next(array[i]);
+            }
+            subscriber.complete();
+        }
+    };
+    return ArrayObservable;
+}(Observable_1.Observable));
+exports.ArrayObservable = ArrayObservable;
+//# sourceMappingURL=ArrayObservable.js.map
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Observable_1 = __webpack_require__(0);
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var ScalarObservable = (function (_super) {
+    __extends(ScalarObservable, _super);
+    function ScalarObservable(value, scheduler) {
+        _super.call(this);
+        this.value = value;
+        this.scheduler = scheduler;
+        this._isScalar = true;
+        if (scheduler) {
+            this._isScalar = false;
+        }
+    }
+    ScalarObservable.create = function (value, scheduler) {
+        return new ScalarObservable(value, scheduler);
+    };
+    ScalarObservable.dispatch = function (state) {
+        var done = state.done, value = state.value, subscriber = state.subscriber;
+        if (done) {
+            subscriber.complete();
+            return;
+        }
+        subscriber.next(value);
+        if (subscriber.closed) {
+            return;
+        }
+        state.done = true;
+        this.schedule(state);
+    };
+    ScalarObservable.prototype._subscribe = function (subscriber) {
+        var value = this.value;
+        var scheduler = this.scheduler;
+        if (scheduler) {
+            return scheduler.schedule(ScalarObservable.dispatch, 0, {
+                done: false, value: value, subscriber: subscriber
+            });
+        }
+        else {
+            subscriber.next(value);
+            if (!subscriber.closed) {
+                subscriber.complete();
+            }
+        }
+    };
+    return ScalarObservable;
+}(Observable_1.Observable));
+exports.ScalarObservable = ScalarObservable;
+//# sourceMappingURL=ScalarObservable.js.map
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var OuterSubscriber_1 = __webpack_require__(49);
+var subscribeToResult_1 = __webpack_require__(50);
+/**
+ * Converts a higher-order Observable into a first-order Observable which
+ * concurrently delivers all values that are emitted on the inner Observables.
+ *
+ * <span class="informal">Flattens an Observable-of-Observables.</span>
+ *
+ * <img src="./img/mergeAll.png" width="100%">
+ *
+ * `mergeAll` subscribes to an Observable that emits Observables, also known as
+ * a higher-order Observable. Each time it observes one of these emitted inner
+ * Observables, it subscribes to that and delivers all the values from the
+ * inner Observable on the output Observable. The output Observable only
+ * completes once all inner Observables have completed. Any error delivered by
+ * a inner Observable will be immediately emitted on the output Observable.
+ *
+ * @example <caption>Spawn a new interval Observable for each click event, and blend their outputs as one Observable</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var higherOrder = clicks.map((ev) => Rx.Observable.interval(1000));
+ * var firstOrder = higherOrder.mergeAll();
+ * firstOrder.subscribe(x => console.log(x));
+ *
+ * @example <caption>Count from 0 to 9 every second for each click, but only allow 2 concurrent timers</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var higherOrder = clicks.map((ev) => Rx.Observable.interval(1000).take(10));
+ * var firstOrder = higherOrder.mergeAll(2);
+ * firstOrder.subscribe(x => console.log(x));
+ *
+ * @see {@link combineAll}
+ * @see {@link concatAll}
+ * @see {@link exhaust}
+ * @see {@link merge}
+ * @see {@link mergeMap}
+ * @see {@link mergeMapTo}
+ * @see {@link mergeScan}
+ * @see {@link switch}
+ * @see {@link zipAll}
+ *
+ * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of inner
+ * Observables being subscribed to concurrently.
+ * @return {Observable} An Observable that emits values coming from all the
+ * inner Observables emitted by the source Observable.
+ * @method mergeAll
+ * @owner Observable
+ */
+function mergeAll(concurrent) {
+    if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
+    return this.lift(new MergeAllOperator(concurrent));
+}
+exports.mergeAll = mergeAll;
+var MergeAllOperator = (function () {
+    function MergeAllOperator(concurrent) {
+        this.concurrent = concurrent;
+    }
+    MergeAllOperator.prototype.call = function (observer, source) {
+        return source.subscribe(new MergeAllSubscriber(observer, this.concurrent));
+    };
+    return MergeAllOperator;
+}());
+exports.MergeAllOperator = MergeAllOperator;
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var MergeAllSubscriber = (function (_super) {
+    __extends(MergeAllSubscriber, _super);
+    function MergeAllSubscriber(destination, concurrent) {
+        _super.call(this, destination);
+        this.concurrent = concurrent;
+        this.hasCompleted = false;
+        this.buffer = [];
+        this.active = 0;
+    }
+    MergeAllSubscriber.prototype._next = function (observable) {
+        if (this.active < this.concurrent) {
+            this.active++;
+            this.add(subscribeToResult_1.subscribeToResult(this, observable));
+        }
+        else {
+            this.buffer.push(observable);
+        }
+    };
+    MergeAllSubscriber.prototype._complete = function () {
+        this.hasCompleted = true;
+        if (this.active === 0 && this.buffer.length === 0) {
+            this.destination.complete();
+        }
+    };
+    MergeAllSubscriber.prototype.notifyComplete = function (innerSub) {
+        var buffer = this.buffer;
+        this.remove(innerSub);
+        this.active--;
+        if (buffer.length > 0) {
+            this._next(buffer.shift());
+        }
+        else if (this.active === 0 && this.hasCompleted) {
+            this.destination.complete();
+        }
+    };
+    return MergeAllSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+exports.MergeAllSubscriber = MergeAllSubscriber;
+//# sourceMappingURL=mergeAll.js.map
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = __webpack_require__(5);
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var OuterSubscriber = (function (_super) {
+    __extends(OuterSubscriber, _super);
+    function OuterSubscriber() {
+        _super.apply(this, arguments);
+    }
+    OuterSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.destination.next(innerValue);
+    };
+    OuterSubscriber.prototype.notifyError = function (error, innerSub) {
+        this.destination.error(error);
+    };
+    OuterSubscriber.prototype.notifyComplete = function (innerSub) {
+        this.destination.complete();
+    };
+    return OuterSubscriber;
+}(Subscriber_1.Subscriber));
+exports.OuterSubscriber = OuterSubscriber;
+//# sourceMappingURL=OuterSubscriber.js.map
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__(2);
+var isArrayLike_1 = __webpack_require__(51);
+var isPromise_1 = __webpack_require__(52);
+var isObject_1 = __webpack_require__(16);
+var Observable_1 = __webpack_require__(0);
+var iterator_1 = __webpack_require__(53);
+var InnerSubscriber_1 = __webpack_require__(54);
+var observable_1 = __webpack_require__(19);
+function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
+    var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
+    if (destination.closed) {
+        return null;
+    }
+    if (result instanceof Observable_1.Observable) {
+        if (result._isScalar) {
+            destination.next(result.value);
+            destination.complete();
+            return null;
+        }
+        else {
+            return result.subscribe(destination);
+        }
+    }
+    else if (isArrayLike_1.isArrayLike(result)) {
+        for (var i = 0, len = result.length; i < len && !destination.closed; i++) {
+            destination.next(result[i]);
+        }
+        if (!destination.closed) {
+            destination.complete();
+        }
+    }
+    else if (isPromise_1.isPromise(result)) {
+        result.then(function (value) {
+            if (!destination.closed) {
+                destination.next(value);
+                destination.complete();
+            }
+        }, function (err) { return destination.error(err); })
+            .then(null, function (err) {
+            // Escaping the Promise trap: globally throw unhandled errors
+            root_1.root.setTimeout(function () { throw err; });
+        });
+        return destination;
+    }
+    else if (result && typeof result[iterator_1.iterator] === 'function') {
+        var iterator = result[iterator_1.iterator]();
+        do {
+            var item = iterator.next();
+            if (item.done) {
+                destination.complete();
+                break;
+            }
+            destination.next(item.value);
+            if (destination.closed) {
+                break;
+            }
+        } while (true);
+    }
+    else if (result && typeof result[observable_1.observable] === 'function') {
+        var obs = result[observable_1.observable]();
+        if (typeof obs.subscribe !== 'function') {
+            destination.error(new TypeError('Provided object does not correctly implement Symbol.observable'));
+        }
+        else {
+            return obs.subscribe(new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex));
+        }
+    }
+    else {
+        var value = isObject_1.isObject(result) ? 'an invalid object' : "'" + result + "'";
+        var msg = ("You provided " + value + " where a stream was expected.")
+            + ' You can provide an Observable, Promise, Array, or Iterable.';
+        destination.error(new TypeError(msg));
+    }
+    return null;
+}
+exports.subscribeToResult = subscribeToResult;
+//# sourceMappingURL=subscribeToResult.js.map
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; });
+//# sourceMappingURL=isArrayLike.js.map
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isPromise(value) {
+    return value && typeof value.subscribe !== 'function' && typeof value.then === 'function';
+}
+exports.isPromise = isPromise;
+//# sourceMappingURL=isPromise.js.map
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__(2);
+function symbolIteratorPonyfill(root) {
+    var Symbol = root.Symbol;
+    if (typeof Symbol === 'function') {
+        if (!Symbol.iterator) {
+            Symbol.iterator = Symbol('iterator polyfill');
+        }
+        return Symbol.iterator;
+    }
+    else {
+        // [for Mozilla Gecko 27-35:](https://mzl.la/2ewE1zC)
+        var Set_1 = root.Set;
+        if (Set_1 && typeof new Set_1()['@@iterator'] === 'function') {
+            return '@@iterator';
+        }
+        var Map_1 = root.Map;
+        // required for compatability with es6-shim
+        if (Map_1) {
+            var keys = Object.getOwnPropertyNames(Map_1.prototype);
+            for (var i = 0; i < keys.length; ++i) {
+                var key = keys[i];
+                // according to spec, Map.prototype[@@iterator] and Map.orototype.entries must be equal.
+                if (key !== 'entries' && key !== 'size' && Map_1.prototype[key] === Map_1.prototype['entries']) {
+                    return key;
+                }
+            }
+        }
+        return '@@iterator';
+    }
+}
+exports.symbolIteratorPonyfill = symbolIteratorPonyfill;
+exports.iterator = symbolIteratorPonyfill(root_1.root);
+/**
+ * @deprecated use iterator instead
+ */
+exports.$$iterator = exports.iterator;
+//# sourceMappingURL=iterator.js.map
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = __webpack_require__(5);
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var InnerSubscriber = (function (_super) {
+    __extends(InnerSubscriber, _super);
+    function InnerSubscriber(parent, outerValue, outerIndex) {
+        _super.call(this);
+        this.parent = parent;
+        this.outerValue = outerValue;
+        this.outerIndex = outerIndex;
+        this.index = 0;
+    }
+    InnerSubscriber.prototype._next = function (value) {
+        this.parent.notifyNext(this.outerValue, value, this.outerIndex, this.index++, this);
+    };
+    InnerSubscriber.prototype._error = function (error) {
+        this.parent.notifyError(error, this);
+        this.unsubscribe();
+    };
+    InnerSubscriber.prototype._complete = function () {
+        this.parent.notifyComplete(this);
+        this.unsubscribe();
+    };
+    return InnerSubscriber;
+}(Subscriber_1.Subscriber));
+exports.InnerSubscriber = InnerSubscriber;
+//# sourceMappingURL=InnerSubscriber.js.map
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var FromEventObservable_1 = __webpack_require__(56);
+exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
+//# sourceMappingURL=fromEvent.js.map
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Observable_1 = __webpack_require__(0);
+var tryCatch_1 = __webpack_require__(17);
+var isFunction_1 = __webpack_require__(11);
+var errorObject_1 = __webpack_require__(12);
+var Subscription_1 = __webpack_require__(6);
+var toString = Object.prototype.toString;
+function isNodeStyleEventEmitter(sourceObj) {
+    return !!sourceObj && typeof sourceObj.addListener === 'function' && typeof sourceObj.removeListener === 'function';
+}
+function isJQueryStyleEventEmitter(sourceObj) {
+    return !!sourceObj && typeof sourceObj.on === 'function' && typeof sourceObj.off === 'function';
+}
+function isNodeList(sourceObj) {
+    return !!sourceObj && toString.call(sourceObj) === '[object NodeList]';
+}
+function isHTMLCollection(sourceObj) {
+    return !!sourceObj && toString.call(sourceObj) === '[object HTMLCollection]';
+}
+function isEventTarget(sourceObj) {
+    return !!sourceObj && typeof sourceObj.addEventListener === 'function' && typeof sourceObj.removeEventListener === 'function';
+}
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var FromEventObservable = (function (_super) {
+    __extends(FromEventObservable, _super);
+    function FromEventObservable(sourceObj, eventName, selector, options) {
+        _super.call(this);
+        this.sourceObj = sourceObj;
+        this.eventName = eventName;
+        this.selector = selector;
+        this.options = options;
+    }
+    /* tslint:enable:max-line-length */
+    /**
+     * Creates an Observable that emits events of a specific type coming from the
+     * given event target.
+     *
+     * <span class="informal">Creates an Observable from DOM events, or Node
+     * EventEmitter events or others.</span>
+     *
+     * <img src="./img/fromEvent.png" width="100%">
+     *
+     * Creates an Observable by attaching an event listener to an "event target",
+     * which may be an object with `addEventListener` and `removeEventListener`,
+     * a Node.js EventEmitter, a jQuery style EventEmitter, a NodeList from the
+     * DOM, or an HTMLCollection from the DOM. The event handler is attached when
+     * the output Observable is subscribed, and removed when the Subscription is
+     * unsubscribed.
+     *
+     * @example <caption>Emits clicks happening on the DOM document</caption>
+     * var clicks = Rx.Observable.fromEvent(document, 'click');
+     * clicks.subscribe(x => console.log(x));
+     *
+     * // Results in:
+     * // MouseEvent object logged to console everytime a click
+     * // occurs on the document.
+     *
+     * @see {@link from}
+     * @see {@link fromEventPattern}
+     *
+     * @param {EventTargetLike} target The DOMElement, event target, Node.js
+     * EventEmitter, NodeList or HTMLCollection to attach the event handler to.
+     * @param {string} eventName The event name of interest, being emitted by the
+     * `target`.
+     * @param {EventListenerOptions} [options] Options to pass through to addEventListener
+     * @param {SelectorMethodSignature<T>} [selector] An optional function to
+     * post-process results. It takes the arguments from the event handler and
+     * should return a single value.
+     * @return {Observable<T>}
+     * @static true
+     * @name fromEvent
+     * @owner Observable
+     */
+    FromEventObservable.create = function (target, eventName, options, selector) {
+        if (isFunction_1.isFunction(options)) {
+            selector = options;
+            options = undefined;
+        }
+        return new FromEventObservable(target, eventName, selector, options);
+    };
+    FromEventObservable.setupSubscription = function (sourceObj, eventName, handler, subscriber, options) {
+        var unsubscribe;
+        if (isNodeList(sourceObj) || isHTMLCollection(sourceObj)) {
+            for (var i = 0, len = sourceObj.length; i < len; i++) {
+                FromEventObservable.setupSubscription(sourceObj[i], eventName, handler, subscriber, options);
+            }
+        }
+        else if (isEventTarget(sourceObj)) {
+            var source_1 = sourceObj;
+            sourceObj.addEventListener(eventName, handler, options);
+            unsubscribe = function () { return source_1.removeEventListener(eventName, handler); };
+        }
+        else if (isJQueryStyleEventEmitter(sourceObj)) {
+            var source_2 = sourceObj;
+            sourceObj.on(eventName, handler);
+            unsubscribe = function () { return source_2.off(eventName, handler); };
+        }
+        else if (isNodeStyleEventEmitter(sourceObj)) {
+            var source_3 = sourceObj;
+            sourceObj.addListener(eventName, handler);
+            unsubscribe = function () { return source_3.removeListener(eventName, handler); };
+        }
+        else {
+            throw new TypeError('Invalid event target');
+        }
+        subscriber.add(new Subscription_1.Subscription(unsubscribe));
+    };
+    FromEventObservable.prototype._subscribe = function (subscriber) {
+        var sourceObj = this.sourceObj;
+        var eventName = this.eventName;
+        var options = this.options;
+        var selector = this.selector;
+        var handler = selector ? function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            var result = tryCatch_1.tryCatch(selector).apply(void 0, args);
+            if (result === errorObject_1.errorObject) {
+                subscriber.error(errorObject_1.errorObject.e);
+            }
+            else {
+                subscriber.next(result);
+            }
+        } : function (e) { return subscriber.next(e); };
+        FromEventObservable.setupSubscription(sourceObj, eventName, handler, subscriber, options);
+    };
+    return FromEventObservable;
+}(Observable_1.Observable));
+exports.FromEventObservable = FromEventObservable;
+//# sourceMappingURL=FromEventObservable.js.map
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var diff = __webpack_require__(58)
+var patch = __webpack_require__(61)
+var h = __webpack_require__(67)
+var create = __webpack_require__(76)
+var VNode = __webpack_require__(30)
+var VText = __webpack_require__(31)
+
+module.exports = {
+    diff: diff,
+    patch: patch,
+    h: h,
+    create: create,
+    VNode: VNode,
+    VText: VText
+}
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var diff = __webpack_require__(59)
+
+module.exports = diff
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isArray = __webpack_require__(14)
+
+var VPatch = __webpack_require__(24)
+var isVNode = __webpack_require__(4)
+var isVText = __webpack_require__(7)
+var isWidget = __webpack_require__(1)
+var isThunk = __webpack_require__(8)
+var handleThunk = __webpack_require__(25)
+
+var diffProps = __webpack_require__(60)
+
+module.exports = diff
+
+function diff(a, b) {
+    var patch = { a: a }
+    walk(a, b, patch, 0)
+    return patch
+}
+
+function walk(a, b, patch, index) {
+    if (a === b) {
+        return
+    }
+
+    var apply = patch[index]
+    var applyClear = false
+
+    if (isThunk(a) || isThunk(b)) {
+        thunks(a, b, patch, index)
+    } else if (b == null) {
+
+        // If a is a widget we will add a remove patch for it
+        // Otherwise any child widgets/hooks must be destroyed.
+        // This prevents adding two remove patches for a widget.
+        if (!isWidget(a)) {
+            clearState(a, patch, index)
+            apply = patch[index]
+        }
+
+        apply = appendPatch(apply, new VPatch(VPatch.REMOVE, a, b))
+    } else if (isVNode(b)) {
+        if (isVNode(a)) {
+            if (a.tagName === b.tagName &&
+                a.namespace === b.namespace &&
+                a.key === b.key) {
+                var propsPatch = diffProps(a.properties, b.properties)
+                if (propsPatch) {
+                    apply = appendPatch(apply,
+                        new VPatch(VPatch.PROPS, a, propsPatch))
+                }
+                apply = diffChildren(a, b, patch, apply, index)
+            } else {
+                apply = appendPatch(apply, new VPatch(VPatch.VNODE, a, b))
+                applyClear = true
+            }
+        } else {
+            apply = appendPatch(apply, new VPatch(VPatch.VNODE, a, b))
+            applyClear = true
+        }
+    } else if (isVText(b)) {
+        if (!isVText(a)) {
+            apply = appendPatch(apply, new VPatch(VPatch.VTEXT, a, b))
+            applyClear = true
+        } else if (a.text !== b.text) {
+            apply = appendPatch(apply, new VPatch(VPatch.VTEXT, a, b))
+        }
+    } else if (isWidget(b)) {
+        if (!isWidget(a)) {
+            applyClear = true
+        }
+
+        apply = appendPatch(apply, new VPatch(VPatch.WIDGET, a, b))
+    }
+
+    if (apply) {
+        patch[index] = apply
+    }
+
+    if (applyClear) {
+        clearState(a, patch, index)
+    }
+}
+
+function diffChildren(a, b, patch, apply, index) {
+    var aChildren = a.children
+    var orderedSet = reorder(aChildren, b.children)
+    var bChildren = orderedSet.children
+
+    var aLen = aChildren.length
+    var bLen = bChildren.length
+    var len = aLen > bLen ? aLen : bLen
+
+    for (var i = 0; i < len; i++) {
+        var leftNode = aChildren[i]
+        var rightNode = bChildren[i]
+        index += 1
+
+        if (!leftNode) {
+            if (rightNode) {
+                // Excess nodes in b need to be added
+                apply = appendPatch(apply,
+                    new VPatch(VPatch.INSERT, null, rightNode))
+            }
+        } else {
+            walk(leftNode, rightNode, patch, index)
+        }
+
+        if (isVNode(leftNode) && leftNode.count) {
+            index += leftNode.count
+        }
+    }
+
+    if (orderedSet.moves) {
+        // Reorder nodes last
+        apply = appendPatch(apply, new VPatch(
+            VPatch.ORDER,
+            a,
+            orderedSet.moves
+        ))
+    }
+
+    return apply
+}
+
+function clearState(vNode, patch, index) {
+    // TODO: Make this a single walk, not two
+    unhook(vNode, patch, index)
+    destroyWidgets(vNode, patch, index)
+}
+
+// Patch records for all destroyed widgets must be added because we need
+// a DOM node reference for the destroy function
+function destroyWidgets(vNode, patch, index) {
+    if (isWidget(vNode)) {
+        if (typeof vNode.destroy === "function") {
+            patch[index] = appendPatch(
+                patch[index],
+                new VPatch(VPatch.REMOVE, vNode, null)
+            )
+        }
+    } else if (isVNode(vNode) && (vNode.hasWidgets || vNode.hasThunks)) {
+        var children = vNode.children
+        var len = children.length
+        for (var i = 0; i < len; i++) {
+            var child = children[i]
+            index += 1
+
+            destroyWidgets(child, patch, index)
+
+            if (isVNode(child) && child.count) {
+                index += child.count
+            }
+        }
+    } else if (isThunk(vNode)) {
+        thunks(vNode, null, patch, index)
+    }
+}
+
+// Create a sub-patch for thunks
+function thunks(a, b, patch, index) {
+    var nodes = handleThunk(a, b)
+    var thunkPatch = diff(nodes.a, nodes.b)
+    if (hasPatches(thunkPatch)) {
+        patch[index] = new VPatch(VPatch.THUNK, null, thunkPatch)
+    }
+}
+
+function hasPatches(patch) {
+    for (var index in patch) {
+        if (index !== "a") {
+            return true
+        }
+    }
+
+    return false
+}
+
+// Execute hooks when two nodes are identical
+function unhook(vNode, patch, index) {
+    if (isVNode(vNode)) {
+        if (vNode.hooks) {
+            patch[index] = appendPatch(
+                patch[index],
+                new VPatch(
+                    VPatch.PROPS,
+                    vNode,
+                    undefinedKeys(vNode.hooks)
+                )
+            )
+        }
+
+        if (vNode.descendantHooks || vNode.hasThunks) {
+            var children = vNode.children
+            var len = children.length
+            for (var i = 0; i < len; i++) {
+                var child = children[i]
+                index += 1
+
+                unhook(child, patch, index)
+
+                if (isVNode(child) && child.count) {
+                    index += child.count
+                }
+            }
+        }
+    } else if (isThunk(vNode)) {
+        thunks(vNode, null, patch, index)
+    }
+}
+
+function undefinedKeys(obj) {
+    var result = {}
+
+    for (var key in obj) {
+        result[key] = undefined
+    }
+
+    return result
+}
+
+// List diff, naive left to right reordering
+function reorder(aChildren, bChildren) {
+    // O(M) time, O(M) memory
+    var bChildIndex = keyIndex(bChildren)
+    var bKeys = bChildIndex.keys
+    var bFree = bChildIndex.free
+
+    if (bFree.length === bChildren.length) {
+        return {
+            children: bChildren,
+            moves: null
+        }
+    }
+
+    // O(N) time, O(N) memory
+    var aChildIndex = keyIndex(aChildren)
+    var aKeys = aChildIndex.keys
+    var aFree = aChildIndex.free
+
+    if (aFree.length === aChildren.length) {
+        return {
+            children: bChildren,
+            moves: null
+        }
+    }
+
+    // O(MAX(N, M)) memory
+    var newChildren = []
+
+    var freeIndex = 0
+    var freeCount = bFree.length
+    var deletedItems = 0
+
+    // Iterate through a and match a node in b
+    // O(N) time,
+    for (var i = 0 ; i < aChildren.length; i++) {
+        var aItem = aChildren[i]
+        var itemIndex
+
+        if (aItem.key) {
+            if (bKeys.hasOwnProperty(aItem.key)) {
+                // Match up the old keys
+                itemIndex = bKeys[aItem.key]
+                newChildren.push(bChildren[itemIndex])
+
+            } else {
+                // Remove old keyed items
+                itemIndex = i - deletedItems++
+                newChildren.push(null)
+            }
+        } else {
+            // Match the item in a with the next free item in b
+            if (freeIndex < freeCount) {
+                itemIndex = bFree[freeIndex++]
+                newChildren.push(bChildren[itemIndex])
+            } else {
+                // There are no free items in b to match with
+                // the free items in a, so the extra free nodes
+                // are deleted.
+                itemIndex = i - deletedItems++
+                newChildren.push(null)
+            }
+        }
+    }
+
+    var lastFreeIndex = freeIndex >= bFree.length ?
+        bChildren.length :
+        bFree[freeIndex]
+
+    // Iterate through b and append any new keys
+    // O(M) time
+    for (var j = 0; j < bChildren.length; j++) {
+        var newItem = bChildren[j]
+
+        if (newItem.key) {
+            if (!aKeys.hasOwnProperty(newItem.key)) {
+                // Add any new keyed items
+                // We are adding new items to the end and then sorting them
+                // in place. In future we should insert new items in place.
+                newChildren.push(newItem)
+            }
+        } else if (j >= lastFreeIndex) {
+            // Add any leftover non-keyed items
+            newChildren.push(newItem)
+        }
+    }
+
+    var simulate = newChildren.slice()
+    var simulateIndex = 0
+    var removes = []
+    var inserts = []
+    var simulateItem
+
+    for (var k = 0; k < bChildren.length;) {
+        var wantedItem = bChildren[k]
+        simulateItem = simulate[simulateIndex]
+
+        // remove items
+        while (simulateItem === null && simulate.length) {
+            removes.push(remove(simulate, simulateIndex, null))
+            simulateItem = simulate[simulateIndex]
+        }
+
+        if (!simulateItem || simulateItem.key !== wantedItem.key) {
+            // if we need a key in this position...
+            if (wantedItem.key) {
+                if (simulateItem && simulateItem.key) {
+                    // if an insert doesn't put this key in place, it needs to move
+                    if (bKeys[simulateItem.key] !== k + 1) {
+                        removes.push(remove(simulate, simulateIndex, simulateItem.key))
+                        simulateItem = simulate[simulateIndex]
+                        // if the remove didn't put the wanted item in place, we need to insert it
+                        if (!simulateItem || simulateItem.key !== wantedItem.key) {
+                            inserts.push({key: wantedItem.key, to: k})
+                        }
+                        // items are matching, so skip ahead
+                        else {
+                            simulateIndex++
+                        }
+                    }
+                    else {
+                        inserts.push({key: wantedItem.key, to: k})
+                    }
+                }
+                else {
+                    inserts.push({key: wantedItem.key, to: k})
+                }
+                k++
+            }
+            // a key in simulate has no matching wanted key, remove it
+            else if (simulateItem && simulateItem.key) {
+                removes.push(remove(simulate, simulateIndex, simulateItem.key))
+            }
+        }
+        else {
+            simulateIndex++
+            k++
+        }
+    }
+
+    // remove all the remaining nodes from simulate
+    while(simulateIndex < simulate.length) {
+        simulateItem = simulate[simulateIndex]
+        removes.push(remove(simulate, simulateIndex, simulateItem && simulateItem.key))
+    }
+
+    // If the only moves we have are deletes then we can just
+    // let the delete patch remove these items.
+    if (removes.length === deletedItems && !inserts.length) {
+        return {
+            children: newChildren,
+            moves: null
+        }
+    }
+
+    return {
+        children: newChildren,
+        moves: {
+            removes: removes,
+            inserts: inserts
+        }
+    }
+}
+
+function remove(arr, index, key) {
+    arr.splice(index, 1)
+
+    return {
+        from: index,
+        key: key
+    }
+}
+
+function keyIndex(children) {
+    var keys = {}
+    var free = []
+    var length = children.length
+
+    for (var i = 0; i < length; i++) {
+        var child = children[i]
+
+        if (child.key) {
+            keys[child.key] = i
+        } else {
+            free.push(i)
+        }
+    }
+
+    return {
+        keys: keys,     // A hash of key name to index
+        free: free      // An array of unkeyed item indices
+    }
+}
+
+function appendPatch(apply, patch) {
+    if (apply) {
+        if (isArray(apply)) {
+            apply.push(patch)
+        } else {
+            apply = [apply, patch]
+        }
+
+        return apply
+    } else {
+        return patch
+    }
+}
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(26)
+var isHook = __webpack_require__(9)
+
+module.exports = diffProps
+
+function diffProps(a, b) {
+    var diff
+
+    for (var aKey in a) {
+        if (!(aKey in b)) {
+            diff = diff || {}
+            diff[aKey] = undefined
+        }
+
+        var aValue = a[aKey]
+        var bValue = b[aKey]
+
+        if (aValue === bValue) {
+            continue
+        } else if (isObject(aValue) && isObject(bValue)) {
+            if (getPrototype(bValue) !== getPrototype(aValue)) {
+                diff = diff || {}
+                diff[aKey] = bValue
+            } else if (isHook(bValue)) {
+                 diff = diff || {}
+                 diff[aKey] = bValue
+            } else {
+                var objectDiff = diffProps(aValue, bValue)
+                if (objectDiff) {
+                    diff = diff || {}
+                    diff[aKey] = objectDiff
+                }
+            }
+        } else {
+            diff = diff || {}
+            diff[aKey] = bValue
+        }
+    }
+
+    for (var bKey in b) {
+        if (!(bKey in a)) {
+            diff = diff || {}
+            diff[bKey] = b[bKey]
+        }
+    }
+
+    return diff
+}
+
+function getPrototype(value) {
+  if (Object.getPrototypeOf) {
+    return Object.getPrototypeOf(value)
+  } else if (value.__proto__) {
+    return value.__proto__
+  } else if (value.constructor) {
+    return value.constructor.prototype
+  }
+}
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var patch = __webpack_require__(62)
+
+module.exports = patch
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var document = __webpack_require__(27)
+var isArray = __webpack_require__(14)
+
+var render = __webpack_require__(28)
+var domIndex = __webpack_require__(64)
+var patchOp = __webpack_require__(65)
+module.exports = patch
+
+function patch(rootNode, patches, renderOptions) {
+    renderOptions = renderOptions || {}
+    renderOptions.patch = renderOptions.patch && renderOptions.patch !== patch
+        ? renderOptions.patch
+        : patchRecursive
+    renderOptions.render = renderOptions.render || render
+
+    return renderOptions.patch(rootNode, patches, renderOptions)
+}
+
+function patchRecursive(rootNode, patches, renderOptions) {
+    var indices = patchIndices(patches)
+
+    if (indices.length === 0) {
+        return rootNode
+    }
+
+    var index = domIndex(rootNode, patches.a, indices)
+    var ownerDocument = rootNode.ownerDocument
+
+    if (!renderOptions.document && ownerDocument !== document) {
+        renderOptions.document = ownerDocument
+    }
+
+    for (var i = 0; i < indices.length; i++) {
+        var nodeIndex = indices[i]
+        rootNode = applyPatch(rootNode,
+            index[nodeIndex],
+            patches[nodeIndex],
+            renderOptions)
+    }
+
+    return rootNode
+}
+
+function applyPatch(rootNode, domNode, patchList, renderOptions) {
+    if (!domNode) {
+        return rootNode
+    }
+
+    var newNode
+
+    if (isArray(patchList)) {
+        for (var i = 0; i < patchList.length; i++) {
+            newNode = patchOp(patchList[i], domNode, renderOptions)
+
+            if (domNode === rootNode) {
+                rootNode = newNode
+            }
+        }
+    } else {
+        newNode = patchOp(patchList, domNode, renderOptions)
+
+        if (domNode === rootNode) {
+            rootNode = newNode
+        }
+    }
+
+    return rootNode
+}
+
+function patchIndices(patches) {
+    var indices = []
+
+    for (var key in patches) {
+        if (key !== "a") {
+            indices.push(Number(key))
+        }
+    }
+
+    return indices
+}
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports) {
+
+// Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
+// We don't want to read all of the DOM nodes in the tree so we use
+// the in-order tree indexing to eliminate recursion down certain branches.
+// We only recurse into a DOM node if we know that it contains a child of
+// interest.
+
+var noChild = {}
+
+module.exports = domIndex
+
+function domIndex(rootNode, tree, indices, nodes) {
+    if (!indices || indices.length === 0) {
+        return {}
+    } else {
+        indices.sort(ascending)
+        return recurse(rootNode, tree, indices, nodes, 0)
+    }
+}
+
+function recurse(rootNode, tree, indices, nodes, rootIndex) {
+    nodes = nodes || {}
+
+
+    if (rootNode) {
+        if (indexInRange(indices, rootIndex, rootIndex)) {
+            nodes[rootIndex] = rootNode
+        }
+
+        var vChildren = tree.children
+
+        if (vChildren) {
+
+            var childNodes = rootNode.childNodes
+
+            for (var i = 0; i < tree.children.length; i++) {
+                rootIndex += 1
+
+                var vChild = vChildren[i] || noChild
+                var nextIndex = rootIndex + (vChild.count || 0)
+
+                // skip recursion down the tree if there are no nodes down here
+                if (indexInRange(indices, rootIndex, nextIndex)) {
+                    recurse(childNodes[i], vChild, indices, nodes, rootIndex)
+                }
+
+                rootIndex = nextIndex
+            }
+        }
+    }
+
+    return nodes
+}
+
+// Binary search for an index in the interval [left, right]
+function indexInRange(indices, left, right) {
+    if (indices.length === 0) {
+        return false
+    }
+
+    var minIndex = 0
+    var maxIndex = indices.length - 1
+    var currentIndex
+    var currentItem
+
+    while (minIndex <= maxIndex) {
+        currentIndex = ((maxIndex + minIndex) / 2) >> 0
+        currentItem = indices[currentIndex]
+
+        if (minIndex === maxIndex) {
+            return currentItem >= left && currentItem <= right
+        } else if (currentItem < left) {
+            minIndex = currentIndex + 1
+        } else  if (currentItem > right) {
+            maxIndex = currentIndex - 1
+        } else {
+            return true
+        }
+    }
+
+    return false;
+}
+
+function ascending(a, b) {
+    return a > b ? 1 : -1
+}
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var applyProperties = __webpack_require__(29)
+
+var isWidget = __webpack_require__(1)
+var VPatch = __webpack_require__(24)
+
+var updateWidget = __webpack_require__(66)
+
+module.exports = applyPatch
+
+function applyPatch(vpatch, domNode, renderOptions) {
+    var type = vpatch.type
+    var vNode = vpatch.vNode
+    var patch = vpatch.patch
+
+    switch (type) {
+        case VPatch.REMOVE:
+            return removeNode(domNode, vNode)
+        case VPatch.INSERT:
+            return insertNode(domNode, patch, renderOptions)
+        case VPatch.VTEXT:
+            return stringPatch(domNode, vNode, patch, renderOptions)
+        case VPatch.WIDGET:
+            return widgetPatch(domNode, vNode, patch, renderOptions)
+        case VPatch.VNODE:
+            return vNodePatch(domNode, vNode, patch, renderOptions)
+        case VPatch.ORDER:
+            reorderChildren(domNode, patch)
+            return domNode
+        case VPatch.PROPS:
+            applyProperties(domNode, patch, vNode.properties)
+            return domNode
+        case VPatch.THUNK:
+            return replaceRoot(domNode,
+                renderOptions.patch(domNode, patch, renderOptions))
+        default:
+            return domNode
+    }
+}
+
+function removeNode(domNode, vNode) {
+    var parentNode = domNode.parentNode
+
+    if (parentNode) {
+        parentNode.removeChild(domNode)
+    }
+
+    destroyWidget(domNode, vNode);
+
+    return null
+}
+
+function insertNode(parentNode, vNode, renderOptions) {
+    var newNode = renderOptions.render(vNode, renderOptions)
+
+    if (parentNode) {
+        parentNode.appendChild(newNode)
+    }
+
+    return parentNode
+}
+
+function stringPatch(domNode, leftVNode, vText, renderOptions) {
+    var newNode
+
+    if (domNode.nodeType === 3) {
+        domNode.replaceData(0, domNode.length, vText.text)
+        newNode = domNode
+    } else {
+        var parentNode = domNode.parentNode
+        newNode = renderOptions.render(vText, renderOptions)
+
+        if (parentNode && newNode !== domNode) {
+            parentNode.replaceChild(newNode, domNode)
+        }
+    }
+
+    return newNode
+}
+
+function widgetPatch(domNode, leftVNode, widget, renderOptions) {
+    var updating = updateWidget(leftVNode, widget)
+    var newNode
+
+    if (updating) {
+        newNode = widget.update(leftVNode, domNode) || domNode
+    } else {
+        newNode = renderOptions.render(widget, renderOptions)
+    }
+
+    var parentNode = domNode.parentNode
+
+    if (parentNode && newNode !== domNode) {
+        parentNode.replaceChild(newNode, domNode)
+    }
+
+    if (!updating) {
+        destroyWidget(domNode, leftVNode)
+    }
+
+    return newNode
+}
+
+function vNodePatch(domNode, leftVNode, vNode, renderOptions) {
+    var parentNode = domNode.parentNode
+    var newNode = renderOptions.render(vNode, renderOptions)
+
+    if (parentNode && newNode !== domNode) {
+        parentNode.replaceChild(newNode, domNode)
+    }
+
+    return newNode
+}
+
+function destroyWidget(domNode, w) {
+    if (typeof w.destroy === "function" && isWidget(w)) {
+        w.destroy(domNode)
+    }
+}
+
+function reorderChildren(domNode, moves) {
+    var childNodes = domNode.childNodes
+    var keyMap = {}
+    var node
+    var remove
+    var insert
+
+    for (var i = 0; i < moves.removes.length; i++) {
+        remove = moves.removes[i]
+        node = childNodes[remove.from]
+        if (remove.key) {
+            keyMap[remove.key] = node
+        }
+        domNode.removeChild(node)
+    }
+
+    var length = childNodes.length
+    for (var j = 0; j < moves.inserts.length; j++) {
+        insert = moves.inserts[j]
+        node = keyMap[insert.key]
+        // this is the weirdest bug i've ever seen in webkit
+        domNode.insertBefore(node, insert.to >= length++ ? null : childNodes[insert.to])
+    }
+}
+
+function replaceRoot(oldRoot, newRoot) {
+    if (oldRoot && newRoot && oldRoot !== newRoot && oldRoot.parentNode) {
+        oldRoot.parentNode.replaceChild(newRoot, oldRoot)
+    }
+
+    return newRoot;
+}
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isWidget = __webpack_require__(1)
+
+module.exports = updateWidget
+
+function updateWidget(a, b) {
+    if (isWidget(a) && isWidget(b)) {
+        if ("name" in a && "name" in b) {
+            return a.id === b.id
+        } else {
+            return a.init === b.init
+        }
+    }
+
+    return false
+}
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var h = __webpack_require__(68)
+
+module.exports = h
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isArray = __webpack_require__(14);
+
+var VNode = __webpack_require__(30);
+var VText = __webpack_require__(31);
+var isVNode = __webpack_require__(4);
+var isVText = __webpack_require__(7);
+var isWidget = __webpack_require__(1);
+var isHook = __webpack_require__(9);
+var isVThunk = __webpack_require__(8);
+
+var parseTag = __webpack_require__(69);
+var softSetHook = __webpack_require__(71);
+var evHook = __webpack_require__(72);
+
+module.exports = h;
+
+function h(tagName, properties, children) {
+    var childNodes = [];
+    var tag, props, key, namespace;
+
+    if (!children && isChildren(properties)) {
+        children = properties;
+        props = {};
+    }
+
+    props = props || properties || {};
+    tag = parseTag(tagName, props);
+
+    // support keys
+    if (props.hasOwnProperty('key')) {
+        key = props.key;
+        props.key = undefined;
+    }
+
+    // support namespace
+    if (props.hasOwnProperty('namespace')) {
+        namespace = props.namespace;
+        props.namespace = undefined;
+    }
+
+    // fix cursor bug
+    if (tag === 'INPUT' &&
+        !namespace &&
+        props.hasOwnProperty('value') &&
+        props.value !== undefined &&
+        !isHook(props.value)
+    ) {
+        props.value = softSetHook(props.value);
+    }
+
+    transformProperties(props);
+
+    if (children !== undefined && children !== null) {
+        addChild(children, childNodes, tag, props);
+    }
+
+
+    return new VNode(tag, props, childNodes, key, namespace);
+}
+
+function addChild(c, childNodes, tag, props) {
+    if (typeof c === 'string') {
+        childNodes.push(new VText(c));
+    } else if (typeof c === 'number') {
+        childNodes.push(new VText(String(c)));
+    } else if (isChild(c)) {
+        childNodes.push(c);
+    } else if (isArray(c)) {
+        for (var i = 0; i < c.length; i++) {
+            addChild(c[i], childNodes, tag, props);
+        }
+    } else if (c === null || c === undefined) {
+        return;
+    } else {
+        throw UnexpectedVirtualElement({
+            foreignObject: c,
+            parentVnode: {
+                tagName: tag,
+                properties: props
+            }
+        });
+    }
+}
+
+function transformProperties(props) {
+    for (var propName in props) {
+        if (props.hasOwnProperty(propName)) {
+            var value = props[propName];
+
+            if (isHook(value)) {
+                continue;
+            }
+
+            if (propName.substr(0, 3) === 'ev-') {
+                // add ev-foo support
+                props[propName] = evHook(value);
+            }
+        }
+    }
+}
+
+function isChild(x) {
+    return isVNode(x) || isVText(x) || isWidget(x) || isVThunk(x);
+}
+
+function isChildren(x) {
+    return typeof x === 'string' || isArray(x) || isChild(x);
+}
+
+function UnexpectedVirtualElement(data) {
+    var err = new Error();
+
+    err.type = 'virtual-hyperscript.unexpected.virtual-element';
+    err.message = 'Unexpected virtual child passed to h().\n' +
+        'Expected a VNode / Vthunk / VWidget / string but:\n' +
+        'got:\n' +
+        errorString(data.foreignObject) +
+        '.\n' +
+        'The parent vnode is:\n' +
+        errorString(data.parentVnode)
+        '\n' +
+        'Suggested fix: change your `h(..., [ ... ])` callsite.';
+    err.foreignObject = data.foreignObject;
+    err.parentVnode = data.parentVnode;
+
+    return err;
+}
+
+function errorString(obj) {
+    try {
+        return JSON.stringify(obj, null, '    ');
+    } catch (e) {
+        return String(obj);
+    }
+}
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var split = __webpack_require__(70);
+
+var classIdSplit = /([\.#]?[a-zA-Z0-9\u007F-\uFFFF_:-]+)/;
+var notClassId = /^\.|#/;
+
+module.exports = parseTag;
+
+function parseTag(tag, props) {
+    if (!tag) {
+        return 'DIV';
+    }
+
+    var noId = !(props.hasOwnProperty('id'));
+
+    var tagParts = split(tag, classIdSplit);
+    var tagName = null;
+
+    if (notClassId.test(tagParts[1])) {
+        tagName = 'DIV';
+    }
+
+    var classes, part, type, i;
+
+    for (i = 0; i < tagParts.length; i++) {
+        part = tagParts[i];
+
+        if (!part) {
+            continue;
+        }
+
+        type = part.charAt(0);
+
+        if (!tagName) {
+            tagName = part;
+        } else if (type === '.') {
+            classes = classes || [];
+            classes.push(part.substring(1, part.length));
+        } else if (type === '#' && noId) {
+            props.id = part.substring(1, part.length);
+        }
+    }
+
+    if (classes) {
+        if (props.className) {
+            classes.push(props.className);
+        }
+
+        props.className = classes.join(' ');
+    }
+
+    return props.namespace ? tagName : tagName.toUpperCase();
+}
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports) {
+
+/*!
+ * Cross-Browser Split 1.1.1
+ * Copyright 2007-2012 Steven Levithan <stevenlevithan.com>
+ * Available under the MIT License
+ * ECMAScript compliant, uniform cross-browser split method
+ */
+
+/**
+ * Splits a string into an array of strings using a regex or string separator. Matches of the
+ * separator are not included in the result array. However, if `separator` is a regex that contains
+ * capturing groups, backreferences are spliced into the result each time `separator` is matched.
+ * Fixes browser bugs compared to the native `String.prototype.split` and can be used reliably
+ * cross-browser.
+ * @param {String} str String to split.
+ * @param {RegExp|String} separator Regex or string to use for separating the string.
+ * @param {Number} [limit] Maximum number of items to include in the result array.
+ * @returns {Array} Array of substrings.
+ * @example
+ *
+ * // Basic use
+ * split('a b c d', ' ');
+ * // -> ['a', 'b', 'c', 'd']
+ *
+ * // With limit
+ * split('a b c d', ' ', 2);
+ * // -> ['a', 'b']
+ *
+ * // Backreferences in result array
+ * split('..word1 word2..', /([a-z]+)(\d+)/i);
+ * // -> ['..', 'word', '1', ' ', 'word', '2', '..']
+ */
+module.exports = (function split(undef) {
+
+  var nativeSplit = String.prototype.split,
+    compliantExecNpcg = /()??/.exec("")[1] === undef,
+    // NPCG: nonparticipating capturing group
+    self;
+
+  self = function(str, separator, limit) {
+    // If `separator` is not a regex, use `nativeSplit`
+    if (Object.prototype.toString.call(separator) !== "[object RegExp]") {
+      return nativeSplit.call(str, separator, limit);
+    }
+    var output = [],
+      flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.extended ? "x" : "") + // Proposed for ES6
+      (separator.sticky ? "y" : ""),
+      // Firefox 3+
+      lastLastIndex = 0,
+      // Make `global` and avoid `lastIndex` issues by working with a copy
+      separator = new RegExp(separator.source, flags + "g"),
+      separator2, match, lastIndex, lastLength;
+    str += ""; // Type-convert
+    if (!compliantExecNpcg) {
+      // Doesn't need flags gy, but they don't hurt
+      separator2 = new RegExp("^" + separator.source + "$(?!\\s)", flags);
+    }
+    /* Values for `limit`, per the spec:
+     * If undefined: 4294967295 // Math.pow(2, 32) - 1
+     * If 0, Infinity, or NaN: 0
+     * If positive number: limit = Math.floor(limit); if (limit > 4294967295) limit -= 4294967296;
+     * If negative number: 4294967296 - Math.floor(Math.abs(limit))
+     * If other: Type-convert, then use the above rules
+     */
+    limit = limit === undef ? -1 >>> 0 : // Math.pow(2, 32) - 1
+    limit >>> 0; // ToUint32(limit)
+    while (match = separator.exec(str)) {
+      // `separator.lastIndex` is not reliable cross-browser
+      lastIndex = match.index + match[0].length;
+      if (lastIndex > lastLastIndex) {
+        output.push(str.slice(lastLastIndex, match.index));
+        // Fix browsers whose `exec` methods don't consistently return `undefined` for
+        // nonparticipating capturing groups
+        if (!compliantExecNpcg && match.length > 1) {
+          match[0].replace(separator2, function() {
+            for (var i = 1; i < arguments.length - 2; i++) {
+              if (arguments[i] === undef) {
+                match[i] = undef;
+              }
+            }
+          });
+        }
+        if (match.length > 1 && match.index < str.length) {
+          Array.prototype.push.apply(output, match.slice(1));
+        }
+        lastLength = match[0].length;
+        lastLastIndex = lastIndex;
+        if (output.length >= limit) {
+          break;
+        }
+      }
+      if (separator.lastIndex === match.index) {
+        separator.lastIndex++; // Avoid an infinite loop
+      }
+    }
+    if (lastLastIndex === str.length) {
+      if (lastLength || !separator.test("")) {
+        output.push("");
+      }
+    } else {
+      output.push(str.slice(lastLastIndex));
+    }
+    return output.length > limit ? output.slice(0, limit) : output;
+  };
+
+  return self;
+})();
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = SoftSetHook;
+
+function SoftSetHook(value) {
+    if (!(this instanceof SoftSetHook)) {
+        return new SoftSetHook(value);
+    }
+
+    this.value = value;
+}
+
+SoftSetHook.prototype.hook = function (node, propertyName) {
+    if (node[propertyName] !== this.value) {
+        node[propertyName] = this.value;
+    }
+};
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var EvStore = __webpack_require__(73);
+
+module.exports = EvHook;
+
+function EvHook(value) {
+    if (!(this instanceof EvHook)) {
+        return new EvHook(value);
+    }
+
+    this.value = value;
+}
+
+EvHook.prototype.hook = function (node, propertyName) {
+    var es = EvStore(node);
+    var propName = propertyName.substr(3);
+
+    es[propName] = this.value;
+};
+
+EvHook.prototype.unhook = function(node, propertyName) {
+    var es = EvStore(node);
+    var propName = propertyName.substr(3);
+
+    es[propName] = undefined;
+};
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var OneVersionConstraint = __webpack_require__(74);
+
+var MY_VERSION = '7';
+OneVersionConstraint('ev-store', MY_VERSION);
+
+var hashKey = '__EV_STORE_KEY@' + MY_VERSION;
+
+module.exports = EvStore;
+
+function EvStore(elem) {
+    var hash = elem[hashKey];
+
+    if (!hash) {
+        hash = elem[hashKey] = {};
+    }
+
+    return hash;
+}
+
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Individual = __webpack_require__(75);
+
+module.exports = OneVersion;
+
+function OneVersion(moduleName, version, defaultValue) {
+    var key = '__INDIVIDUAL_ONE_VERSION_' + moduleName;
+    var enforceKey = key + '_ENFORCE_SINGLETON';
+
+    var versionValue = Individual(enforceKey, version);
+
+    if (versionValue !== version) {
+        throw new Error('Can only have one copy of ' +
+            moduleName + '.\n' +
+            'You already have version ' + versionValue +
+            ' installed.\n' +
+            'This means you cannot install version ' + version);
+    }
+
+    return Individual(key, defaultValue);
+}
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+/*global window, global*/
+
+var root = typeof window !== 'undefined' ?
+    window : typeof global !== 'undefined' ?
+    global : {};
+
+module.exports = Individual;
+
+function Individual(key, value) {
+    if (key in root) {
+        return root[key];
+    }
+
+    root[key] = value;
+
+    return value;
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var createElement = __webpack_require__(28)
+
+module.exports = createElement
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var attrToProp = __webpack_require__(78)
+
+var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
+var ATTR_KEY = 5, ATTR_KEY_W = 6
+var ATTR_VALUE_W = 7, ATTR_VALUE = 8
+var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
+var ATTR_EQ = 11, ATTR_BREAK = 12
+var COMMENT = 13
+
+module.exports = function (h, opts) {
+  if (!opts) opts = {}
+  var concat = opts.concat || function (a, b) {
+    return String(a) + String(b)
+  }
+  if (opts.attrToProp !== false) {
+    h = attrToProp(h)
+  }
+
+  return function (strings) {
+    var state = TEXT, reg = ''
+    var arglen = arguments.length
+    var parts = []
+
+    for (var i = 0; i < strings.length; i++) {
+      if (i < arglen - 1) {
+        var arg = arguments[i+1]
+        var p = parse(strings[i])
+        var xstate = state
+        if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
+        if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
+        if (xstate === ATTR_VALUE_W) xstate = ATTR_VALUE
+        if (xstate === ATTR) xstate = ATTR_KEY
+        p.push([ VAR, xstate, arg ])
+        parts.push.apply(parts, p)
+      } else parts.push.apply(parts, parse(strings[i]))
+    }
+
+    var tree = [null,{},[]]
+    var stack = [[tree,-1]]
+    for (var i = 0; i < parts.length; i++) {
+      var cur = stack[stack.length-1][0]
+      var p = parts[i], s = p[0]
+      if (s === OPEN && /^\//.test(p[1])) {
+        var ix = stack[stack.length-1][1]
+        if (stack.length > 1) {
+          stack.pop()
+          stack[stack.length-1][0][2][ix] = h(
+            cur[0], cur[1], cur[2].length ? cur[2] : undefined
+          )
+        }
+      } else if (s === OPEN) {
+        var c = [p[1],{},[]]
+        cur[2].push(c)
+        stack.push([c,cur[2].length-1])
+      } else if (s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY)) {
+        var key = ''
+        var copyKey
+        for (; i < parts.length; i++) {
+          if (parts[i][0] === ATTR_KEY) {
+            key = concat(key, parts[i][1])
+          } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
+            if (typeof parts[i][2] === 'object' && !key) {
+              for (copyKey in parts[i][2]) {
+                if (parts[i][2].hasOwnProperty(copyKey) && !cur[1][copyKey]) {
+                  cur[1][copyKey] = parts[i][2][copyKey]
+                }
+              }
+            } else {
+              key = concat(key, parts[i][2])
+            }
+          } else break
+        }
+        if (parts[i][0] === ATTR_EQ) i++
+        var j = i
+        for (; i < parts.length; i++) {
+          if (parts[i][0] === ATTR_VALUE || parts[i][0] === ATTR_KEY) {
+            if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
+            else cur[1][key] = concat(cur[1][key], parts[i][1])
+          } else if (parts[i][0] === VAR
+          && (parts[i][1] === ATTR_VALUE || parts[i][1] === ATTR_KEY)) {
+            if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
+            else cur[1][key] = concat(cur[1][key], parts[i][2])
+          } else {
+            if (key.length && !cur[1][key] && i === j
+            && (parts[i][0] === CLOSE || parts[i][0] === ATTR_BREAK)) {
+              // https://html.spec.whatwg.org/multipage/infrastructure.html#boolean-attributes
+              // empty string is falsy, not well behaved value in browser
+              cur[1][key] = key.toLowerCase()
+            }
+            if (parts[i][0] === CLOSE) {
+              i--
+            }
+            break
+          }
+        }
+      } else if (s === ATTR_KEY) {
+        cur[1][p[1]] = true
+      } else if (s === VAR && p[1] === ATTR_KEY) {
+        cur[1][p[2]] = true
+      } else if (s === CLOSE) {
+        if (selfClosing(cur[0]) && stack.length) {
+          var ix = stack[stack.length-1][1]
+          stack.pop()
+          stack[stack.length-1][0][2][ix] = h(
+            cur[0], cur[1], cur[2].length ? cur[2] : undefined
+          )
+        }
+      } else if (s === VAR && p[1] === TEXT) {
+        if (p[2] === undefined || p[2] === null) p[2] = ''
+        else if (!p[2]) p[2] = concat('', p[2])
+        if (Array.isArray(p[2][0])) {
+          cur[2].push.apply(cur[2], p[2])
+        } else {
+          cur[2].push(p[2])
+        }
+      } else if (s === TEXT) {
+        cur[2].push(p[1])
+      } else if (s === ATTR_EQ || s === ATTR_BREAK) {
+        // no-op
+      } else {
+        throw new Error('unhandled: ' + s)
+      }
+    }
+
+    if (tree[2].length > 1 && /^\s*$/.test(tree[2][0])) {
+      tree[2].shift()
+    }
+
+    if (tree[2].length > 2
+    || (tree[2].length === 2 && /\S/.test(tree[2][1]))) {
+      throw new Error(
+        'multiple root elements must be wrapped in an enclosing tag'
+      )
+    }
+    if (Array.isArray(tree[2][0]) && typeof tree[2][0][0] === 'string'
+    && Array.isArray(tree[2][0][2])) {
+      tree[2][0] = h(tree[2][0][0], tree[2][0][1], tree[2][0][2])
+    }
+    return tree[2][0]
+
+    function parse (str) {
+      var res = []
+      if (state === ATTR_VALUE_W) state = ATTR
+      for (var i = 0; i < str.length; i++) {
+        var c = str.charAt(i)
+        if (state === TEXT && c === '<') {
+          if (reg.length) res.push([TEXT, reg])
+          reg = ''
+          state = OPEN
+        } else if (c === '>' && !quot(state) && state !== COMMENT) {
+          if (state === OPEN) {
+            res.push([OPEN,reg])
+          } else if (state === ATTR_KEY) {
+            res.push([ATTR_KEY,reg])
+          } else if (state === ATTR_VALUE && reg.length) {
+            res.push([ATTR_VALUE,reg])
+          }
+          res.push([CLOSE])
+          reg = ''
+          state = TEXT
+        } else if (state === COMMENT && /-$/.test(reg) && c === '-') {
+          if (opts.comments) {
+            res.push([ATTR_VALUE,reg.substr(0, reg.length - 1)],[CLOSE])
+          }
+          reg = ''
+          state = TEXT
+        } else if (state === OPEN && /^!--$/.test(reg)) {
+          if (opts.comments) {
+            res.push([OPEN, reg],[ATTR_KEY,'comment'],[ATTR_EQ])
+          }
+          reg = c
+          state = COMMENT
+        } else if (state === TEXT || state === COMMENT) {
+          reg += c
+        } else if (state === OPEN && /\s/.test(c)) {
+          res.push([OPEN, reg])
+          reg = ''
+          state = ATTR
+        } else if (state === OPEN) {
+          reg += c
+        } else if (state === ATTR && /[^\s"'=/]/.test(c)) {
+          state = ATTR_KEY
+          reg = c
+        } else if (state === ATTR && /\s/.test(c)) {
+          if (reg.length) res.push([ATTR_KEY,reg])
+          res.push([ATTR_BREAK])
+        } else if (state === ATTR_KEY && /\s/.test(c)) {
+          res.push([ATTR_KEY,reg])
+          reg = ''
+          state = ATTR_KEY_W
+        } else if (state === ATTR_KEY && c === '=') {
+          res.push([ATTR_KEY,reg],[ATTR_EQ])
+          reg = ''
+          state = ATTR_VALUE_W
+        } else if (state === ATTR_KEY) {
+          reg += c
+        } else if ((state === ATTR_KEY_W || state === ATTR) && c === '=') {
+          res.push([ATTR_EQ])
+          state = ATTR_VALUE_W
+        } else if ((state === ATTR_KEY_W || state === ATTR) && !/\s/.test(c)) {
+          res.push([ATTR_BREAK])
+          if (/[\w-]/.test(c)) {
+            reg += c
+            state = ATTR_KEY
+          } else state = ATTR
+        } else if (state === ATTR_VALUE_W && c === '"') {
+          state = ATTR_VALUE_DQ
+        } else if (state === ATTR_VALUE_W && c === "'") {
+          state = ATTR_VALUE_SQ
+        } else if (state === ATTR_VALUE_DQ && c === '"') {
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
+          reg = ''
+          state = ATTR
+        } else if (state === ATTR_VALUE_SQ && c === "'") {
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
+          reg = ''
+          state = ATTR
+        } else if (state === ATTR_VALUE_W && !/\s/.test(c)) {
+          state = ATTR_VALUE
+          i--
+        } else if (state === ATTR_VALUE && /\s/.test(c)) {
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
+          reg = ''
+          state = ATTR
+        } else if (state === ATTR_VALUE || state === ATTR_VALUE_SQ
+        || state === ATTR_VALUE_DQ) {
+          reg += c
+        }
+      }
+      if (state === TEXT && reg.length) {
+        res.push([TEXT,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE_DQ && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE_SQ && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_KEY) {
+        res.push([ATTR_KEY,reg])
+        reg = ''
+      }
+      return res
+    }
+  }
+
+  function strfn (x) {
+    if (typeof x === 'function') return x
+    else if (typeof x === 'string') return x
+    else if (x && typeof x === 'object') return x
+    else return concat('', x)
+  }
+}
+
+function quot (state) {
+  return state === ATTR_VALUE_SQ || state === ATTR_VALUE_DQ
+}
+
+var hasOwn = Object.prototype.hasOwnProperty
+function has (obj, key) { return hasOwn.call(obj, key) }
+
+var closeRE = RegExp('^(' + [
+  'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
+  'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param',
+  'source', 'track', 'wbr', '!--',
+  // SVG TAGS
+  'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse',
+  'feBlend', 'feColorMatrix', 'feComposite',
+  'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap',
+  'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR',
+  'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology',
+  'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile',
+  'feTurbulence', 'font-face-format', 'font-face-name', 'font-face-uri',
+  'glyph', 'glyphRef', 'hkern', 'image', 'line', 'missing-glyph', 'mpath',
+  'path', 'polygon', 'polyline', 'rect', 'set', 'stop', 'tref', 'use', 'view',
+  'vkern'
+].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$')
+function selfClosing (tag) { return closeRE.test(tag) }
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports) {
+
+module.exports = attributeToProperty
+
+var transform = {
+  'class': 'className',
+  'for': 'htmlFor',
+  'http-equiv': 'httpEquiv'
+}
+
+function attributeToProperty (h) {
+  return function (tagName, attrs, children) {
+    for (var attr in attrs) {
+      if (attr in transform) {
+        attrs[transform[attr]] = attrs[attr]
+        delete attrs[attr]
+      }
+    }
+    return h(tagName, attrs, children)
+  }
+}
+
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.SelectorComponent = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utils = __webpack_require__(15);
+
+var _Observable = __webpack_require__(0);
+
+__webpack_require__(20);
+
+__webpack_require__(80);
+
+__webpack_require__(23);
+
+var _Subject = __webpack_require__(82);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var SelectorComponent = exports.SelectorComponent = function () {
+    function SelectorComponent($filter, $timeout, $window, $http, $q, $log, debug) {
+        _classCallCheck(this, SelectorComponent);
+
+        this.$filter = $filter;
+        this.$timeout = $timeout;
+        this.$window = $window;
+        this.$http = $http;
+        this.$q = $q;
+        this.$log = $log;
+        this.debug = debug;
+        this.restrict = 'EAC';
+        this.replace = true;
+        this.transclude = true;
+        this.templateUrl = 'selector-on-steroids/selector.html';
+        this.scope = {
+            name: '@?',
+            value: '=model',
+            disabled: '=?disable',
+            disableSearch: '=?',
+            required: '=?require',
+            multiple: '=?multi',
+            placeholder: '@?',
+            valueAttr: '@',
+            labelAttr: '@?',
+            groupAttr: '@?',
+            options: '=?',
+            debounce: '=?',
+            create: '&?',
+            limit: '=?',
+            rtl: '=?',
+            api: '=?',
+            change: '&?',
+            remote: '&?',
+            remoteParam: '@?',
+            remoteValidation: '&?',
+            remoteValidationParam: '@?',
+            removeButton: '=?',
+            softDelete: '=?',
+            closeAfterSelection: '=?',
+            viewItemTemplate: '=?',
+            dropdownItemTemplate: '=?',
+            dropdownCreateTemplate: '=?',
+            dropdownGroupTemplate: '=?',
+            steroids: '<'
+        };
+    }
+
+    _createClass(SelectorComponent, [{
+        key: 'link',
+        value: function link(scope, element, attrs, controller, transclude) {
+            var _this = this;
+
+            var KEYS = {
+                up: 38,
+                down: 40,
+                left: 37,
+                right: 39,
+                escape: 27,
+                enter: 13,
+                backspace: 8,
+                delete: 46,
+                shift: 16,
+                leftCmd: 91,
+                rightCmd: 93,
+                ctrl: 17,
+                alt: 18,
+                tab: 9
+            };
+            transclude(scope, function (clone, scope) {
+                var _watchers = [];
+                var _mutations = [];
+                var _subscribers = [];
+                var filter = _this.$filter('filter');
+                var DOM_SELECTOR_CONTAINER = angular.element(element[0]);
+                var DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
+                var DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
+                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'input')) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN ? _Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown') : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_WINDOW_RESIZE = _this.$window ? _Observable.Observable.fromEvent(_this.$window, 'resze') : _Observable.Observable.empty();
+                var inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
+                var selectCtrl = element.find('select').controller('ngModel');
+                var initDeferred = _this.$q.defer();
+                var defaults = {
+                    api: {},
+                    search: '',
+                    disableSearch: false,
+                    selectedValues: [],
+                    highlighted: 0,
+                    valueAttr: null,
+                    labelAttr: 'label',
+                    groupAttr: 'group',
+                    options: [],
+                    debounce: 0,
+                    limit: Infinity,
+                    remoteParam: 'q',
+                    remoteValidationParam: 'value',
+                    removeButton: true,
+                    viewItemTemplate: 'selector-on-steroids/item-default.html',
+                    dropdownItemTemplate: 'selector-on-steroids/item-default.html',
+                    dropdownCreateTemplate: 'selector-on-steroids/item-create.html',
+                    dropdownGroupTemplate: 'selector-on-steroids/group-default.html',
+                    steroids: true,
+                    selectedValuesInput$: new _Subject.Subject(),
+                    filteredOptionsInput$: new _Subject.Subject()
+                };
+                var GET_DOM_STYLES = function GET_DOM_STYLES(element) {
+                    return !(element instanceof HTMLElement) ? {} : element.ownerDocument && element.ownerDocument.defaultView.opener ? element.ownerDocument.defaultView.getComputedStyle(element) : window.getComputedStyle(element);
+                };
+                // DEFAULTS
+                // Default: listen to dropdown dom event
+                _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN.subscribe(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, function (error) {
+                    (0, _utils.CONSOLE_LOGGER)(_this.$log, error);
+                }));
+                // Default: listen to window resize event
+                _subscribers.push(OBSERVABLE_FOR_WINDOW_RESIZE.subscribe(function (e) {
+                    dropdownPosition();
+                }, function (error) {
+                    (0, _utils.CONSOLE_LOGGER)(_this.$log, error);
+                }));
+                // Default attributes
+                if (!angular.isDefined(scope.value) && scope.multiple) {
+                    scope.value = [];
+                }
+                ;
+                // this is where default initialization happens
+                angular.forEach(defaults, function (value, key) {
+                    if (!angular.isDefined(scope[key])) {
+                        scope[key] = value;
+                    }
+                    ;
+                });
+                // create custom scope properties
+                scope.onNgModelChanged = function (propertyName, oldValue, newValue) {
+                    if (propertyName === 'search') {
+                        if (scope.remote) {
+                            _this.$timeout(fetch);
+                        }
+                    }
+                };
+                var _onSelectedValuesChanged = function _onSelectedValuesChanged(oldValue, newValue) {
+                    if (angular.equals(newValue, oldValue)) {
+                        return;
+                    }
+                    updateValue();
+                    if (angular.isFunction(scope.change)) {
+                        scope.change(scope.multiple ? {
+                            newValue: newValue,
+                            oldValue: oldValue
+                        } : {
+                            newValue: (newValue || [])[0],
+                            oldValue: (oldValue || [])[0]
+                        });
+                    }
+                    if (scope.steroids) {
+                        scope.selectedValuesInput$.next({
+                            groupAttr: scope.groupAttr,
+                            valueAttr: scope.valueAttr,
+                            labelAttr: scope.labelAttr,
+                            getObjValue: scope.getObjValue,
+                            unset: scope.unset,
+                            selectedValues: scope.selectedValues,
+                            multiple: scope.multiple,
+                            disabled: scope.disabled
+                        });
+                    }
+                };
+                var _onFilteredOptionsChanged = function _onFilteredOptionsChanged() {
+                    scope.filteredOptionsInput$.next({
+                        groupAttr: scope.groupAttr,
+                        valueAttr: scope.valueAttr,
+                        labelAttr: scope.labelAttr,
+                        getObjValue: scope.getObjValue,
+                        filteredOptions: scope.filteredOptions,
+                        highlighted: scope.highlighted,
+                        set: scope.set,
+                        highlight: scope.highlight
+                    });
+                };
+                angular.forEach(['name', 'valueAttr', 'labelAttr'], function (attr) {
+                    if (!attrs[attr]) attrs[attr] = scope[attr];
+                });
+                // Options' utilities
+                var optionValue = function optionValue(option) {
+                    return scope.valueAttr == null ? option : scope.getObjValue(option, scope.valueAttr);
+                };
+                var setObjValue = function setObjValue(obj, path, value) {
+                    var key = void 0;
+                    if (!angular.isDefined(obj)) {
+                        obj = {};
+                    }
+                    ;
+                    path = angular.isArray(path) ? path : path.split('.');
+                    key = path.shift();
+                    if (key.indexOf('[') > 0) {
+                        var match = key.match(/(\w+)\[(\d+)\]/);
+                        if (match !== null) {
+                            obj = obj[match[1]];
+                            key = match[2];
+                        }
+                    }
+                    obj[key] = path.length === 0 ? value : setObjValue(obj[key], path, value);
+                    return obj;
+                };
+                var optionEquals = function optionEquals(option, value) {
+                    return angular.equals(optionValue(option), angular.isDefined(value) ? value : scope.value);
+                };
+                scope.getObjValue = function (obj, path) {
+                    if (!angular.isDefined(obj) || !angular.isDefined(path)) {
+                        return obj;
+                    }
+                    path = angular.isArray(path) ? path : path.split('.');
+                    var key = path.shift();
+                    if (key.indexOf('[') > 0) {
+                        var match = key.match(/(\w+)\[(\d+)\]/);
+                        if (match !== null) {
+                            obj = obj[match[1]];
+                            key = match[2];
+                        }
+                    }
+                    return path.length === 0 ? obj[key] : scope.getObjValue(obj[key], path);
+                };
+                // Value utilities
+                var setValue = function setValue(value) {
+                    scope.value = !scope.multiple ? scope.valueAttr == null ? value : scope.getObjValue(value || {}, scope.valueAttr) : scope.valueAttr == null ? value || [] : (value || []).map(function (option) {
+                        return scope.getObjValue(option, scope.valueAttr);
+                    });
+                };
+                scope.hasValue = function () {
+                    return scope.multiple ? (scope.value || []).length > 0 : !!scope.value;
+                };
+                // Remote fetching
+                var request = function request(paramName, paramValue, remote, remoteParam) {
+                    var promise = void 0,
+                        remoteOptions = {};
+                    if (scope.disabled) {
+                        return _this.$q.reject();
+                    }
+                    if (!angular.isDefined(remote)) {
+                        throw 'Remote attribute is not defined';
+                    }
+                    scope.loading = true;
+                    scope.options = [];
+                    remoteOptions[paramName] = paramValue;
+                    promise = remote(remoteOptions);
+                    if (typeof promise.then !== 'function') {
+                        var settings = {
+                            method: 'GET',
+                            cache: true,
+                            params: {}
+                        };
+                        angular.extend(settings, promise);
+                        angular.extend(settings.params, promise.params);
+                        settings.params[remoteParam] = paramValue;
+                        promise = _this.$http(settings);
+                    }
+                    promise.then(function (response) {
+                        _this.$timeout(function () {
+                            scope.$apply(function () {
+                                var options = response.data || response;
+                                scope.options = options;
+                                filterOptions();
+                                scope.loading = false;
+                                initDeferred.resolve();
+                            });
+                        });
+                    }, function (error) {
+                        _this.$timeout(function () {
+                            scope.$apply(function () {
+                                scope.loading = false;
+                            });
+                        });
+                        initDeferred.reject();
+                        var errorMsg = 'Error while fetching data: ' + (error.message || error);
+                        (0, _utils.CONSOLE_LOGGER)(_this.$log, errorMsg);
+                        throw errorMsg;
+                    });
+                    return promise;
+                };
+                var fetch = function fetch() {
+                    return request('search', scope.search || '', scope.remote, scope.remoteParam);
+                };
+                var fetchValidation = function fetchValidation(value) {
+                    return request('value', value, scope.remoteValidation, scope.remoteValidationParam);
+                };
+                if (!angular.isDefined(scope.remote)) {
+                    scope.remote = false;
+                    scope.remoteValidation = false;
+                    initDeferred.resolve();
+                } else {
+                    if (!angular.isDefined(scope.remoteValidation)) {
+                        scope.remoteValidation = false;
+                    }
+                }
+                if (scope.remote) {
+                    _this.$timeout(function () {
+                        _this.$q.when(!scope.hasValue() || !scope.remoteValidation ? angular.noop : fetchValidation(scope.value)).then(function () {
+                            // NOTE: Here used to be watcher for search attribute, wich now is moved to $viewChangeListener.
+                        });
+                    });
+                }
+                // Fill with options in the select
+                var optionToObject = function optionToObject(option, group) {
+                    var object = {};
+                    var element = angular.element(option);
+                    angular.forEach(option.dataset, function (value, key) {
+                        if (!key.match(/^\$/)) {
+                            object[key] = value;
+                        }
+                        ;
+                    });
+                    if (option.value) {
+                        setObjValue(object, scope.valueAttr || 'value', option.value);
+                    }
+                    if (element.text()) {
+                        setObjValue(object, scope.labelAttr, element.text().trim());
+                    }
+                    if (angular.isDefined(group)) {
+                        setObjValue(object, scope.groupAttr, group);
+                    }
+                    scope.options.push(object);
+                    if (element.attr('selected') && (scope.multiple || !scope.hasValue())) if (!scope.multiple) {
+                        if (!scope.value) {
+                            scope.value = optionValue(object);
+                        }
+                        ;
+                    } else {
+                        if (!scope.value) {
+                            scope.value = [];
+                        }
+                        scope.value.push(optionValue(object));
+                    }
+                };
+                var fillWithHtml = function fillWithHtml() {
+                    scope.options = [];
+                    angular.forEach(clone, function (element) {
+                        var tagName = (element.tagName || '').toLowerCase();
+                        if (tagName == 'option') {
+                            optionToObject(element);
+                        }
+                        if (tagName == 'optgroup') {
+                            angular.forEach(element.querySelectorAll('option'), function (option) {
+                                optionToObject(option, (element.attributes.label || {}).value);
+                            });
+                        }
+                    });
+                    updateSelected();
+                };
+                // Initialization
+                var initialize = function initialize() {
+                    if (!scope.remote && (!angular.isArray(scope.options) || !scope.options.length)) {
+                        fillWithHtml();
+                    }
+                    if (scope.hasValue()) {
+                        if (!scope.multiple) {
+                            if (angular.isArray(scope.value)) {
+                                scope.value = scope.value[0];
+                            }
+                        } else {
+                            if (!angular.isArray(scope.value)) {
+                                scope.value = [scope.value];
+                            }
+                        }
+                        updateSelected();
+                        filterOptions();
+                        updateValue();
+                    }
+                };
+                var reInitMultiple = function reInitMultiple() {
+                    _this.$timeout(setInputWidth);
+                    if (scope.remote) {
+                        _this.$timeout(fetch);
+                    }
+                    initDeferred.promise.then(function () {
+                        initialize();
+                    }, function () {
+                        if (_this.debug) {
+                            (0, _utils.CONSOLE_LOGGER)(_this.$log, 'Cannot initialize, promise init error!');
+                        }
+                    });
+                };
+                var _previousClassString = null;
+                var m2 = new MutationObserver(function (event) {
+                    var newClassString = event[0].target.classList.toString();
+                    if (_previousClassString && newClassString !== _previousClassString) {
+                        var newHasMultiple = newClassString.indexOf('multiple') !== -1;
+                        var oldHasMultiple = _previousClassString.indexOf('multiple') !== -1;
+                        if (newHasMultiple !== oldHasMultiple) {
+                            reInitMultiple();
+                        }
+                    }
+                    // on first init
+                    if (!_previousClassString) {
+                        reInitMultiple();
+                    }
+                    _previousClassString = newClassString;
+                });
+                m2.observe(DOM_SELECTOR_CONTAINER[0], {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+                _mutations.push(m2);
+                // Dropdown utilities
+                var dropdownPosition = function dropdownPosition() {
+                    var label = DOM_SELECTOR_INPUT.parent()[0];
+                    var styles = GET_DOM_STYLES(label);
+                    var marginTop = parseFloat(styles.marginTop || 0);
+                    var marginLeft = parseFloat(styles.marginLeft || 0);
+                    if (label) {
+                        DOM_SELECTOR_DROPDOWN.css({
+                            top: label.offsetTop + label.offsetHeight + marginTop + 'px',
+                            left: label.offsetLeft + marginLeft + 'px',
+                            width: label.offsetWidth + 'px'
+                        });
+                    }
+                };
+                var open = function open() {
+                    if (scope.multiple && (scope.selectedValues || []).length >= scope.limit) {
+                        return;
+                    }
+                    scope.isOpen = true;
+                    dropdownPosition();
+                    if (scope.remote) {
+                        _this.$timeout(fetch);
+                    }
+                    if (!scope.multiple) {
+                        _this.$timeout(scrollToHighlighted);
+                    }
+                };
+                var close = function close() {
+                    scope.isOpen = false;
+                    resetInput();
+                    // Note: not necessary to make a fetch call on close
+                    // if (scope.remote) {
+                    //     this.$timeout(fetch);
+                    // };
+                };
+                var decrementHighlighted = function decrementHighlighted() {
+                    scope.highlight(scope.highlighted - 1);
+                    scrollToHighlighted();
+                };
+                var incrementHighlighted = function incrementHighlighted() {
+                    scope.highlight(scope.highlighted + 1);
+                    scrollToHighlighted();
+                };
+                scope.highlight = function (index) {
+                    if (attrs.create && scope.search && index == -1) {
+                        scope.highlighted = -1;
+                    } else {
+                        if (scope.filteredOptions.length) {
+                            scope.highlighted = (scope.filteredOptions.length + index) % scope.filteredOptions.length;
+                        }
+                    }
+                    _onFilteredOptionsChanged();
+                };
+                var scrollToHighlighted = function scrollToHighlighted() {
+                    var dd = DOM_SELECTOR_DROPDOWN[0];
+                    var option = dd.querySelectorAll('li.selector-option.js-data-item')[scope.highlighted];
+                    var styles = GET_DOM_STYLES(option);
+                    var marginTop = parseFloat(styles.marginTop || 0);
+                    var marginBottom = parseFloat(styles.marginBottom || 0);
+                    if (!scope.filteredOptions.length) {
+                        return;
+                    }
+                    if (option) {
+                        if (option.offsetTop + option.offsetHeight + marginBottom > dd.scrollTop + dd.offsetHeight) {
+                            _this.$timeout(function () {
+                                dd.scrollTop = option.offsetTop + option.offsetHeight + marginBottom - dd.offsetHeight;
+                            });
+                        }
+                        if (option.offsetTop - marginTop < dd.scrollTop) {
+                            _this.$timeout(function () {
+                                dd.scrollTop = option.offsetTop - marginTop;
+                            });
+                        }
+                    }
+                };
+                scope.createOption = function (value) {
+                    _this.$q.when(function () {
+                        var option = {};
+                        if (angular.isFunction(scope.create)) {
+                            option = scope.create({
+                                input: value
+                            });
+                        } else {
+                            setObjValue(option, scope.labelAttr, value);
+                            setObjValue(option, scope.valueAttr || 'value', value);
+                        }
+                        return option;
+                    }()).then(function (option) {
+                        scope.options.push(option);
+                        scope.set(option);
+                    });
+                };
+                scope.set = function (option) {
+                    if (scope.multiple && (scope.selectedValues || []).length >= scope.limit) {
+                        return;
+                    }
+                    ;
+                    if (!angular.isDefined(option)) {
+                        option = scope.filteredOptions[scope.highlighted];
+                    }
+                    var _oldSelectedValues = angular.copy(scope.selectedValues);
+                    if (!scope.multiple) {
+                        scope.selectedValues = [option];
+                    } else {
+                        if (!scope.selectedValues) {
+                            scope.selectedValues = [];
+                        }
+                        if (scope.selectedValues.indexOf(option) < 0) {
+                            scope.selectedValues.push(option);
+                        }
+                    }
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
+                    if (!scope.multiple || scope.closeAfterSelection || (scope.selectedValues || []).length >= scope.limit) {
+                        close();
+                    }
+                    resetInput();
+                    selectCtrl.$setDirty();
+                };
+                scope.unset = function (index) {
+                    var _oldSelectedValues = angular.copy(scope.selectedValues);
+                    if (!scope.multiple) {
+                        scope.selectedValues = [];
+                    } else {
+                        scope.selectedValues.splice(angular.isDefined(index) ? index : scope.selectedValues.length - 1, 1);
+                    }
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
+                    resetInput();
+                    selectCtrl.$setDirty();
+                };
+                var keydown = function keydown(e) {
+                    switch (e.keyCode) {
+                        case KEYS.up:
+                            {
+                                if (!scope.isOpen) {
+                                    break;
+                                }
+                                decrementHighlighted();
+                                e.preventDefault();
+                                break;
+                            }
+                        case KEYS.down:
+                            {
+                                if (!scope.isOpen) {
+                                    open();
+                                } else {
+                                    incrementHighlighted();
+                                }
+                                e.preventDefault();
+                                break;
+                            }
+                        case KEYS.escape:
+                            {
+                                scope.highlight(0);
+                                close();
+                                break;
+                            }
+                        case KEYS.enter:
+                            {
+                                if (scope.isOpen) {
+                                    if (attrs.create && scope.search && scope.highlighted == -1) {
+                                        scope.createOption(e.target.value);
+                                    } else {
+                                        if (scope.filteredOptions.length) {
+                                            scope.set();
+                                        }
+                                    }
+                                    if (scope.multiple) {
+                                        open();
+                                    }
+                                    e.preventDefault();
+                                }
+                                break;
+                            }
+                        case KEYS.backspace:
+                            {
+                                if (!DOM_SELECTOR_INPUT.val()) {
+                                    var search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
+                                    scope.unset();
+                                    open();
+                                    if (scope.softDelete && !scope.disableSearch) _this.$timeout(function () {
+                                        scope.search = search;
+                                    });
+                                    e.preventDefault();
+                                }
+                                break;
+                            }
+                        case KEYS.left:
+                        case KEYS.right:
+                        case KEYS.shift:
+                        case KEYS.ctrl:
+                        case KEYS.alt:
+                        case KEYS.tab:
+                        case KEYS.leftCmd:
+                        case KEYS.rightCmd:
+                            {
+                                break;
+                            }
+                        default:
+                            {
+                                if (!scope.multiple && scope.hasValue()) {
+                                    e.preventDefault();
+                                } else {
+                                    open();
+                                    scope.highlight(0);
+                                }
+                                break;
+                            }
+                    }
+                };
+                // Filtered options
+                var inOptions = function inOptions(options, value) {
+                    // if options are fetched from a remote source, it's not possibile to use
+                    // the simplest check with native `indexOf` function, beacause every object
+                    // in the results array has it own new address
+                    if (scope.remote) {
+                        return options.filter(function (option) {
+                            return angular.equals(value, option);
+                        }).length > 0;
+                    } else {
+                        return options.indexOf(value) >= 0;
+                    }
+                };
+                var filterOptions = function filterOptions() {
+                    scope.filteredOptions = filter(scope.options || [], scope.search);
+                    var _oldSelectedValues = angular.copy(scope.selectedValues);
+                    if (!angular.isArray(scope.selectedValues)) {
+                        scope.selectedValues = [];
+                    }
+                    if (scope.multiple) {
+                        scope.filteredOptions = scope.filteredOptions.filter(function (option) {
+                            return !inOptions(scope.selectedValues, option);
+                        });
+                    } else {
+                        var index = scope.filteredOptions.indexOf(scope.selectedValues[0]);
+                        if (index >= 0) {
+                            scope.highlight(index);
+                        }
+                        ;
+                    }
+                    _onFilteredOptionsChanged();
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
+                };
+                // Input width utilities
+                var measureWidth = function measureWidth() {
+                    var width = void 0;
+                    var styles = GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
+                    var shadow = angular.element('<span class="selector-shadow"></span>');
+                    shadow.text(DOM_SELECTOR_INPUT.val() || (!scope.hasValue() ? scope.placeholder : '') || '');
+                    angular.element(document.body).append(shadow);
+                    angular.forEach(['fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'textTransform', 'wordSpacing', 'textIndent'], function (style) {
+                        shadow.css(style, styles[style]);
+                    });
+                    width = shadow[0].offsetWidth;
+                    shadow.remove();
+                    return width;
+                };
+                var setInputWidth = function setInputWidth() {
+                    var width = measureWidth() + 1;
+                    DOM_SELECTOR_INPUT.css('width', width + 'px');
+                };
+                var resetInput = function resetInput() {
+                    DOM_SELECTOR_INPUT.val('');
+                    setInputWidth();
+                    _this.$timeout(function () {
+                        scope.$apply(function () {
+                            scope.search = '';
+                        });
+                    });
+                };
+                _watchers.push(scope.$watch('[search, options, value]', function () {
+                    // hide selected items
+                    filterOptions();
+                    _this.$timeout(function () {
+                        // set input width
+                        setInputWidth();
+                        // repositionate dropdown
+                        if (scope.isOpen) {
+                            dropdownPosition();
+                        }
+                    });
+                }, true));
+                // Update value
+                var updateValue = function updateValue(origin) {
+                    if (!angular.isDefined(origin)) {
+                        origin = scope.selectedValues || [];
+                    }
+                    setValue(!scope.multiple ? origin[0] : origin);
+                };
+                _watchers.push(scope.$watchCollection('options', function (newValue, oldValue) {
+                    if (angular.equals(newValue, oldValue) || scope.remote) {
+                        return;
+                    }
+                    ;
+                    updateSelected();
+                }));
+                // Update selected values
+                var updateSelected = function updateSelected() {
+                    var _oldSelectedValues = angular.copy(scope.selectedValues);
+                    scope.selectedValues = !scope.multiple ? (scope.options || []).filter(function (option) {
+                        return optionEquals(option);
+                    }).slice(0, 1) : (scope.value || []).map(function (value) {
+                        return filter(scope.options, function (option) {
+                            return optionEquals(option, value);
+                        })[0];
+                    }).filter(function (value) {
+                        return angular.isDefined(value);
+                    }).slice(0, scope.limit);
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
+                };
+                _watchers.push(scope.$watch('value', function (newValue, oldValue) {
+                    if (angular.equals(newValue, oldValue)) {
+                        return;
+                    }
+                    _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
+                        // updateSelected();
+                        filterOptions();
+                        updateValue();
+                    });
+                }, true));
+                // DOM event listeners
+                _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe(function (e) {
+                    if (e.type === 'focus') {
+                        _this.$timeout(function () {
+                            scope.$apply(open);
+                        });
+                    }
+                    if (e.type === 'blur') {
+                        _this.$timeout(function () {
+                            scope.$apply(close);
+                        });
+                    }
+                    if (e.type === 'keydown') {
+                        scope.$apply(function () {
+                            keydown(e);
+                        });
+                    }
+                    if (e.type === 'input') {
+                        setInputWidth();
+                    }
+                }, function (error) {
+                    (0, _utils.CONSOLE_LOGGER)(_this.$log, error);
+                }));
+                var m1 = new MutationObserver(function (event) {
+                    var _target = event[0].target;
+                    var _inputElem = angular.element(_target).find('input');
+                    if (_inputElem) {
+                        selectCtrl[inputCtrl.$touched ? '$setTouched' : '$setUntouched']();
+                        selectCtrl[inputCtrl.$pristine ? '$setPristine' : '$setDirty']();
+                    }
+                });
+                m1.observe(DOM_SELECTOR_CONTAINER[0], {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+                _mutations.push(m1);
+                // Expose APIs
+                scope.api.fetch = fetch;
+                scope.api.open = open;
+                scope.api.close = close;
+                scope.api.focus = function () {
+                    DOM_SELECTOR_INPUT[0].focus();
+                };
+                scope.api.set = function (value) {
+                    return scope.value = value;
+                };
+                scope.api.unset = function (value) {
+                    var values = !value ? scope.selectedValues : (scope.selectedValues || []).filter(function (option) {
+                        return optionEquals(option, value);
+                    });
+                    var indexes = scope.selectedValues.map(function (option, index) {
+                        return inOptions(values, option) ? index : -1;
+                    }).filter(function (index) {
+                        return index >= 0;
+                    });
+                    angular.forEach(indexes, function (index, i) {
+                        scope.unset(index - i);
+                    });
+                };
+                // destroy
+                scope.$on('$destroy', function () {
+                    // dispose watchers
+                    if (_watchers && _watchers.length) {
+                        // call all unbind on the watchers
+                        _watchers.forEach(function (wFn) {
+                            if (wFn && angular.isFunction(wFn)) {
+                                wFn();
+                            }
+                        });
+                        // reset watchers array
+                        _watchers = null;
+                    }
+                    // dispose all mutation observers;
+                    if (_mutations && _mutations.length) {
+                        _mutations.forEach(function (m) {
+                            m.disconnect();
+                        });
+                        _mutations = null;
+                    }
+                    // dispose subscribers
+                    if (_subscribers && _subscribers.length) {
+                        _subscribers.forEach(function (s) {
+                            s.unsubscribe();
+                        });
+                        _subscribers = null;
+                    }
+                });
+            });
+        }
+    }], [{
+        key: 'Factory',
+        value: function Factory(debug) {
+            var directive = function directive($filter, $timeout, $window, $http, $q, $log) {
+                return new SelectorComponent($filter, $timeout, $window, $http, $q, $log, debug);
+            };
+            directive['$inject'] = ['$filter', '$timeout', '$window', '$http', '$q', '$log'];
+            return directive;
+        }
+    }]);
+
+    return SelectorComponent;
+}();
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(0);
+var empty_1 = __webpack_require__(81);
+Observable_1.Observable.empty = empty_1.empty;
+//# sourceMappingURL=empty.js.map
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var EmptyObservable_1 = __webpack_require__(21);
+exports.empty = EmptyObservable_1.EmptyObservable.create;
+//# sourceMappingURL=empty.js.map
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Observable_1 = __webpack_require__(0);
+var Subscriber_1 = __webpack_require__(5);
+var Subscription_1 = __webpack_require__(6);
+var ObjectUnsubscribedError_1 = __webpack_require__(83);
+var SubjectSubscription_1 = __webpack_require__(84);
+var rxSubscriber_1 = __webpack_require__(13);
 /**
  * @class SubjectSubscriber<T>
  */
@@ -1092,522 +6494,7 @@ exports.AnonymousSubject = AnonymousSubject;
 //# sourceMappingURL=Subject.js.map
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// typeof any so that it we don't have to cast when comparing a result to the error object
-exports.errorObject = { e: {} };
-//# sourceMappingURL=errorObject.js.map
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-// CommonJS / Node have global context exposed as "global" variable.
-// We don't want to include the whole node.d.ts this this compilation unit so we'll just fake
-// the global "global" var for now.
-var __window = typeof window !== 'undefined' && window;
-var __self = typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' &&
-    self instanceof WorkerGlobalScope && self;
-var __global = typeof global !== 'undefined' && global;
-var _root = __window || __global || __self;
-exports.root = _root;
-// Workaround Closure Compiler restriction: The body of a goog.module cannot use throw.
-// This is needed when used with angular/tsickle which inserts a goog.module statement.
-// Wrap in IIFE
-(function () {
-    if (!_root) {
-        throw new Error('RxJS could not find any global context (window, self, global)');
-    }
-})();
-//# sourceMappingURL=root.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var errorObject_1 = __webpack_require__(6);
-var tryCatchTarget;
-function tryCatcher() {
-    try {
-        return tryCatchTarget.apply(this, arguments);
-    }
-    catch (e) {
-        errorObject_1.errorObject.e = e;
-        return errorObject_1.errorObject;
-    }
-}
-function tryCatch(fn) {
-    tryCatchTarget = fn;
-    return tryCatcher;
-}
-exports.tryCatch = tryCatch;
-;
-//# sourceMappingURL=tryCatch.js.map
-
-/***/ }),
-/* 9 */,
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Observable_1 = __webpack_require__(0);
-var ScalarObservable_1 = __webpack_require__(30);
-var EmptyObservable_1 = __webpack_require__(13);
-var isScheduler_1 = __webpack_require__(12);
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @extends {Ignored}
- * @hide true
- */
-var ArrayObservable = (function (_super) {
-    __extends(ArrayObservable, _super);
-    function ArrayObservable(array, scheduler) {
-        _super.call(this);
-        this.array = array;
-        this.scheduler = scheduler;
-        if (!scheduler && array.length === 1) {
-            this._isScalar = true;
-            this.value = array[0];
-        }
-    }
-    ArrayObservable.create = function (array, scheduler) {
-        return new ArrayObservable(array, scheduler);
-    };
-    /**
-     * Creates an Observable that emits some values you specify as arguments,
-     * immediately one after the other, and then emits a complete notification.
-     *
-     * <span class="informal">Emits the arguments you provide, then completes.
-     * </span>
-     *
-     * <img src="./img/of.png" width="100%">
-     *
-     * This static operator is useful for creating a simple Observable that only
-     * emits the arguments given, and the complete notification thereafter. It can
-     * be used for composing with other Observables, such as with {@link concat}.
-     * By default, it uses a `null` IScheduler, which means the `next`
-     * notifications are sent synchronously, although with a different IScheduler
-     * it is possible to determine when those notifications will be delivered.
-     *
-     * @example <caption>Emit 10, 20, 30, then 'a', 'b', 'c', then start ticking every second.</caption>
-     * var numbers = Rx.Observable.of(10, 20, 30);
-     * var letters = Rx.Observable.of('a', 'b', 'c');
-     * var interval = Rx.Observable.interval(1000);
-     * var result = numbers.concat(letters).concat(interval);
-     * result.subscribe(x => console.log(x));
-     *
-     * @see {@link create}
-     * @see {@link empty}
-     * @see {@link never}
-     * @see {@link throw}
-     *
-     * @param {...T} values Arguments that represent `next` values to be emitted.
-     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
-     * the emissions of the `next` notifications.
-     * @return {Observable<T>} An Observable that emits each given input value.
-     * @static true
-     * @name of
-     * @owner Observable
-     */
-    ArrayObservable.of = function () {
-        var array = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            array[_i - 0] = arguments[_i];
-        }
-        var scheduler = array[array.length - 1];
-        if (isScheduler_1.isScheduler(scheduler)) {
-            array.pop();
-        }
-        else {
-            scheduler = null;
-        }
-        var len = array.length;
-        if (len > 1) {
-            return new ArrayObservable(array, scheduler);
-        }
-        else if (len === 1) {
-            return new ScalarObservable_1.ScalarObservable(array[0], scheduler);
-        }
-        else {
-            return new EmptyObservable_1.EmptyObservable(scheduler);
-        }
-    };
-    ArrayObservable.dispatch = function (state) {
-        var array = state.array, index = state.index, count = state.count, subscriber = state.subscriber;
-        if (index >= count) {
-            subscriber.complete();
-            return;
-        }
-        subscriber.next(array[index]);
-        if (subscriber.closed) {
-            return;
-        }
-        state.index = index + 1;
-        this.schedule(state);
-    };
-    ArrayObservable.prototype._subscribe = function (subscriber) {
-        var index = 0;
-        var array = this.array;
-        var count = array.length;
-        var scheduler = this.scheduler;
-        if (scheduler) {
-            return scheduler.schedule(ArrayObservable.dispatch, 0, {
-                array: array, index: index, count: count, subscriber: subscriber
-            });
-        }
-        else {
-            for (var i = 0; i < count && !subscriber.closed; i++) {
-                subscriber.next(array[i]);
-            }
-            subscriber.complete();
-        }
-    };
-    return ArrayObservable;
-}(Observable_1.Observable));
-exports.ArrayObservable = ArrayObservable;
-//# sourceMappingURL=ArrayObservable.js.map
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
-//# sourceMappingURL=isArray.js.map
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function isScheduler(value) {
-    return value && typeof value.schedule === 'function';
-}
-exports.isScheduler = isScheduler;
-//# sourceMappingURL=isScheduler.js.map
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Observable_1 = __webpack_require__(0);
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @extends {Ignored}
- * @hide true
- */
-var EmptyObservable = (function (_super) {
-    __extends(EmptyObservable, _super);
-    function EmptyObservable(scheduler) {
-        _super.call(this);
-        this.scheduler = scheduler;
-    }
-    /**
-     * Creates an Observable that emits no items to the Observer and immediately
-     * emits a complete notification.
-     *
-     * <span class="informal">Just emits 'complete', and nothing else.
-     * </span>
-     *
-     * <img src="./img/empty.png" width="100%">
-     *
-     * This static operator is useful for creating a simple Observable that only
-     * emits the complete notification. It can be used for composing with other
-     * Observables, such as in a {@link mergeMap}.
-     *
-     * @example <caption>Emit the number 7, then complete.</caption>
-     * var result = Rx.Observable.empty().startWith(7);
-     * result.subscribe(x => console.log(x));
-     *
-     * @example <caption>Map and flatten only odd numbers to the sequence 'a', 'b', 'c'</caption>
-     * var interval = Rx.Observable.interval(1000);
-     * var result = interval.mergeMap(x =>
-     *   x % 2 === 1 ? Rx.Observable.of('a', 'b', 'c') : Rx.Observable.empty()
-     * );
-     * result.subscribe(x => console.log(x));
-     *
-     * // Results in the following to the console:
-     * // x is equal to the count on the interval eg(0,1,2,3,...)
-     * // x will occur every 1000ms
-     * // if x % 2 is equal to 1 print abc
-     * // if x % 2 is not equal to 1 nothing will be output
-     *
-     * @see {@link create}
-     * @see {@link never}
-     * @see {@link of}
-     * @see {@link throw}
-     *
-     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
-     * the emission of the complete notification.
-     * @return {Observable} An "empty" Observable: emits only the complete
-     * notification.
-     * @static true
-     * @name empty
-     * @owner Observable
-     */
-    EmptyObservable.create = function (scheduler) {
-        return new EmptyObservable(scheduler);
-    };
-    EmptyObservable.dispatch = function (arg) {
-        var subscriber = arg.subscriber;
-        subscriber.complete();
-    };
-    EmptyObservable.prototype._subscribe = function (subscriber) {
-        var scheduler = this.scheduler;
-        if (scheduler) {
-            return scheduler.schedule(EmptyObservable.dispatch, 0, { subscriber: subscriber });
-        }
-        else {
-            subscriber.complete();
-        }
-    };
-    return EmptyObservable;
-}(Observable_1.Observable));
-exports.EmptyObservable = EmptyObservable;
-//# sourceMappingURL=EmptyObservable.js.map
-
-/***/ }),
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var root_1 = __webpack_require__(7);
-function symbolIteratorPonyfill(root) {
-    var Symbol = root.Symbol;
-    if (typeof Symbol === 'function') {
-        if (!Symbol.iterator) {
-            Symbol.iterator = Symbol('iterator polyfill');
-        }
-        return Symbol.iterator;
-    }
-    else {
-        // [for Mozilla Gecko 27-35:](https://mzl.la/2ewE1zC)
-        var Set_1 = root.Set;
-        if (Set_1 && typeof new Set_1()['@@iterator'] === 'function') {
-            return '@@iterator';
-        }
-        var Map_1 = root.Map;
-        // required for compatability with es6-shim
-        if (Map_1) {
-            var keys = Object.getOwnPropertyNames(Map_1.prototype);
-            for (var i = 0; i < keys.length; ++i) {
-                var key = keys[i];
-                // according to spec, Map.prototype[@@iterator] and Map.orototype.entries must be equal.
-                if (key !== 'entries' && key !== 'size' && Map_1.prototype[key] === Map_1.prototype['entries']) {
-                    return key;
-                }
-            }
-        }
-        return '@@iterator';
-    }
-}
-exports.symbolIteratorPonyfill = symbolIteratorPonyfill;
-exports.iterator = symbolIteratorPonyfill(root_1.root);
-/**
- * @deprecated use iterator instead
- */
-exports.$$iterator = exports.iterator;
-//# sourceMappingURL=iterator.js.map
-
-/***/ }),
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var OuterSubscriber_1 = __webpack_require__(2);
-var subscribeToResult_1 = __webpack_require__(3);
-/**
- * Converts a higher-order Observable into a first-order Observable which
- * concurrently delivers all values that are emitted on the inner Observables.
- *
- * <span class="informal">Flattens an Observable-of-Observables.</span>
- *
- * <img src="./img/mergeAll.png" width="100%">
- *
- * `mergeAll` subscribes to an Observable that emits Observables, also known as
- * a higher-order Observable. Each time it observes one of these emitted inner
- * Observables, it subscribes to that and delivers all the values from the
- * inner Observable on the output Observable. The output Observable only
- * completes once all inner Observables have completed. Any error delivered by
- * a inner Observable will be immediately emitted on the output Observable.
- *
- * @example <caption>Spawn a new interval Observable for each click event, and blend their outputs as one Observable</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var higherOrder = clicks.map((ev) => Rx.Observable.interval(1000));
- * var firstOrder = higherOrder.mergeAll();
- * firstOrder.subscribe(x => console.log(x));
- *
- * @example <caption>Count from 0 to 9 every second for each click, but only allow 2 concurrent timers</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var higherOrder = clicks.map((ev) => Rx.Observable.interval(1000).take(10));
- * var firstOrder = higherOrder.mergeAll(2);
- * firstOrder.subscribe(x => console.log(x));
- *
- * @see {@link combineAll}
- * @see {@link concatAll}
- * @see {@link exhaust}
- * @see {@link merge}
- * @see {@link mergeMap}
- * @see {@link mergeMapTo}
- * @see {@link mergeScan}
- * @see {@link switch}
- * @see {@link zipAll}
- *
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of inner
- * Observables being subscribed to concurrently.
- * @return {Observable} An Observable that emits values coming from all the
- * inner Observables emitted by the source Observable.
- * @method mergeAll
- * @owner Observable
- */
-function mergeAll(concurrent) {
-    if (concurrent === void 0) { concurrent = Number.POSITIVE_INFINITY; }
-    return this.lift(new MergeAllOperator(concurrent));
-}
-exports.mergeAll = mergeAll;
-var MergeAllOperator = (function () {
-    function MergeAllOperator(concurrent) {
-        this.concurrent = concurrent;
-    }
-    MergeAllOperator.prototype.call = function (observer, source) {
-        return source.subscribe(new MergeAllSubscriber(observer, this.concurrent));
-    };
-    return MergeAllOperator;
-}());
-exports.MergeAllOperator = MergeAllOperator;
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-var MergeAllSubscriber = (function (_super) {
-    __extends(MergeAllSubscriber, _super);
-    function MergeAllSubscriber(destination, concurrent) {
-        _super.call(this, destination);
-        this.concurrent = concurrent;
-        this.hasCompleted = false;
-        this.buffer = [];
-        this.active = 0;
-    }
-    MergeAllSubscriber.prototype._next = function (observable) {
-        if (this.active < this.concurrent) {
-            this.active++;
-            this.add(subscribeToResult_1.subscribeToResult(this, observable));
-        }
-        else {
-            this.buffer.push(observable);
-        }
-    };
-    MergeAllSubscriber.prototype._complete = function () {
-        this.hasCompleted = true;
-        if (this.active === 0 && this.buffer.length === 0) {
-            this.destination.complete();
-        }
-    };
-    MergeAllSubscriber.prototype.notifyComplete = function (innerSub) {
-        var buffer = this.buffer;
-        this.remove(innerSub);
-        this.active--;
-        if (buffer.length > 0) {
-            this._next(buffer.shift());
-        }
-        else if (this.active === 0 && this.hasCompleted) {
-            this.destination.complete();
-        }
-    };
-    return MergeAllSubscriber;
-}(OuterSubscriber_1.OuterSubscriber));
-exports.MergeAllSubscriber = MergeAllSubscriber;
-//# sourceMappingURL=mergeAll.js.map
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var root_1 = __webpack_require__(7);
-function getSymbolObservable(context) {
-    var $$observable;
-    var Symbol = context.Symbol;
-    if (typeof Symbol === 'function') {
-        if (Symbol.observable) {
-            $$observable = Symbol.observable;
-        }
-        else {
-            $$observable = Symbol('observable');
-            Symbol.observable = $$observable;
-        }
-    }
-    else {
-        $$observable = '@@observable';
-    }
-    return $$observable;
-}
-exports.getSymbolObservable = getSymbolObservable;
-exports.observable = getSymbolObservable(root_1.root);
-/**
- * @deprecated use observable instead
- */
-exports.$$observable = exports.observable;
-//# sourceMappingURL=observable.js.map
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var root_1 = __webpack_require__(7);
-var Symbol = root_1.root.Symbol;
-exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
-    Symbol.for('rxSubscriber') : '@@rxSubscriber';
-/**
- * @deprecated use rxSubscriber instead
- */
-exports.$$rxSubscriber = exports.rxSubscriber;
-//# sourceMappingURL=rxSubscriber.js.map
-
-/***/ }),
-/* 25 */,
-/* 26 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1640,21 +6527,7 @@ exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 //# sourceMappingURL=ObjectUnsubscribedError.js.map
 
 /***/ }),
-/* 27 */,
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function isFunction(x) {
-    return typeof x === 'function';
-}
-exports.isFunction = isFunction;
-//# sourceMappingURL=isFunction.js.map
-
-/***/ }),
-/* 29 */,
-/* 30 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1664,154 +6537,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Observable_1 = __webpack_require__(0);
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @extends {Ignored}
- * @hide true
- */
-var ScalarObservable = (function (_super) {
-    __extends(ScalarObservable, _super);
-    function ScalarObservable(value, scheduler) {
-        _super.call(this);
-        this.value = value;
-        this.scheduler = scheduler;
-        this._isScalar = true;
-        if (scheduler) {
-            this._isScalar = false;
-        }
-    }
-    ScalarObservable.create = function (value, scheduler) {
-        return new ScalarObservable(value, scheduler);
-    };
-    ScalarObservable.dispatch = function (state) {
-        var done = state.done, value = state.value, subscriber = state.subscriber;
-        if (done) {
-            subscriber.complete();
-            return;
-        }
-        subscriber.next(value);
-        if (subscriber.closed) {
-            return;
-        }
-        state.done = true;
-        this.schedule(state);
-    };
-    ScalarObservable.prototype._subscribe = function (subscriber) {
-        var value = this.value;
-        var scheduler = this.scheduler;
-        if (scheduler) {
-            return scheduler.schedule(ScalarObservable.dispatch, 0, {
-                done: false, value: value, subscriber: subscriber
-            });
-        }
-        else {
-            subscriber.next(value);
-            if (!subscriber.closed) {
-                subscriber.complete();
-            }
-        }
-    };
-    return ScalarObservable;
-}(Observable_1.Observable));
-exports.ScalarObservable = ScalarObservable;
-//# sourceMappingURL=ScalarObservable.js.map
-
-/***/ }),
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(77);
-module.exports = angular;
-
-
-/***/ }),
-/* 38 */,
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GET_SELECTED_ITEM_TEMPLATE = function (option, index, filteredOptions, parentReferences) {
-    var boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
-    boundValue = boundValue
-        ? boundValue
-        : typeof option === 'object'
-            ? JSON.stringify(option)
-            : option;
-    var closeButton = parentReferences.multiple
-        ? "<div class=\"selector-helper\"><span class=\"selector-icon\" dir=\"" + index + "\"></span></div>"
-        : "";
-    return "<li>" + boundValue + " " + closeButton + "</li>";
-};
-exports.CONSOLE_LOGGER = function ($log, message) {
-    $log.info("Component: Selector On Sterorids: " + message);
-};
-
-
-/***/ }),
-/* 40 */,
-/* 41 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 42 */,
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.empty = {
-    closed: true,
-    next: function (value) { },
-    error: function (err) { throw err; },
-    complete: function () { }
-};
-//# sourceMappingURL=Observer.js.map
-
-/***/ }),
-/* 44 */,
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Subscription_1 = __webpack_require__(4);
+var Subscription_1 = __webpack_require__(6);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore
@@ -1846,580 +6572,13 @@ var SubjectSubscription = (function (_super) {
 exports.SubjectSubscription = SubjectSubscription;
 //# sourceMappingURL=SubjectSubscription.js.map
 
-/***/ }),
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(0);
-var ArrayObservable_1 = __webpack_require__(10);
-var mergeAll_1 = __webpack_require__(22);
-var isScheduler_1 = __webpack_require__(12);
-/* tslint:enable:max-line-length */
-/**
- * Creates an output Observable which concurrently emits all values from every
- * given input Observable.
- *
- * <span class="informal">Flattens multiple Observables together by blending
- * their values into one Observable.</span>
- *
- * <img src="./img/merge.png" width="100%">
- *
- * `merge` subscribes to each given input Observable (either the source or an
- * Observable given as argument), and simply forwards (without doing any
- * transformation) all the values from all the input Observables to the output
- * Observable. The output Observable only completes once all input Observables
- * have completed. Any error delivered by an input Observable will be immediately
- * emitted on the output Observable.
- *
- * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var timer = Rx.Observable.interval(1000);
- * var clicksOrTimer = clicks.merge(timer);
- * clicksOrTimer.subscribe(x => console.log(x));
- *
- * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
- * var timer1 = Rx.Observable.interval(1000).take(10);
- * var timer2 = Rx.Observable.interval(2000).take(6);
- * var timer3 = Rx.Observable.interval(500).take(10);
- * var concurrent = 2; // the argument
- * var merged = timer1.merge(timer2, timer3, concurrent);
- * merged.subscribe(x => console.log(x));
- *
- * @see {@link mergeAll}
- * @see {@link mergeMap}
- * @see {@link mergeMapTo}
- * @see {@link mergeScan}
- *
- * @param {ObservableInput} other An input Observable to merge with the source
- * Observable. More than one input Observables may be given as argument.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
- * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
- * concurrency of input Observables.
- * @return {Observable} An Observable that emits items that are the result of
- * every input Observable.
- * @method merge
- * @owner Observable
- */
-function merge() {
-    var observables = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        observables[_i - 0] = arguments[_i];
-    }
-    return this.lift.call(mergeStatic.apply(void 0, [this].concat(observables)));
-}
-exports.merge = merge;
-/* tslint:enable:max-line-length */
-/**
- * Creates an output Observable which concurrently emits all values from every
- * given input Observable.
- *
- * <span class="informal">Flattens multiple Observables together by blending
- * their values into one Observable.</span>
- *
- * <img src="./img/merge.png" width="100%">
- *
- * `merge` subscribes to each given input Observable (as arguments), and simply
- * forwards (without doing any transformation) all the values from all the input
- * Observables to the output Observable. The output Observable only completes
- * once all input Observables have completed. Any error delivered by an input
- * Observable will be immediately emitted on the output Observable.
- *
- * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var timer = Rx.Observable.interval(1000);
- * var clicksOrTimer = Rx.Observable.merge(clicks, timer);
- * clicksOrTimer.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // timer will emit ascending values, one every second(1000ms) to console
- * // clicks logs MouseEvents to console everytime the "document" is clicked
- * // Since the two streams are merged you see these happening
- * // as they occur.
- *
- * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
- * var timer1 = Rx.Observable.interval(1000).take(10);
- * var timer2 = Rx.Observable.interval(2000).take(6);
- * var timer3 = Rx.Observable.interval(500).take(10);
- * var concurrent = 2; // the argument
- * var merged = Rx.Observable.merge(timer1, timer2, timer3, concurrent);
- * merged.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // - First timer1 and timer2 will run concurrently
- * // - timer1 will emit a value every 1000ms for 10 iterations
- * // - timer2 will emit a value every 2000ms for 6 iterations
- * // - after timer1 hits it's max iteration, timer2 will
- * //   continue, and timer3 will start to run concurrently with timer2
- * // - when timer2 hits it's max iteration it terminates, and
- * //   timer3 will continue to emit a value every 500ms until it is complete
- *
- * @see {@link mergeAll}
- * @see {@link mergeMap}
- * @see {@link mergeMapTo}
- * @see {@link mergeScan}
- *
- * @param {...ObservableInput} observables Input Observables to merge together.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
- * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
- * concurrency of input Observables.
- * @return {Observable} an Observable that emits items that are the result of
- * every input Observable.
- * @static true
- * @name merge
- * @owner Observable
- */
-function mergeStatic() {
-    var observables = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        observables[_i - 0] = arguments[_i];
-    }
-    var concurrent = Number.POSITIVE_INFINITY;
-    var scheduler = null;
-    var last = observables[observables.length - 1];
-    if (isScheduler_1.isScheduler(last)) {
-        scheduler = observables.pop();
-        if (observables.length > 1 && typeof observables[observables.length - 1] === 'number') {
-            concurrent = observables.pop();
-        }
-    }
-    else if (typeof last === 'number') {
-        concurrent = observables.pop();
-    }
-    if (scheduler === null && observables.length === 1 && observables[0] instanceof Observable_1.Observable) {
-        return observables[0];
-    }
-    return new ArrayObservable_1.ArrayObservable(observables, scheduler).lift(new mergeAll_1.MergeAllOperator(concurrent));
-}
-exports.mergeStatic = mergeStatic;
-//# sourceMappingURL=merge.js.map
+/***/ })
+/******/ ]);
+});
+//# sourceMappingURL=angular-selector-on-steroids.js.map
 
 /***/ }),
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-/**
- * An error thrown when one or more errors have occurred during the
- * `unsubscribe` of a {@link Subscription}.
- */
-var UnsubscriptionError = (function (_super) {
-    __extends(UnsubscriptionError, _super);
-    function UnsubscriptionError(errors) {
-        _super.call(this);
-        this.errors = errors;
-        var err = Error.call(this, errors ?
-            errors.length + " errors occurred during unsubscription:\n  " + errors.map(function (err, i) { return ((i + 1) + ") " + err.toString()); }).join('\n  ') : '');
-        this.name = err.name = 'UnsubscriptionError';
-        this.stack = err.stack;
-        this.message = err.message;
-    }
-    return UnsubscriptionError;
-}(Error));
-exports.UnsubscriptionError = UnsubscriptionError;
-//# sourceMappingURL=UnsubscriptionError.js.map
-
-/***/ }),
-/* 68 */,
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; });
-//# sourceMappingURL=isArrayLike.js.map
-
-/***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function isObject(x) {
-    return x != null && typeof x === 'object';
-}
-exports.isObject = isObject;
-//# sourceMappingURL=isObject.js.map
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function isPromise(value) {
-    return value && typeof value.subscribe !== 'function' && typeof value.then === 'function';
-}
-exports.isPromise = isPromise;
-//# sourceMappingURL=isPromise.js.map
-
-/***/ }),
-/* 72 */,
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ex_single_element = {
-    "title": "Single element",
-    "html": "<select set-watch-count selector-on-steroids\n\tmodel=\"browser\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
-    "js": "$scope.browser = \"GCX\";\n\n$scope.browsers = [\n\t{ value: \"GCX\", label: \"ChromeX\" },\n\t{ value: \"FFY\", label: \"FirefoxY\" },\n\t{ value: \"ASZ\", label: \"SafariZ\" },\n\t{ value: \"IEA\", label: \"Internet ExplorerS\" }\n];"
-};
-exports.ex_multiple_element = {
-    "title": "Multiple elements",
-    "html": "<select set-watch-count selector-on-steroids\n\tmulti=\"true\"\n\tmodel=\"myBrowsers\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myBrowsers|json\"></code>\n</p>",
-    "js": "$scope.myBrowsers = [ \"GC\", \"AS\" ];\n\n$scope.browsers = [\n\t{ value: \"GC\", label: \"Chrome\" },\n\t{ value: \"FF\", label: \"Firefox\" },\n\t{ value: \"AS\", label: \"Safari\" },\n\t{ value: \"IE\", label: \"Internet Explorer\" }\n];"
-};
-exports.ex_return_entire_obj = {
-    "title": "Return entire object(s)",
-    "html": "<!-- just DON'T add `value-attr` attribute! -->\n<select set-watch-count selector-on-steroids\n\tmodel=\"browser\"\n\toptions=\"browsers\"\n\tlabel-attr=\"name\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
-    "js": "$scope.browser = { name: \"Firefox\" };\n\n$scope.browsers = [\n\t{ name: \"Chrome\" },\n\t{ name: \"Firefox\" },\n\t{ name: \"Safari\" },\n\t{ name: \"Internet Explorer\" }\n];"
-};
-exports.ex_custom_template = {
-    "title": "Custom template",
-    "html": "<script type=\"text/ng-template\" id=\"selector/demo/browserWithURL\">\n\t{{option.label}}\n\t<a class=\"small\" ng-href=\"{{option.url}}\" ng-bind=\"option.url\"></a>\n</script>\n\n<script type=\"text/ng-template\" id=\"selector/demo/browserWithIcon\">\n\t<img ng-src=\"{{option.icon}}\"> {{option.label}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmulti=\"true\"\n\tmodel=\"myBrowsers\"\n\toptions=\"browsers\"\n\tvalue-attr=\"code\"\n\tview-item-template=\"'selector/demo/browserWithURL'\"\n\tdropdown-item-template=\"'selector/demo/browserWithIcon'\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myBrowsers|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://www.iconfinder.com/iconsets/logotypes\" target=\"_blank\">\n\t\tLogotypes\n\t</a>\n</p>",
-    "js": "$scope.myBrowsers = [ \"AS\" ];\n\n$scope.browsers = [\n\t{\n\t\tcode: \"GC\",\n\t\tlabel: \"Chrome\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-24.png\",\n\t\turl: \"https://www.google.it/chrome\"\n\t},\n\t{\n\t\tcode: \"FF\",\n\t\tlabel: \"Firefox\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/firefox-24.png\",\n\t\turl: \"https://www.mozilla.org/firefox\"\n\t},\n\t{\n\t\tcode: \"AS\",\n\t\tlabel: \"Safari\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/safari-24.png\",\n\t\turl: \"http://www.apple.com/safari/\"\n\t},\n\t{\n\t\tcode: \"IE\",\n\t\tlabel: \"Internet Explorer\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/internet-explorer-24.png\",\n\t\turl: \"http://windows.microsoft.com/internet-explorer\"\n\t}\n];"
-};
-exports.ex_fill_options_from_html = {
-    "title": "Fill options from HTML",
-    "html": "<script type=\"text/ng-template\" id=\"selector/demo/currency\">\n\t<kbd ng-bind=\"option.symbol\"></kbd>&nbsp;\n\t<b ng-bind=\"option.code\"></b> - {{option.label}}\n</script>\n\n<script type=\"text/ng-template\" id=\"selector/demo/currencyGroup\">\n\t<img class=\"currency-group\"\n\t\tng-src=\"http://files.softicons.com/download/web-icons/fatcow-hosting-additional-icons-by-fatcow/png/32x32/{{\n\t\t\toption.zone == 'Europe' ? 'flag_european_union' : 'wallet'\n\t\t}}.png\">&nbsp;\n\t{{option.zone}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"currency\"\n\toptions=\"currencies\"\n\tvalue-attr=\"value\"\n\tgroup-attr=\"zone\"\n\tview-item-template=\"'selector/demo/currency'\"\n\tdropdown-item-template=\"'selector/demo/currency'\"\n\tdropdown-group-template=\"'selector/demo/currencyGroup'\">\n\t\n\t<optgroup label=\"Europe\">\n\t\t<option value=\"2\"\n\t\t\tdata-code=\"EUR\"\n\t\t\tdata-symbol=\"€\">Euro Member Countries</option>\n\t\t<option value=\"3\"\n\t\t\tdata-code=\"GBP\"\n\t\t\tdata-symbol=\"£\">United Kingdom Pound</option>\n\t\t<option value=\"5\"\n\t\t\tdata-code=\"SEK\"\n\t\t\tdata-symbol=\"kr\"\n\t\t\tselected>Sweden Krona</option>\n\t</optgroup>\n\t<optgroup label=\"Others\">\n\t\t<option value=\"1\"\n\t\t\tdata-code=\"USD\"\n\t\t\tdata-symbol=\"$\">United States Dollar</option>\n\t\t<option value=\"4\"\n\t\t\tdata-code=\"EUR\"\n\t\t\tdata-symbol=\"¥\">Japan Yen</option>\n\t</optgroup>\n\t\n</select>\n\n<p>\n\tCurrent value: <code ng-bind=\"currency|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"http://www.softicons.com/web-icons/fatcow-hosting-additional-icons-by-fatcow\" target=\"_blank\">\n\t\tFatCow Hosting Additional Icons\n\t</a>\n</p>\n\n<p ng-init=\"show=false\">\n\t<a ng-click=\"show=!show\">Hide/show all options</a>\n\t<pre ng-show=\"show\" ng-bind=\"currencies|json\"></pre>\n</p>"
-};
-exports.ex_rtl_support = {
-    "title": "RTL Support",
-    "html": "<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"multi\"> Multiple\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"rtl\"> RTL\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"remove\"> Remove button\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"restore\"> Restore on backspace\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"disabled\"> Disabled\n</label>\n\n<select set-watch-count selector-on-steroids\n\trtl=\"rtl\"\n\tmulti=\"multi\"\n\tmodel=\"language\"\n\tdisable=\"disabled\"\n\toptions=\"languages\"\n\tvalue-attr=\"value\"\n\tlabel-attr=\"value\"\n\tremove-button=\"remove\"\n\tsoft-delete=\"restore\"\n\tplaceholder=\"Choose your favourite language(s)...\">\n\t\n\t<option value=\"PHP\"></option>\n\t<option value=\"Java\"></option>\n\t<option value=\"Ruby\"></option>\n\t<option value=\"Node\"></option>\n\t\n</select>\n\n<p>\n\tCurrent value: <code ng-bind=\"language|json\"></code>\n</p>"
-};
-exports.ex_remote_fetching = {
-    "title": "Remote fetching",
-    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmulti=\"true\"\n\tmodel=\"countries\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tvalue-attr=\"code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
-    "js": "$scope.countries = [ \"DZ\", \"AX\" ];\n\n$scope.remoteConfig = {\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\tvar countries = angular.fromJson(data).RestResponse.result;\n\t\treturn countries.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};"
-};
-exports.ex_remote_fetching_with_validation = {
-    "title": "Remote fetching and validation",
-    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"country\"\n\tvalue-attr=\"code\"\n\tdebounce=\"200\"\n\tremote=\"remote\"\n\tremote-param=\"{{remoteParam}}\"\n\tremote-validation=\"remoteValidation(value)\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"country|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
-    "js": "var options = {\n\turl: 'http://services.groupkt.com/country/',\n\tmethod: 'GET',\n\tcache: true,\n\ttransformResponse: function (data) {\n\t\tvar result = angular.fromJson(data).RestResponse.result;\n\t\tif (!angular.isArray(result)) result = [result];\n\t\treturn result.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};\n\n$scope.country = 'SV';\n\n$scope.remote = angular.copy(options);\n$scope.remote.url += 'search';\n$scope.remoteParam = 'text';\n\n$scope.remoteValidation = function (value) {\n\tvar settings = angular.copy(options);\n\tsettings.url += 'get/iso2code/' + value;\n\treturn settings;\n}"
-};
-exports.ex_remote_fetching_with_custom_service = {
-    "title": "Remote fetching with custom service",
-    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"country\"\n\tvalue-attr=\"code\"\n\tdebounce=\"200\"\n\tremote=\"remote(search)\"\n\tremote-validation=\"validate(value)\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"country|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
-    "js": "$scope.country = 'SV';\n\n$scope.remote = function (search) {\n\treturn $countries.search(search);\n};\n$scope.validate = function (value) {\n\treturn $countries.validate(value);\n};",
-    "service": {
-        "name": "$countries",
-        "deps": ["$http", "$q"],
-        "js": "var options = {\n\turl: 'http://services.groupkt.com/country/',\n\tmethod: 'GET',\n\tcache: true,\n\ttransformResponse: function (data) {\n\t\tvar result = angular.fromJson(data).RestResponse.result;\n\t\tif (!angular.isArray(result)) result = [result];\n\t\treturn result.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};\n\nfunction Countries() {}\nCountries.prototype.search = function (search) {\n\tif (!search) return $q.resolve([]);\n\tvar settings = angular.copy(options);\n\tsettings.url += 'search';\n\tsettings.params = { text: search };\n\treturn $http(settings);\n};\nCountries.prototype.validate = function (value) {\n\tif (!value) return $q.resolve([]);\n\tvar settings = angular.copy(options);\n\tsettings.url += 'get/iso2code/' + value;\n\treturn $http(settings);\n};\n\nreturn new Countries();"
-    }
-};
-exports.ex_apis = {
-    "title": "APIs",
-    "html": "<div class=\"btn-group\">\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.open()\">\n\t\tOpen\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.focus()\">\n\t\tFocus\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.close()\">\n\t\tClose\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.fetch()\">\n\t\tFetch\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.set('SXM')\">\n\t\tSet <code>SXM</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.set('ITA')\">\n\t\tSet <code>ITA</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.unset('ITA')\">\n\t\tUnset <code>ITA</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.unset()\">\n\t\tUnset all\n\t</button>\n</div>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"countries\"\n\tmulti=\"true\"\n\tapi=\"countriesAPI\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tlabel-attr=\"name\"\n\tvalue-attr=\"alpha3_code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>",
-    "js": "$scope.remoteConfig = {\n\tcache: false,\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\treturn angular.fromJson(data).RestResponse.result;\n\t}\n};"
-};
-exports.ex_change_options_dynamically = {
-    "title": "Change options dynamically",
-    "html": "<div class=\"btn-group\">\n\t<button class=\"btn btn-default\"\n\t\tng-class=\"{active:zone=='global'}\"\n\t\tng-click=\"zone='global'\">\n\t\tGlobal Rivers\n\t</button>\n\t<button class=\"btn btn-default\"\n\t\tng-class=\"{active:zone=='european'}\"\n\t\tng-click=\"zone='european'\">\n\t\tEuropean Rivers\n\t</button>\n</div>\n\n<select set-watch-count selector-on-steroids\n\tmodel=\"river\"\n\toptions=\"rivers\"\n\tlabel-attr=\"name\"\n\tplaceholder=\"Select a river...\"></select>\n\n<dl class=\"dl-horizontal\">\n\t<dt>River</dt>\n\t<dd ng-bind=\"river.name || '-'\"></dd>\n\t\n\t<dt>Length</dt>\n\t<dd ng-bind=\"river.length ? (river.length | number) + ' km' : '-'\"></dd>\n\t\n\t<dt>Outflow</dt>\n\t<dd ng-bind=\"river.outflow || '-'\"></dd>\n</dl>\n\n<p>\n\tCurrent value: <code ng-bind=\"river|json\"></code>\n</p>",
-    "js": "$scope.zone = \"global\";\n\n$scope.globalRivers = [\n\t{ name: \"Nile\",        length: 6690, outflow: \"Mediterranean\" },\n\t{ name: \"Amazon\",      length: 6296, outflow: \"Atlantic Ocean\" },\n\t{ name: \"Mississippi\", length: 5970, outflow: \"Gulf of Mexico\" },\n\t{ name: \"Yangtze\",     length: 5797, outflow: \"China Sea\" },\n\t{ name: \"Ob\",          length: 5567, outflow: \"Gulf of Ob\" },\n\t{ name: \"Yellow\",      length: 4667, outflow: \"Gulf of Chihli\" },\n\t{ name: \"Yenisei\",     length: 4506, outflow: \"Arctic Ocean\" },\n\t{ name: \"Paraná\",      length: 4498, outflow: \"Río de la Plata\" },\n\t{ name: \"Irtish\",      length: 4438, outflow: \"Ob River\" },\n\t{ name: \"Chambeshi\",   length: 4371, outflow: \"Atlantic Ocean\" }\n];\n\n$scope.europeanRivers = [\n\t{ name: \"Volga\",       length: 3692, outflow: \"Caspian Sea\" },\n\t{ name: \"Danube\",      length: 2860, outflow: \"Black Sea\" },\n\t{ name: \"Ural\",        length: 2428, outflow: \"Caspian Sea\" },\n\t{ name: \"Dnieper\",     length: 2290, outflow: \"Black Sea\" },\n\t{ name: \"Don\",         length: 1950, outflow: \"Sea of Azov\" },\n\t{ name: \"Pechora\",     length: 1809, outflow: \"Arctic Ocean\" },\n\t{ name: \"Kama\",        length: 1805, outflow: \"Volga\" },\n\t{ name: \"Oka\",         length: 1500, outflow: \"Volga\" },\n\t{ name: \"Belaya\",      length: 1430, outflow: \"Kama\" },\n\t{ name: \"Dniester\",    length: 1362, outflow: \"Black Sea\" }\n];\n\n$scope.$watch('zone', function (zone) {\n\t$scope.rivers = $scope[zone + 'Rivers'];\n\t// select first\n\t$scope.river = $scope.rivers[0];\n});"
-};
-exports.ex_create_custom_options = {
-    "title": "Create custom options",
-    "html": "<select set-watch-count selector-on-steroids\n\tmodel=\"myHobbies\"\n\tmulti=\"true\"\n\toptions=\"hobbies\"\n\tvalue-attr=\"value\"\n\tplaceholder=\"Which are your hobbies? (type something that is not in the list)\"\n\tcreate=\"createFunction(input)\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myHobbies|json\"></code>\n</p>",
-    "js": "$scope.hobbies =[\n\t{ value: 0, label: \"Basketball\" },\n\t{ value: 1, label: \"Videogames\" },\n\t{ value: 2, label: \"Travelling\" }\n];\n\n$scope.createFunction = function (input) {\n\t// format the option and return it\n\treturn {\n\t\tvalue: $scope.hobbies.length,\n\t\tlabel: input\n\t};\n};"
-};
-exports.ex_create_custom_options_using_promise = {
-    "title": "Create custom options (using <code>Promise</code>)",
-    "html": "<div ng-show=\"!creation.active\">\n\t<select set-watch-count selector-on-steroids\n\t\tmodel=\"myHobbies\"\n\t\tmulti=\"true\"\n\t\toptions=\"hobbies\"\n\t\tvalue-attr=\"value\"\n\t\tplaceholder=\"Which are your hobbies? (type something that is not in the list)\"\n\t\tcreate=\"creation.show(input)\"></select>\n\t\n\t<p>\n\t\tCurrent value: <code ng-bind=\"myHobbies|json\"></code>\n\t</p>\n</div>\n\n<form ng-show=\"creation.active\" ng-submit=\"creation.insert()\">\n\t<div class=\"form-group\">\n\t\t<label>Value</label>\n\t\t<input ng-model=\"creation.value\" required autofocus\n\t\t\tplaceholder=\"value\" class=\"form-control\">\n\t</div>\n\t<div class=\"form-group\">\n\t\t<label>Label</label>\n\t\t<input ng-model=\"creation.label\" required\n\t\t\tplaceholder=\"label\" class=\"form-control\">\n\t</div>\n\t<button type=\"submit\" class=\"btn btn-success\">\n\t\tInsert value!\n\t</button>\n\t<button type=\"button\" class=\"btn btn-default\"\n\t\tng-click=\"creation.cancel()\">\n\t\tCancel\n\t</button>\n</form>",
-    "js": "$scope.hobbies = [\n\t{ value: 0, label: \"Basketball\" },\n\t{ value: 1, label: \"Videogames\" },\n\t{ value: 2, label: \"Travelling\" }\n];\n\n$scope.creation = {\n\tactive: false,\n\tdeferred: null,\n\tshow: function (input) {\n\t\tthis.deferred = $q.defer();\n\t\tthis.active   = true;\n\t\tthis.value    = $scope.hobbies.length;\n\t\tthis.label    = input;\n\t\treturn this.deferred.promise;\n\t},\n\tinsert: function () {\n\t\tthis.active = false;\n\t\tthis.deferred.resolve({\n\t\t\tvalue: this.value,\n\t\t\tlabel: this.label\n\t\t});\n\t},\n\tcancel: function () {\n\t\tthis.active = false;\n\t\tthis.deferred.reject();\n\t}\n};"
-};
-
-
-/***/ }),
-/* 74 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var angular = __webpack_require__(37);
-exports.getWatchers = function (root) {
-    root = angular.element(root || document.documentElement);
-    var watcherCount = 0;
-    function getElemWatchers(element) {
-        var isolateWatchers = getWatchersFromScope(element.data()
-            .$isolateScope);
-        var scopeWatchers = getWatchersFromScope(element.data()
-            .$scope);
-        var watchers = scopeWatchers.concat(isolateWatchers);
-        angular.forEach(element.children(), function (childElement) {
-            watchers = watchers.concat(getElemWatchers(angular.element(childElement)));
-        });
-        return watchers;
-    }
-    function getWatchersFromScope(scope) {
-        if (scope) {
-            return scope.$$watchers || [];
-        }
-        else {
-            return [];
-        }
-    }
-    return getElemWatchers(root);
-};
-
-
-/***/ }),
-/* 75 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-// Internal
-__webpack_require__(264);
-var templates_1 = __webpack_require__(82);
-var selector_ngmodelchanged_component_1 = __webpack_require__(81);
-// import { SelectorSelectedItemsComponent } from './selector.selected.items.component';
-var selector_dropdown_items_component_1 = __webpack_require__(80);
-var selector_component_1 = __webpack_require__(79);
-var MODULE_NAME = "selectorOnSteroids";
-var AngularSelectorOnSteroids = /** @class */ (function () {
-    function AngularSelectorOnSteroids() {
-    }
-    AngularSelectorOnSteroids.prototype.init = function (debug) {
-        if (debug === void 0) { debug = false; }
-        var module = angular.module(MODULE_NAME, [])
-            .run(['$templateCache', function ($templateCache) {
-                $templateCache.put('selector-on-steroids/selector.html', templates_1.TEMPLATE_SELECTOR());
-                $templateCache.put('selector-on-steroids/selector-dropdown-item.html', templates_1.TEMPLATE_SELECTOR_DROPDOWN_ITEMS());
-                $templateCache.put('selector-on-steroids/selector-selected-item.html', templates_1.TEMPLATE_SELECTOR_SELECTED_ITEMS());
-                $templateCache.put('selector-on-steroids/item-create.html', templates_1.TEMPLATE_ITEM_CREATE());
-                $templateCache.put('selector-on-steroids/item-default.html', templates_1.TEMPLATE_ITEM_DEFAULT());
-                $templateCache.put('selector-on-steroids/group-default.html', templates_1.TEMPLATE_GROUP_DEFAULT());
-            }])
-            .directive('onSelectorNgModelChanged', selector_ngmodelchanged_component_1.SelectorNgModelChangedComponent.Factory(debug))
-            .directive('sosDropdownItems', selector_dropdown_items_component_1.SelectorDropdownItemsComponent.Factory(debug))
-            .directive(MODULE_NAME, selector_component_1.SelectorComponent.Factory(debug));
-        return module;
-    };
-    return AngularSelectorOnSteroids;
-}());
-exports.default = AngularSelectorOnSteroids;
-
-
-/***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var hljs = __webpack_require__(85);
-
-hljs.registerLanguage('1c', __webpack_require__(86));
-hljs.registerLanguage('abnf', __webpack_require__(87));
-hljs.registerLanguage('accesslog', __webpack_require__(88));
-hljs.registerLanguage('actionscript', __webpack_require__(89));
-hljs.registerLanguage('ada', __webpack_require__(90));
-hljs.registerLanguage('apache', __webpack_require__(91));
-hljs.registerLanguage('applescript', __webpack_require__(92));
-hljs.registerLanguage('cpp', __webpack_require__(116));
-hljs.registerLanguage('arduino', __webpack_require__(93));
-hljs.registerLanguage('armasm', __webpack_require__(94));
-hljs.registerLanguage('xml', __webpack_require__(258));
-hljs.registerLanguage('asciidoc', __webpack_require__(95));
-hljs.registerLanguage('aspectj', __webpack_require__(96));
-hljs.registerLanguage('autohotkey', __webpack_require__(97));
-hljs.registerLanguage('autoit', __webpack_require__(98));
-hljs.registerLanguage('avrasm', __webpack_require__(99));
-hljs.registerLanguage('awk', __webpack_require__(100));
-hljs.registerLanguage('axapta', __webpack_require__(101));
-hljs.registerLanguage('bash', __webpack_require__(102));
-hljs.registerLanguage('basic', __webpack_require__(103));
-hljs.registerLanguage('bnf', __webpack_require__(104));
-hljs.registerLanguage('brainfuck', __webpack_require__(105));
-hljs.registerLanguage('cal', __webpack_require__(106));
-hljs.registerLanguage('capnproto', __webpack_require__(107));
-hljs.registerLanguage('ceylon', __webpack_require__(108));
-hljs.registerLanguage('clean', __webpack_require__(109));
-hljs.registerLanguage('clojure', __webpack_require__(111));
-hljs.registerLanguage('clojure-repl', __webpack_require__(110));
-hljs.registerLanguage('cmake', __webpack_require__(112));
-hljs.registerLanguage('coffeescript', __webpack_require__(113));
-hljs.registerLanguage('coq', __webpack_require__(114));
-hljs.registerLanguage('cos', __webpack_require__(115));
-hljs.registerLanguage('crmsh', __webpack_require__(117));
-hljs.registerLanguage('crystal', __webpack_require__(118));
-hljs.registerLanguage('cs', __webpack_require__(119));
-hljs.registerLanguage('csp', __webpack_require__(120));
-hljs.registerLanguage('css', __webpack_require__(121));
-hljs.registerLanguage('d', __webpack_require__(122));
-hljs.registerLanguage('markdown', __webpack_require__(182));
-hljs.registerLanguage('dart', __webpack_require__(123));
-hljs.registerLanguage('delphi', __webpack_require__(124));
-hljs.registerLanguage('diff', __webpack_require__(125));
-hljs.registerLanguage('django', __webpack_require__(126));
-hljs.registerLanguage('dns', __webpack_require__(127));
-hljs.registerLanguage('dockerfile', __webpack_require__(128));
-hljs.registerLanguage('dos', __webpack_require__(129));
-hljs.registerLanguage('dsconfig', __webpack_require__(130));
-hljs.registerLanguage('dts', __webpack_require__(131));
-hljs.registerLanguage('dust', __webpack_require__(132));
-hljs.registerLanguage('ebnf', __webpack_require__(133));
-hljs.registerLanguage('elixir', __webpack_require__(134));
-hljs.registerLanguage('elm', __webpack_require__(135));
-hljs.registerLanguage('ruby', __webpack_require__(222));
-hljs.registerLanguage('erb', __webpack_require__(136));
-hljs.registerLanguage('erlang-repl', __webpack_require__(137));
-hljs.registerLanguage('erlang', __webpack_require__(138));
-hljs.registerLanguage('excel', __webpack_require__(139));
-hljs.registerLanguage('fix', __webpack_require__(140));
-hljs.registerLanguage('flix', __webpack_require__(141));
-hljs.registerLanguage('fortran', __webpack_require__(142));
-hljs.registerLanguage('fsharp', __webpack_require__(143));
-hljs.registerLanguage('gams', __webpack_require__(144));
-hljs.registerLanguage('gauss', __webpack_require__(145));
-hljs.registerLanguage('gcode', __webpack_require__(146));
-hljs.registerLanguage('gherkin', __webpack_require__(147));
-hljs.registerLanguage('glsl', __webpack_require__(148));
-hljs.registerLanguage('go', __webpack_require__(149));
-hljs.registerLanguage('golo', __webpack_require__(150));
-hljs.registerLanguage('gradle', __webpack_require__(151));
-hljs.registerLanguage('groovy', __webpack_require__(152));
-hljs.registerLanguage('haml', __webpack_require__(153));
-hljs.registerLanguage('handlebars', __webpack_require__(154));
-hljs.registerLanguage('haskell', __webpack_require__(155));
-hljs.registerLanguage('haxe', __webpack_require__(156));
-hljs.registerLanguage('hsp', __webpack_require__(157));
-hljs.registerLanguage('htmlbars', __webpack_require__(158));
-hljs.registerLanguage('http', __webpack_require__(159));
-hljs.registerLanguage('hy', __webpack_require__(160));
-hljs.registerLanguage('inform7', __webpack_require__(161));
-hljs.registerLanguage('ini', __webpack_require__(162));
-hljs.registerLanguage('irpf90', __webpack_require__(163));
-hljs.registerLanguage('java', __webpack_require__(164));
-hljs.registerLanguage('javascript', __webpack_require__(165));
-hljs.registerLanguage('jboss-cli', __webpack_require__(166));
-hljs.registerLanguage('json', __webpack_require__(167));
-hljs.registerLanguage('julia', __webpack_require__(169));
-hljs.registerLanguage('julia-repl', __webpack_require__(168));
-hljs.registerLanguage('kotlin', __webpack_require__(170));
-hljs.registerLanguage('lasso', __webpack_require__(171));
-hljs.registerLanguage('ldif', __webpack_require__(172));
-hljs.registerLanguage('leaf', __webpack_require__(173));
-hljs.registerLanguage('less', __webpack_require__(174));
-hljs.registerLanguage('lisp', __webpack_require__(175));
-hljs.registerLanguage('livecodeserver', __webpack_require__(176));
-hljs.registerLanguage('livescript', __webpack_require__(177));
-hljs.registerLanguage('llvm', __webpack_require__(178));
-hljs.registerLanguage('lsl', __webpack_require__(179));
-hljs.registerLanguage('lua', __webpack_require__(180));
-hljs.registerLanguage('makefile', __webpack_require__(181));
-hljs.registerLanguage('mathematica', __webpack_require__(183));
-hljs.registerLanguage('matlab', __webpack_require__(184));
-hljs.registerLanguage('maxima', __webpack_require__(185));
-hljs.registerLanguage('mel', __webpack_require__(186));
-hljs.registerLanguage('mercury', __webpack_require__(187));
-hljs.registerLanguage('mipsasm', __webpack_require__(188));
-hljs.registerLanguage('mizar', __webpack_require__(189));
-hljs.registerLanguage('perl', __webpack_require__(203));
-hljs.registerLanguage('mojolicious', __webpack_require__(190));
-hljs.registerLanguage('monkey', __webpack_require__(191));
-hljs.registerLanguage('moonscript', __webpack_require__(192));
-hljs.registerLanguage('n1ql', __webpack_require__(193));
-hljs.registerLanguage('nginx', __webpack_require__(194));
-hljs.registerLanguage('nimrod', __webpack_require__(195));
-hljs.registerLanguage('nix', __webpack_require__(196));
-hljs.registerLanguage('nsis', __webpack_require__(197));
-hljs.registerLanguage('objectivec', __webpack_require__(198));
-hljs.registerLanguage('ocaml', __webpack_require__(199));
-hljs.registerLanguage('openscad', __webpack_require__(200));
-hljs.registerLanguage('oxygene', __webpack_require__(201));
-hljs.registerLanguage('parser3', __webpack_require__(202));
-hljs.registerLanguage('pf', __webpack_require__(204));
-hljs.registerLanguage('php', __webpack_require__(205));
-hljs.registerLanguage('pony', __webpack_require__(206));
-hljs.registerLanguage('powershell', __webpack_require__(207));
-hljs.registerLanguage('processing', __webpack_require__(208));
-hljs.registerLanguage('profile', __webpack_require__(209));
-hljs.registerLanguage('prolog', __webpack_require__(210));
-hljs.registerLanguage('protobuf', __webpack_require__(211));
-hljs.registerLanguage('puppet', __webpack_require__(212));
-hljs.registerLanguage('purebasic', __webpack_require__(213));
-hljs.registerLanguage('python', __webpack_require__(214));
-hljs.registerLanguage('q', __webpack_require__(215));
-hljs.registerLanguage('qml', __webpack_require__(216));
-hljs.registerLanguage('r', __webpack_require__(217));
-hljs.registerLanguage('rib', __webpack_require__(218));
-hljs.registerLanguage('roboconf', __webpack_require__(219));
-hljs.registerLanguage('routeros', __webpack_require__(220));
-hljs.registerLanguage('rsl', __webpack_require__(221));
-hljs.registerLanguage('ruleslanguage', __webpack_require__(223));
-hljs.registerLanguage('rust', __webpack_require__(224));
-hljs.registerLanguage('scala', __webpack_require__(225));
-hljs.registerLanguage('scheme', __webpack_require__(226));
-hljs.registerLanguage('scilab', __webpack_require__(227));
-hljs.registerLanguage('scss', __webpack_require__(228));
-hljs.registerLanguage('shell', __webpack_require__(229));
-hljs.registerLanguage('smali', __webpack_require__(230));
-hljs.registerLanguage('smalltalk', __webpack_require__(231));
-hljs.registerLanguage('sml', __webpack_require__(232));
-hljs.registerLanguage('sqf', __webpack_require__(233));
-hljs.registerLanguage('sql', __webpack_require__(234));
-hljs.registerLanguage('stan', __webpack_require__(235));
-hljs.registerLanguage('stata', __webpack_require__(236));
-hljs.registerLanguage('step21', __webpack_require__(237));
-hljs.registerLanguage('stylus', __webpack_require__(238));
-hljs.registerLanguage('subunit', __webpack_require__(239));
-hljs.registerLanguage('swift', __webpack_require__(240));
-hljs.registerLanguage('taggerscript', __webpack_require__(241));
-hljs.registerLanguage('yaml', __webpack_require__(260));
-hljs.registerLanguage('tap', __webpack_require__(242));
-hljs.registerLanguage('tcl', __webpack_require__(243));
-hljs.registerLanguage('tex', __webpack_require__(244));
-hljs.registerLanguage('thrift', __webpack_require__(245));
-hljs.registerLanguage('tp', __webpack_require__(246));
-hljs.registerLanguage('twig', __webpack_require__(247));
-hljs.registerLanguage('typescript', __webpack_require__(248));
-hljs.registerLanguage('vala', __webpack_require__(249));
-hljs.registerLanguage('vbnet', __webpack_require__(250));
-hljs.registerLanguage('vbscript', __webpack_require__(252));
-hljs.registerLanguage('vbscript-html', __webpack_require__(251));
-hljs.registerLanguage('verilog', __webpack_require__(253));
-hljs.registerLanguage('vhdl', __webpack_require__(254));
-hljs.registerLanguage('vim', __webpack_require__(255));
-hljs.registerLanguage('x86asm', __webpack_require__(256));
-hljs.registerLanguage('xl', __webpack_require__(257));
-hljs.registerLanguage('xquery', __webpack_require__(259));
-hljs.registerLanguage('zephir', __webpack_require__(261));
-
-module.exports = hljs;
-
-/***/ }),
-/* 77 */
+/* 5 */
 /***/ (function(module, exports) {
 
 /**
@@ -36313,20 +40472,21 @@ $provide.value("$locale", {
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ }),
-/* 78 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var hljs = __webpack_require__(76);
-var angular = __webpack_require__(37);
-var utils_1 = __webpack_require__(74);
-var examples_1 = __webpack_require__(73);
-// import * as AngularSelectorOnSteroids from '../dist/angular-selector-on-steroids';
+var hljs = __webpack_require__(3);
+var angular = __webpack_require__(0);
+var utils_1 = __webpack_require__(2);
+var examples_1 = __webpack_require__(1);
+var sos = __webpack_require__(4);
+new sos.AngularSelectorOnSteroids().init();
 // new AngularSelectorOnSteroids.default().init();
-var index_1 = __webpack_require__(75);
-new index_1.default().init();
+// import AngularSelectorOnSteroids from '../src/index';
+// new AngularSelectorOnSteroids().init();
 var examples = [
     examples_1.ex_single_element,
     examples_1.ex_multiple_element,
@@ -36476,1254 +40636,7 @@ angular
 
 
 /***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(39);
-var Observable_1 = __webpack_require__(0);
-__webpack_require__(286);
-__webpack_require__(277);
-__webpack_require__(280);
-var Subject_1 = __webpack_require__(5);
-var SelectorComponent = /** @class */ (function () {
-    function SelectorComponent($filter, $timeout, $window, $http, $q, $log, debug) {
-        this.$filter = $filter;
-        this.$timeout = $timeout;
-        this.$window = $window;
-        this.$http = $http;
-        this.$q = $q;
-        this.$log = $log;
-        this.debug = debug;
-        this.restrict = 'EAC';
-        this.replace = true;
-        this.transclude = true;
-        this.templateUrl = 'selector-on-steroids/selector.html';
-        this.scope = {
-            name: '@?',
-            value: '=model',
-            disabled: '=?disable',
-            disableSearch: '=?',
-            required: '=?require',
-            multiple: '=?multi',
-            placeholder: '@?',
-            valueAttr: '@',
-            labelAttr: '@?',
-            groupAttr: '@?',
-            options: '=?',
-            debounce: '=?',
-            create: '&?',
-            limit: '=?',
-            rtl: '=?',
-            api: '=?',
-            change: '&?',
-            remote: '&?',
-            remoteParam: '@?',
-            remoteValidation: '&?',
-            remoteValidationParam: '@?',
-            removeButton: '=?',
-            softDelete: '=?',
-            closeAfterSelection: '=?',
-            viewItemTemplate: '=?',
-            dropdownItemTemplate: '=?',
-            dropdownCreateTemplate: '=?',
-            dropdownGroupTemplate: '=?',
-            steroids: '<'
-        };
-    }
-    SelectorComponent.prototype.link = function (scope, element, attrs, controller, transclude) {
-        var _this = this;
-        var KEYS = {
-            up: 38,
-            down: 40,
-            left: 37,
-            right: 39,
-            escape: 27,
-            enter: 13,
-            backspace: 8,
-            delete: 46,
-            shift: 16,
-            leftCmd: 91,
-            rightCmd: 93,
-            ctrl: 17,
-            alt: 18,
-            tab: 9
-        };
-        transclude(scope, function (clone, scope) {
-            var _watchers = [];
-            var _mutations = [];
-            var _subscribers = [];
-            var filter = _this.$filter('filter');
-            var DOM_SELECTOR_CONTAINER = angular.element(element[0]);
-            var DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
-            var DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
-            var OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT
-                ? Observable_1.Observable.merge(Observable_1.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'), Observable_1.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur'), Observable_1.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown'), Observable_1.Observable.fromEvent(DOM_SELECTOR_INPUT, 'input'))
-                : Observable_1.Observable.empty();
-            var OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN
-                ? Observable_1.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown')
-                : Observable_1.Observable.empty();
-            var OBSERVABLE_FOR_WINDOW_RESIZE = _this.$window
-                ? Observable_1.Observable.fromEvent(_this.$window, 'resze')
-                : Observable_1.Observable.empty();
-            var inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
-            var selectCtrl = element.find('select').controller('ngModel');
-            var initDeferred = _this.$q.defer();
-            var defaults = {
-                api: {},
-                search: '',
-                disableSearch: false,
-                selectedValues: [],
-                highlighted: 0,
-                valueAttr: null,
-                labelAttr: 'label',
-                groupAttr: 'group',
-                options: [],
-                debounce: 0,
-                limit: Infinity,
-                remoteParam: 'q',
-                remoteValidationParam: 'value',
-                removeButton: true,
-                viewItemTemplate: 'selector-on-steroids/item-default.html',
-                dropdownItemTemplate: 'selector-on-steroids/item-default.html',
-                dropdownCreateTemplate: 'selector-on-steroids/item-create.html',
-                dropdownGroupTemplate: 'selector-on-steroids/group-default.html',
-                steroids: true,
-                selectedValuesInput$: new Subject_1.Subject(),
-                filteredOptionsInput$: new Subject_1.Subject()
-            };
-            var GET_DOM_STYLES = function (element) {
-                return !(element instanceof HTMLElement)
-                    ? {}
-                    : (element.ownerDocument && element.ownerDocument.defaultView.opener)
-                        ? element.ownerDocument.defaultView.getComputedStyle(element)
-                        : window.getComputedStyle(element);
-            };
-            // DEFAULTS
-            // Default: listen to dropdown dom event
-            _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN.subscribe(function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }, function (error) {
-                utils_1.CONSOLE_LOGGER(_this.$log, error);
-            }));
-            // Default: listen to window resize event
-            _subscribers.push(OBSERVABLE_FOR_WINDOW_RESIZE.subscribe(function (e) {
-                dropdownPosition();
-            }, function (error) {
-                utils_1.CONSOLE_LOGGER(_this.$log, error);
-            }));
-            // Default attributes
-            if (!angular.isDefined(scope.value) && scope.multiple) {
-                scope.value = [];
-            }
-            ;
-            // this is where default initialization happens
-            angular.forEach(defaults, function (value, key) {
-                if (!angular.isDefined(scope[key])) {
-                    scope[key] = value;
-                }
-                ;
-            });
-            // create custom scope properties
-            scope.onNgModelChanged = function (propertyName, oldValue, newValue) {
-                if (propertyName === "search") {
-                    if (scope.remote) {
-                        _this.$timeout(fetch);
-                    }
-                }
-            };
-            var _onSelectedValuesChanged = function (oldValue, newValue) {
-                if (angular.equals(newValue, oldValue)) {
-                    return;
-                }
-                updateValue();
-                if (angular.isFunction(scope.change)) {
-                    scope.change(scope.multiple
-                        ? {
-                            newValue: newValue,
-                            oldValue: oldValue
-                        }
-                        : {
-                            newValue: (newValue || [])[0],
-                            oldValue: (oldValue || [])[0]
-                        });
-                }
-                if (scope.steroids) {
-                    scope.selectedValuesInput$.next({
-                        groupAttr: scope.groupAttr,
-                        valueAttr: scope.valueAttr,
-                        labelAttr: scope.labelAttr,
-                        getObjValue: scope.getObjValue,
-                        unset: scope.unset,
-                        selectedValues: scope.selectedValues,
-                        multiple: scope.multiple,
-                        disabled: scope.disabled
-                    });
-                }
-            };
-            var _onFilteredOptionsChanged = function () {
-                scope.filteredOptionsInput$.next({
-                    groupAttr: scope.groupAttr,
-                    valueAttr: scope.valueAttr,
-                    labelAttr: scope.labelAttr,
-                    getObjValue: scope.getObjValue,
-                    filteredOptions: scope.filteredOptions,
-                    highlighted: scope.highlighted,
-                    set: scope.set,
-                    highlight: scope.highlight
-                });
-            };
-            angular.forEach(['name', 'valueAttr', 'labelAttr'], function (attr) {
-                if (!attrs[attr])
-                    attrs[attr] = scope[attr];
-            });
-            // Options' utilities
-            var optionValue = function (option) {
-                return scope.valueAttr == null
-                    ? option
-                    : scope.getObjValue(option, scope.valueAttr);
-            };
-            var setObjValue = function (obj, path, value) {
-                var key;
-                if (!angular.isDefined(obj)) {
-                    obj = {};
-                }
-                ;
-                path = angular.isArray(path)
-                    ? path
-                    : path.split('.');
-                key = path.shift();
-                if (key.indexOf('[') > 0) {
-                    var match = key.match(/(\w+)\[(\d+)\]/);
-                    if (match !== null) {
-                        obj = obj[match[1]];
-                        key = match[2];
-                    }
-                }
-                obj[key] = path.length === 0
-                    ? value
-                    : setObjValue(obj[key], path, value);
-                return obj;
-            };
-            var optionEquals = function (option, value) {
-                return angular.equals(optionValue(option), angular.isDefined(value)
-                    ? value
-                    : scope.value);
-            };
-            scope.getObjValue = function (obj, path) {
-                if (!angular.isDefined(obj) || !angular.isDefined(path)) {
-                    return obj;
-                }
-                path = angular.isArray(path)
-                    ? path
-                    : path.split('.');
-                var key = path.shift();
-                if (key.indexOf('[') > 0) {
-                    var match = key.match(/(\w+)\[(\d+)\]/);
-                    if (match !== null) {
-                        obj = obj[match[1]];
-                        key = match[2];
-                    }
-                }
-                return path.length === 0
-                    ? obj[key]
-                    : scope.getObjValue(obj[key], path);
-            };
-            // Value utilities
-            var setValue = function (value) {
-                scope.value =
-                    (!scope.multiple)
-                        ? scope.valueAttr == null
-                            ? value
-                            : scope.getObjValue(value || {}, scope.valueAttr)
-                        : scope.valueAttr == null
-                            ? (value || [])
-                            : (value || [])
-                                .map(function (option) {
-                                return scope.getObjValue(option, scope.valueAttr);
-                            });
-            };
-            scope.hasValue = function () {
-                return scope.multiple ? (scope.value || [])
-                    .length > 0 : !!scope.value;
-            };
-            // Remote fetching
-            var request = function (paramName, paramValue, remote, remoteParam) {
-                var promise, remoteOptions = {};
-                if (scope.disabled) {
-                    return _this.$q.reject();
-                }
-                if (!angular.isDefined(remote)) {
-                    throw 'Remote attribute is not defined';
-                }
-                scope.loading = true;
-                scope.options = [];
-                remoteOptions[paramName] = paramValue;
-                promise = remote(remoteOptions);
-                if (typeof promise.then !== 'function') {
-                    var settings = {
-                        method: 'GET',
-                        cache: true,
-                        params: {}
-                    };
-                    angular.extend(settings, promise);
-                    angular.extend(settings.params, promise.params);
-                    settings.params[remoteParam] = paramValue;
-                    promise = _this.$http(settings);
-                }
-                promise.then(function (response) {
-                    _this.$timeout(function () {
-                        scope.$apply(function () {
-                            var options = response.data || response;
-                            scope.options = options;
-                            filterOptions();
-                            scope.loading = false;
-                            initDeferred.resolve();
-                        });
-                    });
-                }, function (error) {
-                    _this.$timeout(function () {
-                        scope.$apply(function () {
-                            scope.loading = false;
-                        });
-                    });
-                    initDeferred.reject();
-                    var errorMsg = 'Error while fetching data: ' + (error.message || error);
-                    utils_1.CONSOLE_LOGGER(_this.$log, errorMsg);
-                    throw errorMsg;
-                });
-                return promise;
-            };
-            var fetch = function () {
-                return request('search', scope.search || '', scope.remote, scope.remoteParam);
-            };
-            var fetchValidation = function (value) {
-                return request('value', value, scope.remoteValidation, scope.remoteValidationParam);
-            };
-            if (!angular.isDefined(scope.remote)) {
-                scope.remote = false;
-                scope.remoteValidation = false;
-                initDeferred.resolve();
-            }
-            else {
-                if (!angular.isDefined(scope.remoteValidation)) {
-                    scope.remoteValidation = false;
-                }
-            }
-            if (scope.remote) {
-                _this.$timeout(function () {
-                    _this.$q
-                        .when(!scope.hasValue() || !scope.remoteValidation
-                        ? angular.noop
-                        : fetchValidation(scope.value)).then(function () {
-                        // NOTE: Here used to be watcher for search attribute, wich now is moved to $viewChangeListener.
-                    });
-                });
-            }
-            // Fill with options in the select
-            var optionToObject = function (option, group) {
-                var object = {};
-                var element = angular.element(option);
-                angular.forEach(option.dataset, function (value, key) {
-                    if (!key.match(/^\$/)) {
-                        object[key] = value;
-                    }
-                    ;
-                });
-                if (option.value) {
-                    setObjValue(object, scope.valueAttr || 'value', option.value);
-                }
-                if (element.text()) {
-                    setObjValue(object, scope.labelAttr, element.text()
-                        .trim());
-                }
-                if (angular.isDefined(group)) {
-                    setObjValue(object, scope.groupAttr, group);
-                }
-                scope.options.push(object);
-                if (element.attr('selected') && (scope.multiple || !scope.hasValue()))
-                    if (!scope.multiple) {
-                        if (!scope.value) {
-                            scope.value = optionValue(object);
-                        }
-                        ;
-                    }
-                    else {
-                        if (!scope.value) {
-                            scope.value = [];
-                        }
-                        scope.value.push(optionValue(object));
-                    }
-            };
-            var fillWithHtml = function () {
-                scope.options = [];
-                angular.forEach(clone, function (element) {
-                    var tagName = (element.tagName || '').toLowerCase();
-                    if (tagName == 'option') {
-                        optionToObject(element);
-                    }
-                    if (tagName == 'optgroup') {
-                        angular.forEach(element.querySelectorAll('option'), function (option) {
-                            optionToObject(option, (element.attributes.label || {}).value);
-                        });
-                    }
-                });
-                updateSelected();
-            };
-            // Initialization
-            var initialize = function () {
-                if (!scope.remote &&
-                    (!angular.isArray(scope.options) || !scope.options.length)) {
-                    fillWithHtml();
-                }
-                if (scope.hasValue()) {
-                    if (!scope.multiple) {
-                        if (angular.isArray(scope.value)) {
-                            scope.value = scope.value[0];
-                        }
-                    }
-                    else {
-                        if (!angular.isArray(scope.value)) {
-                            scope.value = [scope.value];
-                        }
-                    }
-                    updateSelected();
-                    filterOptions();
-                    updateValue();
-                }
-            };
-            var reInitMultiple = function () {
-                _this.$timeout(setInputWidth);
-                if (scope.remote) {
-                    _this.$timeout(fetch);
-                }
-                initDeferred
-                    .promise
-                    .then(function () {
-                    initialize();
-                }, function () {
-                    if (_this.debug) {
-                        utils_1.CONSOLE_LOGGER(_this.$log, "Cannot initialize, promise init error!");
-                    }
-                });
-            };
-            var _previousClassString = null;
-            var m2 = new MutationObserver(function (event) {
-                var newClassString = event[0].target.classList.toString();
-                if (_previousClassString &&
-                    newClassString !== _previousClassString) {
-                    var newHasMultiple = (newClassString.indexOf('multiple') !== -1);
-                    var oldHasMultiple = (_previousClassString.indexOf('multiple') !== -1);
-                    if (newHasMultiple !== oldHasMultiple) {
-                        reInitMultiple();
-                    }
-                }
-                // on first init
-                if (!_previousClassString) {
-                    reInitMultiple();
-                }
-                _previousClassString = newClassString;
-            });
-            m2.observe(DOM_SELECTOR_CONTAINER[0], {
-                attributes: true,
-                attributeFilter: ['class']
-            });
-            _mutations.push(m2);
-            // Dropdown utilities
-            var dropdownPosition = function () {
-                var label = DOM_SELECTOR_INPUT.parent()[0];
-                var styles = GET_DOM_STYLES(label);
-                var marginTop = parseFloat(styles.marginTop || 0);
-                var marginLeft = parseFloat(styles.marginLeft || 0);
-                if (label) {
-                    DOM_SELECTOR_DROPDOWN.css({
-                        top: (label.offsetTop + label.offsetHeight + marginTop) + 'px',
-                        left: (label.offsetLeft + marginLeft) + 'px',
-                        width: label.offsetWidth + 'px'
-                    });
-                }
-            };
-            var open = function () {
-                if (scope.multiple &&
-                    (scope.selectedValues || []).length >= scope.limit) {
-                    return;
-                }
-                scope.isOpen = true;
-                dropdownPosition();
-                if (scope.remote) {
-                    _this.$timeout(fetch);
-                }
-                if (!scope.multiple) {
-                    _this.$timeout(scrollToHighlighted);
-                }
-            };
-            var close = function () {
-                scope.isOpen = false;
-                resetInput();
-                // Note: not necessary to make a fetch call on close
-                // if (scope.remote) {
-                //     this.$timeout(fetch);
-                // };
-            };
-            var decrementHighlighted = function () {
-                scope.highlight(scope.highlighted - 1);
-                scrollToHighlighted();
-            };
-            var incrementHighlighted = function () {
-                scope.highlight(scope.highlighted + 1);
-                scrollToHighlighted();
-            };
-            scope.highlight = function (index) {
-                if (attrs.create && scope.search && index == -1) {
-                    scope.highlighted = -1;
-                }
-                else {
-                    if (scope.filteredOptions.length) {
-                        scope.highlighted = (scope.filteredOptions.length + index) % scope.filteredOptions.length;
-                    }
-                }
-                _onFilteredOptionsChanged();
-            };
-            var scrollToHighlighted = function () {
-                var dd = DOM_SELECTOR_DROPDOWN[0];
-                var option = dd.querySelectorAll('li.selector-option.js-data-item')[scope.highlighted];
-                var styles = GET_DOM_STYLES(option);
-                var marginTop = parseFloat(styles.marginTop || 0);
-                var marginBottom = parseFloat(styles.marginBottom || 0);
-                if (!scope.filteredOptions.length) {
-                    return;
-                }
-                if (option) {
-                    if (option.offsetTop + option.offsetHeight + marginBottom > dd.scrollTop + dd.offsetHeight) {
-                        _this.$timeout(function () {
-                            dd.scrollTop = option.offsetTop + option.offsetHeight + marginBottom - dd.offsetHeight;
-                        });
-                    }
-                    if (option.offsetTop - marginTop < dd.scrollTop) {
-                        _this.$timeout(function () {
-                            dd.scrollTop = option.offsetTop - marginTop;
-                        });
-                    }
-                }
-            };
-            scope.createOption = function (value) {
-                _this.$q
-                    .when((function () {
-                    var option = {};
-                    if (angular.isFunction(scope.create)) {
-                        option = scope.create({
-                            input: value
-                        });
-                    }
-                    else {
-                        setObjValue(option, scope.labelAttr, value);
-                        setObjValue(option, scope.valueAttr || 'value', value);
-                    }
-                    return option;
-                })())
-                    .then(function (option) {
-                    scope.options.push(option);
-                    scope.set(option);
-                });
-            };
-            scope.set = function (option) {
-                if (scope.multiple && (scope.selectedValues || []).length >= scope.limit) {
-                    return;
-                }
-                ;
-                if (!angular.isDefined(option)) {
-                    option = scope.filteredOptions[scope.highlighted];
-                }
-                var _oldSelectedValues = angular.copy(scope.selectedValues);
-                if (!scope.multiple) {
-                    scope.selectedValues = [option];
-                }
-                else {
-                    if (!scope.selectedValues) {
-                        scope.selectedValues = [];
-                    }
-                    if (scope.selectedValues.indexOf(option) < 0) {
-                        scope.selectedValues.push(option);
-                    }
-                }
-                _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
-                if (!scope.multiple || scope.closeAfterSelection ||
-                    (scope.selectedValues || []).length >= scope.limit) {
-                    close();
-                }
-                resetInput();
-                selectCtrl.$setDirty();
-            };
-            scope.unset = function (index) {
-                var _oldSelectedValues = angular.copy(scope.selectedValues);
-                if (!scope.multiple) {
-                    scope.selectedValues = [];
-                }
-                else {
-                    scope.selectedValues.splice(angular.isDefined(index)
-                        ? index
-                        : scope.selectedValues.length - 1, 1);
-                }
-                _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
-                resetInput();
-                selectCtrl.$setDirty();
-            };
-            var keydown = function (e) {
-                switch (e.keyCode) {
-                    case KEYS.up:
-                        {
-                            if (!scope.isOpen) {
-                                break;
-                            }
-                            decrementHighlighted();
-                            e.preventDefault();
-                            break;
-                        }
-                    case KEYS.down:
-                        {
-                            if (!scope.isOpen) {
-                                open();
-                            }
-                            else {
-                                incrementHighlighted();
-                            }
-                            e.preventDefault();
-                            break;
-                        }
-                    case KEYS.escape:
-                        {
-                            scope.highlight(0);
-                            close();
-                            break;
-                        }
-                    case KEYS.enter:
-                        {
-                            if (scope.isOpen) {
-                                if (attrs.create && scope.search && scope.highlighted == -1) {
-                                    scope.createOption(e.target.value);
-                                }
-                                else {
-                                    if (scope.filteredOptions.length) {
-                                        scope.set();
-                                    }
-                                }
-                                if (scope.multiple) {
-                                    open();
-                                }
-                                e.preventDefault();
-                            }
-                            break;
-                        }
-                    case KEYS.backspace:
-                        {
-                            if (!DOM_SELECTOR_INPUT.val()) {
-                                var search_1 = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
-                                scope.unset();
-                                open();
-                                if (scope.softDelete && !scope.disableSearch)
-                                    _this.$timeout(function () {
-                                        scope.search = search_1;
-                                    });
-                                e.preventDefault();
-                            }
-                            break;
-                        }
-                    case KEYS.left:
-                    case KEYS.right:
-                    case KEYS.shift:
-                    case KEYS.ctrl:
-                    case KEYS.alt:
-                    case KEYS.tab:
-                    case KEYS.leftCmd:
-                    case KEYS.rightCmd:
-                        {
-                            break;
-                        }
-                    default:
-                        {
-                            if (!scope.multiple && scope.hasValue()) {
-                                e.preventDefault();
-                            }
-                            else {
-                                open();
-                                scope.highlight(0);
-                            }
-                            break;
-                        }
-                }
-            };
-            // Filtered options
-            var inOptions = function (options, value) {
-                // if options are fetched from a remote source, it's not possibile to use
-                // the simplest check with native `indexOf` function, beacause every object
-                // in the results array has it own new address
-                if (scope.remote) {
-                    return options
-                        .filter(function (option) {
-                        return angular.equals(value, option);
-                    })
-                        .length > 0;
-                }
-                else {
-                    return options.indexOf(value) >= 0;
-                }
-            };
-            var filterOptions = function () {
-                scope.filteredOptions = filter(scope.options || [], scope.search);
-                var _oldSelectedValues = angular.copy(scope.selectedValues);
-                if (!angular.isArray(scope.selectedValues)) {
-                    scope.selectedValues = [];
-                }
-                if (scope.multiple) {
-                    scope.filteredOptions = scope.filteredOptions.filter(function (option) {
-                        return !inOptions(scope.selectedValues, option);
-                    });
-                }
-                else {
-                    var index = scope.filteredOptions.indexOf(scope.selectedValues[0]);
-                    if (index >= 0) {
-                        scope.highlight(index);
-                    }
-                    ;
-                }
-                _onFilteredOptionsChanged();
-                _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
-            };
-            // Input width utilities
-            var measureWidth = function () {
-                var width;
-                var styles = GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
-                var shadow = angular.element('<span class="selector-shadow"></span>');
-                shadow.text(DOM_SELECTOR_INPUT.val() || (!scope.hasValue() ? scope.placeholder : '') || '');
-                angular.element(document.body)
-                    .append(shadow);
-                angular.forEach(['fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'textTransform', 'wordSpacing', 'textIndent'], function (style) {
-                    shadow.css(style, styles[style]);
-                });
-                width = shadow[0].offsetWidth;
-                shadow.remove();
-                return width;
-            };
-            var setInputWidth = function () {
-                var width = measureWidth() + 1;
-                DOM_SELECTOR_INPUT.css('width', width + 'px');
-            };
-            var resetInput = function () {
-                DOM_SELECTOR_INPUT.val('');
-                setInputWidth();
-                _this.$timeout(function () {
-                    scope.$apply(function () {
-                        scope.search = '';
-                    });
-                });
-            };
-            _watchers.push(scope.$watch('[search, options, value]', function () {
-                // hide selected items
-                filterOptions();
-                _this.$timeout(function () {
-                    // set input width
-                    setInputWidth();
-                    // repositionate dropdown
-                    if (scope.isOpen) {
-                        dropdownPosition();
-                    }
-                });
-            }, true));
-            // Update value
-            var updateValue = function (origin) {
-                if (!angular.isDefined(origin)) {
-                    origin = scope.selectedValues || [];
-                }
-                setValue(!scope.multiple ? origin[0] : origin);
-            };
-            _watchers.push(scope.$watchCollection('options', function (newValue, oldValue) {
-                if (angular.equals(newValue, oldValue) || scope.remote) {
-                    return;
-                }
-                ;
-                updateSelected();
-            }));
-            // Update selected values
-            var updateSelected = function () {
-                var _oldSelectedValues = angular.copy(scope.selectedValues);
-                scope.selectedValues =
-                    (!scope.multiple)
-                        ? (scope.options || [])
-                            .filter(function (option) {
-                            return optionEquals(option);
-                        })
-                            .slice(0, 1)
-                        : (scope.value || [])
-                            .map(function (value) {
-                            return filter(scope.options, function (option) {
-                                return optionEquals(option, value);
-                            })[0];
-                        })
-                            .filter(function (value) {
-                            return angular.isDefined(value);
-                        })
-                            .slice(0, scope.limit);
-                _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
-            };
-            _watchers.push(scope.$watch('value', function (newValue, oldValue) {
-                if (angular.equals(newValue, oldValue)) {
-                    return;
-                }
-                _this.$q
-                    .when((!scope.remote || !scope.remoteValidation || !scope.hasValue())
-                    ? angular.noop
-                    : fetchValidation(newValue)).then(function () {
-                    // updateSelected();
-                    filterOptions();
-                    updateValue();
-                });
-            }, true));
-            // DOM event listeners
-            _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe(function (e) {
-                if (e.type === 'focus') {
-                    _this.$timeout(function () {
-                        scope.$apply(open);
-                    });
-                }
-                if (e.type === 'blur') {
-                    _this.$timeout(function () {
-                        scope.$apply(close);
-                    });
-                }
-                if (e.type === 'keydown') {
-                    scope.$apply(function () {
-                        keydown(e);
-                    });
-                }
-                if (e.type === 'input') {
-                    setInputWidth();
-                }
-            }, function (error) {
-                utils_1.CONSOLE_LOGGER(_this.$log, error);
-            }));
-            var m1 = new MutationObserver(function (event) {
-                var _target = event[0].target;
-                var _inputElem = angular.element(_target).find('input');
-                if (_inputElem) {
-                    selectCtrl[inputCtrl.$touched
-                        ? '$setTouched'
-                        : '$setUntouched']();
-                    selectCtrl[inputCtrl.$pristine
-                        ? '$setPristine'
-                        : '$setDirty']();
-                }
-            });
-            m1.observe(DOM_SELECTOR_CONTAINER[0], {
-                attributes: true,
-                attributeFilter: ['class']
-            });
-            _mutations.push(m1);
-            // Expose APIs
-            scope.api.fetch = fetch;
-            scope.api.open = open;
-            scope.api.close = close;
-            scope.api.focus = function () {
-                DOM_SELECTOR_INPUT[0].focus();
-            };
-            scope.api.set = function (value) {
-                return scope.value = value;
-            };
-            scope.api.unset = function (value) {
-                var values = !value
-                    ? scope.selectedValues
-                    : (scope.selectedValues || [])
-                        .filter(function (option) {
-                        return optionEquals(option, value);
-                    });
-                var indexes = scope.selectedValues
-                    .map(function (option, index) {
-                    return inOptions(values, option)
-                        ? index
-                        : -1;
-                })
-                    .filter(function (index) {
-                    return index >= 0;
-                });
-                angular.forEach(indexes, function (index, i) {
-                    scope.unset(index - i);
-                });
-            };
-            // destroy
-            scope.$on('$destroy', function () {
-                // dispose watchers
-                if (_watchers && _watchers.length) {
-                    // call all unbind on the watchers
-                    _watchers.forEach(function (wFn) {
-                        if (wFn && angular.isFunction(wFn)) {
-                            wFn();
-                        }
-                    });
-                    // reset watchers array
-                    _watchers = null;
-                }
-                // dispose all mutation observers;
-                if (_mutations && _mutations.length) {
-                    _mutations.forEach(function (m) {
-                        m.disconnect();
-                    });
-                    _mutations = null;
-                }
-                // dispose subscribers
-                if (_subscribers && _subscribers.length) {
-                    _subscribers.forEach(function (s) {
-                        s.unsubscribe();
-                    });
-                    _subscribers = null;
-                }
-            });
-        });
-    };
-    SelectorComponent.Factory = function (debug) {
-        var directive = function ($filter, $timeout, $window, $http, $q, $log) {
-            return new SelectorComponent($filter, $timeout, $window, $http, $q, $log, debug);
-        };
-        directive['$inject'] = [
-            '$filter',
-            '$timeout',
-            '$window',
-            '$http',
-            '$q',
-            '$log'
-        ];
-        return directive;
-    };
-    return SelectorComponent;
-}());
-exports.SelectorComponent = SelectorComponent;
-
-
-/***/ }),
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(39);
-var Observable_1 = __webpack_require__(0);
-__webpack_require__(286);
-__webpack_require__(280);
-var hyperx = __webpack_require__(654);
-var vdom = __webpack_require__(655);
-var SelectorDropdownItemsComponent = /** @class */ (function () {
-    function SelectorDropdownItemsComponent($log, debug) {
-        this.$log = $log;
-        this.debug = debug;
-        this.replace = true;
-        this.restrict = 'E';
-        this.templateUrl = 'selector-on-steroids/selector-dropdown-item.html';
-        this.scope = {
-            input: '<'
-        };
-    }
-    SelectorDropdownItemsComponent.prototype.link = function (scope, element, attrs) {
-        var _this = this;
-        var hx = hyperx(vdom.h);
-        var _subscribers = [];
-        var _parentReferences = {};
-        var _isBooted = false;
-        var _isFirstRendered = false;
-        var _tree = null;
-        var _rootNode = null;
-        var GET_DROPDOWN_ITEM_TEMPLATE = function (option, index, filteredOptions, highlighted) {
-            var cls = (highlighted === index ? 'active' : '') + " " + (_parentReferences.groupAttr && _parentReferences.getObjValue(option, _parentReferences.groupAttr) ? 'grouped' : '');
-            var boundValue = _parentReferences.getObjValue(option, _parentReferences.labelAttr);
-            boundValue = boundValue
-                ? boundValue
-                : typeof option === 'object'
-                    ? JSON.stringify(option)
-                    : option;
-            return (_a = ["<li class=\"selector-option js-data-item ", "\" dir=\"", "\">", "</li>"], _a.raw = ["<li class=\"selector-option js-data-item ", "\" dir=\"", "\">", "</li>"], hx(_a, cls, index, boundValue));
-            var _a;
-        };
-        var GET_DROPDOWN_GROUP_TEMPLATE = function (option, index, filteredOptions) {
-            if (_parentReferences.groupAttr) {
-                var boundValue = _parentReferences.getObjValue(option, _parentReferences.groupAttr);
-                if (boundValue && index === 0 || _parentReferences.getObjValue(filteredOptions[index - 1], _parentReferences.groupAttr) !== boundValue) {
-                    return (_a = ["<li class=\"selector-optgroup\">", "</li>"], _a.raw = ["<li class=\"selector-optgroup\">", "</li>"], hx(_a, boundValue));
-                }
-                else {
-                    return (_b = [""], _b.raw = [""], hx(_b));
-                }
-            }
-            else {
-                return (_c = [""], _c.raw = [""], hx(_c));
-            }
-            var _a, _b, _c;
-        };
-        var getRenderableItems = function (items, highlighted) {
-            var liList = (_a = ["", ""], _a.raw = ["",
-                ""], hx(_a, items.map(function (currentValue, index, array) {
-                return (_a = ["<span>", "", "</span>"], _a.raw = ["<span>", "", "</span>"], hx(_a, GET_DROPDOWN_GROUP_TEMPLATE(currentValue, index, array), GET_DROPDOWN_ITEM_TEMPLATE(currentValue, index, array, highlighted)));
-                var _a;
-            })));
-            var tpl = (_b = ["<div>", "</div>"], _b.raw = ["<div>", "</div>"], hx(_b, liList));
-            return tpl;
-            var _a, _b;
-        };
-        Observable_1.Observable.merge(Observable_1.Observable.fromEvent(element[0], 'mouseenter'), Observable_1.Observable.fromEvent(element[0], 'click')).subscribe(function (e) {
-            if (e.type === 'mouseover') {
-                var index = (parseInt(e.srcElement.getAttribute('dir')));
-                if (_parentReferences['highlight']) {
-                    _parentReferences['highlight'](index < -1 ? -1 : index);
-                }
-            }
-            if (e.type === 'click') {
-                var index = (parseInt(e.srcElement.getAttribute('dir')));
-                if (_parentReferences['highlight']) {
-                    _parentReferences['highlight'](index < -1 ? -1 : index);
-                }
-                if (_parentReferences['set']) {
-                    _parentReferences['set'](undefined);
-                }
-            }
-            e.stopPropagation();
-        });
-        if (scope.input) {
-            // TODO: Move to post link?
-            _subscribers.push(scope.input
-                .subscribe(function (inputData) {
-                if (inputData.filteredOptions && inputData.filteredOptions.length) {
-                    if (!_isBooted) {
-                        if (!_parentReferences.hasOwnProperty('groupAttr') ||
-                            !_parentReferences.hasOwnProperty('valueAttr') ||
-                            !_parentReferences.hasOwnProperty('labelAttr') ||
-                            !_parentReferences.hasOwnProperty('getObjValue') ||
-                            !_parentReferences.hasOwnProperty('set') ||
-                            !_parentReferences.hasOwnProperty('highlight')) {
-                            _parentReferences['groupAttr'] = inputData.groupAttr;
-                            _parentReferences['valueAttr'] = inputData.valueAttr;
-                            _parentReferences['labelAttr'] = inputData.labelAttr;
-                            _parentReferences['getObjValue'] = inputData.getObjValue;
-                            _parentReferences['set'] = inputData.set;
-                            _parentReferences['highlight'] = inputData.highlight;
-                            _isBooted = true;
-                        }
-                    }
-                    if (_isBooted) {
-                        if (!_isFirstRendered) {
-                            var tpl = getRenderableItems(inputData.filteredOptions, inputData.highlighted);
-                            _tree = tpl;
-                            _rootNode = vdom.create(_tree);
-                            element[0].appendChild(_rootNode);
-                            // element[0].innerHTML = _rootNode;
-                            _isFirstRendered = true;
-                        }
-                        else {
-                            var tpl = getRenderableItems(inputData.filteredOptions, inputData.highlighted);
-                            var newTree = tpl;
-                            var patches = vdom.diff(_tree, newTree);
-                            _rootNode = vdom.patch(_rootNode, patches);
-                            _tree = newTree;
-                        }
-                    }
-                    if (_this.debug) {
-                        utils_1.CONSOLE_LOGGER(_this.$log, "Re-drawing items/ options.");
-                    }
-                }
-            }, function (error) {
-                if (_this.debug) {
-                    utils_1.CONSOLE_LOGGER(_this.$log, "Cannot initialize, Selector Dropdown Items Component!");
-                }
-            }));
-        }
-        scope.$on('$destroy', function () {
-            // dispose subscribers
-            if (_subscribers && _subscribers.length) {
-                _subscribers.forEach(function (s) {
-                    s.unsubscribe();
-                });
-                _subscribers = null;
-            }
-        });
-    };
-    SelectorDropdownItemsComponent.Factory = function (debug) {
-        var directive = function ($log) {
-            return new SelectorDropdownItemsComponent($log, debug);
-        };
-        directive['$inject'] = ['$log'];
-        return directive;
-    };
-    return SelectorDropdownItemsComponent;
-}());
-exports.SelectorDropdownItemsComponent = SelectorDropdownItemsComponent;
-
-
-/***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var SelectorNgModelChangedComponent = /** @class */ (function () {
-    function SelectorNgModelChangedComponent() {
-        this.require = 'ngModel';
-        this.scope = {
-            onSelectorNgModelChanged: '&'
-        };
-        this.link = function (scope, element, attrs, controller) {
-            var oldValue;
-            controller.$formatters.push(function (value) {
-                oldValue = value;
-                return value;
-            });
-            controller.$viewChangeListeners.push(function () {
-                var ngModelName = attrs['ngModel']; // TODO: UNDEFINED CHECK
-                scope.onSelectorNgModelChanged()(ngModelName, oldValue, controller.$modelValue);
-                oldValue = controller.$modelValue;
-            });
-        };
-    }
-    SelectorNgModelChangedComponent.Factory = function (debug) {
-        var directive = function () {
-            return new SelectorNgModelChangedComponent();
-        };
-        directive['$inject'] = [];
-        return directive;
-    };
-    return SelectorNgModelChangedComponent;
-}());
-exports.SelectorNgModelChangedComponent = SelectorNgModelChangedComponent;
-
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TEMPLATE_ITEM_CREATE = function () {
-    return "Add <i ng-bind=\"search\"></i>";
-};
-exports.TEMPLATE_ITEM_DEFAULT = function () {
-    return "<span ng-bind=\"getObjValue(option, labelAttr) || option\"></span>";
-};
-exports.TEMPLATE_GROUP_DEFAULT = function () {
-    return "<span ng-bind=\"getObjValue(option, groupAttr)\"></span>";
-};
-exports.TEMPLATE_SELECTOR_SELECTED_ITEMS = function () {
-    return "<div></div>";
-};
-exports.TEMPLATE_SELECTOR_DROPDOWN_ITEMS = function () {
-    return "<div></div>";
-};
-exports.TEMPLATE_SELECTOR = function () {
-    return "<div class=\"selector-container\"\n        ng-attr-dir=\"{{ rtl ? 'rtl' : 'ltr' }}\"\n        ng-class=\"{\n            open: isOpen, \n            empty: !filteredOptions.length && \n                (!create || !search), multiple: multiple, \n                'has-value': hasValue(), \n                rtl: rtl, \n                'loading': loading, \n                'remove-button': removeButton, \n                disabled: disabled}\">\n        <select name=\"{{name}}\"\n            ng-hide=\"true\"\n            ng-required=\"required && !hasValue()\"\n            ng-model=\"selectedValues\"\n            multiple\n            ng-options=\"option as getObjValue(option, labelAttr) for option in selectedValues\">\n        </select>\n        <label class=\"selector-input\">\n            <ul class=\"selector-values\">\n\n                <li \n                    ng-repeat=\"(index, option) in selectedValues track by $index\">\n                    <div ng-include=\"viewItemTemplate\"></div>\n                    <div \n                        ng-if=\"multiple\" \n                        class=\"selector-helper\" \n                        ng-click=\"!disabled && unset(index)\">\n                        <span class=\"selector-icon\"></span>\n                    </div>\n                </li>\n                \n            \n\n            </ul>\n            <input \n                ng-model=\"search\" \n                on-selector-ng-model-changed='onNgModelChanged'\n                placeholder=\"{{!hasValue() ? placeholder : ''}}\" \n                ng-model-options=\"{debounce: debounce}\"\n                ng-disabled=\"disabled\" \n                ng-readonly=\"disableSearch\" \n                ng-required=\"required && !hasValue()\" \n                autocomplete=\"off\">\n            <div ng-if=\"!multiple || loading\" \n                class=\"selector-helper selector-global-helper\" \n                ng-click=\"!disabled && removeButton && unset()\">\n                <span class=\"selector-icon\"></span>\n            </div>\n        </label>\n        <ul class=\"selector-dropdown\">\n\n            <li \n                class=\"selector-option create\"\n                ng-class=\"{active: highlighted == -1}\"\n                ng-if=\"create && search\"\n                ng-include=\"dropdownCreateTemplate\"\n                ng-mouseover=\"highlight(-1)\"\n                ng-click=\"createOption(search)\">\n            </li>\n\n            <li \n                class=\"selector-option loading\"\n                ng-show=\"loading === true\">\n                Loading...\n            </li>\n\n            <li \n                class=\"selector-option no-data\"\n                ng-show=\"!loading && (!filteredOptions || filteredOptions.length <= 0)\"\n                >\n                No Data\n            </li>\n\n            <sos-dropdown-items\n                ng-if=\"steroids === true\"\n                ng-show='filteredOptions.length > 0'\n                input='filteredOptionsInput$'>\n            </sos-dropdown-items>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-repeat-start=\"(index, option) in filteredOptions track by $index\"\n                class=\"selector-optgroup\"\n                ng-include=\"dropdownGroupTemplate\"\n                ng-show=\"filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))\">\n            </li>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-show=\"filteredOptions.length > 0\"\n                ng-repeat-end\n                ng-class=\"{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}\"\n                class=\"selector-option js-data-item\"\n                ng-include=\"dropdownItemTemplate\"\n                ng-mouseover=\"highlight(index)\"\n                ng-click=\"set()\">\n            </li>\n        </ul>\n    </div>";
-};
-// <sos-selected-items
-// ng-if="steroids === true"
-// input='selectedValuesInput$'>
-// </sos-selected-items> 
-
-
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(84)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "@-webkit-keyframes selector-rotate {\n    0% {\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\n        transform: rotateZ(-359deg);\n    }\n    100% {\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\n        transform: rotateZ(0deg);\n    }\n}\n\n@keyframes selector-rotate {\n    0% {\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\n        transform: rotateZ(-359deg);\n    }\n    100% {\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\n        transform: rotateZ(0deg);\n    }\n}\n\n[selector] {\n    display: none;\n}\n\n.selector {\n    display: none;\n}\n\n.selector-container {\n    display: block;\n    position: relative;\n    font-size: 1em;\n    line-height: normal;\n    color: #495c68;\n    //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\n}\n\n.selector-container input {\n        font-size: 1em;\n        line-height: normal;\n        color: #495c68;\n        //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\n        outline: none;\n        background: none !important;\n        border-color: transparent !important;\n        width: 2px;\n        display: inline-block;\n        cursor: pointer;\n        padding: 0;\n        margin: 0;\n        border: 0;\n        display: inline;\n    }\n\n.selector-container.rtl .selector-input {\n            padding-right: .7em;\n            padding-left: 2.6em;\n        }\n\n.selector-container.rtl .selector-helper {\n            right: inherit;\n            left: 0;\n        }\n\n.selector-container .selector-values {\n        list-style: none;\n        padding: 0;\n        margin: 0;\n        border: 0;\n        display: inline;\n    }\n\n.selector-container .selector-values >li,\n        .selector-container .selector-values >div li {\n            padding: 0;\n            margin: 0;\n            border: 0;\n            display: inline;\n        }\n\n.selector-container .selector-values >li >div, .selector-container .selector-values >div li >div {\n                padding: 0;\n                margin: 0;\n                border: 0;\n                display: inline;\n            }\n\n.selector-container.open input {\n            cursor: text;\n        }\n\n.selector-container.open .selector-input {\n            background: none;\n            border-bottom-color: #eee;\n            padding-right: 2.6em;\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n            border-radius: 4px 4px 0 0;\n        }\n\n.selector-container.open .selector-global-helper {\n            border-left: none !important;\n            border-right: none !important;\n        }\n\n.selector-container.open .selector-dropdown {\n            display: block;\n        }\n\n.selector-container.open.rtl .selector-input {\n            padding-right: .7em;\n            padding-left: 2.6em;\n        }\n\n.selector-container.open.empty .selector-input {\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n            border-radius: 4px;\n            border-bottom-color: #bbb;\n        }\n\n.selector-container.has-value input {\n            cursor: text;\n        }\n\n.selector-container.has-value.remove-button .selector-helper {\n                border-left: 1px solid #bbb;\n            }\n\n.selector-container.has-value.remove-button .selector-icon {\n                display: table;\n                width: 100%;\n            }\n\n.selector-container.has-value.remove-button .selector-icon:after {\n                    content: '\\D7';\n                    display: table-cell;\n                    position: relative;\n                    top: 0;\n                    left: 0;\n                    margin: 0;\n                    border: none;\n                    height: 100%;\n                    text-align: center;\n                    vertical-align: middle;\n                }\n\n.selector-container.has-value.remove-button.rtl .selector-helper {\n                border-left: none;\n                border-right: 1px solid #bbb;\n            }\n\n.selector-container.disabled {\n        opacity: .6;\n    }\n\n.selector-container.multiple input {\n            float: left;\n            padding: .2em .6em;\n            margin: 0 .15em .25em;\n            border-width: 1px;\n            border-style: solid;\n            float: left;\n            line-height: normal;\n        }\n\n.selector-container.multiple .selector-values {\n            float: left;\n            float: none;\n        }\n\n.selector-container.multiple .selector-values >li {\n                padding: .2em .6em;\n                margin: 0 .15em .25em;\n                border-width: 1px;\n                border-style: solid;\n                float: left;\n                line-height: normal;\n                display: inline-block;\n                position: relative;\n                border-color: #0987d6;\n                color: #fff;\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\n                font-weight: 300;\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n                border-radius: 3px;\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\n                background-color: #2dadef;\n            }\n\n.selector-container.multiple .selector-values >div li {\n                padding: .2em .6em;\n                margin: 0 .15em .25em;\n                border-width: 1px;\n                border-style: solid;\n                float: left;\n                line-height: normal;\n                display: inline-block;\n                position: relative;\n                border-color: #0987d6;\n                color: #fff;\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\n                font-weight: 300;\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n                border-radius: 3px;\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\n                background-color: #2dadef;\n            }\n\n.selector-container.multiple.rtl input {\n                float: right;\n                float: right;\n            }\n\n.selector-container.multiple.rtl .selector-values {\n                float: right;\n            }\n\n.selector-container.multiple.rtl .selector-values >li,\n                .selector-container.multiple.rtl .selector-values >div li {\n                    float: right;\n                }\n\n.selector-container.multiple.rtl.remove-button .selector-values>li, \n            .selector-container.multiple.rtl.remove-button .selector-values>div li, \n            .selector-container.multiple.rtl  {\n                padding-right: .6em;\n                padding-left: 1.9em;\n            }\n\n.selector-container.multiple .selector-input {\n            padding: .5em .55em .2em .55em !important;\n            cursor: text;\n            background: #fff;\n            //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);\n        }\n\n.selector-container.multiple.remove-button .selector-helper {\n                display: block;\n                width: 1.3em;\n                border-left: 1px solid #0987d6;\n                cursor: pointer;\n            }\n\n.selector-container.multiple.remove-button .selector-helper:hover {\n                    background: rgba(0, 0, 0, .1);\n                }\n\n.selector-container.multiple.remove-button .selector-values>li,\n            .selector-container.multiple.remove-button .selector-values>div li {\n                padding-right: 1.9em;\n            }\n\n.selector-container.multiple.remove-button.rtl .selector-helper {\n                border-left: none;\n                border-right: 1px solid #0987d6;\n            }\n\n.selector-container.multiple .selector-helper {\n            display: none;\n        }\n\n.selector-container.multiple.loading .selector-input {\n                padding-right: 3em !important;\n            }\n\n.selector-container.multiple.loading .selector-global-helper {\n                margin: .75em .8em;\n                border-left: none;\n                border-right: none;\n            }\n\n.selector-container.multiple.loading.rtl .selector-input {\n                    padding-right: .55em !important;\n                    padding-left: 3em !important;\n                }\n\n.selector-container.multiple.loading.rtl.has-value .selector-input {\n                    padding-right: .25em !important;\n                }\n\n.selector-container.multiple.has-value .selector-input {\n            padding-left: .35em !important;\n            padding-right: .35em !important;\n        }\n\n.selector-container.loading .selector-global-helper {\n            border-left: none !important;\n            border-right: none !important;\n        }\n\n.selector-container.loading .selector-global-helper .selector-icon {\n                display: table;\n                width: 100%;\n            }\n\n.selector-container.loading .selector-global-helper .selector-icon:after {\n                    content: '';\n                    width: 100%;\n                    height: 100%;\n                    margin: 0;\n                    top: 0;\n                    left: 0;\n                    opacity: .5;\n                    border-top: 1px solid #545a6a;\n                    border-bottom: 1px solid #d4d4db;\n                    border-left: 1px solid #545a6a;\n                    border-right: 1px solid #d4d4db;\n                    -webkit-animation: selector-rotate .5s linear infinite;\n                            animation: selector-rotate .5s linear infinite;\n                    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n                    border-radius: 100%;\n                }\n\n.selector-container.loading .selector-helper.selector-global-helper {\n            width: 1.3em;\n            height: 1.3em;\n            margin: .65em .7em;\n        }\n\n.selector-container.remove-button.has-value .selector-input {\n            padding-right: 3.5em;\n        }\n\n.selector-container.remove-button.has-value.rtl .selector-input {\n            padding-right: .7em;\n            padding-left: 3.5em;\n        }\n\n.selector-input {\n    display: block;\n    margin: 0;\n    position: relative;\n    width: 100%;\n    padding: .8em 2.6em .7em .7em;\n    overflow: hidden;\n    cursor: pointer;\n    border: 1px solid #bbb;\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n    box-shadow: 0 1px 0 rgba(0, 0, 0, .05), inset 0 1px 0 rgba(255, 255, 255, .8);\n    //Instead of the line below you could use @include box-sizing($bs)\n    box-sizing: border-box;\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n    border-radius: 4px;\n    font-weight: inherit;\n    background-color: #f9f9f9;\n    background-image: linear-gradient(#fafafa, #eee);\n}\n\n.selector-input input {\n        padding-left: 0 !important;\n        padding-right: 0 !important;\n        border-left: 0 !important;\n        border-right: 0 !important;\n        max-width: 100% !important;\n    }\n\n.selector-helper {\n    position: absolute;\n    display: block;\n    width: 2.6em;\n    top: 0;\n    right: 0;\n    bottom: 0;\n}\n\n.selector-helper .selector-icon {\n        display: block;\n        position: relative;\n        height: 100%;\n    }\n\n.selector-helper .selector-icon:after {\n            content: '';\n            display: block;\n            position: absolute;\n            top: 50%;\n            left: 50%;\n            margin-top: -.1em;\n            margin-left: -.4em;\n            width: 0;\n            height: 0;\n            border: .4em solid #888;\n            border-left-color: transparent;\n            border-right-color: transparent;\n            border-bottom: none;\n        }\n\n.selector-shadow {\n    padding-left: 0 !important;\n    padding-right: 0 !important;\n    border-left: 0 !important;\n    border-right: 0 !important;\n    max-width: 100% !important;\n    position: absolute;\n    top: 0;\n    left: 0;\n    opacity: 0;\n    visibility: hidden;\n    white-space: pre;\n    margin: 0;\n}\n\n.selector-dropdown {\n    display: none;\n    list-style: none;\n    padding: 0 !important;\n    margin: 0 !important;\n    position: absolute;\n    z-index: 1;\n    background: #fff;\n    border: 1px solid #ccc;\n    border-top: 0;\n    max-height: 15.5em;\n    overflow-x: hidden;\n    overflow-y: auto;\n    z-index: 1000;\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n    border-radius: 0 0 3px 3px;\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);\n    //Instead of the line below you could use @include box-sizing($bs)\n    box-sizing: border-box;\n    \n}\n\n.selector-dropdown >li,\n    .selector-dropdown >div li {\n        padding: .65em .8em;\n        overflow: hidden;\n        cursor: pointer;\n    }\n\n.selector-dropdown .selector-optgroup {\n        background: #fefefe;\n        border-top: 1px solid #eee;\n        border-bottom: 1px solid #eee;\n    }\n\n.selector-dropdown .selector-option:hover {\n            background: #f5fafd;\n        }\n\n.selector-dropdown .selector-option.grouped {\n            padding-left: 1.6em;\n        }\n\n.selector-dropdown .selector-option.active {\n            background: #f5fafd;\n        }\n\n.selector-dropdown .selector-option.no-data{\n\n        }\n\n.selector-dropdown .selector-option.loading{\n            \n        }\n\n.selector-dropdown .selector-option.create {\n            color: rgba(73, 92, 104, .6);\n        }\n\n.selector-dropdown .selector-option.create.active {\n                color: #495c68;\n            }", ""]);
-
-// exports
-
-
-/***/ }),
-/* 84 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-/* 85 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -38545,7 +41458,7 @@ https://highlightjs.org/
 
 
 /***/ }),
-/* 86 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs){
@@ -39059,7 +41972,7 @@ module.exports = function(hljs){
 };
 
 /***/ }),
-/* 87 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -39134,7 +42047,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 88 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -39176,7 +42089,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 89 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -39254,7 +42167,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 90 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = // We try to support full Ada2012
@@ -39431,7 +42344,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 91 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -39481,7 +42394,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 92 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -39571,7 +42484,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 93 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -39675,7 +42588,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 94 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -39771,7 +42684,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 95 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -39963,7 +42876,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 96 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -40112,7 +43025,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 97 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40175,7 +43088,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 98 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40315,7 +43228,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 99 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40381,7 +43294,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 100 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40438,7 +43351,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 101 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40473,7 +43386,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 102 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40552,7 +43465,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 103 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40607,7 +43520,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 104 */
+/* 26 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs){
@@ -40640,7 +43553,7 @@ module.exports = function(hljs){
 };
 
 /***/ }),
-/* 105 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs){
@@ -40681,7 +43594,7 @@ module.exports = function(hljs){
 };
 
 /***/ }),
-/* 106 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40765,7 +43678,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 107 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40818,7 +43731,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 108 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40889,7 +43802,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 109 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40918,7 +43831,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 110 */
+/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -40937,7 +43850,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 111 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41037,7 +43950,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 112 */
+/* 34 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41079,7 +43992,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 113 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41229,7 +44142,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 114 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41300,7 +44213,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 115 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = function cos (hljs) {
@@ -41428,7 +44341,7 @@ module.exports = function cos (hljs) {
 };
 
 /***/ }),
-/* 116 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41607,7 +44520,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 117 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41705,7 +44618,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 118 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -41903,7 +44816,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 119 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42084,7 +44997,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 120 */
+/* 42 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42110,7 +45023,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 121 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42219,7 +45132,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 122 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = /**
@@ -42481,7 +45394,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 123 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -42586,7 +45499,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 124 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42659,7 +45572,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 125 */
+/* 47 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42703,7 +45616,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 126 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42771,7 +45684,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 127 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42804,7 +45717,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 128 */
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42830,7 +45743,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 129 */
+/* 51 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42886,7 +45799,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 130 */
+/* 52 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42937,7 +45850,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 131 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43065,7 +45978,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 132 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43101,7 +46014,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 133 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43138,7 +46051,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 134 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43239,7 +46152,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 135 */
+/* 57 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43327,7 +46240,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 136 */
+/* 58 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43346,7 +46259,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 137 */
+/* 59 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43396,7 +46309,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 138 */
+/* 60 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43546,7 +46459,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 139 */
+/* 61 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43598,7 +46511,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 140 */
+/* 62 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43631,7 +46544,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 141 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -43680,7 +46593,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 142 */
+/* 64 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43755,7 +46668,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 143 */
+/* 65 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43818,7 +46731,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 144 */
+/* 66 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -43976,7 +46889,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 145 */
+/* 67 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44204,7 +47117,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 146 */
+/* 68 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44275,7 +47188,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 147 */
+/* 69 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -44316,7 +47229,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 148 */
+/* 70 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44437,7 +47350,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 149 */
+/* 71 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44495,7 +47408,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 150 */
+/* 72 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44522,7 +47435,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 151 */
+/* 73 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44561,7 +47474,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 152 */
+/* 74 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44659,7 +47572,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 153 */
+/* 75 */
 /***/ (function(module, exports) {
 
 module.exports = // TODO support filter tags like :javascript, support inline HTML
@@ -44770,7 +47683,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 154 */
+/* 76 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44808,7 +47721,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 155 */
+/* 77 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44934,7 +47847,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 156 */
+/* 78 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45050,7 +47963,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 157 */
+/* 79 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45100,7 +48013,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 158 */
+/* 80 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45175,7 +48088,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 159 */
+/* 81 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45220,7 +48133,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 160 */
+/* 82 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45326,7 +48239,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 161 */
+/* 83 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45387,7 +48300,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 162 */
+/* 84 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45457,7 +48370,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 163 */
+/* 85 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45537,7 +48450,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 164 */
+/* 86 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45649,7 +48562,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 165 */
+/* 87 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45824,7 +48737,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 166 */
+/* 88 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -45875,7 +48788,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 167 */
+/* 89 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45916,7 +48829,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 168 */
+/* 90 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45944,7 +48857,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 169 */
+/* 91 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46110,7 +49023,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 170 */
+/* 92 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46288,7 +49201,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 171 */
+/* 93 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46455,7 +49368,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 172 */
+/* 94 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46482,7 +49395,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 173 */
+/* 95 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -46526,7 +49439,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 174 */
+/* 96 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46670,7 +49583,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 175 */
+/* 97 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46777,7 +49690,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 176 */
+/* 98 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46938,7 +49851,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 177 */
+/* 99 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47091,7 +50004,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 178 */
+/* 100 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47184,7 +50097,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 179 */
+/* 101 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47271,7 +50184,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 180 */
+/* 102 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47341,7 +50254,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 181 */
+/* 103 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47426,7 +50339,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 182 */
+/* 104 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47538,7 +50451,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 183 */
+/* 105 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47600,7 +50513,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 184 */
+/* 106 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47692,7 +50605,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 185 */
+/* 107 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48102,7 +51015,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 186 */
+/* 108 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48331,7 +51244,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 187 */
+/* 109 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48417,7 +51330,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 188 */
+/* 110 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48507,7 +51420,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 189 */
+/* 111 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48530,7 +51443,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 190 */
+/* 112 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48559,7 +51472,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 191 */
+/* 113 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48638,7 +51551,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 192 */
+/* 114 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48754,7 +51667,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 193 */
+/* 115 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48827,7 +51740,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 194 */
+/* 116 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48924,7 +51837,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 195 */
+/* 117 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48983,7 +51896,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 196 */
+/* 118 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49036,7 +51949,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 197 */
+/* 119 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49146,7 +52059,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 198 */
+/* 120 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49241,7 +52154,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 199 */
+/* 121 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49316,7 +52229,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 200 */
+/* 122 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49377,7 +52290,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 201 */
+/* 123 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49451,7 +52364,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 202 */
+/* 124 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49503,7 +52416,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 203 */
+/* 125 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49664,7 +52577,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 204 */
+/* 126 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49720,7 +52633,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 205 */
+/* 127 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49851,7 +52764,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 206 */
+/* 128 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49946,7 +52859,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 207 */
+/* 129 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50031,7 +52944,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 208 */
+/* 130 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50083,7 +52996,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 209 */
+/* 131 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50117,7 +53030,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 210 */
+/* 132 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50209,7 +53122,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 211 */
+/* 133 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50249,7 +53162,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 212 */
+/* 134 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50368,7 +53281,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 213 */
+/* 135 */
 /***/ (function(module, exports) {
 
 module.exports = // Base deafult colors in PB IDE: background: #FFFFDF; foreground: #000000;
@@ -50430,7 +53343,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 214 */
+/* 136 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50550,7 +53463,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 215 */
+/* 137 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50577,7 +53490,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 216 */
+/* 138 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50750,7 +53663,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 217 */
+/* 139 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50824,7 +53737,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 218 */
+/* 140 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50855,7 +53768,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 219 */
+/* 141 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50926,7 +53839,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 220 */
+/* 142 */
 /***/ (function(module, exports) {
 
 module.exports = // Colors from RouterOS terminal:
@@ -51089,7 +54002,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 221 */
+/* 143 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51129,7 +54042,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 222 */
+/* 144 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51310,7 +54223,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 223 */
+/* 145 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51375,7 +54288,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 224 */
+/* 146 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51487,7 +54400,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 225 */
+/* 147 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51606,7 +54519,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 226 */
+/* 148 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51754,7 +54667,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 227 */
+/* 149 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51812,7 +54725,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 228 */
+/* 150 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51914,7 +54827,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 229 */
+/* 151 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51933,7 +54846,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 230 */
+/* 152 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51993,7 +54906,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 231 */
+/* 153 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52047,7 +54960,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 232 */
+/* 154 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52117,7 +55030,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 233 */
+/* 155 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52492,7 +55405,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 234 */
+/* 156 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52656,7 +55569,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 235 */
+/* 157 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52743,7 +55656,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 236 */
+/* 158 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52785,7 +55698,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 237 */
+/* 159 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52836,7 +55749,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 238 */
+/* 160 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53294,7 +56207,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 239 */
+/* 161 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53332,7 +56245,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 240 */
+/* 162 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53453,7 +56366,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 241 */
+/* 163 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53501,7 +56414,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 242 */
+/* 164 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53541,7 +56454,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 243 */
+/* 165 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53606,7 +56519,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 244 */
+/* 166 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53672,7 +56585,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 245 */
+/* 167 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53711,7 +56624,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 246 */
+/* 168 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53799,7 +56712,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 247 */
+/* 169 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53869,7 +56782,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 248 */
+/* 170 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54029,7 +56942,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 249 */
+/* 171 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54083,7 +56996,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 250 */
+/* 172 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54143,7 +57056,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 251 */
+/* 173 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54159,7 +57072,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 252 */
+/* 174 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54202,7 +57115,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 253 */
+/* 175 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54305,7 +57218,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 254 */
+/* 176 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54370,7 +57283,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 255 */
+/* 177 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54480,7 +57393,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 256 */
+/* 178 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54620,7 +57533,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 257 */
+/* 179 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54697,7 +57610,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 258 */
+/* 180 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54804,7 +57717,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 259 */
+/* 181 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54879,7 +57792,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 260 */
+/* 182 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54971,7 +57884,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 261 */
+/* 183 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55080,3239 +57993,6 @@ module.exports = function(hljs) {
     ]
   };
 };
-
-/***/ }),
-/* 262 */,
-/* 263 */,
-/* 264 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(83);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(265)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../demo/node_modules/css-loader/index.js??ref--1-1!../node_modules/postcss-loader/lib/index.js!./index.pcss", function() {
-			var newContent = require("!!../demo/node_modules/css-loader/index.js??ref--1-1!../node_modules/postcss-loader/lib/index.js!./index.pcss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 265 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-
-var stylesInDom = {};
-
-var	memoize = function (fn) {
-	var memo;
-
-	return function () {
-		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-		return memo;
-	};
-};
-
-var isOldIE = memoize(function () {
-	// Test for IE <= 9 as proposed by Browserhacks
-	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-	// Tests for existence of standard globals is to allow style-loader
-	// to operate correctly into non-standard environments
-	// @see https://github.com/webpack-contrib/style-loader/issues/177
-	return window && document && document.all && !window.atob;
-});
-
-var getElement = (function (fn) {
-	var memo = {};
-
-	return function(selector) {
-		if (typeof memo[selector] === "undefined") {
-			memo[selector] = fn.call(this, selector);
-		}
-
-		return memo[selector]
-	};
-})(function (target) {
-	return document.querySelector(target)
-});
-
-var singleton = null;
-var	singletonCounter = 0;
-var	stylesInsertedAtTop = [];
-
-var	fixUrls = __webpack_require__(266);
-
-module.exports = function(list, options) {
-	if (typeof DEBUG !== "undefined" && DEBUG) {
-		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-
-	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
-
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (!options.singleton) options.singleton = isOldIE();
-
-	// By default, add <style> tags to the <head> element
-	if (!options.insertInto) options.insertInto = "head";
-
-	// By default, add <style> tags to the bottom of the target
-	if (!options.insertAt) options.insertAt = "bottom";
-
-	var styles = listToStyles(list, options);
-
-	addStylesToDom(styles, options);
-
-	return function update (newList) {
-		var mayRemove = [];
-
-		for (var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-
-		if(newList) {
-			var newStyles = listToStyles(newList, options);
-			addStylesToDom(newStyles, options);
-		}
-
-		for (var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-
-			if(domStyle.refs === 0) {
-				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
-
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-};
-
-function addStylesToDom (styles, options) {
-	for (var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-
-		if(domStyle) {
-			domStyle.refs++;
-
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles (list, options) {
-	var styles = [];
-	var newStyles = {};
-
-	for (var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = options.base ? item[0] + options.base : item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-
-		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
-		else newStyles[id].parts.push(part);
-	}
-
-	return styles;
-}
-
-function insertStyleElement (options, style) {
-	var target = getElement(options.insertInto)
-
-	if (!target) {
-		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
-	}
-
-	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
-
-	if (options.insertAt === "top") {
-		if (!lastStyleElementInsertedAtTop) {
-			target.insertBefore(style, target.firstChild);
-		} else if (lastStyleElementInsertedAtTop.nextSibling) {
-			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			target.appendChild(style);
-		}
-		stylesInsertedAtTop.push(style);
-	} else if (options.insertAt === "bottom") {
-		target.appendChild(style);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement (style) {
-	if (style.parentNode === null) return false;
-	style.parentNode.removeChild(style);
-
-	var idx = stylesInsertedAtTop.indexOf(style);
-	if(idx >= 0) {
-		stylesInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement (options) {
-	var style = document.createElement("style");
-
-	options.attrs.type = "text/css";
-
-	addAttrs(style, options.attrs);
-	insertStyleElement(options, style);
-
-	return style;
-}
-
-function createLinkElement (options) {
-	var link = document.createElement("link");
-
-	options.attrs.type = "text/css";
-	options.attrs.rel = "stylesheet";
-
-	addAttrs(link, options.attrs);
-	insertStyleElement(options, link);
-
-	return link;
-}
-
-function addAttrs (el, attrs) {
-	Object.keys(attrs).forEach(function (key) {
-		el.setAttribute(key, attrs[key]);
-	});
-}
-
-function addStyle (obj, options) {
-	var style, update, remove, result;
-
-	// If a transform function was defined, run it on the css
-	if (options.transform && obj.css) {
-	    result = options.transform(obj.css);
-
-	    if (result) {
-	    	// If transform returns a value, use that instead of the original css.
-	    	// This allows running runtime transformations on the css.
-	    	obj.css = result;
-	    } else {
-	    	// If the transform function returns a falsy value, don't add this css.
-	    	// This allows conditional loading of css
-	    	return function() {
-	    		// noop
-	    	};
-	    }
-	}
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-
-		style = singleton || (singleton = createStyleElement(options));
-
-		update = applyToSingletonTag.bind(null, style, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
-
-	} else if (
-		obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function"
-	) {
-		style = createLinkElement(options);
-		update = updateLink.bind(null, style, options);
-		remove = function () {
-			removeStyleElement(style);
-
-			if(style.href) URL.revokeObjectURL(style.href);
-		};
-	} else {
-		style = createStyleElement(options);
-		update = applyToTag.bind(null, style);
-		remove = function () {
-			removeStyleElement(style);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle (newObj) {
-		if (newObj) {
-			if (
-				newObj.css === obj.css &&
-				newObj.media === obj.media &&
-				newObj.sourceMap === obj.sourceMap
-			) {
-				return;
-			}
-
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag (style, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (style.styleSheet) {
-		style.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = style.childNodes;
-
-		if (childNodes[index]) style.removeChild(childNodes[index]);
-
-		if (childNodes.length) {
-			style.insertBefore(cssNode, childNodes[index]);
-		} else {
-			style.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag (style, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		style.setAttribute("media", media)
-	}
-
-	if(style.styleSheet) {
-		style.styleSheet.cssText = css;
-	} else {
-		while(style.firstChild) {
-			style.removeChild(style.firstChild);
-		}
-
-		style.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink (link, options, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	/*
-		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
-		and there is no publicPath defined then lets turn convertToAbsoluteUrls
-		on by default.  Otherwise default to the convertToAbsoluteUrls option
-		directly
-	*/
-	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
-
-	if (options.convertToAbsoluteUrls || autoFixUrls) {
-		css = fixUrls(css);
-	}
-
-	if (sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = link.href;
-
-	link.href = URL.createObjectURL(blob);
-
-	if(oldSrc) URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
-/* 266 */
-/***/ (function(module, exports) {
-
-
-/**
- * When source maps are enabled, `style-loader` uses a link element with a data-uri to
- * embed the css on the page. This breaks all relative urls because now they are relative to a
- * bundle instead of the current page.
- *
- * One solution is to only use full urls, but that may be impossible.
- *
- * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
- *
- * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
- *
- */
-
-module.exports = function (css) {
-  // get current location
-  var location = typeof window !== "undefined" && window.location;
-
-  if (!location) {
-    throw new Error("fixUrls requires window.location");
-  }
-
-	// blank or null?
-	if (!css || typeof css !== "string") {
-	  return css;
-  }
-
-  var baseUrl = location.protocol + "//" + location.host;
-  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
-
-	// convert each url(...)
-	/*
-	This regular expression is just a way to recursively match brackets within
-	a string.
-
-	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-	   (  = Start a capturing group
-	     (?:  = Start a non-capturing group
-	         [^)(]  = Match anything that isn't a parentheses
-	         |  = OR
-	         \(  = Match a start parentheses
-	             (?:  = Start another non-capturing groups
-	                 [^)(]+  = Match anything that isn't a parentheses
-	                 |  = OR
-	                 \(  = Match a start parentheses
-	                     [^)(]*  = Match anything that isn't a parentheses
-	                 \)  = Match a end parentheses
-	             )  = End Group
-              *\) = Match anything and then a close parens
-          )  = Close non-capturing group
-          *  = Match anything
-       )  = Close capturing group
-	 \)  = Match a close parens
-
-	 /gi  = Get all matches, not the first.  Be case insensitive.
-	 */
-	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
-		// strip quotes (if they exist)
-		var unquotedOrigUrl = origUrl
-			.trim()
-			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
-			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
-
-		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
-		  return fullMatch;
-		}
-
-		// convert the url to a full url
-		var newUrl;
-
-		if (unquotedOrigUrl.indexOf("//") === 0) {
-		  	//TODO: should we add protocol?
-			newUrl = unquotedOrigUrl;
-		} else if (unquotedOrigUrl.indexOf("/") === 0) {
-			// path should be relative to the base url
-			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
-		} else {
-			// path should be relative to current directory
-			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
-		}
-
-		// send back the fixed url(...)
-		return "url(" + JSON.stringify(newUrl) + ")";
-	});
-
-	// send back the fixed css
-	return fixedCss;
-};
-
-
-/***/ }),
-/* 267 */,
-/* 268 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Subscriber_1 = __webpack_require__(1);
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-var InnerSubscriber = (function (_super) {
-    __extends(InnerSubscriber, _super);
-    function InnerSubscriber(parent, outerValue, outerIndex) {
-        _super.call(this);
-        this.parent = parent;
-        this.outerValue = outerValue;
-        this.outerIndex = outerIndex;
-        this.index = 0;
-    }
-    InnerSubscriber.prototype._next = function (value) {
-        this.parent.notifyNext(this.outerValue, value, this.outerIndex, this.index++, this);
-    };
-    InnerSubscriber.prototype._error = function (error) {
-        this.parent.notifyError(error, this);
-        this.unsubscribe();
-    };
-    InnerSubscriber.prototype._complete = function () {
-        this.parent.notifyComplete(this);
-        this.unsubscribe();
-    };
-    return InnerSubscriber;
-}(Subscriber_1.Subscriber));
-exports.InnerSubscriber = InnerSubscriber;
-//# sourceMappingURL=InnerSubscriber.js.map
-
-/***/ }),
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(0);
-var empty_1 = __webpack_require__(425);
-Observable_1.Observable.empty = empty_1.empty;
-//# sourceMappingURL=empty.js.map
-
-/***/ }),
-/* 278 */,
-/* 279 */,
-/* 280 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(0);
-var fromEvent_1 = __webpack_require__(428);
-Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
-//# sourceMappingURL=fromEvent.js.map
-
-/***/ }),
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(0);
-var merge_1 = __webpack_require__(434);
-Observable_1.Observable.merge = merge_1.merge;
-//# sourceMappingURL=merge.js.map
-
-/***/ }),
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */,
-/* 330 */,
-/* 331 */,
-/* 332 */,
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */,
-/* 357 */,
-/* 358 */,
-/* 359 */,
-/* 360 */,
-/* 361 */,
-/* 362 */,
-/* 363 */,
-/* 364 */,
-/* 365 */,
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
-/* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Observable_1 = __webpack_require__(0);
-var tryCatch_1 = __webpack_require__(8);
-var isFunction_1 = __webpack_require__(28);
-var errorObject_1 = __webpack_require__(6);
-var Subscription_1 = __webpack_require__(4);
-var toString = Object.prototype.toString;
-function isNodeStyleEventEmitter(sourceObj) {
-    return !!sourceObj && typeof sourceObj.addListener === 'function' && typeof sourceObj.removeListener === 'function';
-}
-function isJQueryStyleEventEmitter(sourceObj) {
-    return !!sourceObj && typeof sourceObj.on === 'function' && typeof sourceObj.off === 'function';
-}
-function isNodeList(sourceObj) {
-    return !!sourceObj && toString.call(sourceObj) === '[object NodeList]';
-}
-function isHTMLCollection(sourceObj) {
-    return !!sourceObj && toString.call(sourceObj) === '[object HTMLCollection]';
-}
-function isEventTarget(sourceObj) {
-    return !!sourceObj && typeof sourceObj.addEventListener === 'function' && typeof sourceObj.removeEventListener === 'function';
-}
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @extends {Ignored}
- * @hide true
- */
-var FromEventObservable = (function (_super) {
-    __extends(FromEventObservable, _super);
-    function FromEventObservable(sourceObj, eventName, selector, options) {
-        _super.call(this);
-        this.sourceObj = sourceObj;
-        this.eventName = eventName;
-        this.selector = selector;
-        this.options = options;
-    }
-    /* tslint:enable:max-line-length */
-    /**
-     * Creates an Observable that emits events of a specific type coming from the
-     * given event target.
-     *
-     * <span class="informal">Creates an Observable from DOM events, or Node
-     * EventEmitter events or others.</span>
-     *
-     * <img src="./img/fromEvent.png" width="100%">
-     *
-     * Creates an Observable by attaching an event listener to an "event target",
-     * which may be an object with `addEventListener` and `removeEventListener`,
-     * a Node.js EventEmitter, a jQuery style EventEmitter, a NodeList from the
-     * DOM, or an HTMLCollection from the DOM. The event handler is attached when
-     * the output Observable is subscribed, and removed when the Subscription is
-     * unsubscribed.
-     *
-     * @example <caption>Emits clicks happening on the DOM document</caption>
-     * var clicks = Rx.Observable.fromEvent(document, 'click');
-     * clicks.subscribe(x => console.log(x));
-     *
-     * // Results in:
-     * // MouseEvent object logged to console everytime a click
-     * // occurs on the document.
-     *
-     * @see {@link from}
-     * @see {@link fromEventPattern}
-     *
-     * @param {EventTargetLike} target The DOMElement, event target, Node.js
-     * EventEmitter, NodeList or HTMLCollection to attach the event handler to.
-     * @param {string} eventName The event name of interest, being emitted by the
-     * `target`.
-     * @param {EventListenerOptions} [options] Options to pass through to addEventListener
-     * @param {SelectorMethodSignature<T>} [selector] An optional function to
-     * post-process results. It takes the arguments from the event handler and
-     * should return a single value.
-     * @return {Observable<T>}
-     * @static true
-     * @name fromEvent
-     * @owner Observable
-     */
-    FromEventObservable.create = function (target, eventName, options, selector) {
-        if (isFunction_1.isFunction(options)) {
-            selector = options;
-            options = undefined;
-        }
-        return new FromEventObservable(target, eventName, selector, options);
-    };
-    FromEventObservable.setupSubscription = function (sourceObj, eventName, handler, subscriber, options) {
-        var unsubscribe;
-        if (isNodeList(sourceObj) || isHTMLCollection(sourceObj)) {
-            for (var i = 0, len = sourceObj.length; i < len; i++) {
-                FromEventObservable.setupSubscription(sourceObj[i], eventName, handler, subscriber, options);
-            }
-        }
-        else if (isEventTarget(sourceObj)) {
-            var source_1 = sourceObj;
-            sourceObj.addEventListener(eventName, handler, options);
-            unsubscribe = function () { return source_1.removeEventListener(eventName, handler); };
-        }
-        else if (isJQueryStyleEventEmitter(sourceObj)) {
-            var source_2 = sourceObj;
-            sourceObj.on(eventName, handler);
-            unsubscribe = function () { return source_2.off(eventName, handler); };
-        }
-        else if (isNodeStyleEventEmitter(sourceObj)) {
-            var source_3 = sourceObj;
-            sourceObj.addListener(eventName, handler);
-            unsubscribe = function () { return source_3.removeListener(eventName, handler); };
-        }
-        else {
-            throw new TypeError('Invalid event target');
-        }
-        subscriber.add(new Subscription_1.Subscription(unsubscribe));
-    };
-    FromEventObservable.prototype._subscribe = function (subscriber) {
-        var sourceObj = this.sourceObj;
-        var eventName = this.eventName;
-        var options = this.options;
-        var selector = this.selector;
-        var handler = selector ? function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            var result = tryCatch_1.tryCatch(selector).apply(void 0, args);
-            if (result === errorObject_1.errorObject) {
-                subscriber.error(errorObject_1.errorObject.e);
-            }
-            else {
-                subscriber.next(result);
-            }
-        } : function (e) { return subscriber.next(e); };
-        FromEventObservable.setupSubscription(sourceObj, eventName, handler, subscriber, options);
-    };
-    return FromEventObservable;
-}(Observable_1.Observable));
-exports.FromEventObservable = FromEventObservable;
-//# sourceMappingURL=FromEventObservable.js.map
-
-/***/ }),
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */,
-/* 425 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var EmptyObservable_1 = __webpack_require__(13);
-exports.empty = EmptyObservable_1.EmptyObservable.create;
-//# sourceMappingURL=empty.js.map
-
-/***/ }),
-/* 426 */,
-/* 427 */,
-/* 428 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var FromEventObservable_1 = __webpack_require__(405);
-exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
-//# sourceMappingURL=fromEvent.js.map
-
-/***/ }),
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
-/* 433 */,
-/* 434 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var merge_1 = __webpack_require__(53);
-exports.merge = merge_1.mergeStatic;
-//# sourceMappingURL=merge.js.map
-
-/***/ }),
-/* 435 */,
-/* 436 */,
-/* 437 */,
-/* 438 */,
-/* 439 */,
-/* 440 */,
-/* 441 */,
-/* 442 */,
-/* 443 */,
-/* 444 */,
-/* 445 */,
-/* 446 */,
-/* 447 */,
-/* 448 */,
-/* 449 */,
-/* 450 */,
-/* 451 */,
-/* 452 */,
-/* 453 */,
-/* 454 */,
-/* 455 */,
-/* 456 */,
-/* 457 */,
-/* 458 */,
-/* 459 */,
-/* 460 */,
-/* 461 */,
-/* 462 */,
-/* 463 */,
-/* 464 */,
-/* 465 */,
-/* 466 */,
-/* 467 */,
-/* 468 */,
-/* 469 */,
-/* 470 */,
-/* 471 */,
-/* 472 */,
-/* 473 */,
-/* 474 */,
-/* 475 */,
-/* 476 */,
-/* 477 */,
-/* 478 */,
-/* 479 */,
-/* 480 */,
-/* 481 */,
-/* 482 */,
-/* 483 */,
-/* 484 */,
-/* 485 */,
-/* 486 */,
-/* 487 */,
-/* 488 */,
-/* 489 */,
-/* 490 */,
-/* 491 */,
-/* 492 */,
-/* 493 */,
-/* 494 */,
-/* 495 */,
-/* 496 */,
-/* 497 */,
-/* 498 */,
-/* 499 */,
-/* 500 */,
-/* 501 */,
-/* 502 */,
-/* 503 */,
-/* 504 */,
-/* 505 */,
-/* 506 */,
-/* 507 */,
-/* 508 */,
-/* 509 */,
-/* 510 */,
-/* 511 */,
-/* 512 */,
-/* 513 */,
-/* 514 */,
-/* 515 */,
-/* 516 */,
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */,
-/* 521 */,
-/* 522 */,
-/* 523 */,
-/* 524 */,
-/* 525 */,
-/* 526 */,
-/* 527 */,
-/* 528 */,
-/* 529 */,
-/* 530 */,
-/* 531 */,
-/* 532 */,
-/* 533 */,
-/* 534 */,
-/* 535 */,
-/* 536 */,
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */,
-/* 541 */,
-/* 542 */,
-/* 543 */,
-/* 544 */,
-/* 545 */,
-/* 546 */,
-/* 547 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Subscriber_1 = __webpack_require__(1);
-var rxSubscriber_1 = __webpack_require__(24);
-var Observer_1 = __webpack_require__(43);
-function toSubscriber(nextOrObserver, error, complete) {
-    if (nextOrObserver) {
-        if (nextOrObserver instanceof Subscriber_1.Subscriber) {
-            return nextOrObserver;
-        }
-        if (nextOrObserver[rxSubscriber_1.rxSubscriber]) {
-            return nextOrObserver[rxSubscriber_1.rxSubscriber]();
-        }
-    }
-    if (!nextOrObserver && !error && !complete) {
-        return new Subscriber_1.Subscriber(Observer_1.empty);
-    }
-    return new Subscriber_1.Subscriber(nextOrObserver, error, complete);
-}
-exports.toSubscriber = toSubscriber;
-//# sourceMappingURL=toSubscriber.js.map
-
-/***/ }),
-/* 548 */,
-/* 549 */,
-/* 550 */,
-/* 551 */,
-/* 552 */,
-/* 553 */,
-/* 554 */,
-/* 555 */,
-/* 556 */,
-/* 557 */,
-/* 558 */,
-/* 559 */,
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */,
-/* 566 */,
-/* 567 */,
-/* 568 */,
-/* 569 */,
-/* 570 */,
-/* 571 */,
-/* 572 */,
-/* 573 */,
-/* 574 */,
-/* 575 */,
-/* 576 */,
-/* 577 */,
-/* 578 */,
-/* 579 */,
-/* 580 */,
-/* 581 */,
-/* 582 */,
-/* 583 */,
-/* 584 */,
-/* 585 */,
-/* 586 */,
-/* 587 */,
-/* 588 */,
-/* 589 */,
-/* 590 */,
-/* 591 */,
-/* 592 */,
-/* 593 */,
-/* 594 */,
-/* 595 */,
-/* 596 */,
-/* 597 */,
-/* 598 */,
-/* 599 */,
-/* 600 */,
-/* 601 */,
-/* 602 */,
-/* 603 */,
-/* 604 */,
-/* 605 */,
-/* 606 */,
-/* 607 */,
-/* 608 */,
-/* 609 */,
-/* 610 */,
-/* 611 */,
-/* 612 */,
-/* 613 */,
-/* 614 */,
-/* 615 */,
-/* 616 */,
-/* 617 */,
-/* 618 */,
-/* 619 */
-/***/ (function(module, exports) {
-
-module.exports = isWidget
-
-function isWidget(w) {
-    return w && w.type === "Widget"
-}
-
-
-/***/ }),
-/* 620 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var version = __webpack_require__(621)
-
-module.exports = isVirtualNode
-
-function isVirtualNode(x) {
-    return x && x.type === "VirtualNode" && x.version === version
-}
-
-
-/***/ }),
-/* 621 */
-/***/ (function(module, exports) {
-
-module.exports = "2"
-
-
-/***/ }),
-/* 622 */
-/***/ (function(module, exports) {
-
-module.exports = isThunk
-
-function isThunk(t) {
-    return t && t.type === "Thunk"
-}
-
-
-/***/ }),
-/* 623 */
-/***/ (function(module, exports) {
-
-module.exports = isHook
-
-function isHook(hook) {
-    return hook &&
-      (typeof hook.hook === "function" && !hook.hasOwnProperty("hook") ||
-       typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
-}
-
-
-/***/ }),
-/* 624 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var version = __webpack_require__(621)
-
-module.exports = isVirtualText
-
-function isVirtualText(x) {
-    return x && x.type === "VirtualText" && x.version === version
-}
-
-
-/***/ }),
-/* 625 */
-/***/ (function(module, exports) {
-
-var nativeIsArray = Array.isArray
-var toString = Object.prototype.toString
-
-module.exports = nativeIsArray || isArray
-
-function isArray(obj) {
-    return toString.call(obj) === "[object Array]"
-}
-
-
-/***/ }),
-/* 626 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var topLevel = typeof global !== 'undefined' ? global :
-    typeof window !== 'undefined' ? window : {}
-var minDoc = __webpack_require__(652);
-
-var doccy;
-
-if (typeof document !== 'undefined') {
-    doccy = document;
-} else {
-    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
-
-    if (!doccy) {
-        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
-    }
-}
-
-module.exports = doccy;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
-
-/***/ }),
-/* 627 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isObject(x) {
-	return typeof x === "object" && x !== null;
-};
-
-
-/***/ }),
-/* 628 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(627)
-var isHook = __webpack_require__(623)
-
-module.exports = applyProperties
-
-function applyProperties(node, props, previous) {
-    for (var propName in props) {
-        var propValue = props[propName]
-
-        if (propValue === undefined) {
-            removeProperty(node, propName, propValue, previous);
-        } else if (isHook(propValue)) {
-            removeProperty(node, propName, propValue, previous)
-            if (propValue.hook) {
-                propValue.hook(node,
-                    propName,
-                    previous ? previous[propName] : undefined)
-            }
-        } else {
-            if (isObject(propValue)) {
-                patchObject(node, props, previous, propName, propValue);
-            } else {
-                node[propName] = propValue
-            }
-        }
-    }
-}
-
-function removeProperty(node, propName, propValue, previous) {
-    if (previous) {
-        var previousValue = previous[propName]
-
-        if (!isHook(previousValue)) {
-            if (propName === "attributes") {
-                for (var attrName in previousValue) {
-                    node.removeAttribute(attrName)
-                }
-            } else if (propName === "style") {
-                for (var i in previousValue) {
-                    node.style[i] = ""
-                }
-            } else if (typeof previousValue === "string") {
-                node[propName] = ""
-            } else {
-                node[propName] = null
-            }
-        } else if (previousValue.unhook) {
-            previousValue.unhook(node, propName, propValue)
-        }
-    }
-}
-
-function patchObject(node, props, previous, propName, propValue) {
-    var previousValue = previous ? previous[propName] : undefined
-
-    // Set attributes
-    if (propName === "attributes") {
-        for (var attrName in propValue) {
-            var attrValue = propValue[attrName]
-
-            if (attrValue === undefined) {
-                node.removeAttribute(attrName)
-            } else {
-                node.setAttribute(attrName, attrValue)
-            }
-        }
-
-        return
-    }
-
-    if(previousValue && isObject(previousValue) &&
-        getPrototype(previousValue) !== getPrototype(propValue)) {
-        node[propName] = propValue
-        return
-    }
-
-    if (!isObject(node[propName])) {
-        node[propName] = {}
-    }
-
-    var replacer = propName === "style" ? "" : undefined
-
-    for (var k in propValue) {
-        var value = propValue[k]
-        node[propName][k] = (value === undefined) ? replacer : value
-    }
-}
-
-function getPrototype(value) {
-    if (Object.getPrototypeOf) {
-        return Object.getPrototypeOf(value)
-    } else if (value.__proto__) {
-        return value.__proto__
-    } else if (value.constructor) {
-        return value.constructor.prototype
-    }
-}
-
-
-/***/ }),
-/* 629 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var document = __webpack_require__(626)
-
-var applyProperties = __webpack_require__(628)
-
-var isVNode = __webpack_require__(620)
-var isVText = __webpack_require__(624)
-var isWidget = __webpack_require__(619)
-var handleThunk = __webpack_require__(630)
-
-module.exports = createElement
-
-function createElement(vnode, opts) {
-    var doc = opts ? opts.document || document : document
-    var warn = opts ? opts.warn : null
-
-    vnode = handleThunk(vnode).a
-
-    if (isWidget(vnode)) {
-        return vnode.init()
-    } else if (isVText(vnode)) {
-        return doc.createTextNode(vnode.text)
-    } else if (!isVNode(vnode)) {
-        if (warn) {
-            warn("Item is not a valid virtual dom node", vnode)
-        }
-        return null
-    }
-
-    var node = (vnode.namespace === null) ?
-        doc.createElement(vnode.tagName) :
-        doc.createElementNS(vnode.namespace, vnode.tagName)
-
-    var props = vnode.properties
-    applyProperties(node, props)
-
-    var children = vnode.children
-
-    for (var i = 0; i < children.length; i++) {
-        var childNode = createElement(children[i], opts)
-        if (childNode) {
-            node.appendChild(childNode)
-        }
-    }
-
-    return node
-}
-
-
-/***/ }),
-/* 630 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isVNode = __webpack_require__(620)
-var isVText = __webpack_require__(624)
-var isWidget = __webpack_require__(619)
-var isThunk = __webpack_require__(622)
-
-module.exports = handleThunk
-
-function handleThunk(a, b) {
-    var renderedA = a
-    var renderedB = b
-
-    if (isThunk(b)) {
-        renderedB = renderThunk(b, a)
-    }
-
-    if (isThunk(a)) {
-        renderedA = renderThunk(a, null)
-    }
-
-    return {
-        a: renderedA,
-        b: renderedB
-    }
-}
-
-function renderThunk(thunk, previous) {
-    var renderedThunk = thunk.vnode
-
-    if (!renderedThunk) {
-        renderedThunk = thunk.vnode = thunk.render(previous)
-    }
-
-    if (!(isVNode(renderedThunk) ||
-            isVText(renderedThunk) ||
-            isWidget(renderedThunk))) {
-        throw new Error("thunk did not return a valid node");
-    }
-
-    return renderedThunk
-}
-
-
-/***/ }),
-/* 631 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var version = __webpack_require__(621)
-
-VirtualPatch.NONE = 0
-VirtualPatch.VTEXT = 1
-VirtualPatch.VNODE = 2
-VirtualPatch.WIDGET = 3
-VirtualPatch.PROPS = 4
-VirtualPatch.ORDER = 5
-VirtualPatch.INSERT = 6
-VirtualPatch.REMOVE = 7
-VirtualPatch.THUNK = 8
-
-module.exports = VirtualPatch
-
-function VirtualPatch(type, vNode, patch) {
-    this.type = Number(type)
-    this.vNode = vNode
-    this.patch = patch
-}
-
-VirtualPatch.prototype.version = version
-VirtualPatch.prototype.type = "VirtualPatch"
-
-
-/***/ }),
-/* 632 */
-/***/ (function(module, exports) {
-
-/*!
- * Cross-Browser Split 1.1.1
- * Copyright 2007-2012 Steven Levithan <stevenlevithan.com>
- * Available under the MIT License
- * ECMAScript compliant, uniform cross-browser split method
- */
-
-/**
- * Splits a string into an array of strings using a regex or string separator. Matches of the
- * separator are not included in the result array. However, if `separator` is a regex that contains
- * capturing groups, backreferences are spliced into the result each time `separator` is matched.
- * Fixes browser bugs compared to the native `String.prototype.split` and can be used reliably
- * cross-browser.
- * @param {String} str String to split.
- * @param {RegExp|String} separator Regex or string to use for separating the string.
- * @param {Number} [limit] Maximum number of items to include in the result array.
- * @returns {Array} Array of substrings.
- * @example
- *
- * // Basic use
- * split('a b c d', ' ');
- * // -> ['a', 'b', 'c', 'd']
- *
- * // With limit
- * split('a b c d', ' ', 2);
- * // -> ['a', 'b']
- *
- * // Backreferences in result array
- * split('..word1 word2..', /([a-z]+)(\d+)/i);
- * // -> ['..', 'word', '1', ' ', 'word', '2', '..']
- */
-module.exports = (function split(undef) {
-
-  var nativeSplit = String.prototype.split,
-    compliantExecNpcg = /()??/.exec("")[1] === undef,
-    // NPCG: nonparticipating capturing group
-    self;
-
-  self = function(str, separator, limit) {
-    // If `separator` is not a regex, use `nativeSplit`
-    if (Object.prototype.toString.call(separator) !== "[object RegExp]") {
-      return nativeSplit.call(str, separator, limit);
-    }
-    var output = [],
-      flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.extended ? "x" : "") + // Proposed for ES6
-      (separator.sticky ? "y" : ""),
-      // Firefox 3+
-      lastLastIndex = 0,
-      // Make `global` and avoid `lastIndex` issues by working with a copy
-      separator = new RegExp(separator.source, flags + "g"),
-      separator2, match, lastIndex, lastLength;
-    str += ""; // Type-convert
-    if (!compliantExecNpcg) {
-      // Doesn't need flags gy, but they don't hurt
-      separator2 = new RegExp("^" + separator.source + "$(?!\\s)", flags);
-    }
-    /* Values for `limit`, per the spec:
-     * If undefined: 4294967295 // Math.pow(2, 32) - 1
-     * If 0, Infinity, or NaN: 0
-     * If positive number: limit = Math.floor(limit); if (limit > 4294967295) limit -= 4294967296;
-     * If negative number: 4294967296 - Math.floor(Math.abs(limit))
-     * If other: Type-convert, then use the above rules
-     */
-    limit = limit === undef ? -1 >>> 0 : // Math.pow(2, 32) - 1
-    limit >>> 0; // ToUint32(limit)
-    while (match = separator.exec(str)) {
-      // `separator.lastIndex` is not reliable cross-browser
-      lastIndex = match.index + match[0].length;
-      if (lastIndex > lastLastIndex) {
-        output.push(str.slice(lastLastIndex, match.index));
-        // Fix browsers whose `exec` methods don't consistently return `undefined` for
-        // nonparticipating capturing groups
-        if (!compliantExecNpcg && match.length > 1) {
-          match[0].replace(separator2, function() {
-            for (var i = 1; i < arguments.length - 2; i++) {
-              if (arguments[i] === undef) {
-                match[i] = undef;
-              }
-            }
-          });
-        }
-        if (match.length > 1 && match.index < str.length) {
-          Array.prototype.push.apply(output, match.slice(1));
-        }
-        lastLength = match[0].length;
-        lastLastIndex = lastIndex;
-        if (output.length >= limit) {
-          break;
-        }
-      }
-      if (separator.lastIndex === match.index) {
-        separator.lastIndex++; // Avoid an infinite loop
-      }
-    }
-    if (lastLastIndex === str.length) {
-      if (lastLength || !separator.test("")) {
-        output.push("");
-      }
-    } else {
-      output.push(str.slice(lastLastIndex));
-    }
-    return output.length > limit ? output.slice(0, limit) : output;
-  };
-
-  return self;
-})();
-
-
-/***/ }),
-/* 633 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var OneVersionConstraint = __webpack_require__(635);
-
-var MY_VERSION = '7';
-OneVersionConstraint('ev-store', MY_VERSION);
-
-var hashKey = '__EV_STORE_KEY@' + MY_VERSION;
-
-module.exports = EvStore;
-
-function EvStore(elem) {
-    var hash = elem[hashKey];
-
-    if (!hash) {
-        hash = elem[hashKey] = {};
-    }
-
-    return hash;
-}
-
-
-/***/ }),
-/* 634 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-
-/*global window, global*/
-
-var root = typeof window !== 'undefined' ?
-    window : typeof global !== 'undefined' ?
-    global : {};
-
-module.exports = Individual;
-
-function Individual(key, value) {
-    if (key in root) {
-        return root[key];
-    }
-
-    root[key] = value;
-
-    return value;
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
-
-/***/ }),
-/* 635 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Individual = __webpack_require__(634);
-
-module.exports = OneVersion;
-
-function OneVersion(moduleName, version, defaultValue) {
-    var key = '__INDIVIDUAL_ONE_VERSION_' + moduleName;
-    var enforceKey = key + '_ENFORCE_SINGLETON';
-
-    var versionValue = Individual(enforceKey, version);
-
-    if (versionValue !== version) {
-        throw new Error('Can only have one copy of ' +
-            moduleName + '.\n' +
-            'You already have version ' + versionValue +
-            ' installed.\n' +
-            'This means you cannot install version ' + version);
-    }
-
-    return Individual(key, defaultValue);
-}
-
-
-/***/ }),
-/* 636 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var createElement = __webpack_require__(629)
-
-module.exports = createElement
-
-
-/***/ }),
-/* 637 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var diff = __webpack_require__(651)
-
-module.exports = diff
-
-
-/***/ }),
-/* 638 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var h = __webpack_require__(646)
-
-module.exports = h
-
-
-/***/ }),
-/* 639 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var patch = __webpack_require__(642)
-
-module.exports = patch
-
-
-/***/ }),
-/* 640 */
-/***/ (function(module, exports) {
-
-// Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
-// We don't want to read all of the DOM nodes in the tree so we use
-// the in-order tree indexing to eliminate recursion down certain branches.
-// We only recurse into a DOM node if we know that it contains a child of
-// interest.
-
-var noChild = {}
-
-module.exports = domIndex
-
-function domIndex(rootNode, tree, indices, nodes) {
-    if (!indices || indices.length === 0) {
-        return {}
-    } else {
-        indices.sort(ascending)
-        return recurse(rootNode, tree, indices, nodes, 0)
-    }
-}
-
-function recurse(rootNode, tree, indices, nodes, rootIndex) {
-    nodes = nodes || {}
-
-
-    if (rootNode) {
-        if (indexInRange(indices, rootIndex, rootIndex)) {
-            nodes[rootIndex] = rootNode
-        }
-
-        var vChildren = tree.children
-
-        if (vChildren) {
-
-            var childNodes = rootNode.childNodes
-
-            for (var i = 0; i < tree.children.length; i++) {
-                rootIndex += 1
-
-                var vChild = vChildren[i] || noChild
-                var nextIndex = rootIndex + (vChild.count || 0)
-
-                // skip recursion down the tree if there are no nodes down here
-                if (indexInRange(indices, rootIndex, nextIndex)) {
-                    recurse(childNodes[i], vChild, indices, nodes, rootIndex)
-                }
-
-                rootIndex = nextIndex
-            }
-        }
-    }
-
-    return nodes
-}
-
-// Binary search for an index in the interval [left, right]
-function indexInRange(indices, left, right) {
-    if (indices.length === 0) {
-        return false
-    }
-
-    var minIndex = 0
-    var maxIndex = indices.length - 1
-    var currentIndex
-    var currentItem
-
-    while (minIndex <= maxIndex) {
-        currentIndex = ((maxIndex + minIndex) / 2) >> 0
-        currentItem = indices[currentIndex]
-
-        if (minIndex === maxIndex) {
-            return currentItem >= left && currentItem <= right
-        } else if (currentItem < left) {
-            minIndex = currentIndex + 1
-        } else  if (currentItem > right) {
-            maxIndex = currentIndex - 1
-        } else {
-            return true
-        }
-    }
-
-    return false;
-}
-
-function ascending(a, b) {
-    return a > b ? 1 : -1
-}
-
-
-/***/ }),
-/* 641 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var applyProperties = __webpack_require__(628)
-
-var isWidget = __webpack_require__(619)
-var VPatch = __webpack_require__(631)
-
-var updateWidget = __webpack_require__(643)
-
-module.exports = applyPatch
-
-function applyPatch(vpatch, domNode, renderOptions) {
-    var type = vpatch.type
-    var vNode = vpatch.vNode
-    var patch = vpatch.patch
-
-    switch (type) {
-        case VPatch.REMOVE:
-            return removeNode(domNode, vNode)
-        case VPatch.INSERT:
-            return insertNode(domNode, patch, renderOptions)
-        case VPatch.VTEXT:
-            return stringPatch(domNode, vNode, patch, renderOptions)
-        case VPatch.WIDGET:
-            return widgetPatch(domNode, vNode, patch, renderOptions)
-        case VPatch.VNODE:
-            return vNodePatch(domNode, vNode, patch, renderOptions)
-        case VPatch.ORDER:
-            reorderChildren(domNode, patch)
-            return domNode
-        case VPatch.PROPS:
-            applyProperties(domNode, patch, vNode.properties)
-            return domNode
-        case VPatch.THUNK:
-            return replaceRoot(domNode,
-                renderOptions.patch(domNode, patch, renderOptions))
-        default:
-            return domNode
-    }
-}
-
-function removeNode(domNode, vNode) {
-    var parentNode = domNode.parentNode
-
-    if (parentNode) {
-        parentNode.removeChild(domNode)
-    }
-
-    destroyWidget(domNode, vNode);
-
-    return null
-}
-
-function insertNode(parentNode, vNode, renderOptions) {
-    var newNode = renderOptions.render(vNode, renderOptions)
-
-    if (parentNode) {
-        parentNode.appendChild(newNode)
-    }
-
-    return parentNode
-}
-
-function stringPatch(domNode, leftVNode, vText, renderOptions) {
-    var newNode
-
-    if (domNode.nodeType === 3) {
-        domNode.replaceData(0, domNode.length, vText.text)
-        newNode = domNode
-    } else {
-        var parentNode = domNode.parentNode
-        newNode = renderOptions.render(vText, renderOptions)
-
-        if (parentNode && newNode !== domNode) {
-            parentNode.replaceChild(newNode, domNode)
-        }
-    }
-
-    return newNode
-}
-
-function widgetPatch(domNode, leftVNode, widget, renderOptions) {
-    var updating = updateWidget(leftVNode, widget)
-    var newNode
-
-    if (updating) {
-        newNode = widget.update(leftVNode, domNode) || domNode
-    } else {
-        newNode = renderOptions.render(widget, renderOptions)
-    }
-
-    var parentNode = domNode.parentNode
-
-    if (parentNode && newNode !== domNode) {
-        parentNode.replaceChild(newNode, domNode)
-    }
-
-    if (!updating) {
-        destroyWidget(domNode, leftVNode)
-    }
-
-    return newNode
-}
-
-function vNodePatch(domNode, leftVNode, vNode, renderOptions) {
-    var parentNode = domNode.parentNode
-    var newNode = renderOptions.render(vNode, renderOptions)
-
-    if (parentNode && newNode !== domNode) {
-        parentNode.replaceChild(newNode, domNode)
-    }
-
-    return newNode
-}
-
-function destroyWidget(domNode, w) {
-    if (typeof w.destroy === "function" && isWidget(w)) {
-        w.destroy(domNode)
-    }
-}
-
-function reorderChildren(domNode, moves) {
-    var childNodes = domNode.childNodes
-    var keyMap = {}
-    var node
-    var remove
-    var insert
-
-    for (var i = 0; i < moves.removes.length; i++) {
-        remove = moves.removes[i]
-        node = childNodes[remove.from]
-        if (remove.key) {
-            keyMap[remove.key] = node
-        }
-        domNode.removeChild(node)
-    }
-
-    var length = childNodes.length
-    for (var j = 0; j < moves.inserts.length; j++) {
-        insert = moves.inserts[j]
-        node = keyMap[insert.key]
-        // this is the weirdest bug i've ever seen in webkit
-        domNode.insertBefore(node, insert.to >= length++ ? null : childNodes[insert.to])
-    }
-}
-
-function replaceRoot(oldRoot, newRoot) {
-    if (oldRoot && newRoot && oldRoot !== newRoot && oldRoot.parentNode) {
-        oldRoot.parentNode.replaceChild(newRoot, oldRoot)
-    }
-
-    return newRoot;
-}
-
-
-/***/ }),
-/* 642 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var document = __webpack_require__(626)
-var isArray = __webpack_require__(625)
-
-var render = __webpack_require__(629)
-var domIndex = __webpack_require__(640)
-var patchOp = __webpack_require__(641)
-module.exports = patch
-
-function patch(rootNode, patches, renderOptions) {
-    renderOptions = renderOptions || {}
-    renderOptions.patch = renderOptions.patch && renderOptions.patch !== patch
-        ? renderOptions.patch
-        : patchRecursive
-    renderOptions.render = renderOptions.render || render
-
-    return renderOptions.patch(rootNode, patches, renderOptions)
-}
-
-function patchRecursive(rootNode, patches, renderOptions) {
-    var indices = patchIndices(patches)
-
-    if (indices.length === 0) {
-        return rootNode
-    }
-
-    var index = domIndex(rootNode, patches.a, indices)
-    var ownerDocument = rootNode.ownerDocument
-
-    if (!renderOptions.document && ownerDocument !== document) {
-        renderOptions.document = ownerDocument
-    }
-
-    for (var i = 0; i < indices.length; i++) {
-        var nodeIndex = indices[i]
-        rootNode = applyPatch(rootNode,
-            index[nodeIndex],
-            patches[nodeIndex],
-            renderOptions)
-    }
-
-    return rootNode
-}
-
-function applyPatch(rootNode, domNode, patchList, renderOptions) {
-    if (!domNode) {
-        return rootNode
-    }
-
-    var newNode
-
-    if (isArray(patchList)) {
-        for (var i = 0; i < patchList.length; i++) {
-            newNode = patchOp(patchList[i], domNode, renderOptions)
-
-            if (domNode === rootNode) {
-                rootNode = newNode
-            }
-        }
-    } else {
-        newNode = patchOp(patchList, domNode, renderOptions)
-
-        if (domNode === rootNode) {
-            rootNode = newNode
-        }
-    }
-
-    return rootNode
-}
-
-function patchIndices(patches) {
-    var indices = []
-
-    for (var key in patches) {
-        if (key !== "a") {
-            indices.push(Number(key))
-        }
-    }
-
-    return indices
-}
-
-
-/***/ }),
-/* 643 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isWidget = __webpack_require__(619)
-
-module.exports = updateWidget
-
-function updateWidget(a, b) {
-    if (isWidget(a) && isWidget(b)) {
-        if ("name" in a && "name" in b) {
-            return a.id === b.id
-        } else {
-            return a.init === b.init
-        }
-    }
-
-    return false
-}
-
-
-/***/ }),
-/* 644 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var EvStore = __webpack_require__(633);
-
-module.exports = EvHook;
-
-function EvHook(value) {
-    if (!(this instanceof EvHook)) {
-        return new EvHook(value);
-    }
-
-    this.value = value;
-}
-
-EvHook.prototype.hook = function (node, propertyName) {
-    var es = EvStore(node);
-    var propName = propertyName.substr(3);
-
-    es[propName] = this.value;
-};
-
-EvHook.prototype.unhook = function(node, propertyName) {
-    var es = EvStore(node);
-    var propName = propertyName.substr(3);
-
-    es[propName] = undefined;
-};
-
-
-/***/ }),
-/* 645 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = SoftSetHook;
-
-function SoftSetHook(value) {
-    if (!(this instanceof SoftSetHook)) {
-        return new SoftSetHook(value);
-    }
-
-    this.value = value;
-}
-
-SoftSetHook.prototype.hook = function (node, propertyName) {
-    if (node[propertyName] !== this.value) {
-        node[propertyName] = this.value;
-    }
-};
-
-
-/***/ }),
-/* 646 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var isArray = __webpack_require__(625);
-
-var VNode = __webpack_require__(648);
-var VText = __webpack_require__(649);
-var isVNode = __webpack_require__(620);
-var isVText = __webpack_require__(624);
-var isWidget = __webpack_require__(619);
-var isHook = __webpack_require__(623);
-var isVThunk = __webpack_require__(622);
-
-var parseTag = __webpack_require__(647);
-var softSetHook = __webpack_require__(645);
-var evHook = __webpack_require__(644);
-
-module.exports = h;
-
-function h(tagName, properties, children) {
-    var childNodes = [];
-    var tag, props, key, namespace;
-
-    if (!children && isChildren(properties)) {
-        children = properties;
-        props = {};
-    }
-
-    props = props || properties || {};
-    tag = parseTag(tagName, props);
-
-    // support keys
-    if (props.hasOwnProperty('key')) {
-        key = props.key;
-        props.key = undefined;
-    }
-
-    // support namespace
-    if (props.hasOwnProperty('namespace')) {
-        namespace = props.namespace;
-        props.namespace = undefined;
-    }
-
-    // fix cursor bug
-    if (tag === 'INPUT' &&
-        !namespace &&
-        props.hasOwnProperty('value') &&
-        props.value !== undefined &&
-        !isHook(props.value)
-    ) {
-        props.value = softSetHook(props.value);
-    }
-
-    transformProperties(props);
-
-    if (children !== undefined && children !== null) {
-        addChild(children, childNodes, tag, props);
-    }
-
-
-    return new VNode(tag, props, childNodes, key, namespace);
-}
-
-function addChild(c, childNodes, tag, props) {
-    if (typeof c === 'string') {
-        childNodes.push(new VText(c));
-    } else if (typeof c === 'number') {
-        childNodes.push(new VText(String(c)));
-    } else if (isChild(c)) {
-        childNodes.push(c);
-    } else if (isArray(c)) {
-        for (var i = 0; i < c.length; i++) {
-            addChild(c[i], childNodes, tag, props);
-        }
-    } else if (c === null || c === undefined) {
-        return;
-    } else {
-        throw UnexpectedVirtualElement({
-            foreignObject: c,
-            parentVnode: {
-                tagName: tag,
-                properties: props
-            }
-        });
-    }
-}
-
-function transformProperties(props) {
-    for (var propName in props) {
-        if (props.hasOwnProperty(propName)) {
-            var value = props[propName];
-
-            if (isHook(value)) {
-                continue;
-            }
-
-            if (propName.substr(0, 3) === 'ev-') {
-                // add ev-foo support
-                props[propName] = evHook(value);
-            }
-        }
-    }
-}
-
-function isChild(x) {
-    return isVNode(x) || isVText(x) || isWidget(x) || isVThunk(x);
-}
-
-function isChildren(x) {
-    return typeof x === 'string' || isArray(x) || isChild(x);
-}
-
-function UnexpectedVirtualElement(data) {
-    var err = new Error();
-
-    err.type = 'virtual-hyperscript.unexpected.virtual-element';
-    err.message = 'Unexpected virtual child passed to h().\n' +
-        'Expected a VNode / Vthunk / VWidget / string but:\n' +
-        'got:\n' +
-        errorString(data.foreignObject) +
-        '.\n' +
-        'The parent vnode is:\n' +
-        errorString(data.parentVnode)
-        '\n' +
-        'Suggested fix: change your `h(..., [ ... ])` callsite.';
-    err.foreignObject = data.foreignObject;
-    err.parentVnode = data.parentVnode;
-
-    return err;
-}
-
-function errorString(obj) {
-    try {
-        return JSON.stringify(obj, null, '    ');
-    } catch (e) {
-        return String(obj);
-    }
-}
-
-
-/***/ }),
-/* 647 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var split = __webpack_require__(632);
-
-var classIdSplit = /([\.#]?[a-zA-Z0-9\u007F-\uFFFF_:-]+)/;
-var notClassId = /^\.|#/;
-
-module.exports = parseTag;
-
-function parseTag(tag, props) {
-    if (!tag) {
-        return 'DIV';
-    }
-
-    var noId = !(props.hasOwnProperty('id'));
-
-    var tagParts = split(tag, classIdSplit);
-    var tagName = null;
-
-    if (notClassId.test(tagParts[1])) {
-        tagName = 'DIV';
-    }
-
-    var classes, part, type, i;
-
-    for (i = 0; i < tagParts.length; i++) {
-        part = tagParts[i];
-
-        if (!part) {
-            continue;
-        }
-
-        type = part.charAt(0);
-
-        if (!tagName) {
-            tagName = part;
-        } else if (type === '.') {
-            classes = classes || [];
-            classes.push(part.substring(1, part.length));
-        } else if (type === '#' && noId) {
-            props.id = part.substring(1, part.length);
-        }
-    }
-
-    if (classes) {
-        if (props.className) {
-            classes.push(props.className);
-        }
-
-        props.className = classes.join(' ');
-    }
-
-    return props.namespace ? tagName : tagName.toUpperCase();
-}
-
-
-/***/ }),
-/* 648 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var version = __webpack_require__(621)
-var isVNode = __webpack_require__(620)
-var isWidget = __webpack_require__(619)
-var isThunk = __webpack_require__(622)
-var isVHook = __webpack_require__(623)
-
-module.exports = VirtualNode
-
-var noProperties = {}
-var noChildren = []
-
-function VirtualNode(tagName, properties, children, key, namespace) {
-    this.tagName = tagName
-    this.properties = properties || noProperties
-    this.children = children || noChildren
-    this.key = key != null ? String(key) : undefined
-    this.namespace = (typeof namespace === "string") ? namespace : null
-
-    var count = (children && children.length) || 0
-    var descendants = 0
-    var hasWidgets = false
-    var hasThunks = false
-    var descendantHooks = false
-    var hooks
-
-    for (var propName in properties) {
-        if (properties.hasOwnProperty(propName)) {
-            var property = properties[propName]
-            if (isVHook(property) && property.unhook) {
-                if (!hooks) {
-                    hooks = {}
-                }
-
-                hooks[propName] = property
-            }
-        }
-    }
-
-    for (var i = 0; i < count; i++) {
-        var child = children[i]
-        if (isVNode(child)) {
-            descendants += child.count || 0
-
-            if (!hasWidgets && child.hasWidgets) {
-                hasWidgets = true
-            }
-
-            if (!hasThunks && child.hasThunks) {
-                hasThunks = true
-            }
-
-            if (!descendantHooks && (child.hooks || child.descendantHooks)) {
-                descendantHooks = true
-            }
-        } else if (!hasWidgets && isWidget(child)) {
-            if (typeof child.destroy === "function") {
-                hasWidgets = true
-            }
-        } else if (!hasThunks && isThunk(child)) {
-            hasThunks = true;
-        }
-    }
-
-    this.count = count + descendants
-    this.hasWidgets = hasWidgets
-    this.hasThunks = hasThunks
-    this.hooks = hooks
-    this.descendantHooks = descendantHooks
-}
-
-VirtualNode.prototype.version = version
-VirtualNode.prototype.type = "VirtualNode"
-
-
-/***/ }),
-/* 649 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var version = __webpack_require__(621)
-
-module.exports = VirtualText
-
-function VirtualText(text) {
-    this.text = String(text)
-}
-
-VirtualText.prototype.version = version
-VirtualText.prototype.type = "VirtualText"
-
-
-/***/ }),
-/* 650 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(627)
-var isHook = __webpack_require__(623)
-
-module.exports = diffProps
-
-function diffProps(a, b) {
-    var diff
-
-    for (var aKey in a) {
-        if (!(aKey in b)) {
-            diff = diff || {}
-            diff[aKey] = undefined
-        }
-
-        var aValue = a[aKey]
-        var bValue = b[aKey]
-
-        if (aValue === bValue) {
-            continue
-        } else if (isObject(aValue) && isObject(bValue)) {
-            if (getPrototype(bValue) !== getPrototype(aValue)) {
-                diff = diff || {}
-                diff[aKey] = bValue
-            } else if (isHook(bValue)) {
-                 diff = diff || {}
-                 diff[aKey] = bValue
-            } else {
-                var objectDiff = diffProps(aValue, bValue)
-                if (objectDiff) {
-                    diff = diff || {}
-                    diff[aKey] = objectDiff
-                }
-            }
-        } else {
-            diff = diff || {}
-            diff[aKey] = bValue
-        }
-    }
-
-    for (var bKey in b) {
-        if (!(bKey in a)) {
-            diff = diff || {}
-            diff[bKey] = b[bKey]
-        }
-    }
-
-    return diff
-}
-
-function getPrototype(value) {
-  if (Object.getPrototypeOf) {
-    return Object.getPrototypeOf(value)
-  } else if (value.__proto__) {
-    return value.__proto__
-  } else if (value.constructor) {
-    return value.constructor.prototype
-  }
-}
-
-
-/***/ }),
-/* 651 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isArray = __webpack_require__(625)
-
-var VPatch = __webpack_require__(631)
-var isVNode = __webpack_require__(620)
-var isVText = __webpack_require__(624)
-var isWidget = __webpack_require__(619)
-var isThunk = __webpack_require__(622)
-var handleThunk = __webpack_require__(630)
-
-var diffProps = __webpack_require__(650)
-
-module.exports = diff
-
-function diff(a, b) {
-    var patch = { a: a }
-    walk(a, b, patch, 0)
-    return patch
-}
-
-function walk(a, b, patch, index) {
-    if (a === b) {
-        return
-    }
-
-    var apply = patch[index]
-    var applyClear = false
-
-    if (isThunk(a) || isThunk(b)) {
-        thunks(a, b, patch, index)
-    } else if (b == null) {
-
-        // If a is a widget we will add a remove patch for it
-        // Otherwise any child widgets/hooks must be destroyed.
-        // This prevents adding two remove patches for a widget.
-        if (!isWidget(a)) {
-            clearState(a, patch, index)
-            apply = patch[index]
-        }
-
-        apply = appendPatch(apply, new VPatch(VPatch.REMOVE, a, b))
-    } else if (isVNode(b)) {
-        if (isVNode(a)) {
-            if (a.tagName === b.tagName &&
-                a.namespace === b.namespace &&
-                a.key === b.key) {
-                var propsPatch = diffProps(a.properties, b.properties)
-                if (propsPatch) {
-                    apply = appendPatch(apply,
-                        new VPatch(VPatch.PROPS, a, propsPatch))
-                }
-                apply = diffChildren(a, b, patch, apply, index)
-            } else {
-                apply = appendPatch(apply, new VPatch(VPatch.VNODE, a, b))
-                applyClear = true
-            }
-        } else {
-            apply = appendPatch(apply, new VPatch(VPatch.VNODE, a, b))
-            applyClear = true
-        }
-    } else if (isVText(b)) {
-        if (!isVText(a)) {
-            apply = appendPatch(apply, new VPatch(VPatch.VTEXT, a, b))
-            applyClear = true
-        } else if (a.text !== b.text) {
-            apply = appendPatch(apply, new VPatch(VPatch.VTEXT, a, b))
-        }
-    } else if (isWidget(b)) {
-        if (!isWidget(a)) {
-            applyClear = true
-        }
-
-        apply = appendPatch(apply, new VPatch(VPatch.WIDGET, a, b))
-    }
-
-    if (apply) {
-        patch[index] = apply
-    }
-
-    if (applyClear) {
-        clearState(a, patch, index)
-    }
-}
-
-function diffChildren(a, b, patch, apply, index) {
-    var aChildren = a.children
-    var orderedSet = reorder(aChildren, b.children)
-    var bChildren = orderedSet.children
-
-    var aLen = aChildren.length
-    var bLen = bChildren.length
-    var len = aLen > bLen ? aLen : bLen
-
-    for (var i = 0; i < len; i++) {
-        var leftNode = aChildren[i]
-        var rightNode = bChildren[i]
-        index += 1
-
-        if (!leftNode) {
-            if (rightNode) {
-                // Excess nodes in b need to be added
-                apply = appendPatch(apply,
-                    new VPatch(VPatch.INSERT, null, rightNode))
-            }
-        } else {
-            walk(leftNode, rightNode, patch, index)
-        }
-
-        if (isVNode(leftNode) && leftNode.count) {
-            index += leftNode.count
-        }
-    }
-
-    if (orderedSet.moves) {
-        // Reorder nodes last
-        apply = appendPatch(apply, new VPatch(
-            VPatch.ORDER,
-            a,
-            orderedSet.moves
-        ))
-    }
-
-    return apply
-}
-
-function clearState(vNode, patch, index) {
-    // TODO: Make this a single walk, not two
-    unhook(vNode, patch, index)
-    destroyWidgets(vNode, patch, index)
-}
-
-// Patch records for all destroyed widgets must be added because we need
-// a DOM node reference for the destroy function
-function destroyWidgets(vNode, patch, index) {
-    if (isWidget(vNode)) {
-        if (typeof vNode.destroy === "function") {
-            patch[index] = appendPatch(
-                patch[index],
-                new VPatch(VPatch.REMOVE, vNode, null)
-            )
-        }
-    } else if (isVNode(vNode) && (vNode.hasWidgets || vNode.hasThunks)) {
-        var children = vNode.children
-        var len = children.length
-        for (var i = 0; i < len; i++) {
-            var child = children[i]
-            index += 1
-
-            destroyWidgets(child, patch, index)
-
-            if (isVNode(child) && child.count) {
-                index += child.count
-            }
-        }
-    } else if (isThunk(vNode)) {
-        thunks(vNode, null, patch, index)
-    }
-}
-
-// Create a sub-patch for thunks
-function thunks(a, b, patch, index) {
-    var nodes = handleThunk(a, b)
-    var thunkPatch = diff(nodes.a, nodes.b)
-    if (hasPatches(thunkPatch)) {
-        patch[index] = new VPatch(VPatch.THUNK, null, thunkPatch)
-    }
-}
-
-function hasPatches(patch) {
-    for (var index in patch) {
-        if (index !== "a") {
-            return true
-        }
-    }
-
-    return false
-}
-
-// Execute hooks when two nodes are identical
-function unhook(vNode, patch, index) {
-    if (isVNode(vNode)) {
-        if (vNode.hooks) {
-            patch[index] = appendPatch(
-                patch[index],
-                new VPatch(
-                    VPatch.PROPS,
-                    vNode,
-                    undefinedKeys(vNode.hooks)
-                )
-            )
-        }
-
-        if (vNode.descendantHooks || vNode.hasThunks) {
-            var children = vNode.children
-            var len = children.length
-            for (var i = 0; i < len; i++) {
-                var child = children[i]
-                index += 1
-
-                unhook(child, patch, index)
-
-                if (isVNode(child) && child.count) {
-                    index += child.count
-                }
-            }
-        }
-    } else if (isThunk(vNode)) {
-        thunks(vNode, null, patch, index)
-    }
-}
-
-function undefinedKeys(obj) {
-    var result = {}
-
-    for (var key in obj) {
-        result[key] = undefined
-    }
-
-    return result
-}
-
-// List diff, naive left to right reordering
-function reorder(aChildren, bChildren) {
-    // O(M) time, O(M) memory
-    var bChildIndex = keyIndex(bChildren)
-    var bKeys = bChildIndex.keys
-    var bFree = bChildIndex.free
-
-    if (bFree.length === bChildren.length) {
-        return {
-            children: bChildren,
-            moves: null
-        }
-    }
-
-    // O(N) time, O(N) memory
-    var aChildIndex = keyIndex(aChildren)
-    var aKeys = aChildIndex.keys
-    var aFree = aChildIndex.free
-
-    if (aFree.length === aChildren.length) {
-        return {
-            children: bChildren,
-            moves: null
-        }
-    }
-
-    // O(MAX(N, M)) memory
-    var newChildren = []
-
-    var freeIndex = 0
-    var freeCount = bFree.length
-    var deletedItems = 0
-
-    // Iterate through a and match a node in b
-    // O(N) time,
-    for (var i = 0 ; i < aChildren.length; i++) {
-        var aItem = aChildren[i]
-        var itemIndex
-
-        if (aItem.key) {
-            if (bKeys.hasOwnProperty(aItem.key)) {
-                // Match up the old keys
-                itemIndex = bKeys[aItem.key]
-                newChildren.push(bChildren[itemIndex])
-
-            } else {
-                // Remove old keyed items
-                itemIndex = i - deletedItems++
-                newChildren.push(null)
-            }
-        } else {
-            // Match the item in a with the next free item in b
-            if (freeIndex < freeCount) {
-                itemIndex = bFree[freeIndex++]
-                newChildren.push(bChildren[itemIndex])
-            } else {
-                // There are no free items in b to match with
-                // the free items in a, so the extra free nodes
-                // are deleted.
-                itemIndex = i - deletedItems++
-                newChildren.push(null)
-            }
-        }
-    }
-
-    var lastFreeIndex = freeIndex >= bFree.length ?
-        bChildren.length :
-        bFree[freeIndex]
-
-    // Iterate through b and append any new keys
-    // O(M) time
-    for (var j = 0; j < bChildren.length; j++) {
-        var newItem = bChildren[j]
-
-        if (newItem.key) {
-            if (!aKeys.hasOwnProperty(newItem.key)) {
-                // Add any new keyed items
-                // We are adding new items to the end and then sorting them
-                // in place. In future we should insert new items in place.
-                newChildren.push(newItem)
-            }
-        } else if (j >= lastFreeIndex) {
-            // Add any leftover non-keyed items
-            newChildren.push(newItem)
-        }
-    }
-
-    var simulate = newChildren.slice()
-    var simulateIndex = 0
-    var removes = []
-    var inserts = []
-    var simulateItem
-
-    for (var k = 0; k < bChildren.length;) {
-        var wantedItem = bChildren[k]
-        simulateItem = simulate[simulateIndex]
-
-        // remove items
-        while (simulateItem === null && simulate.length) {
-            removes.push(remove(simulate, simulateIndex, null))
-            simulateItem = simulate[simulateIndex]
-        }
-
-        if (!simulateItem || simulateItem.key !== wantedItem.key) {
-            // if we need a key in this position...
-            if (wantedItem.key) {
-                if (simulateItem && simulateItem.key) {
-                    // if an insert doesn't put this key in place, it needs to move
-                    if (bKeys[simulateItem.key] !== k + 1) {
-                        removes.push(remove(simulate, simulateIndex, simulateItem.key))
-                        simulateItem = simulate[simulateIndex]
-                        // if the remove didn't put the wanted item in place, we need to insert it
-                        if (!simulateItem || simulateItem.key !== wantedItem.key) {
-                            inserts.push({key: wantedItem.key, to: k})
-                        }
-                        // items are matching, so skip ahead
-                        else {
-                            simulateIndex++
-                        }
-                    }
-                    else {
-                        inserts.push({key: wantedItem.key, to: k})
-                    }
-                }
-                else {
-                    inserts.push({key: wantedItem.key, to: k})
-                }
-                k++
-            }
-            // a key in simulate has no matching wanted key, remove it
-            else if (simulateItem && simulateItem.key) {
-                removes.push(remove(simulate, simulateIndex, simulateItem.key))
-            }
-        }
-        else {
-            simulateIndex++
-            k++
-        }
-    }
-
-    // remove all the remaining nodes from simulate
-    while(simulateIndex < simulate.length) {
-        simulateItem = simulate[simulateIndex]
-        removes.push(remove(simulate, simulateIndex, simulateItem && simulateItem.key))
-    }
-
-    // If the only moves we have are deletes then we can just
-    // let the delete patch remove these items.
-    if (removes.length === deletedItems && !inserts.length) {
-        return {
-            children: newChildren,
-            moves: null
-        }
-    }
-
-    return {
-        children: newChildren,
-        moves: {
-            removes: removes,
-            inserts: inserts
-        }
-    }
-}
-
-function remove(arr, index, key) {
-    arr.splice(index, 1)
-
-    return {
-        from: index,
-        key: key
-    }
-}
-
-function keyIndex(children) {
-    var keys = {}
-    var free = []
-    var length = children.length
-
-    for (var i = 0; i < length; i++) {
-        var child = children[i]
-
-        if (child.key) {
-            keys[child.key] = i
-        } else {
-            free.push(i)
-        }
-    }
-
-    return {
-        keys: keys,     // A hash of key name to index
-        free: free      // An array of unkeyed item indices
-    }
-}
-
-function appendPatch(apply, patch) {
-    if (apply) {
-        if (isArray(apply)) {
-            apply.push(patch)
-        } else {
-            apply = [apply, patch]
-        }
-
-        return apply
-    } else {
-        return patch
-    }
-}
-
-
-/***/ }),
-/* 652 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 653 */
-/***/ (function(module, exports) {
-
-module.exports = attributeToProperty
-
-var transform = {
-  'class': 'className',
-  'for': 'htmlFor',
-  'http-equiv': 'httpEquiv'
-}
-
-function attributeToProperty (h) {
-  return function (tagName, attrs, children) {
-    for (var attr in attrs) {
-      if (attr in transform) {
-        attrs[transform[attr]] = attrs[attr]
-        delete attrs[attr]
-      }
-    }
-    return h(tagName, attrs, children)
-  }
-}
-
-
-/***/ }),
-/* 654 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var attrToProp = __webpack_require__(653)
-
-var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
-var ATTR_KEY = 5, ATTR_KEY_W = 6
-var ATTR_VALUE_W = 7, ATTR_VALUE = 8
-var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
-var ATTR_EQ = 11, ATTR_BREAK = 12
-var COMMENT = 13
-
-module.exports = function (h, opts) {
-  if (!opts) opts = {}
-  var concat = opts.concat || function (a, b) {
-    return String(a) + String(b)
-  }
-  if (opts.attrToProp !== false) {
-    h = attrToProp(h)
-  }
-
-  return function (strings) {
-    var state = TEXT, reg = ''
-    var arglen = arguments.length
-    var parts = []
-
-    for (var i = 0; i < strings.length; i++) {
-      if (i < arglen - 1) {
-        var arg = arguments[i+1]
-        var p = parse(strings[i])
-        var xstate = state
-        if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
-        if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
-        if (xstate === ATTR_VALUE_W) xstate = ATTR_VALUE
-        if (xstate === ATTR) xstate = ATTR_KEY
-        p.push([ VAR, xstate, arg ])
-        parts.push.apply(parts, p)
-      } else parts.push.apply(parts, parse(strings[i]))
-    }
-
-    var tree = [null,{},[]]
-    var stack = [[tree,-1]]
-    for (var i = 0; i < parts.length; i++) {
-      var cur = stack[stack.length-1][0]
-      var p = parts[i], s = p[0]
-      if (s === OPEN && /^\//.test(p[1])) {
-        var ix = stack[stack.length-1][1]
-        if (stack.length > 1) {
-          stack.pop()
-          stack[stack.length-1][0][2][ix] = h(
-            cur[0], cur[1], cur[2].length ? cur[2] : undefined
-          )
-        }
-      } else if (s === OPEN) {
-        var c = [p[1],{},[]]
-        cur[2].push(c)
-        stack.push([c,cur[2].length-1])
-      } else if (s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY)) {
-        var key = ''
-        var copyKey
-        for (; i < parts.length; i++) {
-          if (parts[i][0] === ATTR_KEY) {
-            key = concat(key, parts[i][1])
-          } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
-            if (typeof parts[i][2] === 'object' && !key) {
-              for (copyKey in parts[i][2]) {
-                if (parts[i][2].hasOwnProperty(copyKey) && !cur[1][copyKey]) {
-                  cur[1][copyKey] = parts[i][2][copyKey]
-                }
-              }
-            } else {
-              key = concat(key, parts[i][2])
-            }
-          } else break
-        }
-        if (parts[i][0] === ATTR_EQ) i++
-        var j = i
-        for (; i < parts.length; i++) {
-          if (parts[i][0] === ATTR_VALUE || parts[i][0] === ATTR_KEY) {
-            if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
-            else cur[1][key] = concat(cur[1][key], parts[i][1])
-          } else if (parts[i][0] === VAR
-          && (parts[i][1] === ATTR_VALUE || parts[i][1] === ATTR_KEY)) {
-            if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
-            else cur[1][key] = concat(cur[1][key], parts[i][2])
-          } else {
-            if (key.length && !cur[1][key] && i === j
-            && (parts[i][0] === CLOSE || parts[i][0] === ATTR_BREAK)) {
-              // https://html.spec.whatwg.org/multipage/infrastructure.html#boolean-attributes
-              // empty string is falsy, not well behaved value in browser
-              cur[1][key] = key.toLowerCase()
-            }
-            if (parts[i][0] === CLOSE) {
-              i--
-            }
-            break
-          }
-        }
-      } else if (s === ATTR_KEY) {
-        cur[1][p[1]] = true
-      } else if (s === VAR && p[1] === ATTR_KEY) {
-        cur[1][p[2]] = true
-      } else if (s === CLOSE) {
-        if (selfClosing(cur[0]) && stack.length) {
-          var ix = stack[stack.length-1][1]
-          stack.pop()
-          stack[stack.length-1][0][2][ix] = h(
-            cur[0], cur[1], cur[2].length ? cur[2] : undefined
-          )
-        }
-      } else if (s === VAR && p[1] === TEXT) {
-        if (p[2] === undefined || p[2] === null) p[2] = ''
-        else if (!p[2]) p[2] = concat('', p[2])
-        if (Array.isArray(p[2][0])) {
-          cur[2].push.apply(cur[2], p[2])
-        } else {
-          cur[2].push(p[2])
-        }
-      } else if (s === TEXT) {
-        cur[2].push(p[1])
-      } else if (s === ATTR_EQ || s === ATTR_BREAK) {
-        // no-op
-      } else {
-        throw new Error('unhandled: ' + s)
-      }
-    }
-
-    if (tree[2].length > 1 && /^\s*$/.test(tree[2][0])) {
-      tree[2].shift()
-    }
-
-    if (tree[2].length > 2
-    || (tree[2].length === 2 && /\S/.test(tree[2][1]))) {
-      throw new Error(
-        'multiple root elements must be wrapped in an enclosing tag'
-      )
-    }
-    if (Array.isArray(tree[2][0]) && typeof tree[2][0][0] === 'string'
-    && Array.isArray(tree[2][0][2])) {
-      tree[2][0] = h(tree[2][0][0], tree[2][0][1], tree[2][0][2])
-    }
-    return tree[2][0]
-
-    function parse (str) {
-      var res = []
-      if (state === ATTR_VALUE_W) state = ATTR
-      for (var i = 0; i < str.length; i++) {
-        var c = str.charAt(i)
-        if (state === TEXT && c === '<') {
-          if (reg.length) res.push([TEXT, reg])
-          reg = ''
-          state = OPEN
-        } else if (c === '>' && !quot(state) && state !== COMMENT) {
-          if (state === OPEN) {
-            res.push([OPEN,reg])
-          } else if (state === ATTR_KEY) {
-            res.push([ATTR_KEY,reg])
-          } else if (state === ATTR_VALUE && reg.length) {
-            res.push([ATTR_VALUE,reg])
-          }
-          res.push([CLOSE])
-          reg = ''
-          state = TEXT
-        } else if (state === COMMENT && /-$/.test(reg) && c === '-') {
-          if (opts.comments) {
-            res.push([ATTR_VALUE,reg.substr(0, reg.length - 1)],[CLOSE])
-          }
-          reg = ''
-          state = TEXT
-        } else if (state === OPEN && /^!--$/.test(reg)) {
-          if (opts.comments) {
-            res.push([OPEN, reg],[ATTR_KEY,'comment'],[ATTR_EQ])
-          }
-          reg = c
-          state = COMMENT
-        } else if (state === TEXT || state === COMMENT) {
-          reg += c
-        } else if (state === OPEN && /\s/.test(c)) {
-          res.push([OPEN, reg])
-          reg = ''
-          state = ATTR
-        } else if (state === OPEN) {
-          reg += c
-        } else if (state === ATTR && /[^\s"'=/]/.test(c)) {
-          state = ATTR_KEY
-          reg = c
-        } else if (state === ATTR && /\s/.test(c)) {
-          if (reg.length) res.push([ATTR_KEY,reg])
-          res.push([ATTR_BREAK])
-        } else if (state === ATTR_KEY && /\s/.test(c)) {
-          res.push([ATTR_KEY,reg])
-          reg = ''
-          state = ATTR_KEY_W
-        } else if (state === ATTR_KEY && c === '=') {
-          res.push([ATTR_KEY,reg],[ATTR_EQ])
-          reg = ''
-          state = ATTR_VALUE_W
-        } else if (state === ATTR_KEY) {
-          reg += c
-        } else if ((state === ATTR_KEY_W || state === ATTR) && c === '=') {
-          res.push([ATTR_EQ])
-          state = ATTR_VALUE_W
-        } else if ((state === ATTR_KEY_W || state === ATTR) && !/\s/.test(c)) {
-          res.push([ATTR_BREAK])
-          if (/[\w-]/.test(c)) {
-            reg += c
-            state = ATTR_KEY
-          } else state = ATTR
-        } else if (state === ATTR_VALUE_W && c === '"') {
-          state = ATTR_VALUE_DQ
-        } else if (state === ATTR_VALUE_W && c === "'") {
-          state = ATTR_VALUE_SQ
-        } else if (state === ATTR_VALUE_DQ && c === '"') {
-          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
-          reg = ''
-          state = ATTR
-        } else if (state === ATTR_VALUE_SQ && c === "'") {
-          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
-          reg = ''
-          state = ATTR
-        } else if (state === ATTR_VALUE_W && !/\s/.test(c)) {
-          state = ATTR_VALUE
-          i--
-        } else if (state === ATTR_VALUE && /\s/.test(c)) {
-          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
-          reg = ''
-          state = ATTR
-        } else if (state === ATTR_VALUE || state === ATTR_VALUE_SQ
-        || state === ATTR_VALUE_DQ) {
-          reg += c
-        }
-      }
-      if (state === TEXT && reg.length) {
-        res.push([TEXT,reg])
-        reg = ''
-      } else if (state === ATTR_VALUE && reg.length) {
-        res.push([ATTR_VALUE,reg])
-        reg = ''
-      } else if (state === ATTR_VALUE_DQ && reg.length) {
-        res.push([ATTR_VALUE,reg])
-        reg = ''
-      } else if (state === ATTR_VALUE_SQ && reg.length) {
-        res.push([ATTR_VALUE,reg])
-        reg = ''
-      } else if (state === ATTR_KEY) {
-        res.push([ATTR_KEY,reg])
-        reg = ''
-      }
-      return res
-    }
-  }
-
-  function strfn (x) {
-    if (typeof x === 'function') return x
-    else if (typeof x === 'string') return x
-    else if (x && typeof x === 'object') return x
-    else return concat('', x)
-  }
-}
-
-function quot (state) {
-  return state === ATTR_VALUE_SQ || state === ATTR_VALUE_DQ
-}
-
-var hasOwn = Object.prototype.hasOwnProperty
-function has (obj, key) { return hasOwn.call(obj, key) }
-
-var closeRE = RegExp('^(' + [
-  'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
-  'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param',
-  'source', 'track', 'wbr', '!--',
-  // SVG TAGS
-  'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse',
-  'feBlend', 'feColorMatrix', 'feComposite',
-  'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap',
-  'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR',
-  'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology',
-  'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile',
-  'feTurbulence', 'font-face-format', 'font-face-name', 'font-face-uri',
-  'glyph', 'glyphRef', 'hkern', 'image', 'line', 'missing-glyph', 'mpath',
-  'path', 'polygon', 'polyline', 'rect', 'set', 'stop', 'tref', 'use', 'view',
-  'vkern'
-].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$')
-function selfClosing (tag) { return closeRE.test(tag) }
-
-
-/***/ }),
-/* 655 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var diff = __webpack_require__(637)
-var patch = __webpack_require__(639)
-var h = __webpack_require__(638)
-var create = __webpack_require__(636)
-var VNode = __webpack_require__(648)
-var VText = __webpack_require__(649)
-
-module.exports = {
-    diff: diff,
-    patch: patch,
-    h: h,
-    create: create,
-    VNode: VNode,
-    VText: VText
-}
-
 
 /***/ })
 /******/ ]);

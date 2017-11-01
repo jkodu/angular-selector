@@ -1,6 +1,6 @@
 {
     "name": "angular-selector-on-steroids",
-    "version": "10.0.0",
+    "version": "10.3.0",
     "description": "",
     "main": "dist/angular-selector-on-steroids.js",
     "types": "dist/index.d.ts",
@@ -34,6 +34,7 @@
         "awesome-typescript-loader": "^3.1.3",
         "babel-core": "^6.26.0",
         "babel-polyfill": "^6.26.0",
+        "babel-preset-es2015": "^6.24.1",
         "extract-text-webpack-plugin": "^3.0.0",
         "glob": "^7.1.1",
         "html-webpack-plugin": "^2.24.1",

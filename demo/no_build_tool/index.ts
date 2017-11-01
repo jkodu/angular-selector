@@ -1,5 +1,5 @@
 import '../../src/index.pcss'
-import RxyForm from '../../src/index'
+// import RxyForm from '../../src/index'
 
 const generateForm = () => {
   return true;

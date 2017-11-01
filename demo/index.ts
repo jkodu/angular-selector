@@ -20,11 +20,12 @@ import {
 
 } from './examples';
 
-// import * as AngularSelectorOnSteroids from '../dist/angular-selector-on-steroids';
+import * as sos from '../dist/angular-selector-on-steroids';
+new sos.AngularSelectorOnSteroids().init();
 // new AngularSelectorOnSteroids.default().init();
 
-import AngularSelectorOnSteroids from '../src/index';
-new AngularSelectorOnSteroids().init();
+// import AngularSelectorOnSteroids from '../src/index';
+// new AngularSelectorOnSteroids().init();
 
 const examples = [
   ex_single_element,

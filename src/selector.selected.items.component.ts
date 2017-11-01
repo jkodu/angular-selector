@@ -33,7 +33,7 @@ export class SelectorSelectedItemsComponent {
             .subscribe((e: Event | MouseEvent) => {
                 if (e.type === 'click') {
                     if (e.srcElement.classList.contains('selector-icon')) {
-                        const index = (parseInt(e.srcElement.getAttribute('dir')));
+                        const index = parseInt((e.srcElement.getAttribute('id')).replace('sos-data-index-', ''));
                         if (_parentReferences['unset']) {
                             _parentReferences['unset'](index < -1 ? -1 : index);
                         }

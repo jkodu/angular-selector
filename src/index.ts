@@ -18,7 +18,7 @@ import { SelectorComponent } from './selector.component';
 
 const MODULE_NAME = `selectorOnSteroids`;
 
-export default class AngularSelectorOnSteroids {
+export class AngularSelectorOnSteroids {
 
   constructor() { }
 

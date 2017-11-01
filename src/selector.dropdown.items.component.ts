@@ -5,7 +5,7 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import * as hyperx from 'hyperx';
+const hyperx =require('hyperx');
 import * as  vdom from 'virtual-dom';
 
 export class SelectorDropdownItemsComponent {
@@ -22,7 +22,9 @@ export class SelectorDropdownItemsComponent {
 
     link(scope: ISelector.DropdownItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
 
-        const hx = hyperx(vdom.h);
+        const hx = hyperx(vdom.h, {
+            vdom: true
+        });
 
         let _subscribers: Subscription[] = [];
         let _parentReferences: any = {
@@ -42,7 +44,7 @@ export class SelectorDropdownItemsComponent {
                 : typeof option === 'object'
                     ? JSON.stringify(option)
                     : option;
-            return hx`<li class="selector-option js-data-item ${cls}" dir="${index}">${boundValue}</li>`;
+            return hx`<li class="selector-option js-data-item ${cls}" id="sos-data-index-${index}">${boundValue}</li>`;
         };
 
         const GET_DROPDOWN_GROUP_TEMPLATE = (option: any, index: number, filteredOptions: any[]) => {
@@ -71,13 +73,14 @@ export class SelectorDropdownItemsComponent {
             Observable.fromEvent(element[0], 'click')
         ).subscribe((e: Event | MouseEvent) => {
             if (e.type === 'mouseover') {
-                const index = (parseInt(e.srcElement.getAttribute('dir')));
+                const index = parseInt((e.srcElement.getAttribute('id')).replace('sos-data-index-', ''));
                 if (_parentReferences['highlight']) {
                     _parentReferences['highlight'](index < -1 ? -1 : index);
                 }
             }
             if (e.type === 'click') {
-                const index = (parseInt(e.srcElement.getAttribute('dir')));
+                const index = parseInt((e.srcElement.getAttribute('id')).replace('sos-data-index-', ''));
+
                 if (_parentReferences['highlight']) {
                     _parentReferences['highlight'](index < -1 ? -1 : index);
                 }

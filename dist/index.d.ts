@@ -1,5 +1,5 @@
 import './index.pcss';
-export default class AngularSelectorOnSteroids {
+export declare class AngularSelectorOnSteroids {
     constructor();
     init(debug?: boolean): any;
 }
