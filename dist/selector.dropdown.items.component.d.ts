@@ -1,5 +1,7 @@
 /// <reference types="angular" />
 import { ISelector } from './interfaces';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/fromEvent';
 export declare class SelectorDropdownItemsComponent {
     private $log;
     private debug;
