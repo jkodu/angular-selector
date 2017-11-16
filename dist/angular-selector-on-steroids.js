@@ -80,7 +80,7 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 var root_1 = __webpack_require__(2);
-var toSubscriber_1 = __webpack_require__(41);
+var toSubscriber_1 = __webpack_require__(39);
 var observable_1 = __webpack_require__(19);
 /**
  * A representation of any set of values over any amount of time. This is the most basic building block
@@ -370,7 +370,7 @@ exports.root = _root;
     }
 })();
 //# sourceMappingURL=root.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
 /* 3 */
@@ -403,10 +403,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var isFunction_1 = __webpack_require__(11);
+var isFunction_1 = __webpack_require__(12);
 var Subscription_1 = __webpack_require__(6);
 var Observer_1 = __webpack_require__(18);
-var rxSubscriber_1 = __webpack_require__(13);
+var rxSubscriber_1 = __webpack_require__(14);
 /**
  * Implements the {@link Observer} interface and extends the
  * {@link Subscription} class. While the {@link Observer} is the public API for
@@ -668,12 +668,12 @@ var SafeSubscriber = (function (_super) {
 
 "use strict";
 
-var isArray_1 = __webpack_require__(42);
+var isArray_1 = __webpack_require__(40);
 var isObject_1 = __webpack_require__(16);
-var isFunction_1 = __webpack_require__(11);
+var isFunction_1 = __webpack_require__(12);
 var tryCatch_1 = __webpack_require__(17);
-var errorObject_1 = __webpack_require__(12);
-var UnsubscriptionError_1 = __webpack_require__(43);
+var errorObject_1 = __webpack_require__(13);
+var UnsubscriptionError_1 = __webpack_require__(41);
 /**
  * Represents a disposable resource, such as the execution of an Observable. A
  * Subscription has one important method, `unsubscribe`, that takes no argument
@@ -900,6 +900,77 @@ function isHook(hook) {
 
 /***/ }),
 /* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var CONSTANTS = exports.CONSTANTS = {
+    KEYS: {
+        up: 38,
+        down: 40,
+        left: 37,
+        right: 39,
+        escape: 27,
+        enter: 13,
+        backspace: 8,
+        delete: 46,
+        shift: 16,
+        leftCmd: 91,
+        rightCmd: 93,
+        ctrl: 17,
+        alt: 18,
+        tab: 9
+    },
+    TEMPLATES: {
+        TEMPLATE_ITEM_CREATE: function TEMPLATE_ITEM_CREATE() {
+            return 'Add <i ng-bind="search"></i>';
+        },
+        TEMPLATE_ITEM_DEFAULT: function TEMPLATE_ITEM_DEFAULT() {
+            return '<span ng-bind="getObjValue(option, labelAttr) || option"></span>';
+        },
+        TEMPLATE_GROUP_DEFAULT: function TEMPLATE_GROUP_DEFAULT() {
+            return '<span ng-bind="getObjValue(option, groupAttr)"></span>';
+        },
+        TEMPLATE_SELECTOR_SELECTED_ITEMS: function TEMPLATE_SELECTOR_SELECTED_ITEMS() {
+            return '<div></div>';
+        },
+        TEMPLATE_SELECTOR_DROPDOWN_ITEMS: function TEMPLATE_SELECTOR_DROPDOWN_ITEMS() {
+            return '<div></div>';
+        },
+        TEMPLATE_SELECTOR: function TEMPLATE_SELECTOR() {
+            return '<div class="selector-container"\n                ng-attr-dir="{{ rtl ? \'rtl\' : \'ltr\' }}"\n                ng-class="{\n                    open: isOpen, \n                    empty: !filteredOptions.length && \n                        (!create || !search), multiple: multiple, \n                        \'has-value\': hasValue(), \n                        rtl: rtl, \n                        \'loading\': loading, \n                        \'remove-button\': removeButton, \n                        disabled: disabled}">\n                <select name="{{name}}"\n                    ng-hide="true"\n                    ng-required="required && !hasValue()"\n                    ng-model="selectedValues"\n                    multiple\n                    ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">\n                </select>\n                <label class="selector-input">\n                    <ul class="selector-values">\n        \n                        <li \n                            ng-repeat="(index, option) in selectedValues track by $index">\n                            <div ng-include="viewItemTemplate"></div>\n                            <div \n                                ng-if="multiple" \n                                class="selector-helper" \n                                ng-click="!disabled && unset(index)">\n                                <span class="selector-icon"></span>\n                            </div>\n                        </li>\n                        \n                    \n        \n                    </ul>\n                    <input \n                        ng-model="search"                         \n                        placeholder="{{!hasValue() ? placeholder : \'\'}}" \n                        ng-model-options="{debounce: debounce}"\n                        ng-disabled="disabled" \n                        ng-readonly="disableSearch" \n                        ng-required="required && !hasValue()" \n                        autocomplete="off">\n                    <div ng-if="!multiple || loading" \n                        class="selector-helper selector-global-helper" \n                        ng-click="!disabled && removeButton && unset()">\n                        <span class="selector-icon"></span>\n                    </div>\n                </label>\n                <ul class="selector-dropdown">\n        \n                    <li \n                        class="selector-option create"\n                        ng-class="{active: highlighted == -1}"\n                        ng-if="create && search"\n                        ng-include="dropdownCreateTemplate"\n                        ng-mouseover="highlight(-1)"\n                        ng-click="createOption(search)">\n                    </li>\n        \n                    <li \n                        class="selector-option loading"\n                        ng-show="loading === true">\n                        Loading...\n                    </li>\n        \n                    <li \n                        class="selector-option no-data"\n                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"\n                        >\n                        No Data\n                    </li>\n        \n                    <sos-dropdown-items\n                        ng-if="steroids === true"\n                        ng-show=\'filteredOptions.length > 0\'\n                        input=\'filteredOptionsInput$\'>\n                    </sos-dropdown-items>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-repeat-start="(index, option) in filteredOptions track by $index"\n                        class="selector-optgroup"\n                        ng-include="dropdownGroupTemplate"\n                        ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">\n                    </li>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-show="filteredOptions.length > 0"\n                        ng-repeat-end\n                        ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"\n                        class="selector-option js-data-item"\n                        ng-include="dropdownItemTemplate"\n                        ng-mouseover="highlight(index)"\n                        ng-click="set()">\n                    </li>\n                </ul>\n            </div>';
+            // <sos-selected-items
+            // ng-if="steroids === true"
+            // input='selectedValuesInput$'>
+            // </sos-selected-items>
+        }
+    },
+    FUNCTIONS: {
+        GET_SELECTED_ITEM_TEMPLATE: function GET_SELECTED_ITEM_TEMPLATE(option, index, filteredOptions, parentReferences) {
+            var boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
+            boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
+            var closeButton = parentReferences.multiple ? '<div class="selector-helper"><span class="selector-icon" id="sos-data-index-' + index + '"></span></div>' : '';
+            return '<li>' + boundValue + ' ' + closeButton + '</li>';
+        },
+        CONSOLE_LOGGER: function CONSOLE_LOGGER($log, type, message) {
+            if ($log[type]) {
+                $log[type]('Component: Selector On Sterorids: ' + message);
+            } else {
+                $log['debug']('Component: Selector On Sterorids: ' + message);
+            }
+        }
+    }
+};
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports) {
 
 var g;
@@ -926,7 +997,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -938,7 +1009,7 @@ exports.isFunction = isFunction;
 //# sourceMappingURL=isFunction.js.map
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -948,7 +1019,7 @@ exports.errorObject = { e: {} };
 //# sourceMappingURL=errorObject.js.map
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -964,7 +1035,7 @@ exports.$$rxSubscriber = exports.rxSubscriber;
 //# sourceMappingURL=rxSubscriber.js.map
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 var nativeIsArray = Array.isArray
@@ -976,29 +1047,6 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var GET_SELECTED_ITEM_TEMPLATE = exports.GET_SELECTED_ITEM_TEMPLATE = function GET_SELECTED_ITEM_TEMPLATE(option, index, filteredOptions, parentReferences) {
-    var boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
-    boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
-    var closeButton = parentReferences.multiple ? '<div class="selector-helper"><span class="selector-icon" id="sos-data-index-' + index + '"></span></div>' : '';
-    return '<li>' + boundValue + ' ' + closeButton + '</li>';
-};
-var CONSOLE_LOGGER = exports.CONSOLE_LOGGER = function CONSOLE_LOGGER($log, message) {
-    $log.info('Component: Selector On Sterorids: ' + message);
-};
 
 /***/ }),
 /* 16 */
@@ -1018,7 +1066,7 @@ exports.isObject = isObject;
 
 "use strict";
 
-var errorObject_1 = __webpack_require__(12);
+var errorObject_1 = __webpack_require__(13);
 var tryCatchTarget;
 function tryCatcher() {
     try {
@@ -1090,7 +1138,7 @@ exports.$$observable = exports.observable;
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var merge_1 = __webpack_require__(44);
+var merge_1 = __webpack_require__(42);
 Observable_1.Observable.merge = merge_1.merge;
 //# sourceMappingURL=merge.js.map
 
@@ -1200,7 +1248,7 @@ exports.isScheduler = isScheduler;
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var fromEvent_1 = __webpack_require__(55);
+var fromEvent_1 = __webpack_require__(53);
 Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
 //# sourceMappingURL=fromEvent.js.map
 
@@ -1296,7 +1344,7 @@ module.exports = function isObject(x) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
-var minDoc = __webpack_require__(63);
+var minDoc = __webpack_require__(61);
 
 var doccy;
 
@@ -1312,7 +1360,7 @@ if (typeof document !== 'undefined') {
 
 module.exports = doccy;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
 /* 28 */
@@ -1575,20 +1623,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AngularSelectorOnSteroids = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // Internal
-
-// import { SelectorSelectedItemsComponent } from './selector.selected.items.component';
-
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 __webpack_require__(33);
 
-var _templates = __webpack_require__(38);
+var _selector = __webpack_require__(10);
 
-var _selectorNgmodelchanged = __webpack_require__(39);
+var _selectorDropdownItems = __webpack_require__(38);
 
-var _selectorDropdownItems = __webpack_require__(40);
-
-var _selector = __webpack_require__(79);
+var _selector2 = __webpack_require__(77);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1605,13 +1648,13 @@ var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () 
             var debug = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             var module = angular.module(MODULE_NAME, []).run(['$templateCache', function ($templateCache) {
-                $templateCache.put('selector-on-steroids/selector.html', (0, _templates.TEMPLATE_SELECTOR)());
-                $templateCache.put('selector-on-steroids/selector-dropdown-item.html', (0, _templates.TEMPLATE_SELECTOR_DROPDOWN_ITEMS)());
-                $templateCache.put('selector-on-steroids/selector-selected-item.html', (0, _templates.TEMPLATE_SELECTOR_SELECTED_ITEMS)());
-                $templateCache.put('selector-on-steroids/item-create.html', (0, _templates.TEMPLATE_ITEM_CREATE)());
-                $templateCache.put('selector-on-steroids/item-default.html', (0, _templates.TEMPLATE_ITEM_DEFAULT)());
-                $templateCache.put('selector-on-steroids/group-default.html', (0, _templates.TEMPLATE_GROUP_DEFAULT)());
-            }]).directive('onSelectorNgModelChanged', _selectorNgmodelchanged.SelectorNgModelChangedComponent.Factory(debug)).directive('sosDropdownItems', _selectorDropdownItems.SelectorDropdownItemsComponent.Factory(debug)).directive(MODULE_NAME, _selector.SelectorComponent.Factory(debug));
+                $templateCache.put('selector-on-steroids/selector.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR());
+                $templateCache.put('selector-on-steroids/selector-dropdown-item.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_DROPDOWN_ITEMS());
+                $templateCache.put('selector-on-steroids/selector-selected-item.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_SELECTED_ITEMS());
+                $templateCache.put('selector-on-steroids/item-create.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_CREATE());
+                $templateCache.put('selector-on-steroids/item-default.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_DEFAULT());
+                $templateCache.put('selector-on-steroids/group-default.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_GROUP_DEFAULT());
+            }]).directive('sosDropdownItems', _selectorDropdownItems.SelectorDropdownItemsComponent.Factory(debug)).directive(MODULE_NAME, _selector2.SelectorComponent.Factory(debug));
             return module;
         }
     }]);
@@ -1640,8 +1683,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js??ref--1-1!../node_modules/postcss-loader/lib/index.js!./index.pcss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js??ref--1-1!../node_modules/postcss-loader/lib/index.js!./index.pcss");
+		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!../../node_modules/postcss-loader/lib/index.js!./selector.pcss", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!../../node_modules/postcss-loader/lib/index.js!./selector.pcss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -2210,90 +2253,6 @@ module.exports = function (css) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var TEMPLATE_ITEM_CREATE = exports.TEMPLATE_ITEM_CREATE = function TEMPLATE_ITEM_CREATE() {
-    return "Add <i ng-bind=\"search\"></i>";
-};
-var TEMPLATE_ITEM_DEFAULT = exports.TEMPLATE_ITEM_DEFAULT = function TEMPLATE_ITEM_DEFAULT() {
-    return "<span ng-bind=\"getObjValue(option, labelAttr) || option\"></span>";
-};
-var TEMPLATE_GROUP_DEFAULT = exports.TEMPLATE_GROUP_DEFAULT = function TEMPLATE_GROUP_DEFAULT() {
-    return "<span ng-bind=\"getObjValue(option, groupAttr)\"></span>";
-};
-var TEMPLATE_SELECTOR_SELECTED_ITEMS = exports.TEMPLATE_SELECTOR_SELECTED_ITEMS = function TEMPLATE_SELECTOR_SELECTED_ITEMS() {
-    return "<div></div>";
-};
-var TEMPLATE_SELECTOR_DROPDOWN_ITEMS = exports.TEMPLATE_SELECTOR_DROPDOWN_ITEMS = function TEMPLATE_SELECTOR_DROPDOWN_ITEMS() {
-    return "<div></div>";
-};
-var TEMPLATE_SELECTOR = exports.TEMPLATE_SELECTOR = function TEMPLATE_SELECTOR() {
-    return "<div class=\"selector-container\"\n        ng-attr-dir=\"{{ rtl ? 'rtl' : 'ltr' }}\"\n        ng-class=\"{\n            open: isOpen, \n            empty: !filteredOptions.length && \n                (!create || !search), multiple: multiple, \n                'has-value': hasValue(), \n                rtl: rtl, \n                'loading': loading, \n                'remove-button': removeButton, \n                disabled: disabled}\">\n        <select name=\"{{name}}\"\n            ng-hide=\"true\"\n            ng-required=\"required && !hasValue()\"\n            ng-model=\"selectedValues\"\n            multiple\n            ng-options=\"option as getObjValue(option, labelAttr) for option in selectedValues\">\n        </select>\n        <label class=\"selector-input\">\n            <ul class=\"selector-values\">\n\n                <li \n                    ng-repeat=\"(index, option) in selectedValues track by $index\">\n                    <div ng-include=\"viewItemTemplate\"></div>\n                    <div \n                        ng-if=\"multiple\" \n                        class=\"selector-helper\" \n                        ng-click=\"!disabled && unset(index)\">\n                        <span class=\"selector-icon\"></span>\n                    </div>\n                </li>\n                \n            \n\n            </ul>\n            <input \n                ng-model=\"search\" \n                on-selector-ng-model-changed='onNgModelChanged'\n                placeholder=\"{{!hasValue() ? placeholder : ''}}\" \n                ng-model-options=\"{debounce: debounce}\"\n                ng-disabled=\"disabled\" \n                ng-readonly=\"disableSearch\" \n                ng-required=\"required && !hasValue()\" \n                autocomplete=\"off\">\n            <div ng-if=\"!multiple || loading\" \n                class=\"selector-helper selector-global-helper\" \n                ng-click=\"!disabled && removeButton && unset()\">\n                <span class=\"selector-icon\"></span>\n            </div>\n        </label>\n        <ul class=\"selector-dropdown\">\n\n            <li \n                class=\"selector-option create\"\n                ng-class=\"{active: highlighted == -1}\"\n                ng-if=\"create && search\"\n                ng-include=\"dropdownCreateTemplate\"\n                ng-mouseover=\"highlight(-1)\"\n                ng-click=\"createOption(search)\">\n            </li>\n\n            <li \n                class=\"selector-option loading\"\n                ng-show=\"loading === true\">\n                Loading...\n            </li>\n\n            <li \n                class=\"selector-option no-data\"\n                ng-show=\"!loading && (!filteredOptions || filteredOptions.length <= 0)\"\n                >\n                No Data\n            </li>\n\n            <sos-dropdown-items\n                ng-if=\"steroids === true\"\n                ng-show='filteredOptions.length > 0'\n                input='filteredOptionsInput$'>\n            </sos-dropdown-items>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-repeat-start=\"(index, option) in filteredOptions track by $index\"\n                class=\"selector-optgroup\"\n                ng-include=\"dropdownGroupTemplate\"\n                ng-show=\"filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))\">\n            </li>\n\n            <li \n                ng-if=\"steroids === false\"\n                ng-show=\"filteredOptions.length > 0\"\n                ng-repeat-end\n                ng-class=\"{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}\"\n                class=\"selector-option js-data-item\"\n                ng-include=\"dropdownItemTemplate\"\n                ng-mouseover=\"highlight(index)\"\n                ng-click=\"set()\">\n            </li>\n        </ul>\n    </div>";
-};
-// <sos-selected-items
-// ng-if="steroids === true"
-// input='selectedValuesInput$'>
-// </sos-selected-items>
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var SelectorNgModelChangedComponent = exports.SelectorNgModelChangedComponent = function () {
-    function SelectorNgModelChangedComponent() {
-        _classCallCheck(this, SelectorNgModelChangedComponent);
-
-        this.require = 'ngModel';
-        this.scope = {
-            onSelectorNgModelChanged: '&'
-        };
-        this.link = function (scope, element, attrs, controller) {
-            var oldValue = void 0;
-            controller.$formatters.push(function (value) {
-                oldValue = value;
-                return value;
-            });
-            controller.$viewChangeListeners.push(function () {
-                var ngModelName = attrs['ngModel']; // TODO: UNDEFINED CHECK
-                scope.onSelectorNgModelChanged()(ngModelName, oldValue, controller.$modelValue);
-                oldValue = controller.$modelValue;
-            });
-        };
-    }
-
-    _createClass(SelectorNgModelChangedComponent, null, [{
-        key: 'Factory',
-        value: function Factory(debug) {
-            var directive = function directive() {
-                return new SelectorNgModelChangedComponent();
-            };
-            directive['$inject'] = [];
-            return directive;
-        }
-    }]);
-
-    return SelectorNgModelChangedComponent;
-}();
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 exports.SelectorDropdownItemsComponent = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2307,15 +2266,15 @@ var _templateObject = _taggedTemplateLiteral(['<li class="selector-option js-dat
     _templateObject5 = _taggedTemplateLiteral(['<span>', '', '</span>'], ['<span>', '', '</span>']),
     _templateObject6 = _taggedTemplateLiteral(['<div>', '</div>'], ['<div>', '</div>']);
 
-var _utils = __webpack_require__(15);
-
 var _Observable = __webpack_require__(0);
 
 __webpack_require__(20);
 
 __webpack_require__(23);
 
-var _virtualDom = __webpack_require__(57);
+var _selector = __webpack_require__(10);
+
+var _virtualDom = __webpack_require__(55);
 
 var vdom = _interopRequireWildcard(_virtualDom);
 
@@ -2325,7 +2284,7 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var hyperx = __webpack_require__(77);
+var hyperx = __webpack_require__(75);
 
 var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = function () {
     function SelectorDropdownItemsComponent($log, debug) {
@@ -2430,13 +2389,11 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                             }
                         }
                         if (_this.debug) {
-                            (0, _utils.CONSOLE_LOGGER)(_this.$log, 'Re-drawing items/ options.');
+                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Re-drawing items/ options.');
                         }
                     }
                 }, function (error) {
-                    if (_this.debug) {
-                        (0, _utils.CONSOLE_LOGGER)(_this.$log, 'Cannot initialize, Selector Dropdown Items Component!');
-                    }
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', 'Cannot initialize, Selector Dropdown Items Component!');
                 }));
             }
             scope.$on('$destroy', function () {
@@ -2464,13 +2421,13 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
 }();
 
 /***/ }),
-/* 41 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Subscriber_1 = __webpack_require__(5);
-var rxSubscriber_1 = __webpack_require__(13);
+var rxSubscriber_1 = __webpack_require__(14);
 var Observer_1 = __webpack_require__(18);
 function toSubscriber(nextOrObserver, error, complete) {
     if (nextOrObserver) {
@@ -2490,7 +2447,7 @@ exports.toSubscriber = toSubscriber;
 //# sourceMappingURL=toSubscriber.js.map
 
 /***/ }),
-/* 42 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2499,7 +2456,7 @@ exports.isArray = Array.isArray || (function (x) { return x && typeof x.length =
 //# sourceMappingURL=isArray.js.map
 
 /***/ }),
-/* 43 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2530,24 +2487,24 @@ exports.UnsubscriptionError = UnsubscriptionError;
 //# sourceMappingURL=UnsubscriptionError.js.map
 
 /***/ }),
-/* 44 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var merge_1 = __webpack_require__(45);
+var merge_1 = __webpack_require__(43);
 exports.merge = merge_1.mergeStatic;
 //# sourceMappingURL=merge.js.map
 
 /***/ }),
-/* 45 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var ArrayObservable_1 = __webpack_require__(46);
-var mergeAll_1 = __webpack_require__(48);
+var ArrayObservable_1 = __webpack_require__(44);
+var mergeAll_1 = __webpack_require__(46);
 var isScheduler_1 = __webpack_require__(22);
 /* tslint:enable:max-line-length */
 /**
@@ -2691,7 +2648,7 @@ exports.mergeStatic = mergeStatic;
 //# sourceMappingURL=merge.js.map
 
 /***/ }),
-/* 46 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2702,7 +2659,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Observable_1 = __webpack_require__(0);
-var ScalarObservable_1 = __webpack_require__(47);
+var ScalarObservable_1 = __webpack_require__(45);
 var EmptyObservable_1 = __webpack_require__(21);
 var isScheduler_1 = __webpack_require__(22);
 /**
@@ -2819,7 +2776,7 @@ exports.ArrayObservable = ArrayObservable;
 //# sourceMappingURL=ArrayObservable.js.map
 
 /***/ }),
-/* 47 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2883,7 +2840,7 @@ exports.ScalarObservable = ScalarObservable;
 //# sourceMappingURL=ScalarObservable.js.map
 
 /***/ }),
-/* 48 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2893,8 +2850,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var OuterSubscriber_1 = __webpack_require__(49);
-var subscribeToResult_1 = __webpack_require__(50);
+var OuterSubscriber_1 = __webpack_require__(47);
+var subscribeToResult_1 = __webpack_require__(48);
 /**
  * Converts a higher-order Observable into a first-order Observable which
  * concurrently delivers all values that are emitted on the inner Observables.
@@ -3000,7 +2957,7 @@ exports.MergeAllSubscriber = MergeAllSubscriber;
 //# sourceMappingURL=mergeAll.js.map
 
 /***/ }),
-/* 49 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3036,18 +2993,18 @@ exports.OuterSubscriber = OuterSubscriber;
 //# sourceMappingURL=OuterSubscriber.js.map
 
 /***/ }),
-/* 50 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var root_1 = __webpack_require__(2);
-var isArrayLike_1 = __webpack_require__(51);
-var isPromise_1 = __webpack_require__(52);
+var isArrayLike_1 = __webpack_require__(49);
+var isPromise_1 = __webpack_require__(50);
 var isObject_1 = __webpack_require__(16);
 var Observable_1 = __webpack_require__(0);
-var iterator_1 = __webpack_require__(53);
-var InnerSubscriber_1 = __webpack_require__(54);
+var iterator_1 = __webpack_require__(51);
+var InnerSubscriber_1 = __webpack_require__(52);
 var observable_1 = __webpack_require__(19);
 function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
     var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
@@ -3120,7 +3077,7 @@ exports.subscribeToResult = subscribeToResult;
 //# sourceMappingURL=subscribeToResult.js.map
 
 /***/ }),
-/* 51 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3129,7 +3086,7 @@ exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; 
 //# sourceMappingURL=isArrayLike.js.map
 
 /***/ }),
-/* 52 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3141,7 +3098,7 @@ exports.isPromise = isPromise;
 //# sourceMappingURL=isPromise.js.map
 
 /***/ }),
-/* 53 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3185,7 +3142,7 @@ exports.$$iterator = exports.iterator;
 //# sourceMappingURL=iterator.js.map
 
 /***/ }),
-/* 54 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3227,17 +3184,17 @@ exports.InnerSubscriber = InnerSubscriber;
 //# sourceMappingURL=InnerSubscriber.js.map
 
 /***/ }),
-/* 55 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var FromEventObservable_1 = __webpack_require__(56);
+var FromEventObservable_1 = __webpack_require__(54);
 exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
 //# sourceMappingURL=fromEvent.js.map
 
 /***/ }),
-/* 56 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3249,8 +3206,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Observable_1 = __webpack_require__(0);
 var tryCatch_1 = __webpack_require__(17);
-var isFunction_1 = __webpack_require__(11);
-var errorObject_1 = __webpack_require__(12);
+var isFunction_1 = __webpack_require__(12);
+var errorObject_1 = __webpack_require__(13);
 var Subscription_1 = __webpack_require__(6);
 var toString = Object.prototype.toString;
 function isNodeStyleEventEmitter(sourceObj) {
@@ -3383,13 +3340,13 @@ exports.FromEventObservable = FromEventObservable;
 //# sourceMappingURL=FromEventObservable.js.map
 
 /***/ }),
-/* 57 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var diff = __webpack_require__(58)
-var patch = __webpack_require__(61)
-var h = __webpack_require__(67)
-var create = __webpack_require__(76)
+var diff = __webpack_require__(56)
+var patch = __webpack_require__(59)
+var h = __webpack_require__(65)
+var create = __webpack_require__(74)
 var VNode = __webpack_require__(30)
 var VText = __webpack_require__(31)
 
@@ -3404,19 +3361,19 @@ module.exports = {
 
 
 /***/ }),
-/* 58 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var diff = __webpack_require__(59)
+var diff = __webpack_require__(57)
 
 module.exports = diff
 
 
 /***/ }),
-/* 59 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(14)
+var isArray = __webpack_require__(15)
 
 var VPatch = __webpack_require__(24)
 var isVNode = __webpack_require__(4)
@@ -3425,7 +3382,7 @@ var isWidget = __webpack_require__(1)
 var isThunk = __webpack_require__(8)
 var handleThunk = __webpack_require__(25)
 
-var diffProps = __webpack_require__(60)
+var diffProps = __webpack_require__(58)
 
 module.exports = diff
 
@@ -3846,7 +3803,7 @@ function appendPatch(apply, patch) {
 
 
 /***/ }),
-/* 60 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(26)
@@ -3910,24 +3867,24 @@ function getPrototype(value) {
 
 
 /***/ }),
-/* 61 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var patch = __webpack_require__(62)
+var patch = __webpack_require__(60)
 
 module.exports = patch
 
 
 /***/ }),
-/* 62 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(27)
-var isArray = __webpack_require__(14)
+var isArray = __webpack_require__(15)
 
 var render = __webpack_require__(28)
-var domIndex = __webpack_require__(64)
-var patchOp = __webpack_require__(65)
+var domIndex = __webpack_require__(62)
+var patchOp = __webpack_require__(63)
 module.exports = patch
 
 function patch(rootNode, patches, renderOptions) {
@@ -4005,13 +3962,13 @@ function patchIndices(patches) {
 
 
 /***/ }),
-/* 63 */
+/* 61 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 64 */
+/* 62 */
 /***/ (function(module, exports) {
 
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
@@ -4102,7 +4059,7 @@ function ascending(a, b) {
 
 
 /***/ }),
-/* 65 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var applyProperties = __webpack_require__(29)
@@ -4110,7 +4067,7 @@ var applyProperties = __webpack_require__(29)
 var isWidget = __webpack_require__(1)
 var VPatch = __webpack_require__(24)
 
-var updateWidget = __webpack_require__(66)
+var updateWidget = __webpack_require__(64)
 
 module.exports = applyPatch
 
@@ -4259,7 +4216,7 @@ function replaceRoot(oldRoot, newRoot) {
 
 
 /***/ }),
-/* 66 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isWidget = __webpack_require__(1)
@@ -4280,22 +4237,22 @@ function updateWidget(a, b) {
 
 
 /***/ }),
-/* 67 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var h = __webpack_require__(68)
+var h = __webpack_require__(66)
 
 module.exports = h
 
 
 /***/ }),
-/* 68 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArray = __webpack_require__(14);
+var isArray = __webpack_require__(15);
 
 var VNode = __webpack_require__(30);
 var VText = __webpack_require__(31);
@@ -4305,9 +4262,9 @@ var isWidget = __webpack_require__(1);
 var isHook = __webpack_require__(9);
 var isVThunk = __webpack_require__(8);
 
-var parseTag = __webpack_require__(69);
-var softSetHook = __webpack_require__(71);
-var evHook = __webpack_require__(72);
+var parseTag = __webpack_require__(67);
+var softSetHook = __webpack_require__(69);
+var evHook = __webpack_require__(70);
 
 module.exports = h;
 
@@ -4433,13 +4390,13 @@ function errorString(obj) {
 
 
 /***/ }),
-/* 69 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var split = __webpack_require__(70);
+var split = __webpack_require__(68);
 
 var classIdSplit = /([\.#]?[a-zA-Z0-9\u007F-\uFFFF_:-]+)/;
 var notClassId = /^\.|#/;
@@ -4494,7 +4451,7 @@ function parseTag(tag, props) {
 
 
 /***/ }),
-/* 70 */
+/* 68 */
 /***/ (function(module, exports) {
 
 /*!
@@ -4606,7 +4563,7 @@ module.exports = (function split(undef) {
 
 
 /***/ }),
-/* 71 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4630,13 +4587,13 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
 
 
 /***/ }),
-/* 72 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var EvStore = __webpack_require__(73);
+var EvStore = __webpack_require__(71);
 
 module.exports = EvHook;
 
@@ -4664,13 +4621,13 @@ EvHook.prototype.unhook = function(node, propertyName) {
 
 
 /***/ }),
-/* 73 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var OneVersionConstraint = __webpack_require__(74);
+var OneVersionConstraint = __webpack_require__(72);
 
 var MY_VERSION = '7';
 OneVersionConstraint('ev-store', MY_VERSION);
@@ -4691,13 +4648,13 @@ function EvStore(elem) {
 
 
 /***/ }),
-/* 74 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Individual = __webpack_require__(75);
+var Individual = __webpack_require__(73);
 
 module.exports = OneVersion;
 
@@ -4720,7 +4677,7 @@ function OneVersion(moduleName, version, defaultValue) {
 
 
 /***/ }),
-/* 75 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4744,10 +4701,10 @@ function Individual(key, value) {
     return value;
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 76 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var createElement = __webpack_require__(28)
@@ -4756,10 +4713,10 @@ module.exports = createElement
 
 
 /***/ }),
-/* 77 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var attrToProp = __webpack_require__(78)
+var attrToProp = __webpack_require__(76)
 
 var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
 var ATTR_KEY = 5, ATTR_KEY_W = 6
@@ -5043,7 +5000,7 @@ function selfClosing (tag) { return closeRE.test(tag) }
 
 
 /***/ }),
-/* 78 */
+/* 76 */
 /***/ (function(module, exports) {
 
 module.exports = attributeToProperty
@@ -5068,7 +5025,7 @@ function attributeToProperty (h) {
 
 
 /***/ }),
-/* 79 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5081,17 +5038,17 @@ exports.SelectorComponent = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = __webpack_require__(15);
-
 var _Observable = __webpack_require__(0);
 
 __webpack_require__(20);
 
-__webpack_require__(80);
+__webpack_require__(78);
 
 __webpack_require__(23);
 
-var _Subject = __webpack_require__(82);
+var _Subject = __webpack_require__(80);
+
+var _selector = __webpack_require__(10);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5148,22 +5105,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
         value: function link(scope, element, attrs, controller, transclude) {
             var _this = this;
 
-            var KEYS = {
-                up: 38,
-                down: 40,
-                left: 37,
-                right: 39,
-                escape: 27,
-                enter: 13,
-                backspace: 8,
-                delete: 46,
-                shift: 16,
-                leftCmd: 91,
-                rightCmd: 93,
-                ctrl: 17,
-                alt: 18,
-                tab: 9
-            };
             transclude(scope, function (clone, scope) {
                 var _watchers = [];
                 var _mutations = [];
@@ -5210,13 +5151,13 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     e.preventDefault();
                     e.stopPropagation();
                 }, function (error) {
-                    (0, _utils.CONSOLE_LOGGER)(_this.$log, error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));
                 // Default: listen to window resize event
                 _subscribers.push(OBSERVABLE_FOR_WINDOW_RESIZE.subscribe(function (e) {
                     dropdownPosition();
                 }, function (error) {
-                    (0, _utils.CONSOLE_LOGGER)(_this.$log, error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));
                 // Default attributes
                 if (!angular.isDefined(scope.value) && scope.multiple) {
@@ -5231,13 +5172,13 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     ;
                 });
                 // create custom scope properties
-                scope.onNgModelChanged = function (propertyName, oldValue, newValue) {
-                    if (propertyName === 'search') {
-                        if (scope.remote) {
-                            _this.$timeout(fetch);
-                        }
-                    }
-                };
+                // scope.onNgModelChanged = (propertyName, oldValue, newValue) => { // watch alternative - model change listener
+                //     if (propertyName === `search`) {
+                //         if (scope.remote) {
+                //             this.$timeout(fetch);
+                //         }
+                //     }
+                // };
                 var _onSelectedValuesChanged = function _onSelectedValuesChanged(oldValue, newValue) {
                     if (angular.equals(newValue, oldValue)) {
                         return;
@@ -5331,8 +5272,8 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 };
                 // Remote fetching
                 var request = function request(paramName, paramValue, remote, remoteParam) {
-                    var promise = void 0,
-                        remoteOptions = {};
+                    var promise = void 0;
+                    var remoteOptions = {};
                     if (scope.disabled) {
                         return _this.$q.reject();
                     }
@@ -5372,13 +5313,17 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         });
                         initDeferred.reject();
                         var errorMsg = 'Error while fetching data: ' + (error.message || error);
-                        (0, _utils.CONSOLE_LOGGER)(_this.$log, errorMsg);
+                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', errorMsg);
                         throw errorMsg;
                     });
                     return promise;
                 };
-                var fetch = function fetch() {
-                    return request('search', scope.search || '', scope.remote, scope.remoteParam);
+                var fetch = function fetch(triggeredFromAction) {
+                    if (triggeredFromAction) {
+                        return request('search', scope.search || '', scope.remote, scope.remoteParam);
+                    } else {
+                        return request('search', scope.search || '', scope.remote, scope.remoteParam);
+                    }
                 };
                 var fetchValidation = function fetchValidation(value) {
                     return request('value', value, scope.remoteValidation, scope.remoteValidationParam);
@@ -5396,6 +5341,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     _this.$timeout(function () {
                         _this.$q.when(!scope.hasValue() || !scope.remoteValidation ? angular.noop : fetchValidation(scope.value)).then(function () {
                             // NOTE: Here used to be watcher for search attribute, wich now is moved to $viewChangeListener.
+                            scope.$watch('search', function () {
+                                scope.$evalAsync(fetch(false));
+                            });
                         });
                     });
                 }
@@ -5469,13 +5417,13 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 var reInitMultiple = function reInitMultiple() {
                     _this.$timeout(setInputWidth);
                     if (scope.remote) {
-                        _this.$timeout(fetch);
+                        _this.$timeout(fetch(false));
                     }
                     initDeferred.promise.then(function () {
                         initialize();
                     }, function () {
                         if (_this.debug) {
-                            (0, _utils.CONSOLE_LOGGER)(_this.$log, 'Cannot initialize, promise init error!');
+                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Cannot initialize, promise init error!');
                         }
                     });
                 };
@@ -5521,7 +5469,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     scope.isOpen = true;
                     dropdownPosition();
                     if (scope.remote) {
-                        _this.$timeout(fetch);
+                        _this.$timeout(fetch(true));
                     }
                     if (!scope.multiple) {
                         _this.$timeout(scrollToHighlighted);
@@ -5631,7 +5579,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 };
                 var keydown = function keydown(e) {
                     switch (e.keyCode) {
-                        case KEYS.up:
+                        case _selector.CONSTANTS.KEYS.up:
                             {
                                 if (!scope.isOpen) {
                                     break;
@@ -5640,7 +5588,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                                 e.preventDefault();
                                 break;
                             }
-                        case KEYS.down:
+                        case _selector.CONSTANTS.KEYS.down:
                             {
                                 if (!scope.isOpen) {
                                     open();
@@ -5650,13 +5598,13 @@ var SelectorComponent = exports.SelectorComponent = function () {
                                 e.preventDefault();
                                 break;
                             }
-                        case KEYS.escape:
+                        case _selector.CONSTANTS.KEYS.escape:
                             {
                                 scope.highlight(0);
                                 close();
                                 break;
                             }
-                        case KEYS.enter:
+                        case _selector.CONSTANTS.KEYS.enter:
                             {
                                 if (scope.isOpen) {
                                     if (attrs.create && scope.search && scope.highlighted == -1) {
@@ -5673,7 +5621,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                                 }
                                 break;
                             }
-                        case KEYS.backspace:
+                        case _selector.CONSTANTS.KEYS.backspace:
                             {
                                 if (!DOM_SELECTOR_INPUT.val()) {
                                     var search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
@@ -5686,14 +5634,14 @@ var SelectorComponent = exports.SelectorComponent = function () {
                                 }
                                 break;
                             }
-                        case KEYS.left:
-                        case KEYS.right:
-                        case KEYS.shift:
-                        case KEYS.ctrl:
-                        case KEYS.alt:
-                        case KEYS.tab:
-                        case KEYS.leftCmd:
-                        case KEYS.rightCmd:
+                        case _selector.CONSTANTS.KEYS.left:
+                        case _selector.CONSTANTS.KEYS.right:
+                        case _selector.CONSTANTS.KEYS.shift:
+                        case _selector.CONSTANTS.KEYS.ctrl:
+                        case _selector.CONSTANTS.KEYS.alt:
+                        case _selector.CONSTANTS.KEYS.tab:
+                        case _selector.CONSTANTS.KEYS.leftCmd:
+                        case _selector.CONSTANTS.KEYS.rightCmd:
                             {
                                 break;
                             }
@@ -5788,6 +5736,16 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                     setValue(!scope.multiple ? origin[0] : origin);
                 };
+                _watchers.push(scope.$watch('selectedValues', function (newValue, oldValue) {
+                    if (angular.equals(newValue, oldValue)) {
+                        return;
+                    }
+                    ;
+                    updateValue();
+                    if (angular.isFunction(scope.change)) {
+                        scope.change(scope.multiple ? { newValue: newValue, oldValue: oldValue } : { newValue: (newValue || [])[0], oldValue: (oldValue || [])[0] });
+                    }
+                }, true));
                 _watchers.push(scope.$watchCollection('options', function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
@@ -5813,8 +5771,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
+                    ;
                     _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
-                        // updateSelected();
+                        updateSelected();
                         filterOptions();
                         updateValue();
                     });
@@ -5840,7 +5799,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         setInputWidth();
                     }
                 }, function (error) {
-                    (0, _utils.CONSOLE_LOGGER)(_this.$log, error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));
                 var m1 = new MutationObserver(function (event) {
                     var _target = event[0].target;
@@ -5923,18 +5882,18 @@ var SelectorComponent = exports.SelectorComponent = function () {
 }();
 
 /***/ }),
-/* 80 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var empty_1 = __webpack_require__(81);
+var empty_1 = __webpack_require__(79);
 Observable_1.Observable.empty = empty_1.empty;
 //# sourceMappingURL=empty.js.map
 
 /***/ }),
-/* 81 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5944,7 +5903,7 @@ exports.empty = EmptyObservable_1.EmptyObservable.create;
 //# sourceMappingURL=empty.js.map
 
 /***/ }),
-/* 82 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5957,9 +5916,9 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Observable_1 = __webpack_require__(0);
 var Subscriber_1 = __webpack_require__(5);
 var Subscription_1 = __webpack_require__(6);
-var ObjectUnsubscribedError_1 = __webpack_require__(83);
-var SubjectSubscription_1 = __webpack_require__(84);
-var rxSubscriber_1 = __webpack_require__(13);
+var ObjectUnsubscribedError_1 = __webpack_require__(81);
+var SubjectSubscription_1 = __webpack_require__(82);
+var rxSubscriber_1 = __webpack_require__(14);
 /**
  * @class SubjectSubscriber<T>
  */
@@ -6118,7 +6077,7 @@ exports.AnonymousSubject = AnonymousSubject;
 //# sourceMappingURL=Subject.js.map
 
 /***/ }),
-/* 83 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6151,7 +6110,7 @@ exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 //# sourceMappingURL=ObjectUnsubscribedError.js.map
 
 /***/ }),
-/* 84 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

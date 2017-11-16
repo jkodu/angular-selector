@@ -53,9 +53,6 @@ export namespace ISelector {
             set(option?: any): void;
             unset(index?: number): void;
 
-            // Alternative to watchers - change listeners
-            onNgModelChanged(propertyName: string, oldValue: any, newValue: any): void;
-
             // optional rendering of rows in angular
             steroids: boolean;
         }

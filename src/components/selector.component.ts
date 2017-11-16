@@ -1,13 +1,14 @@
 declare const angular;
 
-import { ISelector } from './interfaces';
-import { CONSOLE_LOGGER } from './utils';
+import { ISelector } from './selector.interfaces';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import { CONSTANTS } from './selector.constants';
+import { debug } from 'util';
 
 export class SelectorComponent {
 
@@ -63,22 +64,6 @@ export class SelectorComponent {
         controller: angular.IController,
         transclude: angular.ITranscludeFunction) {
 
-        const KEYS = {
-            up: 38,
-            down: 40,
-            left: 37,
-            right: 39,
-            escape: 27,
-            enter: 13,
-            backspace: 8,
-            delete: 46,
-            shift: 16,
-            leftCmd: 91,
-            rightCmd: 93,
-            ctrl: 17,
-            alt: 18,
-            tab: 9
-        };
 
         transclude(scope, (clone: any, scope: ISelector.BaseComponent.Scope) => {
 
@@ -134,14 +119,6 @@ export class SelectorComponent {
                 filteredOptionsInput$: new Subject()
             };
 
-            const GET_DOM_STYLES = (element: HTMLElement) => {
-                return !(element instanceof HTMLElement)
-                    ? {}
-                    : (element.ownerDocument && element.ownerDocument.defaultView.opener)
-                        ? element.ownerDocument.defaultView.getComputedStyle(element)
-                        : window.getComputedStyle(element);
-            }
-
             // DEFAULTS
             // Default: listen to dropdown dom event
             _subscribers.push(
@@ -149,7 +126,7 @@ export class SelectorComponent {
                     e.preventDefault();
                     e.stopPropagation();
                 }, (error) => {
-                    CONSOLE_LOGGER(this.$log, error);
+                    CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
                 })
             );
 
@@ -158,7 +135,7 @@ export class SelectorComponent {
                 OBSERVABLE_FOR_WINDOW_RESIZE.subscribe((e: Event) => {
                     dropdownPosition();
                 }, (error) => {
-                    CONSOLE_LOGGER(this.$log, error);
+                    CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
                 })
             )
 
@@ -176,13 +153,13 @@ export class SelectorComponent {
             });
 
             // create custom scope properties
-            scope.onNgModelChanged = (propertyName, oldValue, newValue) => { // watch alternative - model change listener
-                if (propertyName === `search`) {
-                    if (scope.remote) {
-                        this.$timeout(fetch);
-                    }
-                }
-            };
+            // scope.onNgModelChanged = (propertyName, oldValue, newValue) => { // watch alternative - model change listener
+            //     if (propertyName === `search`) {
+            //         if (scope.remote) {
+            //             this.$timeout(fetch);
+            //         }
+            //     }
+            // };
 
             const _onSelectedValuesChanged = (oldValue, newValue) => {
                 if (angular.equals(newValue, oldValue)) {
@@ -311,8 +288,8 @@ export class SelectorComponent {
 
             // Remote fetching
             const request = (paramName, paramValue, remote, remoteParam) => {
-                let promise,
-                    remoteOptions = {};
+                let promise;
+                let remoteOptions = {};
 
                 if (scope.disabled) {
                     return this.$q.reject();
@@ -359,15 +336,19 @@ export class SelectorComponent {
                         });
                         initDeferred.reject();
                         const errorMsg = 'Error while fetching data: ' + (error.message || error);
-                        CONSOLE_LOGGER(this.$log, errorMsg);
+                        CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', errorMsg);
                         throw errorMsg;
                     });
 
                 return promise;
             };
 
-            const fetch = () => {
-                return request('search', scope.search || '', scope.remote, scope.remoteParam);
+            const fetch = (triggeredFromAction: boolean) => {
+                if (triggeredFromAction) {
+                    return request('search', scope.search || '', scope.remote, scope.remoteParam);
+                } else {
+                    return request('search', scope.search || '', scope.remote, scope.remoteParam);
+                }
             };
 
             const fetchValidation = (value) => {
@@ -386,11 +367,15 @@ export class SelectorComponent {
             if (scope.remote) {
                 this.$timeout(() => {
                     this.$q
-                        .when(!scope.hasValue() || !scope.remoteValidation
+                        .when(
+                        !scope.hasValue() || !scope.remoteValidation
                             ? angular.noop
                             : fetchValidation(scope.value)
                         ).then(() => {
                             // NOTE: Here used to be watcher for search attribute, wich now is moved to $viewChangeListener.
+                            scope.$watch('search', () => {
+                                scope.$evalAsync(fetch(false));
+                            });
                         });
                 });
             }
@@ -471,7 +456,7 @@ export class SelectorComponent {
             const reInitMultiple = () => {
                 this.$timeout(setInputWidth);
                 if (scope.remote) {
-                    this.$timeout(fetch);
+                    this.$timeout(fetch(false));
                 }
                 initDeferred
                     .promise
@@ -479,7 +464,7 @@ export class SelectorComponent {
                         initialize();
                     }, () => {
                         if (this.debug) {
-                            CONSOLE_LOGGER(this.$log, `Cannot initialize, promise init error!`);
+                            CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'debug', `Cannot initialize, promise init error!`);
                         }
                     });
             }
@@ -510,7 +495,7 @@ export class SelectorComponent {
             // Dropdown utilities
             const dropdownPosition = () => {
                 const label = DOM_SELECTOR_INPUT.parent()[0];
-                const styles = GET_DOM_STYLES(label);
+                const styles = CONSTANTS.FUNCTIONS.GET_DOM_STYLES(label);
                 const marginTop = parseFloat((<any>styles).marginTop || 0);
                 const marginLeft = parseFloat((<any>styles).marginLeft || 0);
                 if (label) {
@@ -530,7 +515,7 @@ export class SelectorComponent {
                 scope.isOpen = true;
                 dropdownPosition();
                 if (scope.remote) {
-                    this.$timeout(fetch);
+                    this.$timeout(fetch(true));
                 }
                 if (!scope.multiple) {
                     this.$timeout(scrollToHighlighted);
@@ -571,7 +556,7 @@ export class SelectorComponent {
             const scrollToHighlighted = () => {
                 const dd = DOM_SELECTOR_DROPDOWN[0];
                 const option = dd.querySelectorAll('li.selector-option.js-data-item')[scope.highlighted] as HTMLElement;
-                const styles = GET_DOM_STYLES(option);
+                const styles = CONSTANTS.FUNCTIONS.GET_DOM_STYLES(option);
                 const marginTop = parseFloat((<any>styles).marginTop || 0);
                 const marginBottom = parseFloat((<any>styles).marginBottom || 0);
                 if (!scope.filteredOptions.length) {
@@ -662,7 +647,7 @@ export class SelectorComponent {
 
             const keydown = (e) => {
                 switch (e.keyCode) {
-                    case KEYS.up:
+                    case CONSTANTS.KEYS.up:
                         {
                             if (!scope.isOpen) {
                                 break;
@@ -671,7 +656,7 @@ export class SelectorComponent {
                             e.preventDefault();
                             break;
                         }
-                    case KEYS.down:
+                    case CONSTANTS.KEYS.down:
                         {
                             if (!scope.isOpen) {
                                 open();
@@ -682,13 +667,13 @@ export class SelectorComponent {
                             e.preventDefault();
                             break;
                         }
-                    case KEYS.escape:
+                    case CONSTANTS.KEYS.escape:
                         {
                             scope.highlight(0);
                             close();
                             break;
                         }
-                    case KEYS.enter:
+                    case CONSTANTS.KEYS.enter:
                         {
                             if (scope.isOpen) {
                                 if (attrs.create && scope.search && scope.highlighted == -1) {
@@ -699,14 +684,14 @@ export class SelectorComponent {
                                         scope.set();
                                     }
                                 }
-                                if(scope.multiple) {
+                                if (scope.multiple) {
                                     open();
                                 }
                                 e.preventDefault();
                             }
                             break;
                         }
-                    case KEYS.backspace:
+                    case CONSTANTS.KEYS.backspace:
                         {
                             if (!DOM_SELECTOR_INPUT.val()) {
                                 const search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
@@ -720,14 +705,14 @@ export class SelectorComponent {
                             }
                             break;
                         }
-                    case KEYS.left:
-                    case KEYS.right:
-                    case KEYS.shift:
-                    case KEYS.ctrl:
-                    case KEYS.alt:
-                    case KEYS.tab:
-                    case KEYS.leftCmd:
-                    case KEYS.rightCmd:
+                    case CONSTANTS.KEYS.left:
+                    case CONSTANTS.KEYS.right:
+                    case CONSTANTS.KEYS.shift:
+                    case CONSTANTS.KEYS.ctrl:
+                    case CONSTANTS.KEYS.alt:
+                    case CONSTANTS.KEYS.tab:
+                    case CONSTANTS.KEYS.leftCmd:
+                    case CONSTANTS.KEYS.rightCmd:
                         {
                             break;
                         }
@@ -786,15 +771,24 @@ export class SelectorComponent {
             // Input width utilities
             const measureWidth = () => {
                 let width;
-                const styles = GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
+                const styles = CONSTANTS.FUNCTIONS.GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
                 const shadow = angular.element('<span class="selector-shadow"></span>');
 
                 shadow.text(DOM_SELECTOR_INPUT.val() || (!scope.hasValue() ? scope.placeholder : '') || '');
                 angular.element(document.body)
                     .append(shadow);
-                angular.forEach(['fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'textTransform', 'wordSpacing', 'textIndent'], function (style) {
-                    shadow.css(style, styles[style]);
-                });
+                angular.forEach([
+                    'fontFamily',
+                    'fontSize',
+                    'fontWeight',
+                    'fontStyle',
+                    'letterSpacing',
+                    'textTransform',
+                    'wordSpacing',
+                    'textIndent'],
+                    (style) => {
+                        shadow.css(style, styles[style]);
+                    });
                 width = shadow[0].offsetWidth;
                 shadow.remove();
                 return width;
@@ -840,6 +834,22 @@ export class SelectorComponent {
             };
 
             _watchers.push(
+                scope.$watch('selectedValues', (newValue, oldValue) => {
+                    if (angular.equals(newValue, oldValue)) {
+                        return;
+                    };
+                    updateValue();
+                    if (angular.isFunction(scope.change)) {
+                        scope.change(
+                            scope.multiple
+                                ? { newValue: newValue, oldValue: oldValue }
+                                : { newValue: (newValue || [])[0], oldValue: (oldValue || [])[0] }
+                        );
+                    }
+                }, true)
+            );
+
+            _watchers.push(
                 scope.$watchCollection('options', (newValue, oldValue) => {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
@@ -875,17 +885,15 @@ export class SelectorComponent {
                 scope.$watch('value', (newValue, oldValue) => {
                     if (angular.equals(newValue, oldValue)) {
                         return;
-                    }
-                    this.$q
-                        .when(
-                        (!scope.remote || !scope.remoteValidation || !scope.hasValue())
-                            ? angular.noop
-                            : fetchValidation(newValue)).then(() => {
-                                // updateSelected();
-                                filterOptions();
-                                updateValue();
-                            }
-                        );
+                    };
+                    this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
+                        ? angular.noop
+                        : fetchValidation(newValue)
+                    ).then(() => {
+                        updateSelected();
+                        filterOptions();
+                        updateValue();
+                    });
                 }, true)
             );
 
@@ -911,7 +919,7 @@ export class SelectorComponent {
                         setInputWidth();
                     }
                 }, (error: any) => {
-                    CONSOLE_LOGGER(this.$log, error);
+                    CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
                 })
             );
 

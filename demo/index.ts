@@ -22,30 +22,31 @@ import {
 
 import * as sos from '../dist/angular-selector-on-steroids';
 new sos.AngularSelectorOnSteroids().init();
-// new AngularSelectorOnSteroids.default().init();
-
 // import AngularSelectorOnSteroids from '../src/index';
 // new AngularSelectorOnSteroids().init();
 
 const examples = [
-  ex_single_element,
-  ex_multiple_element,
-  ex_return_entire_obj,
-  ex_custom_template,
-  ex_fill_options_from_html,
-  ex_rtl_support,
+  // ex_single_element,
+  // ex_multiple_element,
+  // ex_return_entire_obj,
+  // ex_custom_template,
+  // ex_fill_options_from_html,
+  // ex_rtl_support,
   ex_remote_fetching,
-  ex_remote_fetching_with_validation,
-  ex_remote_fetching_with_custom_service,
-  ex_apis,
-  ex_change_options_dynamically,
-  ex_create_custom_options,
-  ex_create_custom_options_using_promise
+  // ex_remote_fetching_with_validation,
+  // ex_remote_fetching_with_custom_service,
+  // ex_apis,
+  // ex_change_options_dynamically,
+  // ex_create_custom_options,
+  // ex_create_custom_options_using_promise
 ];
 
 angular
   .module('AngularSelectorDemo', ['selectorOnSteroids'])
   .controller('AngularSelectorDemoCtrl', ['$scope', function ($scope) {
+    $scope.triggerDigest = function() {
+      console.log('Triggering Digest Cycle');
+    }
     $scope.examples = examples;
   }])
   .filter('trustAsHtml', ['$sce', function ($sce) {

@@ -1,10 +1,10 @@
-import { ISelector } from './interfaces';
-import { CONSOLE_LOGGER, GET_SELECTED_ITEM_TEMPLATE } from './utils';
+import { ISelector } from './selector.interfaces';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import { CONSTANTS } from './selector.constants';
 
 export class SelectorSelectedItemsComponent {
 
@@ -15,8 +15,7 @@ export class SelectorSelectedItemsComponent {
         input: '<'
     };
 
-    constructor(private $log: angular.ILogService, private debug: boolean) {
-    }
+    constructor(private $log: angular.ILogService, private debug: boolean) { }
 
     link(scope: ISelector.SelectedItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
 
@@ -26,7 +25,7 @@ export class SelectorSelectedItemsComponent {
         }
 
         const getRenderableItems = (items: Array<any>) => {
-            return `${items.map((currentValue: any, index: number, array: Array<any>) => `${GET_SELECTED_ITEM_TEMPLATE(currentValue, index, array, _parentReferences)}`).join(' ')}`;
+            return `${items.map((currentValue: any, index: number, array: Array<any>) => `${CONSTANTS.FUNCTIONS.GET_SELECTED_ITEM_TEMPLATE(currentValue, index, array, _parentReferences)}`).join(' ')}`;
         };
 
         Observable.fromEvent(element[0], 'click')
@@ -63,14 +62,13 @@ export class SelectorSelectedItemsComponent {
                             }
                             element[0].innerHTML = getRenderableItems(inputData.selectedValues);
                             if (this.debug) {
-                                CONSOLE_LOGGER(this.$log, `Re-drawing selected items/ options.`);
+                                CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'debug', `Re-drawing selected items/ options.`);
                             }
                         }
                     },
                     (error: any) => {
-                        if (this.debug) {
-                            CONSOLE_LOGGER(this.$log, `Cannot initialize, Selector Selected Items Component!`);
-                        }
+
+                        CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', `Cannot initialize, Selector Selected Items Component!`);
                     })
             );
         }

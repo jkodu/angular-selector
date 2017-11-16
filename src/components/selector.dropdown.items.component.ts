@@ -1,10 +1,10 @@
-import { ISelector } from './interfaces';
-import { CONSOLE_LOGGER } from './utils';
+import { ISelector } from './selector.interfaces';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import { CONSTANTS } from './selector.constants';
 const hyperx =require('hyperx');
 import * as  vdom from 'virtual-dom';
 
@@ -17,8 +17,7 @@ export class SelectorDropdownItemsComponent {
         input: '<'
     };
 
-    constructor(private $log: angular.ILogService, private debug: boolean) {
-    }
+    constructor(private $log: angular.ILogService, private debug: boolean) {}
 
     link(scope: ISelector.DropdownItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
 
@@ -136,16 +135,13 @@ export class SelectorDropdownItemsComponent {
                                     _tree = newTree;
                                 }
                             }
-
                             if (this.debug) {
-                                CONSOLE_LOGGER(this.$log, `Re-drawing items/ options.`);
+                                CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'debug', `Re-drawing items/ options.`);
                             }
                         }
                     },
                     (error: any) => {
-                        if (this.debug) {
-                            CONSOLE_LOGGER(this.$log, `Cannot initialize, Selector Dropdown Items Component!`);
-                        }
+                            CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', `Cannot initialize, Selector Dropdown Items Component!`);
                     })
             );
         }
