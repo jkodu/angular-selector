@@ -20,6 +20,22 @@ import {
 
 } from './examples';
 
+import {
+  old_ex_single_element,
+  old_ex_multiple_element,
+  old_ex_return_entire_obj,
+  old_ex_custom_template,
+  old_ex_fill_options_from_html,
+  old_ex_rtl_support,
+  old_ex_remote_fetching,
+  old_ex_remote_fetching_with_validation,
+  old_ex_remote_fetching_with_custom_service,
+  old_ex_apis,
+  old_ex_change_options_dynamically,
+  old_ex_create_custom_options,
+  old_ex_create_custom_options_using_promise
+} from './oldExamples';
+
 import * as sos from '../dist/angular-selector-on-steroids';
 new sos.AngularSelectorOnSteroids().init();
 // import AngularSelectorOnSteroids from '../src/index';
@@ -41,13 +57,27 @@ const examples = [
   ex_create_custom_options_using_promise
 ];
 
+const oldExamples = [
+  old_ex_single_element,
+  old_ex_multiple_element,
+  old_ex_return_entire_obj,
+  old_ex_custom_template,
+  old_ex_fill_options_from_html,
+  old_ex_rtl_support,
+  old_ex_remote_fetching,
+  old_ex_remote_fetching_with_validation,
+  old_ex_remote_fetching_with_custom_service,
+  old_ex_apis,
+  old_ex_change_options_dynamically,
+  old_ex_create_custom_options,
+  old_ex_create_custom_options_using_promise
+];
+
 angular
   .module('AngularSelectorDemo', ['selectorOnSteroids'])
   .controller('AngularSelectorDemoCtrl', ['$scope', function ($scope) {
-    $scope.triggerDigest = function() {
-      console.log('Triggering Digest Cycle');
-    }
     $scope.examples = examples;
+    $scope.oldExamples = oldExamples;
   }])
   .filter('trustAsHtml', ['$sce', function ($sce) {
     return function (input) {

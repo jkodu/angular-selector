@@ -15,7 +15,8 @@
         "test": "npm run lint && karma start",
         "serve": "http-server ./demo/dist",
         "serve-no-build": "http-server ./demo/no_build_tool",
-        "dev": "npm run build &&  cd ./demo && webpack --watch --watch-poll"
+        "dev": "npm run build &&  cd ./demo && webpack --watch --watch-poll",
+        "ghp": "git subtree push --prefix demo/dist origin gh-pages"
     },
     "keywords": [],
     "author": "jkodu",
@@ -23,6 +24,7 @@
     "devDependencies": {
         "@types/angular": "^1.6.32",
         "@types/chai": "^4.0.4",
+
         "@types/es6-promise": "0.0.33",
         "@types/karma-chai-sinon": "^0.1.6",
         "@types/mocha": "^2.2.43",
