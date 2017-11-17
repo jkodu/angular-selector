@@ -5,6 +5,8 @@ import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { CONSTANTS } from './selector.constants';
+const hyperx = require('hyperx');
+import * as  vdom from 'virtual-dom';
 
 export class SelectorSelectedItemsComponent {
 
@@ -19,13 +21,38 @@ export class SelectorSelectedItemsComponent {
 
     link(scope: ISelector.SelectedItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
 
+        const hx = hyperx(vdom.h, {
+            vdom: true
+        });
+
         let _subscribers: Subscription[] = [];
         let _parentReferences: any = {
             // dynamically constructed object
         }
+        let _isBooted: boolean = false;
+        let _isFirstRendered: boolean = false;
+        let _tree = null;
+        let _rootNode = null;
+
+        const GET_SELECTED_ITEM_TEMPLATE = (option: any, index: number, filteredOptions: any[], parentReferences: any) => {
+            let boundValue = parentReferences.getObjValue(option, parentReferences.labelAttr);
+            boundValue = boundValue
+                ? boundValue
+                : typeof option === 'object'
+                    ? JSON.stringify(option)
+                    : option;
+            const closeButton = parentReferences.multiple
+                ? hx`<div class="selector-helper"><span class="selector-icon" id="sos-data-index-${index}"></span></div>`
+                : hx``;
+            return hx`<li>${boundValue} ${closeButton}</li>`;
+        };
 
         const getRenderableItems = (items: Array<any>) => {
-            return `${items.map((currentValue: any, index: number, array: Array<any>) => `${CONSTANTS.FUNCTIONS.GET_SELECTED_ITEM_TEMPLATE(currentValue, index, array, _parentReferences)}`).join(' ')}`;
+            const liList = hx`${items.map((currentValue: any, index: number, array: Array<any>) => {
+                return hx`${GET_SELECTED_ITEM_TEMPLATE(currentValue, index, array, _parentReferences)}`;
+            })}`;
+            const tpl = hx`<div>${liList}</div>`;
+            return tpl;
         };
 
         Observable.fromEvent(element[0], 'click')
@@ -48,26 +75,48 @@ export class SelectorSelectedItemsComponent {
                 scope.input
                     .subscribe(
                     (inputData: ISelector.SelectedItemsComponent.Input$) => {
-                        if (inputData.selectedValues && inputData.selectedValues.length) {
-                            if (!_parentReferences.hasOwnProperty('groupAttr') ||
-                                !_parentReferences.hasOwnProperty('getObjValue') ||
-                                !_parentReferences.hasOwnProperty('unset') ||
-                                !_parentReferences.hasOwnProperty('multiple') ||
-                                !_parentReferences.hasOwnProperty('disabled')) {
-                                _parentReferences['groupAttr'] = inputData.groupAttr;
-                                _parentReferences['getObjValue'] = inputData.getObjValue;
-                                _parentReferences['unset'] = inputData.unset;
-                                _parentReferences['multiple'] = inputData.multiple;
-                                _parentReferences['disabled'] = inputData.disabled;
+                        if (inputData.selectedValues) {
+
+                            if (!_isBooted) {
+                                if (!_parentReferences.hasOwnProperty('groupAttr') ||
+                                    !_parentReferences.hasOwnProperty('valueAttr') ||
+                                    !_parentReferences.hasOwnProperty('labelAttr') ||
+                                    !_parentReferences.hasOwnProperty('getObjValue') ||
+                                    !_parentReferences.hasOwnProperty('unset') ||
+                                    !_parentReferences.hasOwnProperty('multiple') ||
+                                    !_parentReferences.hasOwnProperty('disabled')) {
+                                    _parentReferences['groupAttr'] = inputData.groupAttr;
+                                    _parentReferences['valueAttr'] = inputData.valueAttr;
+                                    _parentReferences['labelAttr'] = inputData.labelAttr;
+                                    _parentReferences['getObjValue'] = inputData.getObjValue;
+                                    _parentReferences['unset'] = inputData.unset;
+                                    _parentReferences['multiple'] = inputData.multiple;
+                                    _parentReferences['disabled'] = inputData.disabled;
+                                    _isBooted = true;
+                                }
                             }
-                            element[0].innerHTML = getRenderableItems(inputData.selectedValues);
+                            if (_isBooted) {
+                                if (!_isFirstRendered) {
+                                    const tpl = getRenderableItems(inputData.selectedValues);
+                                    _tree = tpl;
+                                    _rootNode = vdom.create(_tree);
+                                    element[0].appendChild(_rootNode);
+                                    // element[0].innerHTML = _rootNode;
+                                    _isFirstRendered = true;
+                                } else {
+                                    const tpl = getRenderableItems(inputData.selectedValues);
+                                    const newTree = tpl;
+                                    const patches = vdom.diff(_tree, newTree);
+                                    _rootNode = vdom.patch(_rootNode, patches);
+                                    _tree = newTree;
+                                }
+                            }
                             if (this.debug) {
                                 CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'debug', `Re-drawing selected items/ options.`);
                             }
                         }
                     },
                     (error: any) => {
-
                         CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', `Cannot initialize, Selector Selected Items Component!`);
                     })
             );

@@ -5,7 +5,7 @@ import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { CONSTANTS } from './selector.constants';
-const hyperx =require('hyperx');
+const hyperx = require('hyperx');
 import * as  vdom from 'virtual-dom';
 
 export class SelectorDropdownItemsComponent {
@@ -17,7 +17,7 @@ export class SelectorDropdownItemsComponent {
         input: '<'
     };
 
-    constructor(private $log: angular.ILogService, private debug: boolean) {}
+    constructor(private $log: angular.ILogService, private debug: boolean) { }
 
     link(scope: ISelector.DropdownItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
 
@@ -31,7 +31,6 @@ export class SelectorDropdownItemsComponent {
         }
         let _isBooted: boolean = false;
         let _isFirstRendered: boolean = false;
-
         let _tree = null;
         let _rootNode = null;
 
@@ -117,20 +116,15 @@ export class SelectorDropdownItemsComponent {
 
                             if (_isBooted) {
                                 if (!_isFirstRendered) {
-                                    let tpl = getRenderableItems(
-                                        inputData.filteredOptions,
-                                        inputData.highlighted
-                                    );
+                                    const tpl = getRenderableItems(inputData.filteredOptions, inputData.highlighted);
                                     _tree = tpl;
                                     _rootNode = vdom.create(_tree);
                                     element[0].appendChild(_rootNode);
-                                    // element[0].innerHTML = _rootNode;
                                     _isFirstRendered = true;
                                 } else {
-                                    let tpl = getRenderableItems(inputData.filteredOptions,inputData.highlighted
-                                    );
-                                    let newTree = tpl;
-                                    let patches = vdom.diff(_tree, newTree);
+                                    const tpl = getRenderableItems(inputData.filteredOptions, inputData.highlighted);
+                                    const newTree = tpl;
+                                    const patches = vdom.diff(_tree, newTree);
                                     _rootNode = vdom.patch(_rootNode, patches);
                                     _tree = newTree;
                                 }
@@ -141,7 +135,7 @@ export class SelectorDropdownItemsComponent {
                         }
                     },
                     (error: any) => {
-                            CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', `Cannot initialize, Selector Dropdown Items Component!`);
+                        CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', `Cannot initialize, Selector Dropdown Items Component!`);
                     })
             );
         }

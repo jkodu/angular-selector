@@ -93,7 +93,6 @@ export class SelectorComponent {
 
             let inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
             let selectCtrl = element.find('select').controller('ngModel');
-
             let initDeferred = this.$q.defer();
             let defaults = {
                 api: {},
@@ -138,7 +137,6 @@ export class SelectorComponent {
                     CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
                 })
             )
-
 
             // Default attributes
             if (!angular.isDefined(scope.value) && scope.multiple) {
@@ -205,8 +203,14 @@ export class SelectorComponent {
                 } as ISelector.DropdownItemsComponent.Input$);
             }
 
-            angular.forEach(['name', 'valueAttr', 'labelAttr'], (attr) => {
-                if (!attrs[attr]) attrs[attr] = scope[attr];
+            angular.forEach([
+                'name',
+                'valueAttr',
+                'labelAttr'
+            ], (attr) => {
+                if (!attrs[attr]) {
+                    attrs[attr] = scope[attr]
+                };
             });
 
             // Options' utilities
@@ -225,7 +229,6 @@ export class SelectorComponent {
                     ? path
                     : path.split('.');
                 key = path.shift();
-
                 if (key.indexOf('[') > 0) {
                     const match = key.match(/(\w+)\[(\d+)\]/);
                     if (match !== null) {
@@ -638,7 +641,8 @@ export class SelectorComponent {
                     scope.selectedValues.splice(
                         angular.isDefined(index)
                             ? index
-                            : scope.selectedValues.length - 1, 1);
+                            : scope.selectedValues.length - 1,
+                        1);
                 }
                 _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 resetInput();
@@ -684,19 +688,17 @@ export class SelectorComponent {
                                         scope.set();
                                     }
                                 }
-                                if (scope.multiple) {
-                                    open();
-                                }
                                 e.preventDefault();
                             }
                             break;
                         }
+
                     case CONSTANTS.KEYS.backspace:
                         {
                             if (!DOM_SELECTOR_INPUT.val()) {
                                 const search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
                                 scope.unset();
-                                open();
+                                // open();
                                 if (scope.softDelete && !scope.disableSearch)
                                     this.$timeout(() => {
                                         scope.search = search;
@@ -775,8 +777,7 @@ export class SelectorComponent {
                 const shadow = angular.element('<span class="selector-shadow"></span>');
 
                 shadow.text(DOM_SELECTOR_INPUT.val() || (!scope.hasValue() ? scope.placeholder : '') || '');
-                angular.element(document.body)
-                    .append(shadow);
+                angular.element(document.body).append(shadow);
                 angular.forEach([
                     'fontFamily',
                     'fontSize',
@@ -785,10 +786,10 @@ export class SelectorComponent {
                     'letterSpacing',
                     'textTransform',
                     'wordSpacing',
-                    'textIndent'],
-                    (style) => {
-                        shadow.css(style, styles[style]);
-                    });
+                    'textIndent'
+                ], (style) => {
+                    shadow.css(style, styles[style]);
+                });
                 width = shadow[0].offsetWidth;
                 shadow.remove();
                 return width;
@@ -807,7 +808,6 @@ export class SelectorComponent {
                         scope.search = '';
                     });
                 });
-
             };
 
             _watchers.push(
@@ -881,43 +881,40 @@ export class SelectorComponent {
                 _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
             };
 
-            _watchers.push(
-                scope.$watch('value', (newValue, oldValue) => {
-                    if (angular.equals(newValue, oldValue)) {
-                        return;
-                    };
-                    this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
-                        ? angular.noop
-                        : fetchValidation(newValue)
-                    ).then(() => {
-                        updateSelected();
-                        filterOptions();
-                        updateValue();
-                    });
-                }, true)
-            );
+            // _watchers.push(
+            // scope.$watch('value', (newValue, oldValue) => {
+            //     if (angular.equals(newValue, oldValue)) {
+            //         return;
+            //     };
+            //     this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
+            //         ? angular.noop
+            //         : fetchValidation(newValue)
+            //     ).then(() => {
+            //         updateSelected();
+            //         filterOptions();
+            //         updateValue();
+            //     });
+            // }, true)
+            // );
 
             // DOM event listeners
             _subscribers.push(
                 OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe((e: FocusEvent | KeyboardEvent | Event) => {
-                    if (e.type === 'focus') {
-                        this.$timeout(() => {
-                            scope.$apply(open);
-                        });
-                    }
-                    if (e.type === 'blur') {
-                        this.$timeout(() => {
-                            scope.$apply(close);
-                        });
-                    }
-                    if (e.type === 'keydown') {
-                        scope.$apply(() => {
+                    this.$timeout(() => {
+                        if (e.type === 'focus') {
+                            open();
+                        }
+                        if (e.type === 'blur') {
+                            close();
+                            //     scope.$apply(close);
+                        }
+                        if (e.type === 'keydown') {
                             keydown(e);
-                        });
-                    }
-                    if (e.type === 'input') {
-                        setInputWidth();
-                    }
+                        }
+                        if (e.type === 'input') {
+                            setInputWidth();
+                        }
+                    });
                 }, (error: any) => {
                     CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
                 })

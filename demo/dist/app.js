@@ -112,7 +112,7 @@ exports.ex_rtl_support = {
 exports.ex_remote_fetching = {
     "title": "Remote fetching",
     "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids\n\tmulti=\"true\"\n\tmodel=\"countries\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tvalue-attr=\"code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
-    "js": "$scope.countries = [ ];\n\n$scope.remoteConfig = {\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\tvar countries = angular.fromJson(data).RestResponse.result;\n\t\treturn countries.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};"
+    "js": "$scope.countries = [ \"DZ\", \"AX\" ];\n\n$scope.remoteConfig = {\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\tvar countries = angular.fromJson(data).RestResponse.result;\n\t\treturn countries.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};"
 };
 exports.ex_remote_fetching_with_validation = {
     "title": "Remote fetching and validation",
@@ -446,7 +446,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 32);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -456,8 +456,8 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 var root_1 = __webpack_require__(2);
-var toSubscriber_1 = __webpack_require__(39);
-var observable_1 = __webpack_require__(19);
+var toSubscriber_1 = __webpack_require__(41);
+var observable_1 = __webpack_require__(21);
 /**
  * A representation of any set of values over any amount of time. This is the most basic building block
  * of RxJS.
@@ -774,14 +774,75 @@ function isVirtualNode(x) {
 
 "use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var CONSTANTS = exports.CONSTANTS = {
+    KEYS: {
+        up: 38,
+        down: 40,
+        left: 37,
+        right: 39,
+        escape: 27,
+        enter: 13,
+        backspace: 8,
+        delete: 46,
+        shift: 16,
+        leftCmd: 91,
+        rightCmd: 93,
+        ctrl: 17,
+        alt: 18,
+        tab: 9
+    },
+    TEMPLATES: {
+        TEMPLATE_ITEM_CREATE: function TEMPLATE_ITEM_CREATE() {
+            return 'Add <i ng-bind="search"></i>';
+        },
+        TEMPLATE_ITEM_DEFAULT: function TEMPLATE_ITEM_DEFAULT() {
+            return '<span ng-bind="getObjValue(option, labelAttr) || option"></span>';
+        },
+        TEMPLATE_GROUP_DEFAULT: function TEMPLATE_GROUP_DEFAULT() {
+            return '<span ng-bind="getObjValue(option, groupAttr)"></span>';
+        },
+        TEMPLATE_SELECTOR_SELECTED_ITEMS: function TEMPLATE_SELECTOR_SELECTED_ITEMS() {
+            return '<div></div>';
+        },
+        TEMPLATE_SELECTOR_DROPDOWN_ITEMS: function TEMPLATE_SELECTOR_DROPDOWN_ITEMS() {
+            return '<div></div>';
+        },
+        TEMPLATE_SELECTOR: function TEMPLATE_SELECTOR() {
+            return '<div class="selector-container"\n                ng-attr-dir="{{ rtl ? \'rtl\' : \'ltr\' }}"\n                ng-class="{\n                    open: isOpen, \n                    empty: !filteredOptions.length && \n                        (!create || !search), multiple: multiple, \n                        \'has-value\': hasValue(), \n                        rtl: rtl, \n                        \'loading\': loading, \n                        \'remove-button\': removeButton, \n                        disabled: disabled}">\n                <select name="{{name}}"\n                    ng-hide="true"\n                    ng-required="required && !hasValue()"\n                    ng-model="selectedValues"\n                    multiple\n                    ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">\n                </select>\n                <label class="selector-input">\n                    <ul class="selector-values">\n                        <li \n                            ng-if="steroids === false"\n                            ng-repeat="(index, option) in selectedValues track by $index">\n                            <div ng-include="viewItemTemplate"></div>\n                            <div \n                                ng-if="multiple" \n                                class="selector-helper" \n                                ng-click="!disabled && unset(index)">\n                                <span class="selector-icon"></span>\n                            </div>\n                        </li>\n                        <sos-selected-items\n                            ng-if="steroids === true"\n                            input=\'selectedValuesInput$\'>\n                        </sos-selected-items>\n                    </ul>\n                    <input \n                        ng-model="search"                         \n                        placeholder="{{!hasValue() ? placeholder : \'\'}}" \n                        ng-model-options="{debounce: debounce}"\n                        ng-disabled="disabled" \n                        ng-readonly="disableSearch" \n                        ng-required="required && !hasValue()" \n                        autocomplete="off">\n                    <div ng-if="!multiple || loading" \n                        class="selector-helper selector-global-helper" \n                        ng-click="!disabled && removeButton && unset()">\n                        <span class="selector-icon"></span>\n                    </div>\n                </label>\n                <ul class="selector-dropdown">\n        \n                    <li \n                        class="selector-option create"\n                        ng-class="{active: highlighted == -1}"\n                        ng-if="create && search"\n                        ng-include="dropdownCreateTemplate"\n                        ng-mouseover="highlight(-1)"\n                        ng-click="createOption(search)">\n                    </li>\n        \n                    <li \n                        class="selector-option loading"\n                        ng-show="loading === true">\n                        Loading...\n                    </li>\n        \n                    <li \n                        class="selector-option no-data"\n                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"\n                        >\n                        No Data\n                    </li>\n        \n                    <sos-dropdown-items\n                        ng-if="steroids === true"\n                        ng-show=\'filteredOptions.length > 0\'\n                        input=\'filteredOptionsInput$\'>\n                    </sos-dropdown-items>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-repeat-start="(index, option) in filteredOptions track by $index"\n                        class="selector-optgroup"\n                        ng-include="dropdownGroupTemplate"\n                        ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">\n                    </li>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-show="filteredOptions.length > 0"\n                        ng-repeat-end\n                        ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"\n                        class="selector-option js-data-item"\n                        ng-include="dropdownItemTemplate"\n                        ng-mouseover="highlight(index)"\n                        ng-click="set()">\n                    </li>\n                </ul>\n            </div>';
+        }
+    },
+    FUNCTIONS: {
+        CONSOLE_LOGGER: function CONSOLE_LOGGER($log, type, message) {
+            if ($log[type]) {
+                $log[type]('Component: Selector On Sterorids: ' + message);
+            } else {
+                $log['debug']('Component: Selector On Sterorids: ' + message);
+            }
+        },
+        GET_DOM_STYLES: function GET_DOM_STYLES(element) {
+            return !(element instanceof HTMLElement) ? {} : element.ownerDocument && element.ownerDocument.defaultView.opener ? element.ownerDocument.defaultView.getComputedStyle(element) : window.getComputedStyle(element);
+        }
+    }
+};
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var isFunction_1 = __webpack_require__(12);
-var Subscription_1 = __webpack_require__(6);
-var Observer_1 = __webpack_require__(18);
+var Subscription_1 = __webpack_require__(7);
+var Observer_1 = __webpack_require__(20);
 var rxSubscriber_1 = __webpack_require__(14);
 /**
  * Implements the {@link Observer} interface and extends the
@@ -1039,17 +1100,17 @@ var SafeSubscriber = (function (_super) {
 //# sourceMappingURL=Subscriber.js.map
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var isArray_1 = __webpack_require__(40);
-var isObject_1 = __webpack_require__(16);
+var isArray_1 = __webpack_require__(42);
+var isObject_1 = __webpack_require__(18);
 var isFunction_1 = __webpack_require__(12);
-var tryCatch_1 = __webpack_require__(17);
+var tryCatch_1 = __webpack_require__(19);
 var errorObject_1 = __webpack_require__(13);
-var UnsubscriptionError_1 = __webpack_require__(41);
+var UnsubscriptionError_1 = __webpack_require__(43);
 /**
  * Represents a disposable resource, such as the execution of an Observable. A
  * Subscription has one important method, `unsubscribe`, that takes no argument
@@ -1238,7 +1299,7 @@ function flattenUnsubscriptionErrors(errors) {
 //# sourceMappingURL=Subscription.js.map
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var version = __webpack_require__(3)
@@ -1251,7 +1312,7 @@ function isVirtualText(x) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = isThunk
@@ -1262,7 +1323,7 @@ function isThunk(t) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = isHook
@@ -1273,77 +1334,6 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var CONSTANTS = exports.CONSTANTS = {
-    KEYS: {
-        up: 38,
-        down: 40,
-        left: 37,
-        right: 39,
-        escape: 27,
-        enter: 13,
-        backspace: 8,
-        delete: 46,
-        shift: 16,
-        leftCmd: 91,
-        rightCmd: 93,
-        ctrl: 17,
-        alt: 18,
-        tab: 9
-    },
-    TEMPLATES: {
-        TEMPLATE_ITEM_CREATE: function TEMPLATE_ITEM_CREATE() {
-            return 'Add <i ng-bind="search"></i>';
-        },
-        TEMPLATE_ITEM_DEFAULT: function TEMPLATE_ITEM_DEFAULT() {
-            return '<span ng-bind="getObjValue(option, labelAttr) || option"></span>';
-        },
-        TEMPLATE_GROUP_DEFAULT: function TEMPLATE_GROUP_DEFAULT() {
-            return '<span ng-bind="getObjValue(option, groupAttr)"></span>';
-        },
-        TEMPLATE_SELECTOR_SELECTED_ITEMS: function TEMPLATE_SELECTOR_SELECTED_ITEMS() {
-            return '<div></div>';
-        },
-        TEMPLATE_SELECTOR_DROPDOWN_ITEMS: function TEMPLATE_SELECTOR_DROPDOWN_ITEMS() {
-            return '<div></div>';
-        },
-        TEMPLATE_SELECTOR: function TEMPLATE_SELECTOR() {
-            return '<div class="selector-container"\n                ng-attr-dir="{{ rtl ? \'rtl\' : \'ltr\' }}"\n                ng-class="{\n                    open: isOpen, \n                    empty: !filteredOptions.length && \n                        (!create || !search), multiple: multiple, \n                        \'has-value\': hasValue(), \n                        rtl: rtl, \n                        \'loading\': loading, \n                        \'remove-button\': removeButton, \n                        disabled: disabled}">\n                <select name="{{name}}"\n                    ng-hide="true"\n                    ng-required="required && !hasValue()"\n                    ng-model="selectedValues"\n                    multiple\n                    ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">\n                </select>\n                <label class="selector-input">\n                    <ul class="selector-values">\n        \n                        <li \n                            ng-repeat="(index, option) in selectedValues track by $index">\n                            <div ng-include="viewItemTemplate"></div>\n                            <div \n                                ng-if="multiple" \n                                class="selector-helper" \n                                ng-click="!disabled && unset(index)">\n                                <span class="selector-icon"></span>\n                            </div>\n                        </li>\n                        \n                    \n        \n                    </ul>\n                    <input \n                        ng-model="search"                         \n                        placeholder="{{!hasValue() ? placeholder : \'\'}}" \n                        ng-model-options="{debounce: debounce}"\n                        ng-disabled="disabled" \n                        ng-readonly="disableSearch" \n                        ng-required="required && !hasValue()" \n                        autocomplete="off">\n                    <div ng-if="!multiple || loading" \n                        class="selector-helper selector-global-helper" \n                        ng-click="!disabled && removeButton && unset()">\n                        <span class="selector-icon"></span>\n                    </div>\n                </label>\n                <ul class="selector-dropdown">\n        \n                    <li \n                        class="selector-option create"\n                        ng-class="{active: highlighted == -1}"\n                        ng-if="create && search"\n                        ng-include="dropdownCreateTemplate"\n                        ng-mouseover="highlight(-1)"\n                        ng-click="createOption(search)">\n                    </li>\n        \n                    <li \n                        class="selector-option loading"\n                        ng-show="loading === true">\n                        Loading...\n                    </li>\n        \n                    <li \n                        class="selector-option no-data"\n                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"\n                        >\n                        No Data\n                    </li>\n        \n                    <sos-dropdown-items\n                        ng-if="steroids === true"\n                        ng-show=\'filteredOptions.length > 0\'\n                        input=\'filteredOptionsInput$\'>\n                    </sos-dropdown-items>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-repeat-start="(index, option) in filteredOptions track by $index"\n                        class="selector-optgroup"\n                        ng-include="dropdownGroupTemplate"\n                        ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">\n                    </li>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-show="filteredOptions.length > 0"\n                        ng-repeat-end\n                        ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"\n                        class="selector-option js-data-item"\n                        ng-include="dropdownItemTemplate"\n                        ng-mouseover="highlight(index)"\n                        ng-click="set()">\n                    </li>\n                </ul>\n            </div>';
-            // <sos-selected-items
-            // ng-if="steroids === true"
-            // input='selectedValuesInput$'>
-            // </sos-selected-items>
-        }
-    },
-    FUNCTIONS: {
-        GET_SELECTED_ITEM_TEMPLATE: function GET_SELECTED_ITEM_TEMPLATE(option, index, filteredOptions, parentReferences) {
-            var boundValue = parentReferences.getObjValue(option, parentReferences.groupAttr);
-            boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
-            var closeButton = parentReferences.multiple ? '<div class="selector-helper"><span class="selector-icon" id="sos-data-index-' + index + '"></span></div>' : '';
-            return '<li>' + boundValue + ' ' + closeButton + '</li>';
-        },
-        CONSOLE_LOGGER: function CONSOLE_LOGGER($log, type, message) {
-            if ($log[type]) {
-                $log[type]('Component: Selector On Sterorids: ' + message);
-            } else {
-                $log['debug']('Component: Selector On Sterorids: ' + message);
-            }
-        }
-    }
-};
 
 /***/ }),
 /* 11 */
@@ -1412,6 +1402,28 @@ exports.$$rxSubscriber = exports.rxSubscriber;
 
 /***/ }),
 /* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(0);
+var merge_1 = __webpack_require__(44);
+Observable_1.Observable.merge = merge_1.merge;
+//# sourceMappingURL=merge.js.map
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(0);
+var fromEvent_1 = __webpack_require__(55);
+Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
+//# sourceMappingURL=fromEvent.js.map
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports) {
 
 var nativeIsArray = Array.isArray
@@ -1425,7 +1437,7 @@ function isArray(obj) {
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1437,7 +1449,7 @@ exports.isObject = isObject;
 //# sourceMappingURL=isObject.js.map
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1462,7 +1474,7 @@ exports.tryCatch = tryCatch;
 //# sourceMappingURL=tryCatch.js.map
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1476,7 +1488,7 @@ exports.empty = {
 //# sourceMappingURL=Observer.js.map
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1508,18 +1520,7 @@ exports.$$observable = exports.observable;
 //# sourceMappingURL=observable.js.map
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(0);
-var merge_1 = __webpack_require__(42);
-Observable_1.Observable.merge = merge_1.merge;
-//# sourceMappingURL=merge.js.map
-
-/***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1606,7 +1607,7 @@ exports.EmptyObservable = EmptyObservable;
 //# sourceMappingURL=EmptyObservable.js.map
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1618,18 +1619,28 @@ exports.isScheduler = isScheduler;
 //# sourceMappingURL=isScheduler.js.map
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var diff = __webpack_require__(57)
+var patch = __webpack_require__(60)
+var h = __webpack_require__(66)
+var create = __webpack_require__(75)
+var VNode = __webpack_require__(31)
+var VText = __webpack_require__(32)
 
-var Observable_1 = __webpack_require__(0);
-var fromEvent_1 = __webpack_require__(53);
-Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
-//# sourceMappingURL=fromEvent.js.map
+module.exports = {
+    diff: diff,
+    patch: patch,
+    h: h,
+    create: create,
+    VNode: VNode,
+    VText: VText
+}
+
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var version = __webpack_require__(3)
@@ -1657,13 +1668,13 @@ VirtualPatch.prototype.type = "VirtualPatch"
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isVNode = __webpack_require__(4)
-var isVText = __webpack_require__(7)
+var isVText = __webpack_require__(8)
 var isWidget = __webpack_require__(1)
-var isThunk = __webpack_require__(8)
+var isThunk = __webpack_require__(9)
 
 module.exports = handleThunk
 
@@ -1703,7 +1714,7 @@ function renderThunk(thunk, previous) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1715,12 +1726,12 @@ module.exports = function isObject(x) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
-var minDoc = __webpack_require__(61);
+var minDoc = __webpack_require__(62);
 
 var doccy;
 
@@ -1739,17 +1750,17 @@ module.exports = doccy;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var document = __webpack_require__(27)
+var document = __webpack_require__(28)
 
-var applyProperties = __webpack_require__(29)
+var applyProperties = __webpack_require__(30)
 
 var isVNode = __webpack_require__(4)
-var isVText = __webpack_require__(7)
+var isVText = __webpack_require__(8)
 var isWidget = __webpack_require__(1)
-var handleThunk = __webpack_require__(25)
+var handleThunk = __webpack_require__(26)
 
 module.exports = createElement
 
@@ -1791,11 +1802,11 @@ function createElement(vnode, opts) {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(26)
-var isHook = __webpack_require__(9)
+var isObject = __webpack_require__(27)
+var isHook = __webpack_require__(10)
 
 module.exports = applyProperties
 
@@ -1894,14 +1905,14 @@ function getPrototype(value) {
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var version = __webpack_require__(3)
 var isVNode = __webpack_require__(4)
 var isWidget = __webpack_require__(1)
-var isThunk = __webpack_require__(8)
-var isVHook = __webpack_require__(9)
+var isThunk = __webpack_require__(9)
+var isVHook = __webpack_require__(10)
 
 module.exports = VirtualNode
 
@@ -1972,7 +1983,7 @@ VirtualNode.prototype.type = "VirtualNode"
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var version = __webpack_require__(3)
@@ -1988,7 +1999,294 @@ VirtualText.prototype.type = "VirtualText"
 
 
 /***/ }),
-/* 32 */
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var attrToProp = __webpack_require__(76)
+
+var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
+var ATTR_KEY = 5, ATTR_KEY_W = 6
+var ATTR_VALUE_W = 7, ATTR_VALUE = 8
+var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
+var ATTR_EQ = 11, ATTR_BREAK = 12
+var COMMENT = 13
+
+module.exports = function (h, opts) {
+  if (!opts) opts = {}
+  var concat = opts.concat || function (a, b) {
+    return String(a) + String(b)
+  }
+  if (opts.attrToProp !== false) {
+    h = attrToProp(h)
+  }
+
+  return function (strings) {
+    var state = TEXT, reg = ''
+    var arglen = arguments.length
+    var parts = []
+
+    for (var i = 0; i < strings.length; i++) {
+      if (i < arglen - 1) {
+        var arg = arguments[i+1]
+        var p = parse(strings[i])
+        var xstate = state
+        if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
+        if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
+        if (xstate === ATTR_VALUE_W) xstate = ATTR_VALUE
+        if (xstate === ATTR) xstate = ATTR_KEY
+        p.push([ VAR, xstate, arg ])
+        parts.push.apply(parts, p)
+      } else parts.push.apply(parts, parse(strings[i]))
+    }
+
+    var tree = [null,{},[]]
+    var stack = [[tree,-1]]
+    for (var i = 0; i < parts.length; i++) {
+      var cur = stack[stack.length-1][0]
+      var p = parts[i], s = p[0]
+      if (s === OPEN && /^\//.test(p[1])) {
+        var ix = stack[stack.length-1][1]
+        if (stack.length > 1) {
+          stack.pop()
+          stack[stack.length-1][0][2][ix] = h(
+            cur[0], cur[1], cur[2].length ? cur[2] : undefined
+          )
+        }
+      } else if (s === OPEN) {
+        var c = [p[1],{},[]]
+        cur[2].push(c)
+        stack.push([c,cur[2].length-1])
+      } else if (s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY)) {
+        var key = ''
+        var copyKey
+        for (; i < parts.length; i++) {
+          if (parts[i][0] === ATTR_KEY) {
+            key = concat(key, parts[i][1])
+          } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
+            if (typeof parts[i][2] === 'object' && !key) {
+              for (copyKey in parts[i][2]) {
+                if (parts[i][2].hasOwnProperty(copyKey) && !cur[1][copyKey]) {
+                  cur[1][copyKey] = parts[i][2][copyKey]
+                }
+              }
+            } else {
+              key = concat(key, parts[i][2])
+            }
+          } else break
+        }
+        if (parts[i][0] === ATTR_EQ) i++
+        var j = i
+        for (; i < parts.length; i++) {
+          if (parts[i][0] === ATTR_VALUE || parts[i][0] === ATTR_KEY) {
+            if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
+            else cur[1][key] = concat(cur[1][key], parts[i][1])
+          } else if (parts[i][0] === VAR
+          && (parts[i][1] === ATTR_VALUE || parts[i][1] === ATTR_KEY)) {
+            if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
+            else cur[1][key] = concat(cur[1][key], parts[i][2])
+          } else {
+            if (key.length && !cur[1][key] && i === j
+            && (parts[i][0] === CLOSE || parts[i][0] === ATTR_BREAK)) {
+              // https://html.spec.whatwg.org/multipage/infrastructure.html#boolean-attributes
+              // empty string is falsy, not well behaved value in browser
+              cur[1][key] = key.toLowerCase()
+            }
+            if (parts[i][0] === CLOSE) {
+              i--
+            }
+            break
+          }
+        }
+      } else if (s === ATTR_KEY) {
+        cur[1][p[1]] = true
+      } else if (s === VAR && p[1] === ATTR_KEY) {
+        cur[1][p[2]] = true
+      } else if (s === CLOSE) {
+        if (selfClosing(cur[0]) && stack.length) {
+          var ix = stack[stack.length-1][1]
+          stack.pop()
+          stack[stack.length-1][0][2][ix] = h(
+            cur[0], cur[1], cur[2].length ? cur[2] : undefined
+          )
+        }
+      } else if (s === VAR && p[1] === TEXT) {
+        if (p[2] === undefined || p[2] === null) p[2] = ''
+        else if (!p[2]) p[2] = concat('', p[2])
+        if (Array.isArray(p[2][0])) {
+          cur[2].push.apply(cur[2], p[2])
+        } else {
+          cur[2].push(p[2])
+        }
+      } else if (s === TEXT) {
+        cur[2].push(p[1])
+      } else if (s === ATTR_EQ || s === ATTR_BREAK) {
+        // no-op
+      } else {
+        throw new Error('unhandled: ' + s)
+      }
+    }
+
+    if (tree[2].length > 1 && /^\s*$/.test(tree[2][0])) {
+      tree[2].shift()
+    }
+
+    if (tree[2].length > 2
+    || (tree[2].length === 2 && /\S/.test(tree[2][1]))) {
+      throw new Error(
+        'multiple root elements must be wrapped in an enclosing tag'
+      )
+    }
+    if (Array.isArray(tree[2][0]) && typeof tree[2][0][0] === 'string'
+    && Array.isArray(tree[2][0][2])) {
+      tree[2][0] = h(tree[2][0][0], tree[2][0][1], tree[2][0][2])
+    }
+    return tree[2][0]
+
+    function parse (str) {
+      var res = []
+      if (state === ATTR_VALUE_W) state = ATTR
+      for (var i = 0; i < str.length; i++) {
+        var c = str.charAt(i)
+        if (state === TEXT && c === '<') {
+          if (reg.length) res.push([TEXT, reg])
+          reg = ''
+          state = OPEN
+        } else if (c === '>' && !quot(state) && state !== COMMENT) {
+          if (state === OPEN) {
+            res.push([OPEN,reg])
+          } else if (state === ATTR_KEY) {
+            res.push([ATTR_KEY,reg])
+          } else if (state === ATTR_VALUE && reg.length) {
+            res.push([ATTR_VALUE,reg])
+          }
+          res.push([CLOSE])
+          reg = ''
+          state = TEXT
+        } else if (state === COMMENT && /-$/.test(reg) && c === '-') {
+          if (opts.comments) {
+            res.push([ATTR_VALUE,reg.substr(0, reg.length - 1)],[CLOSE])
+          }
+          reg = ''
+          state = TEXT
+        } else if (state === OPEN && /^!--$/.test(reg)) {
+          if (opts.comments) {
+            res.push([OPEN, reg],[ATTR_KEY,'comment'],[ATTR_EQ])
+          }
+          reg = c
+          state = COMMENT
+        } else if (state === TEXT || state === COMMENT) {
+          reg += c
+        } else if (state === OPEN && /\s/.test(c)) {
+          res.push([OPEN, reg])
+          reg = ''
+          state = ATTR
+        } else if (state === OPEN) {
+          reg += c
+        } else if (state === ATTR && /[^\s"'=/]/.test(c)) {
+          state = ATTR_KEY
+          reg = c
+        } else if (state === ATTR && /\s/.test(c)) {
+          if (reg.length) res.push([ATTR_KEY,reg])
+          res.push([ATTR_BREAK])
+        } else if (state === ATTR_KEY && /\s/.test(c)) {
+          res.push([ATTR_KEY,reg])
+          reg = ''
+          state = ATTR_KEY_W
+        } else if (state === ATTR_KEY && c === '=') {
+          res.push([ATTR_KEY,reg],[ATTR_EQ])
+          reg = ''
+          state = ATTR_VALUE_W
+        } else if (state === ATTR_KEY) {
+          reg += c
+        } else if ((state === ATTR_KEY_W || state === ATTR) && c === '=') {
+          res.push([ATTR_EQ])
+          state = ATTR_VALUE_W
+        } else if ((state === ATTR_KEY_W || state === ATTR) && !/\s/.test(c)) {
+          res.push([ATTR_BREAK])
+          if (/[\w-]/.test(c)) {
+            reg += c
+            state = ATTR_KEY
+          } else state = ATTR
+        } else if (state === ATTR_VALUE_W && c === '"') {
+          state = ATTR_VALUE_DQ
+        } else if (state === ATTR_VALUE_W && c === "'") {
+          state = ATTR_VALUE_SQ
+        } else if (state === ATTR_VALUE_DQ && c === '"') {
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
+          reg = ''
+          state = ATTR
+        } else if (state === ATTR_VALUE_SQ && c === "'") {
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
+          reg = ''
+          state = ATTR
+        } else if (state === ATTR_VALUE_W && !/\s/.test(c)) {
+          state = ATTR_VALUE
+          i--
+        } else if (state === ATTR_VALUE && /\s/.test(c)) {
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
+          reg = ''
+          state = ATTR
+        } else if (state === ATTR_VALUE || state === ATTR_VALUE_SQ
+        || state === ATTR_VALUE_DQ) {
+          reg += c
+        }
+      }
+      if (state === TEXT && reg.length) {
+        res.push([TEXT,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE_DQ && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE_SQ && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_KEY) {
+        res.push([ATTR_KEY,reg])
+        reg = ''
+      }
+      return res
+    }
+  }
+
+  function strfn (x) {
+    if (typeof x === 'function') return x
+    else if (typeof x === 'string') return x
+    else if (x && typeof x === 'object') return x
+    else return concat('', x)
+  }
+}
+
+function quot (state) {
+  return state === ATTR_VALUE_SQ || state === ATTR_VALUE_DQ
+}
+
+var hasOwn = Object.prototype.hasOwnProperty
+function has (obj, key) { return hasOwn.call(obj, key) }
+
+var closeRE = RegExp('^(' + [
+  'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
+  'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param',
+  'source', 'track', 'wbr', '!--',
+  // SVG TAGS
+  'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse',
+  'feBlend', 'feColorMatrix', 'feComposite',
+  'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap',
+  'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR',
+  'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology',
+  'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile',
+  'feTurbulence', 'font-face-format', 'font-face-name', 'font-face-uri',
+  'glyph', 'glyphRef', 'hkern', 'image', 'line', 'missing-glyph', 'mpath',
+  'path', 'polygon', 'polyline', 'rect', 'set', 'stop', 'tref', 'use', 'view',
+  'vkern'
+].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$')
+function selfClosing (tag) { return closeRE.test(tag) }
+
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2001,13 +2299,15 @@ exports.AngularSelectorOnSteroids = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-__webpack_require__(33);
+__webpack_require__(35);
 
-var _selector = __webpack_require__(10);
+var _selector = __webpack_require__(5);
 
-var _selectorDropdownItems = __webpack_require__(38);
+var _selectorDropdownItems = __webpack_require__(40);
 
-var _selector2 = __webpack_require__(77);
+var _selectorSelectedItems = __webpack_require__(77);
+
+var _selector2 = __webpack_require__(78);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2030,7 +2330,7 @@ var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () 
                 $templateCache.put('selector-on-steroids/item-create.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_CREATE());
                 $templateCache.put('selector-on-steroids/item-default.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_DEFAULT());
                 $templateCache.put('selector-on-steroids/group-default.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_GROUP_DEFAULT());
-            }]).directive('sosDropdownItems', _selectorDropdownItems.SelectorDropdownItemsComponent.Factory(debug)).directive(MODULE_NAME, _selector2.SelectorComponent.Factory(debug));
+            }]).directive('sosSelectedItems', _selectorSelectedItems.SelectorSelectedItemsComponent.Factory(debug)).directive('sosDropdownItems', _selectorDropdownItems.SelectorDropdownItemsComponent.Factory(debug)).directive(MODULE_NAME, _selector2.SelectorComponent.Factory(debug));
             return module;
         }
     }]);
@@ -2039,13 +2339,13 @@ var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () 
 }();
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(34);
+var content = __webpack_require__(36);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -2053,7 +2353,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(36)(content, options);
+var update = __webpack_require__(38)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2070,10 +2370,10 @@ if(false) {
 }
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(35)(undefined);
+exports = module.exports = __webpack_require__(37)(undefined);
 // imports
 
 
@@ -2084,7 +2384,7 @@ exports.push([module.i, "@-webkit-keyframes selector-rotate {\r\n    0% {\r\n   
 
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /*
@@ -2166,7 +2466,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -2212,7 +2512,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(37);
+var	fixUrls = __webpack_require__(39);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -2525,7 +2825,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports) {
 
 
@@ -2620,7 +2920,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2644,13 +2944,13 @@ var _templateObject = _taggedTemplateLiteral(['<li class="selector-option js-dat
 
 var _Observable = __webpack_require__(0);
 
-__webpack_require__(20);
+__webpack_require__(15);
 
-__webpack_require__(23);
+__webpack_require__(16);
 
-var _selector = __webpack_require__(10);
+var _selector = __webpack_require__(5);
 
-var _virtualDom = __webpack_require__(55);
+var _virtualDom = __webpack_require__(24);
 
 var vdom = _interopRequireWildcard(_virtualDom);
 
@@ -2660,7 +2960,7 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var hyperx = __webpack_require__(75);
+var hyperx = __webpack_require__(33);
 
 var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = function () {
     function SelectorDropdownItemsComponent($log, debug) {
@@ -2754,7 +3054,6 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                                 _tree = tpl;
                                 _rootNode = vdom.create(_tree);
                                 element[0].appendChild(_rootNode);
-                                // element[0].innerHTML = _rootNode;
                                 _isFirstRendered = true;
                             } else {
                                 var _tpl = getRenderableItems(inputData.filteredOptions, inputData.highlighted);
@@ -2797,14 +3096,14 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
 }();
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var Subscriber_1 = __webpack_require__(5);
+var Subscriber_1 = __webpack_require__(6);
 var rxSubscriber_1 = __webpack_require__(14);
-var Observer_1 = __webpack_require__(18);
+var Observer_1 = __webpack_require__(20);
 function toSubscriber(nextOrObserver, error, complete) {
     if (nextOrObserver) {
         if (nextOrObserver instanceof Subscriber_1.Subscriber) {
@@ -2823,7 +3122,7 @@ exports.toSubscriber = toSubscriber;
 //# sourceMappingURL=toSubscriber.js.map
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2832,7 +3131,7 @@ exports.isArray = Array.isArray || (function (x) { return x && typeof x.length =
 //# sourceMappingURL=isArray.js.map
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2863,25 +3162,25 @@ exports.UnsubscriptionError = UnsubscriptionError;
 //# sourceMappingURL=UnsubscriptionError.js.map
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var merge_1 = __webpack_require__(43);
+var merge_1 = __webpack_require__(45);
 exports.merge = merge_1.mergeStatic;
 //# sourceMappingURL=merge.js.map
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var ArrayObservable_1 = __webpack_require__(44);
-var mergeAll_1 = __webpack_require__(46);
-var isScheduler_1 = __webpack_require__(22);
+var ArrayObservable_1 = __webpack_require__(46);
+var mergeAll_1 = __webpack_require__(48);
+var isScheduler_1 = __webpack_require__(23);
 /* tslint:enable:max-line-length */
 /**
  * Creates an output Observable which concurrently emits all values from every
@@ -3024,7 +3323,7 @@ exports.mergeStatic = mergeStatic;
 //# sourceMappingURL=merge.js.map
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3035,9 +3334,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Observable_1 = __webpack_require__(0);
-var ScalarObservable_1 = __webpack_require__(45);
-var EmptyObservable_1 = __webpack_require__(21);
-var isScheduler_1 = __webpack_require__(22);
+var ScalarObservable_1 = __webpack_require__(47);
+var EmptyObservable_1 = __webpack_require__(22);
+var isScheduler_1 = __webpack_require__(23);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @extends {Ignored}
@@ -3152,7 +3451,7 @@ exports.ArrayObservable = ArrayObservable;
 //# sourceMappingURL=ArrayObservable.js.map
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3216,7 +3515,7 @@ exports.ScalarObservable = ScalarObservable;
 //# sourceMappingURL=ScalarObservable.js.map
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3226,8 +3525,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var OuterSubscriber_1 = __webpack_require__(47);
-var subscribeToResult_1 = __webpack_require__(48);
+var OuterSubscriber_1 = __webpack_require__(49);
+var subscribeToResult_1 = __webpack_require__(50);
 /**
  * Converts a higher-order Observable into a first-order Observable which
  * concurrently delivers all values that are emitted on the inner Observables.
@@ -3333,7 +3632,7 @@ exports.MergeAllSubscriber = MergeAllSubscriber;
 //# sourceMappingURL=mergeAll.js.map
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3343,7 +3642,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Subscriber_1 = __webpack_require__(5);
+var Subscriber_1 = __webpack_require__(6);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore
@@ -3369,19 +3668,19 @@ exports.OuterSubscriber = OuterSubscriber;
 //# sourceMappingURL=OuterSubscriber.js.map
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var root_1 = __webpack_require__(2);
-var isArrayLike_1 = __webpack_require__(49);
-var isPromise_1 = __webpack_require__(50);
-var isObject_1 = __webpack_require__(16);
+var isArrayLike_1 = __webpack_require__(51);
+var isPromise_1 = __webpack_require__(52);
+var isObject_1 = __webpack_require__(18);
 var Observable_1 = __webpack_require__(0);
-var iterator_1 = __webpack_require__(51);
-var InnerSubscriber_1 = __webpack_require__(52);
-var observable_1 = __webpack_require__(19);
+var iterator_1 = __webpack_require__(53);
+var InnerSubscriber_1 = __webpack_require__(54);
+var observable_1 = __webpack_require__(21);
 function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
     var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
     if (destination.closed) {
@@ -3453,7 +3752,7 @@ exports.subscribeToResult = subscribeToResult;
 //# sourceMappingURL=subscribeToResult.js.map
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3462,7 +3761,7 @@ exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; 
 //# sourceMappingURL=isArrayLike.js.map
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3474,7 +3773,7 @@ exports.isPromise = isPromise;
 //# sourceMappingURL=isPromise.js.map
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3518,7 +3817,7 @@ exports.$$iterator = exports.iterator;
 //# sourceMappingURL=iterator.js.map
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3528,7 +3827,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Subscriber_1 = __webpack_require__(5);
+var Subscriber_1 = __webpack_require__(6);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore
@@ -3560,17 +3859,17 @@ exports.InnerSubscriber = InnerSubscriber;
 //# sourceMappingURL=InnerSubscriber.js.map
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var FromEventObservable_1 = __webpack_require__(54);
+var FromEventObservable_1 = __webpack_require__(56);
 exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
 //# sourceMappingURL=fromEvent.js.map
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3581,10 +3880,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Observable_1 = __webpack_require__(0);
-var tryCatch_1 = __webpack_require__(17);
+var tryCatch_1 = __webpack_require__(19);
 var isFunction_1 = __webpack_require__(12);
 var errorObject_1 = __webpack_require__(13);
-var Subscription_1 = __webpack_require__(6);
+var Subscription_1 = __webpack_require__(7);
 var toString = Object.prototype.toString;
 function isNodeStyleEventEmitter(sourceObj) {
     return !!sourceObj && typeof sourceObj.addListener === 'function' && typeof sourceObj.removeListener === 'function';
@@ -3716,49 +4015,28 @@ exports.FromEventObservable = FromEventObservable;
 //# sourceMappingURL=FromEventObservable.js.map
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var diff = __webpack_require__(56)
-var patch = __webpack_require__(59)
-var h = __webpack_require__(65)
-var create = __webpack_require__(74)
-var VNode = __webpack_require__(30)
-var VText = __webpack_require__(31)
-
-module.exports = {
-    diff: diff,
-    patch: patch,
-    h: h,
-    create: create,
-    VNode: VNode,
-    VText: VText
-}
-
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var diff = __webpack_require__(57)
+var diff = __webpack_require__(58)
 
 module.exports = diff
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(15)
+var isArray = __webpack_require__(17)
 
-var VPatch = __webpack_require__(24)
+var VPatch = __webpack_require__(25)
 var isVNode = __webpack_require__(4)
-var isVText = __webpack_require__(7)
+var isVText = __webpack_require__(8)
 var isWidget = __webpack_require__(1)
-var isThunk = __webpack_require__(8)
-var handleThunk = __webpack_require__(25)
+var isThunk = __webpack_require__(9)
+var handleThunk = __webpack_require__(26)
 
-var diffProps = __webpack_require__(58)
+var diffProps = __webpack_require__(59)
 
 module.exports = diff
 
@@ -4179,11 +4457,11 @@ function appendPatch(apply, patch) {
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(26)
-var isHook = __webpack_require__(9)
+var isObject = __webpack_require__(27)
+var isHook = __webpack_require__(10)
 
 module.exports = diffProps
 
@@ -4243,24 +4521,24 @@ function getPrototype(value) {
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var patch = __webpack_require__(60)
+var patch = __webpack_require__(61)
 
 module.exports = patch
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var document = __webpack_require__(27)
-var isArray = __webpack_require__(15)
+var document = __webpack_require__(28)
+var isArray = __webpack_require__(17)
 
-var render = __webpack_require__(28)
-var domIndex = __webpack_require__(62)
-var patchOp = __webpack_require__(63)
+var render = __webpack_require__(29)
+var domIndex = __webpack_require__(63)
+var patchOp = __webpack_require__(64)
 module.exports = patch
 
 function patch(rootNode, patches, renderOptions) {
@@ -4338,13 +4616,13 @@ function patchIndices(patches) {
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
@@ -4435,15 +4713,15 @@ function ascending(a, b) {
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var applyProperties = __webpack_require__(29)
+var applyProperties = __webpack_require__(30)
 
 var isWidget = __webpack_require__(1)
-var VPatch = __webpack_require__(24)
+var VPatch = __webpack_require__(25)
 
-var updateWidget = __webpack_require__(64)
+var updateWidget = __webpack_require__(65)
 
 module.exports = applyPatch
 
@@ -4592,7 +4870,7 @@ function replaceRoot(oldRoot, newRoot) {
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isWidget = __webpack_require__(1)
@@ -4613,34 +4891,34 @@ function updateWidget(a, b) {
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var h = __webpack_require__(66)
+var h = __webpack_require__(67)
 
 module.exports = h
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArray = __webpack_require__(15);
+var isArray = __webpack_require__(17);
 
-var VNode = __webpack_require__(30);
-var VText = __webpack_require__(31);
+var VNode = __webpack_require__(31);
+var VText = __webpack_require__(32);
 var isVNode = __webpack_require__(4);
-var isVText = __webpack_require__(7);
+var isVText = __webpack_require__(8);
 var isWidget = __webpack_require__(1);
-var isHook = __webpack_require__(9);
-var isVThunk = __webpack_require__(8);
+var isHook = __webpack_require__(10);
+var isVThunk = __webpack_require__(9);
 
-var parseTag = __webpack_require__(67);
-var softSetHook = __webpack_require__(69);
-var evHook = __webpack_require__(70);
+var parseTag = __webpack_require__(68);
+var softSetHook = __webpack_require__(70);
+var evHook = __webpack_require__(71);
 
 module.exports = h;
 
@@ -4766,13 +5044,13 @@ function errorString(obj) {
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var split = __webpack_require__(68);
+var split = __webpack_require__(69);
 
 var classIdSplit = /([\.#]?[a-zA-Z0-9\u007F-\uFFFF_:-]+)/;
 var notClassId = /^\.|#/;
@@ -4827,7 +5105,7 @@ function parseTag(tag, props) {
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports) {
 
 /*!
@@ -4939,7 +5217,7 @@ module.exports = (function split(undef) {
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4963,13 +5241,13 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
 
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var EvStore = __webpack_require__(71);
+var EvStore = __webpack_require__(72);
 
 module.exports = EvHook;
 
@@ -4997,13 +5275,13 @@ EvHook.prototype.unhook = function(node, propertyName) {
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var OneVersionConstraint = __webpack_require__(72);
+var OneVersionConstraint = __webpack_require__(73);
 
 var MY_VERSION = '7';
 OneVersionConstraint('ev-store', MY_VERSION);
@@ -5024,13 +5302,13 @@ function EvStore(elem) {
 
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Individual = __webpack_require__(73);
+var Individual = __webpack_require__(74);
 
 module.exports = OneVersion;
 
@@ -5053,7 +5331,7 @@ function OneVersion(moduleName, version, defaultValue) {
 
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5080,299 +5358,12 @@ function Individual(key, value) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 74 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var createElement = __webpack_require__(28)
-
-module.exports = createElement
-
-
-/***/ }),
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var attrToProp = __webpack_require__(76)
+var createElement = __webpack_require__(29)
 
-var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
-var ATTR_KEY = 5, ATTR_KEY_W = 6
-var ATTR_VALUE_W = 7, ATTR_VALUE = 8
-var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
-var ATTR_EQ = 11, ATTR_BREAK = 12
-var COMMENT = 13
-
-module.exports = function (h, opts) {
-  if (!opts) opts = {}
-  var concat = opts.concat || function (a, b) {
-    return String(a) + String(b)
-  }
-  if (opts.attrToProp !== false) {
-    h = attrToProp(h)
-  }
-
-  return function (strings) {
-    var state = TEXT, reg = ''
-    var arglen = arguments.length
-    var parts = []
-
-    for (var i = 0; i < strings.length; i++) {
-      if (i < arglen - 1) {
-        var arg = arguments[i+1]
-        var p = parse(strings[i])
-        var xstate = state
-        if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
-        if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
-        if (xstate === ATTR_VALUE_W) xstate = ATTR_VALUE
-        if (xstate === ATTR) xstate = ATTR_KEY
-        p.push([ VAR, xstate, arg ])
-        parts.push.apply(parts, p)
-      } else parts.push.apply(parts, parse(strings[i]))
-    }
-
-    var tree = [null,{},[]]
-    var stack = [[tree,-1]]
-    for (var i = 0; i < parts.length; i++) {
-      var cur = stack[stack.length-1][0]
-      var p = parts[i], s = p[0]
-      if (s === OPEN && /^\//.test(p[1])) {
-        var ix = stack[stack.length-1][1]
-        if (stack.length > 1) {
-          stack.pop()
-          stack[stack.length-1][0][2][ix] = h(
-            cur[0], cur[1], cur[2].length ? cur[2] : undefined
-          )
-        }
-      } else if (s === OPEN) {
-        var c = [p[1],{},[]]
-        cur[2].push(c)
-        stack.push([c,cur[2].length-1])
-      } else if (s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY)) {
-        var key = ''
-        var copyKey
-        for (; i < parts.length; i++) {
-          if (parts[i][0] === ATTR_KEY) {
-            key = concat(key, parts[i][1])
-          } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
-            if (typeof parts[i][2] === 'object' && !key) {
-              for (copyKey in parts[i][2]) {
-                if (parts[i][2].hasOwnProperty(copyKey) && !cur[1][copyKey]) {
-                  cur[1][copyKey] = parts[i][2][copyKey]
-                }
-              }
-            } else {
-              key = concat(key, parts[i][2])
-            }
-          } else break
-        }
-        if (parts[i][0] === ATTR_EQ) i++
-        var j = i
-        for (; i < parts.length; i++) {
-          if (parts[i][0] === ATTR_VALUE || parts[i][0] === ATTR_KEY) {
-            if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
-            else cur[1][key] = concat(cur[1][key], parts[i][1])
-          } else if (parts[i][0] === VAR
-          && (parts[i][1] === ATTR_VALUE || parts[i][1] === ATTR_KEY)) {
-            if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
-            else cur[1][key] = concat(cur[1][key], parts[i][2])
-          } else {
-            if (key.length && !cur[1][key] && i === j
-            && (parts[i][0] === CLOSE || parts[i][0] === ATTR_BREAK)) {
-              // https://html.spec.whatwg.org/multipage/infrastructure.html#boolean-attributes
-              // empty string is falsy, not well behaved value in browser
-              cur[1][key] = key.toLowerCase()
-            }
-            if (parts[i][0] === CLOSE) {
-              i--
-            }
-            break
-          }
-        }
-      } else if (s === ATTR_KEY) {
-        cur[1][p[1]] = true
-      } else if (s === VAR && p[1] === ATTR_KEY) {
-        cur[1][p[2]] = true
-      } else if (s === CLOSE) {
-        if (selfClosing(cur[0]) && stack.length) {
-          var ix = stack[stack.length-1][1]
-          stack.pop()
-          stack[stack.length-1][0][2][ix] = h(
-            cur[0], cur[1], cur[2].length ? cur[2] : undefined
-          )
-        }
-      } else if (s === VAR && p[1] === TEXT) {
-        if (p[2] === undefined || p[2] === null) p[2] = ''
-        else if (!p[2]) p[2] = concat('', p[2])
-        if (Array.isArray(p[2][0])) {
-          cur[2].push.apply(cur[2], p[2])
-        } else {
-          cur[2].push(p[2])
-        }
-      } else if (s === TEXT) {
-        cur[2].push(p[1])
-      } else if (s === ATTR_EQ || s === ATTR_BREAK) {
-        // no-op
-      } else {
-        throw new Error('unhandled: ' + s)
-      }
-    }
-
-    if (tree[2].length > 1 && /^\s*$/.test(tree[2][0])) {
-      tree[2].shift()
-    }
-
-    if (tree[2].length > 2
-    || (tree[2].length === 2 && /\S/.test(tree[2][1]))) {
-      throw new Error(
-        'multiple root elements must be wrapped in an enclosing tag'
-      )
-    }
-    if (Array.isArray(tree[2][0]) && typeof tree[2][0][0] === 'string'
-    && Array.isArray(tree[2][0][2])) {
-      tree[2][0] = h(tree[2][0][0], tree[2][0][1], tree[2][0][2])
-    }
-    return tree[2][0]
-
-    function parse (str) {
-      var res = []
-      if (state === ATTR_VALUE_W) state = ATTR
-      for (var i = 0; i < str.length; i++) {
-        var c = str.charAt(i)
-        if (state === TEXT && c === '<') {
-          if (reg.length) res.push([TEXT, reg])
-          reg = ''
-          state = OPEN
-        } else if (c === '>' && !quot(state) && state !== COMMENT) {
-          if (state === OPEN) {
-            res.push([OPEN,reg])
-          } else if (state === ATTR_KEY) {
-            res.push([ATTR_KEY,reg])
-          } else if (state === ATTR_VALUE && reg.length) {
-            res.push([ATTR_VALUE,reg])
-          }
-          res.push([CLOSE])
-          reg = ''
-          state = TEXT
-        } else if (state === COMMENT && /-$/.test(reg) && c === '-') {
-          if (opts.comments) {
-            res.push([ATTR_VALUE,reg.substr(0, reg.length - 1)],[CLOSE])
-          }
-          reg = ''
-          state = TEXT
-        } else if (state === OPEN && /^!--$/.test(reg)) {
-          if (opts.comments) {
-            res.push([OPEN, reg],[ATTR_KEY,'comment'],[ATTR_EQ])
-          }
-          reg = c
-          state = COMMENT
-        } else if (state === TEXT || state === COMMENT) {
-          reg += c
-        } else if (state === OPEN && /\s/.test(c)) {
-          res.push([OPEN, reg])
-          reg = ''
-          state = ATTR
-        } else if (state === OPEN) {
-          reg += c
-        } else if (state === ATTR && /[^\s"'=/]/.test(c)) {
-          state = ATTR_KEY
-          reg = c
-        } else if (state === ATTR && /\s/.test(c)) {
-          if (reg.length) res.push([ATTR_KEY,reg])
-          res.push([ATTR_BREAK])
-        } else if (state === ATTR_KEY && /\s/.test(c)) {
-          res.push([ATTR_KEY,reg])
-          reg = ''
-          state = ATTR_KEY_W
-        } else if (state === ATTR_KEY && c === '=') {
-          res.push([ATTR_KEY,reg],[ATTR_EQ])
-          reg = ''
-          state = ATTR_VALUE_W
-        } else if (state === ATTR_KEY) {
-          reg += c
-        } else if ((state === ATTR_KEY_W || state === ATTR) && c === '=') {
-          res.push([ATTR_EQ])
-          state = ATTR_VALUE_W
-        } else if ((state === ATTR_KEY_W || state === ATTR) && !/\s/.test(c)) {
-          res.push([ATTR_BREAK])
-          if (/[\w-]/.test(c)) {
-            reg += c
-            state = ATTR_KEY
-          } else state = ATTR
-        } else if (state === ATTR_VALUE_W && c === '"') {
-          state = ATTR_VALUE_DQ
-        } else if (state === ATTR_VALUE_W && c === "'") {
-          state = ATTR_VALUE_SQ
-        } else if (state === ATTR_VALUE_DQ && c === '"') {
-          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
-          reg = ''
-          state = ATTR
-        } else if (state === ATTR_VALUE_SQ && c === "'") {
-          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
-          reg = ''
-          state = ATTR
-        } else if (state === ATTR_VALUE_W && !/\s/.test(c)) {
-          state = ATTR_VALUE
-          i--
-        } else if (state === ATTR_VALUE && /\s/.test(c)) {
-          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
-          reg = ''
-          state = ATTR
-        } else if (state === ATTR_VALUE || state === ATTR_VALUE_SQ
-        || state === ATTR_VALUE_DQ) {
-          reg += c
-        }
-      }
-      if (state === TEXT && reg.length) {
-        res.push([TEXT,reg])
-        reg = ''
-      } else if (state === ATTR_VALUE && reg.length) {
-        res.push([ATTR_VALUE,reg])
-        reg = ''
-      } else if (state === ATTR_VALUE_DQ && reg.length) {
-        res.push([ATTR_VALUE,reg])
-        reg = ''
-      } else if (state === ATTR_VALUE_SQ && reg.length) {
-        res.push([ATTR_VALUE,reg])
-        reg = ''
-      } else if (state === ATTR_KEY) {
-        res.push([ATTR_KEY,reg])
-        reg = ''
-      }
-      return res
-    }
-  }
-
-  function strfn (x) {
-    if (typeof x === 'function') return x
-    else if (typeof x === 'string') return x
-    else if (x && typeof x === 'object') return x
-    else return concat('', x)
-  }
-}
-
-function quot (state) {
-  return state === ATTR_VALUE_SQ || state === ATTR_VALUE_DQ
-}
-
-var hasOwn = Object.prototype.hasOwnProperty
-function has (obj, key) { return hasOwn.call(obj, key) }
-
-var closeRE = RegExp('^(' + [
-  'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
-  'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param',
-  'source', 'track', 'wbr', '!--',
-  // SVG TAGS
-  'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse',
-  'feBlend', 'feColorMatrix', 'feComposite',
-  'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap',
-  'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR',
-  'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology',
-  'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile',
-  'feTurbulence', 'font-face-format', 'font-face-name', 'font-face-uri',
-  'glyph', 'glyphRef', 'hkern', 'image', 'line', 'missing-glyph', 'mpath',
-  'path', 'polygon', 'polyline', 'rect', 'set', 'stop', 'tref', 'use', 'view',
-  'vkern'
-].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$')
-function selfClosing (tag) { return closeRE.test(tag) }
+module.exports = createElement
 
 
 /***/ }),
@@ -5410,21 +5401,179 @@ function attributeToProperty (h) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.SelectorSelectedItemsComponent = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _templateObject = _taggedTemplateLiteral(['<div class="selector-helper"><span class="selector-icon" id="sos-data-index-', '"></span></div>'], ['<div class="selector-helper"><span class="selector-icon" id="sos-data-index-', '"></span></div>']),
+    _templateObject2 = _taggedTemplateLiteral([''], ['']),
+    _templateObject3 = _taggedTemplateLiteral(['<li>', ' ', '</li>'], ['<li>', ' ', '</li>']),
+    _templateObject4 = _taggedTemplateLiteral(['', ''], ['', '']),
+    _templateObject5 = _taggedTemplateLiteral(['<div>', '</div>'], ['<div>', '</div>']);
+
+var _Observable = __webpack_require__(0);
+
+__webpack_require__(15);
+
+__webpack_require__(16);
+
+var _selector = __webpack_require__(5);
+
+var _virtualDom = __webpack_require__(24);
+
+var vdom = _interopRequireWildcard(_virtualDom);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var hyperx = __webpack_require__(33);
+
+var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = function () {
+    function SelectorSelectedItemsComponent($log, debug) {
+        _classCallCheck(this, SelectorSelectedItemsComponent);
+
+        this.$log = $log;
+        this.debug = debug;
+        this.replace = true;
+        this.restrict = 'E';
+        this.templateUrl = 'selector-on-steroids/selector-selected-item.html';
+        this.scope = {
+            input: '<'
+        };
+    }
+
+    _createClass(SelectorSelectedItemsComponent, [{
+        key: 'link',
+        value: function link(scope, element, attrs) {
+            var _this = this;
+
+            var hx = hyperx(vdom.h, {
+                vdom: true
+            });
+            var _subscribers = [];
+            var _parentReferences = {};
+            var _isBooted = false;
+            var _isFirstRendered = false;
+            var _tree = null;
+            var _rootNode = null;
+            var GET_SELECTED_ITEM_TEMPLATE = function GET_SELECTED_ITEM_TEMPLATE(option, index, filteredOptions, parentReferences) {
+                var boundValue = parentReferences.getObjValue(option, parentReferences.labelAttr);
+                boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
+                var closeButton = parentReferences.multiple ? hx(_templateObject, index) : hx(_templateObject2);
+                return hx(_templateObject3, boundValue, closeButton);
+            };
+            var getRenderableItems = function getRenderableItems(items) {
+                var liList = hx(_templateObject4, items.map(function (currentValue, index, array) {
+                    return hx(_templateObject4, GET_SELECTED_ITEM_TEMPLATE(currentValue, index, array, _parentReferences));
+                }));
+                var tpl = hx(_templateObject5, liList);
+                return tpl;
+            };
+            _Observable.Observable.fromEvent(element[0], 'click').subscribe(function (e) {
+                if (e.type === 'click') {
+                    if (e.srcElement.classList.contains('selector-icon')) {
+                        var index = parseInt(e.srcElement.getAttribute('id').replace('sos-data-index-', ''));
+                        if (_parentReferences['unset']) {
+                            _parentReferences['unset'](index < -1 ? -1 : index);
+                        }
+                    }
+                }
+                e.stopPropagation();
+            });
+            if (scope.input) {
+                // TODO: Move to post link?
+                _subscribers.push(scope.input.subscribe(function (inputData) {
+                    if (inputData.selectedValues) {
+                        if (!_isBooted) {
+                            if (!_parentReferences.hasOwnProperty('groupAttr') || !_parentReferences.hasOwnProperty('valueAttr') || !_parentReferences.hasOwnProperty('labelAttr') || !_parentReferences.hasOwnProperty('getObjValue') || !_parentReferences.hasOwnProperty('unset') || !_parentReferences.hasOwnProperty('multiple') || !_parentReferences.hasOwnProperty('disabled')) {
+                                _parentReferences['groupAttr'] = inputData.groupAttr;
+                                _parentReferences['valueAttr'] = inputData.valueAttr;
+                                _parentReferences['labelAttr'] = inputData.labelAttr;
+                                _parentReferences['getObjValue'] = inputData.getObjValue;
+                                _parentReferences['unset'] = inputData.unset;
+                                _parentReferences['multiple'] = inputData.multiple;
+                                _parentReferences['disabled'] = inputData.disabled;
+                                _isBooted = true;
+                            }
+                        }
+                        if (_isBooted) {
+                            if (!_isFirstRendered) {
+                                var tpl = getRenderableItems(inputData.selectedValues);
+                                _tree = tpl;
+                                _rootNode = vdom.create(_tree);
+                                element[0].appendChild(_rootNode);
+                                // element[0].innerHTML = _rootNode;
+                                _isFirstRendered = true;
+                            } else {
+                                var _tpl = getRenderableItems(inputData.selectedValues);
+                                var newTree = _tpl;
+                                var patches = vdom.diff(_tree, newTree);
+                                _rootNode = vdom.patch(_rootNode, patches);
+                                _tree = newTree;
+                            }
+                        }
+                        if (_this.debug) {
+                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Re-drawing selected items/ options.');
+                        }
+                    }
+                }, function (error) {
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', 'Cannot initialize, Selector Selected Items Component!');
+                }));
+            }
+            scope.$on('$destroy', function () {
+                // dispose subscribers
+                if (_subscribers && _subscribers.length) {
+                    _subscribers.forEach(function (s) {
+                        s.unsubscribe();
+                    });
+                    _subscribers = null;
+                }
+            });
+        }
+    }], [{
+        key: 'Factory',
+        value: function Factory(debug) {
+            var directive = function directive($log) {
+                return new SelectorSelectedItemsComponent($log, debug);
+            };
+            directive['$inject'] = ['$log'];
+            return directive;
+        }
+    }]);
+
+    return SelectorSelectedItemsComponent;
+}();
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.SelectorComponent = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _Observable = __webpack_require__(0);
 
-__webpack_require__(20);
+__webpack_require__(15);
 
-__webpack_require__(78);
+__webpack_require__(79);
 
-__webpack_require__(23);
+__webpack_require__(16);
 
-var _Subject = __webpack_require__(80);
+var _Subject = __webpack_require__(81);
 
-var _selector = __webpack_require__(10);
+var _selector = __webpack_require__(5);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5518,9 +5667,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     selectedValuesInput$: new _Subject.Subject(),
                     filteredOptionsInput$: new _Subject.Subject()
                 };
-                var GET_DOM_STYLES = function GET_DOM_STYLES(element) {
-                    return !(element instanceof HTMLElement) ? {} : element.ownerDocument && element.ownerDocument.defaultView.opener ? element.ownerDocument.defaultView.getComputedStyle(element) : window.getComputedStyle(element);
-                };
                 // DEFAULTS
                 // Default: listen to dropdown dom event
                 _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN.subscribe(function (e) {
@@ -5595,7 +5741,10 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     });
                 };
                 angular.forEach(['name', 'valueAttr', 'labelAttr'], function (attr) {
-                    if (!attrs[attr]) attrs[attr] = scope[attr];
+                    if (!attrs[attr]) {
+                        attrs[attr] = scope[attr];
+                    }
+                    ;
                 });
                 // Options' utilities
                 var optionValue = function optionValue(option) {
@@ -5827,7 +5976,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 // Dropdown utilities
                 var dropdownPosition = function dropdownPosition() {
                     var label = DOM_SELECTOR_INPUT.parent()[0];
-                    var styles = GET_DOM_STYLES(label);
+                    var styles = _selector.CONSTANTS.FUNCTIONS.GET_DOM_STYLES(label);
                     var marginTop = parseFloat(styles.marginTop || 0);
                     var marginLeft = parseFloat(styles.marginLeft || 0);
                     if (label) {
@@ -5880,7 +6029,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 var scrollToHighlighted = function scrollToHighlighted() {
                     var dd = DOM_SELECTOR_DROPDOWN[0];
                     var option = dd.querySelectorAll('li.selector-option.js-data-item')[scope.highlighted];
-                    var styles = GET_DOM_STYLES(option);
+                    var styles = _selector.CONSTANTS.FUNCTIONS.GET_DOM_STYLES(option);
                     var marginTop = parseFloat(styles.marginTop || 0);
                     var marginBottom = parseFloat(styles.marginBottom || 0);
                     if (!scope.filteredOptions.length) {
@@ -5990,9 +6139,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                                             scope.set();
                                         }
                                     }
-                                    if (scope.multiple) {
-                                        open();
-                                    }
                                     e.preventDefault();
                                 }
                                 break;
@@ -6002,7 +6148,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                                 if (!DOM_SELECTOR_INPUT.val()) {
                                     var search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
                                     scope.unset();
-                                    open();
+                                    // open();
                                     if (scope.softDelete && !scope.disableSearch) _this.$timeout(function () {
                                         scope.search = search;
                                     });
@@ -6069,7 +6215,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 // Input width utilities
                 var measureWidth = function measureWidth() {
                     var width = void 0;
-                    var styles = GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
+                    var styles = _selector.CONSTANTS.FUNCTIONS.GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
                     var shadow = angular.element('<span class="selector-shadow"></span>');
                     shadow.text(DOM_SELECTOR_INPUT.val() || (!scope.hasValue() ? scope.placeholder : '') || '');
                     angular.element(document.body).append(shadow);
@@ -6143,37 +6289,24 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }).slice(0, scope.limit);
                     _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 };
-                _watchers.push(scope.$watch('value', function (newValue, oldValue) {
-                    if (angular.equals(newValue, oldValue)) {
-                        return;
-                    }
-                    ;
-                    _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
-                        updateSelected();
-                        filterOptions();
-                        updateValue();
-                    });
-                }, true));
+                _watchers.push();
                 // DOM event listeners
                 _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe(function (e) {
-                    if (e.type === 'focus') {
-                        _this.$timeout(function () {
-                            scope.$apply(open);
-                        });
-                    }
-                    if (e.type === 'blur') {
-                        _this.$timeout(function () {
-                            scope.$apply(close);
-                        });
-                    }
-                    if (e.type === 'keydown') {
-                        scope.$apply(function () {
+                    _this.$timeout(function () {
+                        if (e.type === 'focus') {
+                            open();
+                        }
+                        if (e.type === 'blur') {
+                            close();
+                            //     scope.$apply(close);
+                        }
+                        if (e.type === 'keydown') {
                             keydown(e);
-                        });
-                    }
-                    if (e.type === 'input') {
-                        setInputWidth();
-                    }
+                        }
+                        if (e.type === 'input') {
+                            setInputWidth();
+                        }
+                    });
                 }, function (error) {
                     _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));
@@ -6258,28 +6391,28 @@ var SelectorComponent = exports.SelectorComponent = function () {
 }();
 
 /***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(0);
-var empty_1 = __webpack_require__(79);
-Observable_1.Observable.empty = empty_1.empty;
-//# sourceMappingURL=empty.js.map
-
-/***/ }),
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var EmptyObservable_1 = __webpack_require__(21);
-exports.empty = EmptyObservable_1.EmptyObservable.create;
+var Observable_1 = __webpack_require__(0);
+var empty_1 = __webpack_require__(80);
+Observable_1.Observable.empty = empty_1.empty;
 //# sourceMappingURL=empty.js.map
 
 /***/ }),
 /* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var EmptyObservable_1 = __webpack_require__(22);
+exports.empty = EmptyObservable_1.EmptyObservable.create;
+//# sourceMappingURL=empty.js.map
+
+/***/ }),
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6290,10 +6423,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Observable_1 = __webpack_require__(0);
-var Subscriber_1 = __webpack_require__(5);
-var Subscription_1 = __webpack_require__(6);
-var ObjectUnsubscribedError_1 = __webpack_require__(81);
-var SubjectSubscription_1 = __webpack_require__(82);
+var Subscriber_1 = __webpack_require__(6);
+var Subscription_1 = __webpack_require__(7);
+var ObjectUnsubscribedError_1 = __webpack_require__(82);
+var SubjectSubscription_1 = __webpack_require__(83);
 var rxSubscriber_1 = __webpack_require__(14);
 /**
  * @class SubjectSubscriber<T>
@@ -6453,7 +6586,7 @@ exports.AnonymousSubject = AnonymousSubject;
 //# sourceMappingURL=Subject.js.map
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6486,7 +6619,7 @@ exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 //# sourceMappingURL=ObjectUnsubscribedError.js.map
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6496,7 +6629,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Subscription_1 = __webpack_require__(6);
+var Subscription_1 = __webpack_require__(7);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore

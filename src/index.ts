@@ -2,6 +2,7 @@ declare const angular;
 import './components/selector.pcss';
 import { CONSTANTS } from './components/selector.constants';
 import { SelectorDropdownItemsComponent } from './components/selector.dropdown.items.component';
+import { SelectorSelectedItemsComponent } from './components/selector.selected.items.component';
 import { SelectorComponent } from './components/selector.component';
 
 const MODULE_NAME = `selectorOnSteroids`;
@@ -21,7 +22,7 @@ export class AngularSelectorOnSteroids {
           $templateCache.put('selector-on-steroids/item-default.html', CONSTANTS.TEMPLATES.TEMPLATE_ITEM_DEFAULT());
           $templateCache.put('selector-on-steroids/group-default.html', CONSTANTS.TEMPLATES.TEMPLATE_GROUP_DEFAULT());
         }])
-        // .directive('sosSelectedItems', SelectorSelectedItemsComponent.Factory(debug))
+        .directive('sosSelectedItems', SelectorSelectedItemsComponent.Factory(debug))
         .directive('sosDropdownItems', SelectorDropdownItemsComponent.Factory(debug))
         .directive(MODULE_NAME, SelectorComponent.Factory(debug));
     return module;

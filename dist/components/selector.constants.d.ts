@@ -24,7 +24,7 @@ export declare const CONSTANTS: {
         TEMPLATE_SELECTOR: () => string;
     };
     FUNCTIONS: {
-        GET_SELECTED_ITEM_TEMPLATE: (option: any, index: number, filteredOptions: any[], parentReferences: any) => string;
         CONSOLE_LOGGER: ($log: any, type: any, message: string) => void;
+        GET_DOM_STYLES: (element: HTMLElement) => {};
     };
 };
