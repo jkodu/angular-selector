@@ -609,6 +609,10 @@ export class SelectorComponent {
                     option = scope.filteredOptions[scope.highlighted];
                 }
 
+                if(!option) {
+                    return;
+                }
+
                 const _oldSelectedValues = angular.copy(scope.selectedValues);
                 if (!scope.multiple) {
                     scope.selectedValues = [option];

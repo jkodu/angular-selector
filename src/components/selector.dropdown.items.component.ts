@@ -71,14 +71,21 @@ export class SelectorDropdownItemsComponent {
             Observable.fromEvent(element[0], 'click')
         ).subscribe((e: Event | MouseEvent) => {
             if (e.type === 'mouseover') {
-                const index = parseInt((e.srcElement.getAttribute('id')).replace('sos-data-index-', ''));
+                const el = e.srcElement.getAttribute('id');
+                if(!el) {
+                    return;
+                }
+                const index = parseInt(el.replace('sos-data-index-', ''));
                 if (_parentReferences['highlight']) {
                     _parentReferences['highlight'](index < -1 ? -1 : index);
                 }
             }
             if (e.type === 'click') {
-                const index = parseInt((e.srcElement.getAttribute('id')).replace('sos-data-index-', ''));
-
+                const el = e.srcElement.getAttribute('id');
+                if(!el) {
+                    return;
+                }
+                const index = parseInt(el.replace('sos-data-index-', ''));
                 if (_parentReferences['highlight']) {
                     _parentReferences['highlight'](index < -1 ? -1 : index);
                 }

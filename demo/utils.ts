@@ -6,11 +6,12 @@ export const getWatchers = (root) => {
     var watcherCount = 0;
 
     function getElemWatchers(element) {
-        var isolateWatchers = getWatchersFromScope(element.data()
-            .$isolateScope);
+        // var isolateWatchers = getWatchersFromScope(element.data()
+        //     .$isolateScope);
         var scopeWatchers = getWatchersFromScope(element.data()
             .$scope);
-        var watchers = scopeWatchers.concat(isolateWatchers);
+        // var watchers = scopeWatchers.concat(isolateWatchers);
+        var watchers = scopeWatchers;
         angular.forEach(element.children(), function (childElement) {
             watchers = watchers.concat(getElemWatchers(angular.element(childElement)));
         });
