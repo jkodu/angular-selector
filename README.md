@@ -5,7 +5,7 @@
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 *angular-selector-on-steroids* is a native AngularJS (1.6.x) directive that transforms a simple `<select>` html tag into a full html select with typeahead/ autocompletion.
-This component is a **shameless** upgrade to the [angular-selector](https://npmjs.org/package/angular-selector) directive, which has been booted up with steroids to circumvent the limitations faced by with the older implementation, such as bad-performance, too many digest cycles and unncessary watchers.
+This component is a **shameless** upgrade to the [angular-selector](https://npmjs.org/package/angular-selector) directive, which has been booted up with steroids to circumvent the limitations faced by with the older implementation, such as bad-performance, too many digest cycles and unnecessary watchers.
 
 
 ### Why was there a need to upgrade?
@@ -44,13 +44,23 @@ The [angular-selector](https://npmjs.org/package/angular-selector) although a we
 ```
 npm install --save angular-selector-on-steroids
 ```
-You can then use it like so:
-
+Usage:
 ```js
 import * as sos from '../dist/angular-selector-on-steroids';
 new sos.AngularSelectorOnSteroids().init();
 
-var app = angular.module('MyApp', ['selector']);
+const app = angular.module('MyApp', ['selectorOnSteroids']);
+```
+
+```html
+<select 
+    selector-on-steroids
+    steroids="true"    
+    model="selectedObj" 
+    options="arrayOfOptions" 
+    value-attr="code" 
+    >
+</select>
 ```
 
 
