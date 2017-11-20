@@ -1,188 +1,168 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" ng-app="AngularSelectorDemo">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<title>Angular Selector</title>
-		<meta name="description" content="Angular Selector is a native AngularJS directive that transform a simple `<select>` box into a full html select with typeahead">
-		<meta name="author" content="Indri Muska <indrimuska@gmail.com>">
-		<meta name="keywords" content="select angular selector directive typeahead">
-		
-		<!-- Open Graph Meta Tags -->
-		<meta property="og:title" content="Angular Selector">
-		<meta property="og:site_name" content="Angular Selector">
-		<meta property="og:url" content="http://indrimuska.github.io/angular-selector/">
-		<meta property="og:description" content="Angular Selector is a native AngularJS directive that transform a simple <select> box into a full html select with typeahead.">
-		<meta property="og:image" content="http://indrimuska.github.io/angular-selector/img/angular-selector.png">
-		<meta property="og:type" content="website">
-		
-		<!-- Stylesheets -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
-		<link rel="stylesheet" href="demo.css">
-		<link rel="stylesheet" href="https://cdn.rawgit.com/indrimuska/angular-selector/master/dist/angular-selector.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/github.min.css">
-	</head>
-	<body ng-controller="AngularSelectorDemoCtrl" itemscope itemtype="http://schema.org/SoftwareApplication">
-		<div class="container">
-			<div class="header clearfix">
-				<nav>
-					<ul class="nav nav-pills pull-right">
-						<li role="presentation"><a href="https://github.com/indrimuska/angular-selector" target="_blank">Project</a></li>
-					</ul>
-				</nav>
-				<h3 class="pacifico">Angular Selector</h3>
-			</div>
-		</div>
-		
-		<div class="jumbotron">
-			<div class="container">
-				<h1 class="pacifico" itemprop="name">Angular Selector</h1>
-				<p class="lead">
-					Angular Selector is a native AngularJS directive that transform a simple <code>&lt;select&gt;</code> box into a full html select with typeahead.
-				</p>
-				<ul class="list-inline">
-					<li>
-						<a class="github-button" href="https://github.com/indrimuska/angular-selector" data-icon="octicon-star" data-style="mega"
-							aria-label="Star indrimuska/angular-selector on GitHub">Star</a>
-					</li>
-					<li>
-						<a class="github-button" href="https://github.com/indrimuska/angular-selector/fork" data-icon="octicon-git-branch" data-style="mega"
-							aria-label="Fork indrimuska/angular-selector on GitHub">Fork</a>
-					</li>
-					<li>
-						<a class="github-button" href="https://github.com/indrimuska/angular-selector" data-icon="octicon-eye" data-style="mega"
-							aria-label="Watch indrimuska/angular-selector on GitHub">Watch</a>
-					</li>
-					<li>
-						<a class="github-button" href="https://github.com/indrimuska/angular-selector/issues" data-icon="octicon-issue-opened" data-style="mega"
-							aria-label="Issue indrimuska/angular-selector on GitHub">Issue</a>
-					</li>
-					<li>
-						<a class="github-button" href="https://github.com/indrimuska/angular-selector/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega"
-							aria-label="Download indrimuska/angular-selector on GitHub">Download</a>
-					</li>
-				</ul>
-				<p class="lead">
-					<select selector multi="true" class="jumbotron-selector">
-						<option value="Angular" selected>Angular</option>
-						<option value="Selector" selected>Selector</option>
-						<option value="No-jQuery required">No-jQuery required</option>
-					</select>
-				</p>
-			</div>
-		</div>
-		
-		<div class="container">
-			
-			<article class="features">
-				<h2 class="pacifico">Features</h2>
-				<ul>
-					<li>
-						<h4>No-jQuery Required</h4>
-						<p>Angular Selector is a full native Angular directive, so you can use it without have to include any other library (except AngularJS, of course!).</p>
-					</li>
-					<li>
-						<h4>Skinnable</h4>
-						<p>You can define a template for the items in the dropdown list and a template for selected items.</p>
-					</li>
-					<li>
-						<h4>RTL Support</h4>
-						<p>To use it in with any kind of text direction.</p>
-					</li>
-					<li>
-						<h4>Remote Resource Loading</h4>
-						<p>Fetch your data from an external source and use it in your application.</p>
-					</li>
-					<li>
-						<h4>From HTML <code>&lt;option&gt;</code> to JS <code>object</code></h4>
-						<p>
-							Fill your <code>&lt;select&gt;</code> from server-side ad use data-attributes for every option you have,
-							then <i>Angular Selector</i> performs for you the conversion to a simple array of objects.
-						</p>
-					</li>
-					<li>
-						<h4>Custom Option Creation</h4>
-						<p>You can create new options and add them to the list, just by hitting <kbd>Enter</kbd>.</p>
-					</li>
-					<li>
-						<h4>Keyboard support</h4>
-						<p>
-							Move up and down the dropdown list using keyboard arrows.
-							Select highlighted item pressing <kbd>Enter</kbd>. Remove last selected item with <kbd>Del</kbd> key.
-						</p>
-					</li>
-					<li>
-						<h4>Responsive</h4>
-						<p>Perfect for use in mobile environments.</p>
-					</li>
-				</ul>
-			</article>
-			
-			<article class="options">
-				<h2 class="pacifico">Options</h2>
-				<p class="lead">
-					Check out all the available options <a href="https://github.com/indrimuska/angular-selector#options" target="_blank">here</a>.
-				</p>
-			</article>
-			
-			<article class="examples">
-				<h2 class="pacifico">Examples</h2>
-				<section ng-repeat="example in examples" ng-init="tab='view'">
-					<div class="navbar">
-						<ul class="nav nav-pills navbar-right">
-							<li ng-class="{active:tab=='view'}" ng-show="!example.service"><a ng-click="tab='view'">View</a></li>
-							<li ng-class="{active:tab=='html'}" ng-show="!example.service"><a ng-click="tab='html'">HTML</a></li>
-							<li ng-class="{active:tab=='js'}" ng-show="!example.service && example.js"><a ng-click="tab='js'">JS</a></li>
-							<li plunker></li>
-						</ul>
-						<h4 ng-bind-html="example.title|trustAsHtml"></h4>
-					</div>
-					
-					<div class="tab-content" ng-if="example.service">
-						<h4>Open this example on <span plunker></span></h4>
-					</div>
-					<div class="tab-content" ng-if="!example.service">
-						<div class="tab-pane example" ng-class="{active:tab=='view'}"></div>
-						<pre class="tab-pane" ng-class="{active:tab=='html'}" ng-bind-html="example.html|highlight:'html'"></pre>
-						<pre class="tab-pane" ng-class="{active:tab=='js'}" ng-bind-html="example.js|highlight:'javascript'" ng-if="example.js"></pre>
-					</div>
-				</section>
-			</article>
-			
-			<footer class="footer">
-				<div class="pull-right">
-					<a class="github-button" href="https://github.com/indrimuska" data-style="mega" aria-label="Follow @indrimuska on GitHub">Follow @indrimuska</a>
-				</div>
-				<div>
-					<h4>Indri Muska</h4>
-					<p><a href="https://gitter.im/indrimuska/angular-selector" target="_blank"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"></a></p>
-				</div>
-			</footer>
-			
-		</div>
-		
-		<!-- Scripts -->
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
-		<script src="https://cdn.rawgit.com/indrimuska/angular-selector/master/dist/angular-selector.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
-		<script src="demo.js"></script>
-		<script src="https://buttons.github.io/buttons.js" async defer id="github-bjs"></script>
-		<script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		ga('create', 'UA-67205107-1', 'auto'); ga('send', 'pageview');
-		</script>
-		<script>
-		!function(g,s,q,r,d){r=g[r]=g[r]||function(){(r.q=r.q||[]).push(
-		arguments)};d=s.createElement(q);q=s.getElementsByTagName(q)[0];
-		d.src='//d1l6p2sc9645hc.cloudfront.net/tracker.js';q.parentNode.
-		insertBefore(d,q)}(window,document,'script','_gs');
-		_gs('GSN-458730-T');
-		</script>
-	</body>
+<html lang="en"
+    ng-app="AngularSelectorDemo">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible"
+            content="IE=edge">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+        <title>Angular Selector On Steroids</title>
+
+        <meta name="description"
+            content="Angular Selector is a native AngularJS directive that transform a simple `<select>` box into a full html select with typeahead">
+
+        <style>
+            html,
+            body {
+                color: #404040;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+                font-size: 11px;
+            }
+            /* Articles */
+            
+            article {
+                margin-bottom: 60px;
+            }
+            
+            .examples pre {
+                padding: 15px;
+                font-size: 12px;
+                box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+                background: -webkit-linear-gradient(#fafafa, #f5f5f5);
+                background: -moz-linear-gradient(#fafafa, #f5f5f5);
+                background: -ms-linear-gradient(#fafafa, #f5f5f5);
+                background: -o-linear-gradient(#fafafa, #f5f5f5);
+                background: linear-gradient(#fafafa, #f5f5f5);
+            }
+            /* Demo override style to show watch count */
+            
+            .selector-container:after {
+                position: absolute;
+                content: "Watchers: " attr(watchcount) " ";
+                right: 0;
+                top: 0;
+                padding: 5px;
+                transform: translateY(-100%);
+                background: red;
+                color: white;
+            }
+            
+            .flex-c {
+                display: flex;
+                width: 100%;
+            }
+            
+            .l-pane,
+            .r-pane {
+                flex-grow: 1;
+                flex-basis: 0;
+                padding: 50px;
+            }
+            
+            .l-pane {
+                border-right: 5px solid;
+            }
+        </style>
+
+    </head>
+
+    <body ng-controller="AngularSelectorDemoCtrl"
+        itemscope
+        itemtype="http://schema.org/SoftwareApplication">
+
+        <div class="flex-c">
+            <div class="l-pane">
+                <h4>
+                    Angular Selector On Steroids - Examples
+                </h4>
+                <article class="examples">
+                    <section ng-repeat="example in examples track by $index"
+                        ng-init="tab='view'">
+                        <div class="navbar">
+                            <ul class="nav nav-pills navbar-right">
+                                <li ng-class="{active:tab=='view'}"
+                                    ng-show="!example.service"><a ng-click="tab='view'">View</a></li>
+                                <li ng-class="{active:tab=='html'}"
+                                    ng-show="!example.service"><a ng-click="tab='html'">HTML</a></li>
+                                <li ng-class="{active:tab=='js'}"
+                                    ng-show="!example.service && example.js"><a ng-click="tab='js'">JS</a></li>
+                                <!-- <li plunker></li> -->
+                            </ul>
+                            <h4 ng-bind-html="example.title|trustAsHtml"></h4>
+                        </div>
+                        <!-- <div class="tab-content"
+                            ng-if="example.service">
+                            <h4><span plunker></span></h4>
+                        </div> -->
+                        <div class="tab-content"
+                            ng-if="!example.service">
+                            <div class="tab-pane example"
+                                ng-class="{active:tab=='view'}"></div>
+                            <pre class="tab-pane"
+                                ng-class="{active:tab=='html'}"
+                                ng-bind-html="example.html|highlight:'html'"></pre>
+                            <pre class="tab-pane"
+                                ng-class="{active:tab=='js'}"
+                                ng-bind-html="example.js|highlight:'javascript'"
+                                ng-if="example.js"></pre>
+                        </div>
+                    </section>
+                </article>
+            </div>
+
+            <div class="r-pane">
+
+                <h4>
+                    Angular Selector - Examples
+                </h4>
+
+                <article class="examples">
+                    <section ng-repeat="example in oldExamples track by $index"
+                        ng-init="tab='view'">
+                        <div class="navbar">
+                            <ul class="nav nav-pills navbar-right">
+                                <li ng-class="{active:tab=='view'}"
+                                    ng-show="!example.service"><a ng-click="tab='view'">View</a></li>
+                                <li ng-class="{active:tab=='html'}"
+                                    ng-show="!example.service"><a ng-click="tab='html'">HTML</a></li>
+                                <li ng-class="{active:tab=='js'}"
+                                    ng-show="!example.service && example.js"><a ng-click="tab='js'">JS</a></li>
+                                <!-- <li plunker></li> -->
+                            </ul>
+                            <h4 ng-bind-html="example.title|trustAsHtml"></h4>
+                        </div>
+
+                        <!-- <div class="tab-content"
+                                ng-if="example.service">
+                                <h4><span plunker></span></h4>
+                            </div> -->
+                        <div class="tab-content"
+                            ng-if="!example.service">
+                            <div class="tab-pane example"
+                                ng-class="{active:tab=='view'}"></div>
+                            <pre class="tab-pane"
+                                ng-class="{active:tab=='html'}"
+                                ng-bind-html="example.html|highlight:'html'"></pre>
+                            <pre class="tab-pane"
+                                ng-class="{active:tab=='js'}"
+                                ng-bind-html="example.js|highlight:'javascript'"
+                                ng-if="example.js"></pre>
+                        </div>
+                    </section>
+                </article>
+            </div>
+        </div>
+
+
+    <script type="text/javascript" src="app.js?02e6398125954e602d26"></script></body>
+
 </html>
