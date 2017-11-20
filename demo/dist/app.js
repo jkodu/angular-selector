@@ -63,14 +63,14 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(5);
+__webpack_require__(6);
 module.exports = angular;
 
 
@@ -158,6 +158,83 @@ exports.ex_create_custom_options_using_promise = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.old_ex_single_element = {
+    "title": "Single element",
+    "html": "<select set-watch-count selector-on-steroids \n\tmodel=\"browser\"\n\steroids=\"false\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
+    "js": "$scope.browser = \"GCX\";\n\n$scope.browsers = [\n\t{ value: \"GCX\", label: \"ChromeX\" },\n\t{ value: \"FFY\", label: \"FirefoxY\" },\n\t{ value: \"ASZ\", label: \"SafariZ\" },\n\t{ value: \"IEA\", label: \"Internet ExplorerS\" }\n];"
+};
+exports.old_ex_multiple_element = {
+    "title": "Multiple elements",
+    "html": "<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmulti=\"true\"\n\tmodel=\"myBrowsers\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myBrowsers|json\"></code>\n</p>",
+    "js": "$scope.myBrowsers = [ \"GC\", \"AS\" ];\n\n$scope.browsers = [\n\t{ value: \"GC\", label: \"Chrome\" },\n\t{ value: \"FF\", label: \"Firefox\" },\n\t{ value: \"AS\", label: \"Safari\" },\n\t{ value: \"IE\", label: \"Internet Explorer\" }\n];"
+};
+exports.old_ex_return_entire_obj = {
+    "title": "Return entire object(s)",
+    "html": "<!-- just DON'T add `value-attr` attribute! -->\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"browser\"\n\toptions=\"browsers\"\n\tlabel-attr=\"name\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
+    "js": "$scope.browser = { name: \"Firefox\" };\n\n$scope.browsers = [\n\t{ name: \"Chrome\" },\n\t{ name: \"Firefox\" },\n\t{ name: \"Safari\" },\n\t{ name: \"Internet Explorer\" }\n];"
+};
+exports.old_ex_custom_template = {
+    "title": "Custom template",
+    "html": "<script type=\"text/ng-template\" id=\"selector/demo/browserWithURL\">\n\t{{option.label}}\n\t<a class=\"small\" ng-href=\"{{option.url}}\" ng-bind=\"option.url\"></a>\n</script>\n\n<script type=\"text/ng-template\" id=\"selector/demo/browserWithIcon\">\n\t<img ng-src=\"{{option.icon}}\"> {{option.label}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmulti=\"true\"\n\tmodel=\"myBrowsers\"\n\toptions=\"browsers\"\n\tvalue-attr=\"code\"\n\tview-item-template=\"'selector/demo/browserWithURL'\"\n\tdropdown-item-template=\"'selector/demo/browserWithIcon'\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myBrowsers|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://www.iconfinder.com/iconsets/logotypes\" target=\"_blank\">\n\t\tLogotypes\n\t</a>\n</p>",
+    "js": "$scope.myBrowsers = [ \"AS\" ];\n\n$scope.browsers = [\n\t{\n\t\tcode: \"GC\",\n\t\tlabel: \"Chrome\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-24.png\",\n\t\turl: \"https://www.google.it/chrome\"\n\t},\n\t{\n\t\tcode: \"FF\",\n\t\tlabel: \"Firefox\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/firefox-24.png\",\n\t\turl: \"https://www.mozilla.org/firefox\"\n\t},\n\t{\n\t\tcode: \"AS\",\n\t\tlabel: \"Safari\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/safari-24.png\",\n\t\turl: \"http://www.apple.com/safari/\"\n\t},\n\t{\n\t\tcode: \"IE\",\n\t\tlabel: \"Internet Explorer\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/internet-explorer-24.png\",\n\t\turl: \"http://windows.microsoft.com/internet-explorer\"\n\t}\n];"
+};
+exports.old_ex_fill_options_from_html = {
+    "title": "Fill options from HTML",
+    "html": "<script type=\"text/ng-template\" id=\"selector/demo/currency\">\n\t<kbd ng-bind=\"option.symbol\"></kbd>&nbsp;\n\t<b ng-bind=\"option.code\"></b> - {{option.label}}\n</script>\n\n<script type=\"text/ng-template\" id=\"selector/demo/currencyGroup\">\n\t<img class=\"currency-group\"\n\t\tng-src=\"http://files.softicons.com/download/web-icons/fatcow-hosting-additional-icons-by-fatcow/png/32x32/{{\n\t\t\toption.zone == 'Europe' ? 'flag_european_union' : 'wallet'\n\t\t}}.png\">&nbsp;\n\t{{option.zone}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"currency\"\n\toptions=\"currencies\"\n\tvalue-attr=\"value\"\n\tgroup-attr=\"zone\"\n\tview-item-template=\"'selector/demo/currency'\"\n\tdropdown-item-template=\"'selector/demo/currency'\"\n\tdropdown-group-template=\"'selector/demo/currencyGroup'\">\n\t\n\t<optgroup label=\"Europe\">\n\t\t<option value=\"2\"\n\t\t\tdata-code=\"EUR\"\n\t\t\tdata-symbol=\"€\">Euro Member Countries</option>\n\t\t<option value=\"3\"\n\t\t\tdata-code=\"GBP\"\n\t\t\tdata-symbol=\"£\">United Kingdom Pound</option>\n\t\t<option value=\"5\"\n\t\t\tdata-code=\"SEK\"\n\t\t\tdata-symbol=\"kr\"\n\t\t\tselected>Sweden Krona</option>\n\t</optgroup>\n\t<optgroup label=\"Others\">\n\t\t<option value=\"1\"\n\t\t\tdata-code=\"USD\"\n\t\t\tdata-symbol=\"$\">United States Dollar</option>\n\t\t<option value=\"4\"\n\t\t\tdata-code=\"EUR\"\n\t\t\tdata-symbol=\"¥\">Japan Yen</option>\n\t</optgroup>\n\t\n</select>\n\n<p>\n\tCurrent value: <code ng-bind=\"currency|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"http://www.softicons.com/web-icons/fatcow-hosting-additional-icons-by-fatcow\" target=\"_blank\">\n\t\tFatCow Hosting Additional Icons\n\t</a>\n</p>\n\n<p ng-init=\"show=false\">\n\t<a ng-click=\"show=!show\">Hide/show all options</a>\n\t<pre ng-show=\"show\" ng-bind=\"currencies|json\"></pre>\n</p>"
+};
+exports.old_ex_rtl_support = {
+    "title": "RTL Support",
+    "html": "<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"multi\"> Multiple\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"rtl\"> RTL\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"remove\"> Remove button\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"restore\"> Restore on backspace\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"disabled\"> Disabled\n</label>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\trtl=\"rtl\"\n\tmulti=\"multi\"\n\tmodel=\"language\"\n\tdisable=\"disabled\"\n\toptions=\"languages\"\n\tvalue-attr=\"value\"\n\tlabel-attr=\"value\"\n\tremove-button=\"remove\"\n\tsoft-delete=\"restore\"\n\tplaceholder=\"Choose your favourite language(s)...\">\n\t\n\t<option value=\"PHP\"></option>\n\t<option value=\"Java\"></option>\n\t<option value=\"Ruby\"></option>\n\t<option value=\"Node\"></option>\n\t\n</select>\n\n<p>\n\tCurrent value: <code ng-bind=\"language|json\"></code>\n</p>"
+};
+exports.old_ex_remote_fetching = {
+    "title": "Remote fetching",
+    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmulti=\"true\"\n\tmodel=\"countries\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tvalue-attr=\"code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
+    "js": "$scope.countries = [ \"DZ\", \"AX\" ];\n\n$scope.remoteConfig = {\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\tvar countries = angular.fromJson(data).RestResponse.result;\n\t\treturn countries.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};"
+};
+exports.old_ex_remote_fetching_with_validation = {
+    "title": "Remote fetching and validation",
+    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"country\"\n\tvalue-attr=\"code\"\n\tdebounce=\"200\"\n\tremote=\"remote\"\n\tremote-param=\"{{remoteParam}}\"\n\tremote-validation=\"remoteValidation(value)\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"country|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
+    "js": "var options = {\n\turl: 'http://services.groupkt.com/country/',\n\tmethod: 'GET',\n\tcache: true,\n\ttransformResponse: function (data) {\n\t\tvar result = angular.fromJson(data).RestResponse.result;\n\t\tif (!angular.isArray(result)) result = [result];\n\t\treturn result.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};\n\n$scope.country = 'SV';\n\n$scope.remote = angular.copy(options);\n$scope.remote.url += 'search';\n$scope.remoteParam = 'text';\n\n$scope.remoteValidation = function (value) {\n\tvar settings = angular.copy(options);\n\tsettings.url += 'get/iso2code/' + value;\n\treturn settings;\n}"
+};
+exports.old_ex_remote_fetching_with_custom_service = {
+    "title": "Remote fetching with custom service",
+    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"country\"\n\tvalue-attr=\"code\"\n\tdebounce=\"200\"\n\tremote=\"remote(search)\"\n\tremote-validation=\"validate(value)\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"country|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
+    "js": "$scope.country = 'SV';\n\n$scope.remote = function (search) {\n\treturn $countries.search(search);\n};\n$scope.validate = function (value) {\n\treturn $countries.validate(value);\n};",
+    "service": {
+        "name": "$countries",
+        "deps": ["$http", "$q"],
+        "js": "var options = {\n\turl: 'http://services.groupkt.com/country/',\n\tmethod: 'GET',\n\tcache: true,\n\ttransformResponse: function (data) {\n\t\tvar result = angular.fromJson(data).RestResponse.result;\n\t\tif (!angular.isArray(result)) result = [result];\n\t\treturn result.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};\n\nfunction Countries() {}\nCountries.prototype.search = function (search) {\n\tif (!search) return $q.resolve([]);\n\tvar settings = angular.copy(options);\n\tsettings.url += 'search';\n\tsettings.params = { text: search };\n\treturn $http(settings);\n};\nCountries.prototype.validate = function (value) {\n\tif (!value) return $q.resolve([]);\n\tvar settings = angular.copy(options);\n\tsettings.url += 'get/iso2code/' + value;\n\treturn $http(settings);\n};\n\nreturn new Countries();"
+    }
+};
+exports.old_ex_apis = {
+    "title": "APIs",
+    "html": "<div class=\"btn-group\">\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.open()\">\n\t\tOpen\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.focus()\">\n\t\tFocus\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.close()\">\n\t\tClose\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.fetch()\">\n\t\tFetch\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.set('SXM')\">\n\t\tSet <code>SXM</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.set('ITA')\">\n\t\tSet <code>ITA</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.unset('ITA')\">\n\t\tUnset <code>ITA</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.unset()\">\n\t\tUnset all\n\t</button>\n</div>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"countries\"\n\tmulti=\"true\"\n\tapi=\"countriesAPI\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tlabel-attr=\"name\"\n\tvalue-attr=\"alpha3_code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>",
+    "js": "$scope.remoteConfig = {\n\tcache: false,\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\treturn angular.fromJson(data).RestResponse.result;\n\t}\n};"
+};
+exports.old_ex_change_options_dynamically = {
+    "title": "Change options dynamically",
+    "html": "<div class=\"btn-group\">\n\t<button class=\"btn btn-default\"\n\t\tng-class=\"{active:zone=='global'}\"\n\t\tng-click=\"zone='global'\">\n\t\tGlobal Rivers\n\t</button>\n\t<button class=\"btn btn-default\"\n\t\tng-class=\"{active:zone=='european'}\"\n\t\tng-click=\"zone='european'\">\n\t\tEuropean Rivers\n\t</button>\n</div>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"river\"\n\toptions=\"rivers\"\n\tlabel-attr=\"name\"\n\tplaceholder=\"Select a river...\"></select>\n\n<dl class=\"dl-horizontal\">\n\t<dt>River</dt>\n\t<dd ng-bind=\"river.name || '-'\"></dd>\n\t\n\t<dt>Length</dt>\n\t<dd ng-bind=\"river.length ? (river.length | number) + ' km' : '-'\"></dd>\n\t\n\t<dt>Outflow</dt>\n\t<dd ng-bind=\"river.outflow || '-'\"></dd>\n</dl>\n\n<p>\n\tCurrent value: <code ng-bind=\"river|json\"></code>\n</p>",
+    "js": "$scope.zone = \"global\";\n\n$scope.globalRivers = [\n\t{ name: \"Nile\",        length: 6690, outflow: \"Mediterranean\" },\n\t{ name: \"Amazon\",      length: 6296, outflow: \"Atlantic Ocean\" },\n\t{ name: \"Mississippi\", length: 5970, outflow: \"Gulf of Mexico\" },\n\t{ name: \"Yangtze\",     length: 5797, outflow: \"China Sea\" },\n\t{ name: \"Ob\",          length: 5567, outflow: \"Gulf of Ob\" },\n\t{ name: \"Yellow\",      length: 4667, outflow: \"Gulf of Chihli\" },\n\t{ name: \"Yenisei\",     length: 4506, outflow: \"Arctic Ocean\" },\n\t{ name: \"Paraná\",      length: 4498, outflow: \"Río de la Plata\" },\n\t{ name: \"Irtish\",      length: 4438, outflow: \"Ob River\" },\n\t{ name: \"Chambeshi\",   length: 4371, outflow: \"Atlantic Ocean\" }\n];\n\n$scope.europeanRivers = [\n\t{ name: \"Volga\",       length: 3692, outflow: \"Caspian Sea\" },\n\t{ name: \"Danube\",      length: 2860, outflow: \"Black Sea\" },\n\t{ name: \"Ural\",        length: 2428, outflow: \"Caspian Sea\" },\n\t{ name: \"Dnieper\",     length: 2290, outflow: \"Black Sea\" },\n\t{ name: \"Don\",         length: 1950, outflow: \"Sea of Azov\" },\n\t{ name: \"Pechora\",     length: 1809, outflow: \"Arctic Ocean\" },\n\t{ name: \"Kama\",        length: 1805, outflow: \"Volga\" },\n\t{ name: \"Oka\",         length: 1500, outflow: \"Volga\" },\n\t{ name: \"Belaya\",      length: 1430, outflow: \"Kama\" },\n\t{ name: \"Dniester\",    length: 1362, outflow: \"Black Sea\" }\n];\n\n$scope.$watch('zone', function (zone) {\n\t$scope.rivers = $scope[zone + 'Rivers'];\n\t// select first\n\t$scope.river = $scope.rivers[0];\n});"
+};
+exports.old_ex_create_custom_options = {
+    "title": "Create custom options",
+    "html": "<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"myHobbies\"\n\tmulti=\"true\"\n\toptions=\"hobbies\"\n\tvalue-attr=\"value\"\n\tplaceholder=\"Which are your hobbies? (type something that is not in the list)\"\n\tcreate=\"createFunction(input)\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myHobbies|json\"></code>\n</p>",
+    "js": "$scope.hobbies =[\n\t{ value: 0, label: \"Basketball\" },\n\t{ value: 1, label: \"Videogames\" },\n\t{ value: 2, label: \"Travelling\" }\n];\n\n$scope.createFunction = function (input) {\n\t// format the option and return it\n\treturn {\n\t\tvalue: $scope.hobbies.length,\n\t\tlabel: input\n\t};\n};"
+};
+exports.old_ex_create_custom_options_using_promise = {
+    "title": "Create custom options (using <code>Promise</code>)",
+    "html": "<div ng-show=\"!creation.active\">\n\t<select set-watch-count selector-on-steroids steroids=\"false\"\n\t\tmodel=\"myHobbies\"\n\t\tmulti=\"true\"\n\t\toptions=\"hobbies\"\n\t\tvalue-attr=\"value\"\n\t\tplaceholder=\"Which are your hobbies? (type something that is not in the list)\"\n\t\tcreate=\"creation.show(input)\"></select>\n\t\n\t<p>\n\t\tCurrent value: <code ng-bind=\"myHobbies|json\"></code>\n\t</p>\n</div>\n\n<form ng-show=\"creation.active\" ng-submit=\"creation.insert()\">\n\t<div class=\"form-group\">\n\t\t<label>Value</label>\n\t\t<input ng-model=\"creation.value\" required autofocus\n\t\t\tplaceholder=\"value\" class=\"form-control\">\n\t</div>\n\t<div class=\"form-group\">\n\t\t<label>Label</label>\n\t\t<input ng-model=\"creation.label\" required\n\t\t\tplaceholder=\"label\" class=\"form-control\">\n\t</div>\n\t<button type=\"submit\" class=\"btn btn-success\">\n\t\tInsert value!\n\t</button>\n\t<button type=\"button\" class=\"btn btn-default\"\n\t\tng-click=\"creation.cancel()\">\n\t\tCancel\n\t</button>\n</form>",
+    "js": "$scope.hobbies = [\n\t{ value: 0, label: \"Basketball\" },\n\t{ value: 1, label: \"Videogames\" },\n\t{ value: 2, label: \"Travelling\" }\n];\n\n$scope.creation = {\n\tactive: false,\n\tdeferred: null,\n\tshow: function (input) {\n\t\tthis.deferred = $q.defer();\n\t\tthis.active   = true;\n\t\tthis.value    = $scope.hobbies.length;\n\t\tthis.label    = input;\n\t\treturn this.deferred.promise;\n\t},\n\tinsert: function () {\n\t\tthis.active = false;\n\t\tthis.deferred.resolve({\n\t\t\tvalue: this.value,\n\t\t\tlabel: this.label\n\t\t});\n\t},\n\tcancel: function () {\n\t\tthis.active = false;\n\t\tthis.deferred.reject();\n\t}\n};"
+};
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 var angular = __webpack_require__(0);
 exports.getWatchers = function (root) {
     root = angular.element(root || document.documentElement);
@@ -187,192 +264,192 @@ exports.getWatchers = function (root) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var hljs = __webpack_require__(7);
+var hljs = __webpack_require__(8);
 
-hljs.registerLanguage('1c', __webpack_require__(8));
-hljs.registerLanguage('abnf', __webpack_require__(9));
-hljs.registerLanguage('accesslog', __webpack_require__(10));
-hljs.registerLanguage('actionscript', __webpack_require__(11));
-hljs.registerLanguage('ada', __webpack_require__(12));
-hljs.registerLanguage('apache', __webpack_require__(13));
-hljs.registerLanguage('applescript', __webpack_require__(14));
-hljs.registerLanguage('cpp', __webpack_require__(38));
-hljs.registerLanguage('arduino', __webpack_require__(15));
-hljs.registerLanguage('armasm', __webpack_require__(16));
-hljs.registerLanguage('xml', __webpack_require__(180));
-hljs.registerLanguage('asciidoc', __webpack_require__(17));
-hljs.registerLanguage('aspectj', __webpack_require__(18));
-hljs.registerLanguage('autohotkey', __webpack_require__(19));
-hljs.registerLanguage('autoit', __webpack_require__(20));
-hljs.registerLanguage('avrasm', __webpack_require__(21));
-hljs.registerLanguage('awk', __webpack_require__(22));
-hljs.registerLanguage('axapta', __webpack_require__(23));
-hljs.registerLanguage('bash', __webpack_require__(24));
-hljs.registerLanguage('basic', __webpack_require__(25));
-hljs.registerLanguage('bnf', __webpack_require__(26));
-hljs.registerLanguage('brainfuck', __webpack_require__(27));
-hljs.registerLanguage('cal', __webpack_require__(28));
-hljs.registerLanguage('capnproto', __webpack_require__(29));
-hljs.registerLanguage('ceylon', __webpack_require__(30));
-hljs.registerLanguage('clean', __webpack_require__(31));
-hljs.registerLanguage('clojure', __webpack_require__(33));
-hljs.registerLanguage('clojure-repl', __webpack_require__(32));
-hljs.registerLanguage('cmake', __webpack_require__(34));
-hljs.registerLanguage('coffeescript', __webpack_require__(35));
-hljs.registerLanguage('coq', __webpack_require__(36));
-hljs.registerLanguage('cos', __webpack_require__(37));
-hljs.registerLanguage('crmsh', __webpack_require__(39));
-hljs.registerLanguage('crystal', __webpack_require__(40));
-hljs.registerLanguage('cs', __webpack_require__(41));
-hljs.registerLanguage('csp', __webpack_require__(42));
-hljs.registerLanguage('css', __webpack_require__(43));
-hljs.registerLanguage('d', __webpack_require__(44));
-hljs.registerLanguage('markdown', __webpack_require__(104));
-hljs.registerLanguage('dart', __webpack_require__(45));
-hljs.registerLanguage('delphi', __webpack_require__(46));
-hljs.registerLanguage('diff', __webpack_require__(47));
-hljs.registerLanguage('django', __webpack_require__(48));
-hljs.registerLanguage('dns', __webpack_require__(49));
-hljs.registerLanguage('dockerfile', __webpack_require__(50));
-hljs.registerLanguage('dos', __webpack_require__(51));
-hljs.registerLanguage('dsconfig', __webpack_require__(52));
-hljs.registerLanguage('dts', __webpack_require__(53));
-hljs.registerLanguage('dust', __webpack_require__(54));
-hljs.registerLanguage('ebnf', __webpack_require__(55));
-hljs.registerLanguage('elixir', __webpack_require__(56));
-hljs.registerLanguage('elm', __webpack_require__(57));
-hljs.registerLanguage('ruby', __webpack_require__(144));
-hljs.registerLanguage('erb', __webpack_require__(58));
-hljs.registerLanguage('erlang-repl', __webpack_require__(59));
-hljs.registerLanguage('erlang', __webpack_require__(60));
-hljs.registerLanguage('excel', __webpack_require__(61));
-hljs.registerLanguage('fix', __webpack_require__(62));
-hljs.registerLanguage('flix', __webpack_require__(63));
-hljs.registerLanguage('fortran', __webpack_require__(64));
-hljs.registerLanguage('fsharp', __webpack_require__(65));
-hljs.registerLanguage('gams', __webpack_require__(66));
-hljs.registerLanguage('gauss', __webpack_require__(67));
-hljs.registerLanguage('gcode', __webpack_require__(68));
-hljs.registerLanguage('gherkin', __webpack_require__(69));
-hljs.registerLanguage('glsl', __webpack_require__(70));
-hljs.registerLanguage('go', __webpack_require__(71));
-hljs.registerLanguage('golo', __webpack_require__(72));
-hljs.registerLanguage('gradle', __webpack_require__(73));
-hljs.registerLanguage('groovy', __webpack_require__(74));
-hljs.registerLanguage('haml', __webpack_require__(75));
-hljs.registerLanguage('handlebars', __webpack_require__(76));
-hljs.registerLanguage('haskell', __webpack_require__(77));
-hljs.registerLanguage('haxe', __webpack_require__(78));
-hljs.registerLanguage('hsp', __webpack_require__(79));
-hljs.registerLanguage('htmlbars', __webpack_require__(80));
-hljs.registerLanguage('http', __webpack_require__(81));
-hljs.registerLanguage('hy', __webpack_require__(82));
-hljs.registerLanguage('inform7', __webpack_require__(83));
-hljs.registerLanguage('ini', __webpack_require__(84));
-hljs.registerLanguage('irpf90', __webpack_require__(85));
-hljs.registerLanguage('java', __webpack_require__(86));
-hljs.registerLanguage('javascript', __webpack_require__(87));
-hljs.registerLanguage('jboss-cli', __webpack_require__(88));
-hljs.registerLanguage('json', __webpack_require__(89));
-hljs.registerLanguage('julia', __webpack_require__(91));
-hljs.registerLanguage('julia-repl', __webpack_require__(90));
-hljs.registerLanguage('kotlin', __webpack_require__(92));
-hljs.registerLanguage('lasso', __webpack_require__(93));
-hljs.registerLanguage('ldif', __webpack_require__(94));
-hljs.registerLanguage('leaf', __webpack_require__(95));
-hljs.registerLanguage('less', __webpack_require__(96));
-hljs.registerLanguage('lisp', __webpack_require__(97));
-hljs.registerLanguage('livecodeserver', __webpack_require__(98));
-hljs.registerLanguage('livescript', __webpack_require__(99));
-hljs.registerLanguage('llvm', __webpack_require__(100));
-hljs.registerLanguage('lsl', __webpack_require__(101));
-hljs.registerLanguage('lua', __webpack_require__(102));
-hljs.registerLanguage('makefile', __webpack_require__(103));
-hljs.registerLanguage('mathematica', __webpack_require__(105));
-hljs.registerLanguage('matlab', __webpack_require__(106));
-hljs.registerLanguage('maxima', __webpack_require__(107));
-hljs.registerLanguage('mel', __webpack_require__(108));
-hljs.registerLanguage('mercury', __webpack_require__(109));
-hljs.registerLanguage('mipsasm', __webpack_require__(110));
-hljs.registerLanguage('mizar', __webpack_require__(111));
-hljs.registerLanguage('perl', __webpack_require__(125));
-hljs.registerLanguage('mojolicious', __webpack_require__(112));
-hljs.registerLanguage('monkey', __webpack_require__(113));
-hljs.registerLanguage('moonscript', __webpack_require__(114));
-hljs.registerLanguage('n1ql', __webpack_require__(115));
-hljs.registerLanguage('nginx', __webpack_require__(116));
-hljs.registerLanguage('nimrod', __webpack_require__(117));
-hljs.registerLanguage('nix', __webpack_require__(118));
-hljs.registerLanguage('nsis', __webpack_require__(119));
-hljs.registerLanguage('objectivec', __webpack_require__(120));
-hljs.registerLanguage('ocaml', __webpack_require__(121));
-hljs.registerLanguage('openscad', __webpack_require__(122));
-hljs.registerLanguage('oxygene', __webpack_require__(123));
-hljs.registerLanguage('parser3', __webpack_require__(124));
-hljs.registerLanguage('pf', __webpack_require__(126));
-hljs.registerLanguage('php', __webpack_require__(127));
-hljs.registerLanguage('pony', __webpack_require__(128));
-hljs.registerLanguage('powershell', __webpack_require__(129));
-hljs.registerLanguage('processing', __webpack_require__(130));
-hljs.registerLanguage('profile', __webpack_require__(131));
-hljs.registerLanguage('prolog', __webpack_require__(132));
-hljs.registerLanguage('protobuf', __webpack_require__(133));
-hljs.registerLanguage('puppet', __webpack_require__(134));
-hljs.registerLanguage('purebasic', __webpack_require__(135));
-hljs.registerLanguage('python', __webpack_require__(136));
-hljs.registerLanguage('q', __webpack_require__(137));
-hljs.registerLanguage('qml', __webpack_require__(138));
-hljs.registerLanguage('r', __webpack_require__(139));
-hljs.registerLanguage('rib', __webpack_require__(140));
-hljs.registerLanguage('roboconf', __webpack_require__(141));
-hljs.registerLanguage('routeros', __webpack_require__(142));
-hljs.registerLanguage('rsl', __webpack_require__(143));
-hljs.registerLanguage('ruleslanguage', __webpack_require__(145));
-hljs.registerLanguage('rust', __webpack_require__(146));
-hljs.registerLanguage('scala', __webpack_require__(147));
-hljs.registerLanguage('scheme', __webpack_require__(148));
-hljs.registerLanguage('scilab', __webpack_require__(149));
-hljs.registerLanguage('scss', __webpack_require__(150));
-hljs.registerLanguage('shell', __webpack_require__(151));
-hljs.registerLanguage('smali', __webpack_require__(152));
-hljs.registerLanguage('smalltalk', __webpack_require__(153));
-hljs.registerLanguage('sml', __webpack_require__(154));
-hljs.registerLanguage('sqf', __webpack_require__(155));
-hljs.registerLanguage('sql', __webpack_require__(156));
-hljs.registerLanguage('stan', __webpack_require__(157));
-hljs.registerLanguage('stata', __webpack_require__(158));
-hljs.registerLanguage('step21', __webpack_require__(159));
-hljs.registerLanguage('stylus', __webpack_require__(160));
-hljs.registerLanguage('subunit', __webpack_require__(161));
-hljs.registerLanguage('swift', __webpack_require__(162));
-hljs.registerLanguage('taggerscript', __webpack_require__(163));
-hljs.registerLanguage('yaml', __webpack_require__(182));
-hljs.registerLanguage('tap', __webpack_require__(164));
-hljs.registerLanguage('tcl', __webpack_require__(165));
-hljs.registerLanguage('tex', __webpack_require__(166));
-hljs.registerLanguage('thrift', __webpack_require__(167));
-hljs.registerLanguage('tp', __webpack_require__(168));
-hljs.registerLanguage('twig', __webpack_require__(169));
-hljs.registerLanguage('typescript', __webpack_require__(170));
-hljs.registerLanguage('vala', __webpack_require__(171));
-hljs.registerLanguage('vbnet', __webpack_require__(172));
-hljs.registerLanguage('vbscript', __webpack_require__(174));
-hljs.registerLanguage('vbscript-html', __webpack_require__(173));
-hljs.registerLanguage('verilog', __webpack_require__(175));
-hljs.registerLanguage('vhdl', __webpack_require__(176));
-hljs.registerLanguage('vim', __webpack_require__(177));
-hljs.registerLanguage('x86asm', __webpack_require__(178));
-hljs.registerLanguage('xl', __webpack_require__(179));
-hljs.registerLanguage('xquery', __webpack_require__(181));
-hljs.registerLanguage('zephir', __webpack_require__(183));
+hljs.registerLanguage('1c', __webpack_require__(9));
+hljs.registerLanguage('abnf', __webpack_require__(10));
+hljs.registerLanguage('accesslog', __webpack_require__(11));
+hljs.registerLanguage('actionscript', __webpack_require__(12));
+hljs.registerLanguage('ada', __webpack_require__(13));
+hljs.registerLanguage('apache', __webpack_require__(14));
+hljs.registerLanguage('applescript', __webpack_require__(15));
+hljs.registerLanguage('cpp', __webpack_require__(39));
+hljs.registerLanguage('arduino', __webpack_require__(16));
+hljs.registerLanguage('armasm', __webpack_require__(17));
+hljs.registerLanguage('xml', __webpack_require__(181));
+hljs.registerLanguage('asciidoc', __webpack_require__(18));
+hljs.registerLanguage('aspectj', __webpack_require__(19));
+hljs.registerLanguage('autohotkey', __webpack_require__(20));
+hljs.registerLanguage('autoit', __webpack_require__(21));
+hljs.registerLanguage('avrasm', __webpack_require__(22));
+hljs.registerLanguage('awk', __webpack_require__(23));
+hljs.registerLanguage('axapta', __webpack_require__(24));
+hljs.registerLanguage('bash', __webpack_require__(25));
+hljs.registerLanguage('basic', __webpack_require__(26));
+hljs.registerLanguage('bnf', __webpack_require__(27));
+hljs.registerLanguage('brainfuck', __webpack_require__(28));
+hljs.registerLanguage('cal', __webpack_require__(29));
+hljs.registerLanguage('capnproto', __webpack_require__(30));
+hljs.registerLanguage('ceylon', __webpack_require__(31));
+hljs.registerLanguage('clean', __webpack_require__(32));
+hljs.registerLanguage('clojure', __webpack_require__(34));
+hljs.registerLanguage('clojure-repl', __webpack_require__(33));
+hljs.registerLanguage('cmake', __webpack_require__(35));
+hljs.registerLanguage('coffeescript', __webpack_require__(36));
+hljs.registerLanguage('coq', __webpack_require__(37));
+hljs.registerLanguage('cos', __webpack_require__(38));
+hljs.registerLanguage('crmsh', __webpack_require__(40));
+hljs.registerLanguage('crystal', __webpack_require__(41));
+hljs.registerLanguage('cs', __webpack_require__(42));
+hljs.registerLanguage('csp', __webpack_require__(43));
+hljs.registerLanguage('css', __webpack_require__(44));
+hljs.registerLanguage('d', __webpack_require__(45));
+hljs.registerLanguage('markdown', __webpack_require__(105));
+hljs.registerLanguage('dart', __webpack_require__(46));
+hljs.registerLanguage('delphi', __webpack_require__(47));
+hljs.registerLanguage('diff', __webpack_require__(48));
+hljs.registerLanguage('django', __webpack_require__(49));
+hljs.registerLanguage('dns', __webpack_require__(50));
+hljs.registerLanguage('dockerfile', __webpack_require__(51));
+hljs.registerLanguage('dos', __webpack_require__(52));
+hljs.registerLanguage('dsconfig', __webpack_require__(53));
+hljs.registerLanguage('dts', __webpack_require__(54));
+hljs.registerLanguage('dust', __webpack_require__(55));
+hljs.registerLanguage('ebnf', __webpack_require__(56));
+hljs.registerLanguage('elixir', __webpack_require__(57));
+hljs.registerLanguage('elm', __webpack_require__(58));
+hljs.registerLanguage('ruby', __webpack_require__(145));
+hljs.registerLanguage('erb', __webpack_require__(59));
+hljs.registerLanguage('erlang-repl', __webpack_require__(60));
+hljs.registerLanguage('erlang', __webpack_require__(61));
+hljs.registerLanguage('excel', __webpack_require__(62));
+hljs.registerLanguage('fix', __webpack_require__(63));
+hljs.registerLanguage('flix', __webpack_require__(64));
+hljs.registerLanguage('fortran', __webpack_require__(65));
+hljs.registerLanguage('fsharp', __webpack_require__(66));
+hljs.registerLanguage('gams', __webpack_require__(67));
+hljs.registerLanguage('gauss', __webpack_require__(68));
+hljs.registerLanguage('gcode', __webpack_require__(69));
+hljs.registerLanguage('gherkin', __webpack_require__(70));
+hljs.registerLanguage('glsl', __webpack_require__(71));
+hljs.registerLanguage('go', __webpack_require__(72));
+hljs.registerLanguage('golo', __webpack_require__(73));
+hljs.registerLanguage('gradle', __webpack_require__(74));
+hljs.registerLanguage('groovy', __webpack_require__(75));
+hljs.registerLanguage('haml', __webpack_require__(76));
+hljs.registerLanguage('handlebars', __webpack_require__(77));
+hljs.registerLanguage('haskell', __webpack_require__(78));
+hljs.registerLanguage('haxe', __webpack_require__(79));
+hljs.registerLanguage('hsp', __webpack_require__(80));
+hljs.registerLanguage('htmlbars', __webpack_require__(81));
+hljs.registerLanguage('http', __webpack_require__(82));
+hljs.registerLanguage('hy', __webpack_require__(83));
+hljs.registerLanguage('inform7', __webpack_require__(84));
+hljs.registerLanguage('ini', __webpack_require__(85));
+hljs.registerLanguage('irpf90', __webpack_require__(86));
+hljs.registerLanguage('java', __webpack_require__(87));
+hljs.registerLanguage('javascript', __webpack_require__(88));
+hljs.registerLanguage('jboss-cli', __webpack_require__(89));
+hljs.registerLanguage('json', __webpack_require__(90));
+hljs.registerLanguage('julia', __webpack_require__(92));
+hljs.registerLanguage('julia-repl', __webpack_require__(91));
+hljs.registerLanguage('kotlin', __webpack_require__(93));
+hljs.registerLanguage('lasso', __webpack_require__(94));
+hljs.registerLanguage('ldif', __webpack_require__(95));
+hljs.registerLanguage('leaf', __webpack_require__(96));
+hljs.registerLanguage('less', __webpack_require__(97));
+hljs.registerLanguage('lisp', __webpack_require__(98));
+hljs.registerLanguage('livecodeserver', __webpack_require__(99));
+hljs.registerLanguage('livescript', __webpack_require__(100));
+hljs.registerLanguage('llvm', __webpack_require__(101));
+hljs.registerLanguage('lsl', __webpack_require__(102));
+hljs.registerLanguage('lua', __webpack_require__(103));
+hljs.registerLanguage('makefile', __webpack_require__(104));
+hljs.registerLanguage('mathematica', __webpack_require__(106));
+hljs.registerLanguage('matlab', __webpack_require__(107));
+hljs.registerLanguage('maxima', __webpack_require__(108));
+hljs.registerLanguage('mel', __webpack_require__(109));
+hljs.registerLanguage('mercury', __webpack_require__(110));
+hljs.registerLanguage('mipsasm', __webpack_require__(111));
+hljs.registerLanguage('mizar', __webpack_require__(112));
+hljs.registerLanguage('perl', __webpack_require__(126));
+hljs.registerLanguage('mojolicious', __webpack_require__(113));
+hljs.registerLanguage('monkey', __webpack_require__(114));
+hljs.registerLanguage('moonscript', __webpack_require__(115));
+hljs.registerLanguage('n1ql', __webpack_require__(116));
+hljs.registerLanguage('nginx', __webpack_require__(117));
+hljs.registerLanguage('nimrod', __webpack_require__(118));
+hljs.registerLanguage('nix', __webpack_require__(119));
+hljs.registerLanguage('nsis', __webpack_require__(120));
+hljs.registerLanguage('objectivec', __webpack_require__(121));
+hljs.registerLanguage('ocaml', __webpack_require__(122));
+hljs.registerLanguage('openscad', __webpack_require__(123));
+hljs.registerLanguage('oxygene', __webpack_require__(124));
+hljs.registerLanguage('parser3', __webpack_require__(125));
+hljs.registerLanguage('pf', __webpack_require__(127));
+hljs.registerLanguage('php', __webpack_require__(128));
+hljs.registerLanguage('pony', __webpack_require__(129));
+hljs.registerLanguage('powershell', __webpack_require__(130));
+hljs.registerLanguage('processing', __webpack_require__(131));
+hljs.registerLanguage('profile', __webpack_require__(132));
+hljs.registerLanguage('prolog', __webpack_require__(133));
+hljs.registerLanguage('protobuf', __webpack_require__(134));
+hljs.registerLanguage('puppet', __webpack_require__(135));
+hljs.registerLanguage('purebasic', __webpack_require__(136));
+hljs.registerLanguage('python', __webpack_require__(137));
+hljs.registerLanguage('q', __webpack_require__(138));
+hljs.registerLanguage('qml', __webpack_require__(139));
+hljs.registerLanguage('r', __webpack_require__(140));
+hljs.registerLanguage('rib', __webpack_require__(141));
+hljs.registerLanguage('roboconf', __webpack_require__(142));
+hljs.registerLanguage('routeros', __webpack_require__(143));
+hljs.registerLanguage('rsl', __webpack_require__(144));
+hljs.registerLanguage('ruleslanguage', __webpack_require__(146));
+hljs.registerLanguage('rust', __webpack_require__(147));
+hljs.registerLanguage('scala', __webpack_require__(148));
+hljs.registerLanguage('scheme', __webpack_require__(149));
+hljs.registerLanguage('scilab', __webpack_require__(150));
+hljs.registerLanguage('scss', __webpack_require__(151));
+hljs.registerLanguage('shell', __webpack_require__(152));
+hljs.registerLanguage('smali', __webpack_require__(153));
+hljs.registerLanguage('smalltalk', __webpack_require__(154));
+hljs.registerLanguage('sml', __webpack_require__(155));
+hljs.registerLanguage('sqf', __webpack_require__(156));
+hljs.registerLanguage('sql', __webpack_require__(157));
+hljs.registerLanguage('stan', __webpack_require__(158));
+hljs.registerLanguage('stata', __webpack_require__(159));
+hljs.registerLanguage('step21', __webpack_require__(160));
+hljs.registerLanguage('stylus', __webpack_require__(161));
+hljs.registerLanguage('subunit', __webpack_require__(162));
+hljs.registerLanguage('swift', __webpack_require__(163));
+hljs.registerLanguage('taggerscript', __webpack_require__(164));
+hljs.registerLanguage('yaml', __webpack_require__(183));
+hljs.registerLanguage('tap', __webpack_require__(165));
+hljs.registerLanguage('tcl', __webpack_require__(166));
+hljs.registerLanguage('tex', __webpack_require__(167));
+hljs.registerLanguage('thrift', __webpack_require__(168));
+hljs.registerLanguage('tp', __webpack_require__(169));
+hljs.registerLanguage('twig', __webpack_require__(170));
+hljs.registerLanguage('typescript', __webpack_require__(171));
+hljs.registerLanguage('vala', __webpack_require__(172));
+hljs.registerLanguage('vbnet', __webpack_require__(173));
+hljs.registerLanguage('vbscript', __webpack_require__(175));
+hljs.registerLanguage('vbscript-html', __webpack_require__(174));
+hljs.registerLanguage('verilog', __webpack_require__(176));
+hljs.registerLanguage('vhdl', __webpack_require__(177));
+hljs.registerLanguage('vim', __webpack_require__(178));
+hljs.registerLanguage('x86asm', __webpack_require__(179));
+hljs.registerLanguage('xl', __webpack_require__(180));
+hljs.registerLanguage('xquery', __webpack_require__(182));
+hljs.registerLanguage('zephir', __webpack_require__(184));
 
 module.exports = hljs;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -6700,7 +6777,7 @@ exports.SubjectSubscription = SubjectSubscription;
 //# sourceMappingURL=angular-selector-on-steroids.js.map
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 /**
@@ -40594,18 +40671,18 @@ $provide.value("$locale", {
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var hljs = __webpack_require__(3);
+var hljs = __webpack_require__(4);
 var angular = __webpack_require__(0);
-var utils_1 = __webpack_require__(2);
+var utils_1 = __webpack_require__(3);
 var examples_1 = __webpack_require__(1);
-var oldExamples_1 = __webpack_require__(184);
-var sos = __webpack_require__(4);
+var oldExamples_1 = __webpack_require__(2);
+var sos = __webpack_require__(5);
 new sos.AngularSelectorOnSteroids().init();
 // import AngularSelectorOnSteroids from '../src/index';
 // new AngularSelectorOnSteroids().init();
@@ -40774,7 +40851,7 @@ angular
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -41596,7 +41673,7 @@ https://highlightjs.org/
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs){
@@ -42110,7 +42187,7 @@ module.exports = function(hljs){
 };
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42185,7 +42262,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42227,7 +42304,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42305,7 +42382,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = // We try to support full Ada2012
@@ -42482,7 +42559,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42532,7 +42609,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42622,7 +42699,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42726,7 +42803,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -42822,7 +42899,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43014,7 +43091,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -43163,7 +43240,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43226,7 +43303,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43366,7 +43443,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43432,7 +43509,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43489,7 +43566,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43524,7 +43601,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43603,7 +43680,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43658,7 +43735,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs){
@@ -43691,7 +43768,7 @@ module.exports = function(hljs){
 };
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs){
@@ -43732,7 +43809,7 @@ module.exports = function(hljs){
 };
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43816,7 +43893,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43869,7 +43946,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43940,7 +44017,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43969,7 +44046,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -43988,7 +44065,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44088,7 +44165,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44130,7 +44207,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44280,7 +44357,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44351,7 +44428,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = function cos (hljs) {
@@ -44479,7 +44556,7 @@ module.exports = function cos (hljs) {
 };
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44658,7 +44735,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44756,7 +44833,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -44954,7 +45031,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45135,7 +45212,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45161,7 +45238,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45270,7 +45347,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = /**
@@ -45532,7 +45609,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -45637,7 +45714,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45710,7 +45787,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45754,7 +45831,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45822,7 +45899,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45855,7 +45932,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45881,7 +45958,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45937,7 +46014,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -45988,7 +46065,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46116,7 +46193,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46152,7 +46229,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46189,7 +46266,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46290,7 +46367,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46378,7 +46455,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46397,7 +46474,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46447,7 +46524,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46597,7 +46674,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46649,7 +46726,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46682,7 +46759,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -46731,7 +46808,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46806,7 +46883,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -46869,7 +46946,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -47027,7 +47104,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47255,7 +47332,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47326,7 +47403,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -47367,7 +47444,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47488,7 +47565,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47546,7 +47623,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47573,7 +47650,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47612,7 +47689,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47710,7 +47787,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports) {
 
 module.exports = // TODO support filter tags like :javascript, support inline HTML
@@ -47821,7 +47898,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47859,7 +47936,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -47985,7 +48062,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48101,7 +48178,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48151,7 +48228,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48226,7 +48303,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48271,7 +48348,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48377,7 +48454,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48438,7 +48515,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48508,7 +48585,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48588,7 +48665,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48700,7 +48777,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48875,7 +48952,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -48926,7 +49003,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48967,7 +49044,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -48995,7 +49072,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49161,7 +49238,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49339,7 +49416,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49506,7 +49583,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49533,7 +49610,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports) {
 
 module.exports = function (hljs) {
@@ -49577,7 +49654,7 @@ module.exports = function (hljs) {
 };
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49721,7 +49798,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49828,7 +49905,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -49989,7 +50066,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50142,7 +50219,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50235,7 +50312,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50322,7 +50399,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50392,7 +50469,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50477,7 +50554,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50589,7 +50666,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50651,7 +50728,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -50743,7 +50820,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51153,7 +51230,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51382,7 +51459,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51468,7 +51545,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51558,7 +51635,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51581,7 +51658,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51610,7 +51687,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51689,7 +51766,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51805,7 +51882,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51878,7 +51955,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -51975,7 +52052,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52034,7 +52111,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52087,7 +52164,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52197,7 +52274,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52292,7 +52369,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52367,7 +52444,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52428,7 +52505,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52502,7 +52579,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52554,7 +52631,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52715,7 +52792,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52771,7 +52848,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52902,7 +52979,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -52997,7 +53074,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53082,7 +53159,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53134,7 +53211,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53168,7 +53245,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53260,7 +53337,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53300,7 +53377,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53419,7 +53496,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports) {
 
 module.exports = // Base deafult colors in PB IDE: background: #FFFFDF; foreground: #000000;
@@ -53481,7 +53558,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53601,7 +53678,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53628,7 +53705,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53801,7 +53878,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53875,7 +53952,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53906,7 +53983,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -53977,7 +54054,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports) {
 
 module.exports = // Colors from RouterOS terminal:
@@ -54140,7 +54217,7 @@ function(hljs) {
 };
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54180,7 +54257,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54361,7 +54438,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54426,7 +54503,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54538,7 +54615,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54657,7 +54734,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54805,7 +54882,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54863,7 +54940,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54965,7 +55042,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -54984,7 +55061,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55044,7 +55121,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55098,7 +55175,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55168,7 +55245,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55543,7 +55620,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55707,7 +55784,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55794,7 +55871,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55836,7 +55913,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -55887,7 +55964,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56345,7 +56422,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56383,7 +56460,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56504,7 +56581,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56552,7 +56629,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56592,7 +56669,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56657,7 +56734,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56723,7 +56800,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56762,7 +56839,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56850,7 +56927,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -56920,7 +56997,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57080,7 +57157,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57134,7 +57211,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57194,7 +57271,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57210,7 +57287,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57253,7 +57330,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57356,7 +57433,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57421,7 +57498,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57531,7 +57608,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57671,7 +57748,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57748,7 +57825,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57855,7 +57932,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 181 */
+/* 182 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -57930,7 +58007,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 182 */
+/* 183 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -58022,7 +58099,7 @@ module.exports = function(hljs) {
 };
 
 /***/ }),
-/* 183 */
+/* 184 */
 /***/ (function(module, exports) {
 
 module.exports = function(hljs) {
@@ -58131,83 +58208,6 @@ module.exports = function(hljs) {
     ]
   };
 };
-
-/***/ }),
-/* 184 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.old_ex_single_element = {
-    "title": "Single element",
-    "html": "<select set-watch-count selector-on-steroids \n\tmodel=\"browser\"\n\steroids=\"false\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
-    "js": "$scope.browser = \"GCX\";\n\n$scope.browsers = [\n\t{ value: \"GCX\", label: \"ChromeX\" },\n\t{ value: \"FFY\", label: \"FirefoxY\" },\n\t{ value: \"ASZ\", label: \"SafariZ\" },\n\t{ value: \"IEA\", label: \"Internet ExplorerS\" }\n];"
-};
-exports.old_ex_multiple_element = {
-    "title": "Multiple elements",
-    "html": "<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmulti=\"true\"\n\tmodel=\"myBrowsers\"\n\toptions=\"browsers\"\n\tvalue-attr=\"value\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myBrowsers|json\"></code>\n</p>",
-    "js": "$scope.myBrowsers = [ \"GC\", \"AS\" ];\n\n$scope.browsers = [\n\t{ value: \"GC\", label: \"Chrome\" },\n\t{ value: \"FF\", label: \"Firefox\" },\n\t{ value: \"AS\", label: \"Safari\" },\n\t{ value: \"IE\", label: \"Internet Explorer\" }\n];"
-};
-exports.old_ex_return_entire_obj = {
-    "title": "Return entire object(s)",
-    "html": "<!-- just DON'T add `value-attr` attribute! -->\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"browser\"\n\toptions=\"browsers\"\n\tlabel-attr=\"name\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"browser|json\"></code>\n</p>",
-    "js": "$scope.browser = { name: \"Firefox\" };\n\n$scope.browsers = [\n\t{ name: \"Chrome\" },\n\t{ name: \"Firefox\" },\n\t{ name: \"Safari\" },\n\t{ name: \"Internet Explorer\" }\n];"
-};
-exports.old_ex_custom_template = {
-    "title": "Custom template",
-    "html": "<script type=\"text/ng-template\" id=\"selector/demo/browserWithURL\">\n\t{{option.label}}\n\t<a class=\"small\" ng-href=\"{{option.url}}\" ng-bind=\"option.url\"></a>\n</script>\n\n<script type=\"text/ng-template\" id=\"selector/demo/browserWithIcon\">\n\t<img ng-src=\"{{option.icon}}\"> {{option.label}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmulti=\"true\"\n\tmodel=\"myBrowsers\"\n\toptions=\"browsers\"\n\tvalue-attr=\"code\"\n\tview-item-template=\"'selector/demo/browserWithURL'\"\n\tdropdown-item-template=\"'selector/demo/browserWithIcon'\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myBrowsers|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://www.iconfinder.com/iconsets/logotypes\" target=\"_blank\">\n\t\tLogotypes\n\t</a>\n</p>",
-    "js": "$scope.myBrowsers = [ \"AS\" ];\n\n$scope.browsers = [\n\t{\n\t\tcode: \"GC\",\n\t\tlabel: \"Chrome\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/chrome-24.png\",\n\t\turl: \"https://www.google.it/chrome\"\n\t},\n\t{\n\t\tcode: \"FF\",\n\t\tlabel: \"Firefox\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/firefox-24.png\",\n\t\turl: \"https://www.mozilla.org/firefox\"\n\t},\n\t{\n\t\tcode: \"AS\",\n\t\tlabel: \"Safari\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/safari-24.png\",\n\t\turl: \"http://www.apple.com/safari/\"\n\t},\n\t{\n\t\tcode: \"IE\",\n\t\tlabel: \"Internet Explorer\",\n\t\ticon: \"https://cdn1.iconfinder.com/data/icons/logotypes/32/internet-explorer-24.png\",\n\t\turl: \"http://windows.microsoft.com/internet-explorer\"\n\t}\n];"
-};
-exports.old_ex_fill_options_from_html = {
-    "title": "Fill options from HTML",
-    "html": "<script type=\"text/ng-template\" id=\"selector/demo/currency\">\n\t<kbd ng-bind=\"option.symbol\"></kbd>&nbsp;\n\t<b ng-bind=\"option.code\"></b> - {{option.label}}\n</script>\n\n<script type=\"text/ng-template\" id=\"selector/demo/currencyGroup\">\n\t<img class=\"currency-group\"\n\t\tng-src=\"http://files.softicons.com/download/web-icons/fatcow-hosting-additional-icons-by-fatcow/png/32x32/{{\n\t\t\toption.zone == 'Europe' ? 'flag_european_union' : 'wallet'\n\t\t}}.png\">&nbsp;\n\t{{option.zone}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"currency\"\n\toptions=\"currencies\"\n\tvalue-attr=\"value\"\n\tgroup-attr=\"zone\"\n\tview-item-template=\"'selector/demo/currency'\"\n\tdropdown-item-template=\"'selector/demo/currency'\"\n\tdropdown-group-template=\"'selector/demo/currencyGroup'\">\n\t\n\t<optgroup label=\"Europe\">\n\t\t<option value=\"2\"\n\t\t\tdata-code=\"EUR\"\n\t\t\tdata-symbol=\"€\">Euro Member Countries</option>\n\t\t<option value=\"3\"\n\t\t\tdata-code=\"GBP\"\n\t\t\tdata-symbol=\"£\">United Kingdom Pound</option>\n\t\t<option value=\"5\"\n\t\t\tdata-code=\"SEK\"\n\t\t\tdata-symbol=\"kr\"\n\t\t\tselected>Sweden Krona</option>\n\t</optgroup>\n\t<optgroup label=\"Others\">\n\t\t<option value=\"1\"\n\t\t\tdata-code=\"USD\"\n\t\t\tdata-symbol=\"$\">United States Dollar</option>\n\t\t<option value=\"4\"\n\t\t\tdata-code=\"EUR\"\n\t\t\tdata-symbol=\"¥\">Japan Yen</option>\n\t</optgroup>\n\t\n</select>\n\n<p>\n\tCurrent value: <code ng-bind=\"currency|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"http://www.softicons.com/web-icons/fatcow-hosting-additional-icons-by-fatcow\" target=\"_blank\">\n\t\tFatCow Hosting Additional Icons\n\t</a>\n</p>\n\n<p ng-init=\"show=false\">\n\t<a ng-click=\"show=!show\">Hide/show all options</a>\n\t<pre ng-show=\"show\" ng-bind=\"currencies|json\"></pre>\n</p>"
-};
-exports.old_ex_rtl_support = {
-    "title": "RTL Support",
-    "html": "<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"multi\"> Multiple\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"rtl\"> RTL\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"remove\"> Remove button\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"restore\"> Restore on backspace\n</label>\n<label class=\"checkbox-inline\">\n\t<input type=\"checkbox\" ng-model=\"disabled\"> Disabled\n</label>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\trtl=\"rtl\"\n\tmulti=\"multi\"\n\tmodel=\"language\"\n\tdisable=\"disabled\"\n\toptions=\"languages\"\n\tvalue-attr=\"value\"\n\tlabel-attr=\"value\"\n\tremove-button=\"remove\"\n\tsoft-delete=\"restore\"\n\tplaceholder=\"Choose your favourite language(s)...\">\n\t\n\t<option value=\"PHP\"></option>\n\t<option value=\"Java\"></option>\n\t<option value=\"Ruby\"></option>\n\t<option value=\"Node\"></option>\n\t\n</select>\n\n<p>\n\tCurrent value: <code ng-bind=\"language|json\"></code>\n</p>"
-};
-exports.old_ex_remote_fetching = {
-    "title": "Remote fetching",
-    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmulti=\"true\"\n\tmodel=\"countries\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tvalue-attr=\"code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
-    "js": "$scope.countries = [ \"DZ\", \"AX\" ];\n\n$scope.remoteConfig = {\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\tvar countries = angular.fromJson(data).RestResponse.result;\n\t\treturn countries.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};"
-};
-exports.old_ex_remote_fetching_with_validation = {
-    "title": "Remote fetching and validation",
-    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"country\"\n\tvalue-attr=\"code\"\n\tdebounce=\"200\"\n\tremote=\"remote\"\n\tremote-param=\"{{remoteParam}}\"\n\tremote-validation=\"remoteValidation(value)\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"country|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
-    "js": "var options = {\n\turl: 'http://services.groupkt.com/country/',\n\tmethod: 'GET',\n\tcache: true,\n\ttransformResponse: function (data) {\n\t\tvar result = angular.fromJson(data).RestResponse.result;\n\t\tif (!angular.isArray(result)) result = [result];\n\t\treturn result.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};\n\n$scope.country = 'SV';\n\n$scope.remote = angular.copy(options);\n$scope.remote.url += 'search';\n$scope.remoteParam = 'text';\n\n$scope.remoteValidation = function (value) {\n\tvar settings = angular.copy(options);\n\tsettings.url += 'get/iso2code/' + value;\n\treturn settings;\n}"
-};
-exports.old_ex_remote_fetching_with_custom_service = {
-    "title": "Remote fetching with custom service",
-    "html": "<link rel=\"stylesheet\" href=\"https://rawgit.com/Arnoud-B/csscountrycodes/master/flags.css\">\n\n<script type=\"text/ng-template\" id=\"selector/demo/country\">\n\t<i class=\"flag\" ng-class=\"option.code.toLowerCase()\"></i>&nbsp;\n\t{{option.name}}\n</script>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"country\"\n\tvalue-attr=\"code\"\n\tdebounce=\"200\"\n\tremote=\"remote(search)\"\n\tremote-validation=\"validate(value)\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"country|json\"></code>\n</p>\n\n<p class=\"small\">\n\tIcons:\n\t<a href=\"https://github.com/Arnoud-B/csscountrycodes\" target=\"_blank\">\n\t\tArnoud-B/csscountrycodes\n\t</a>\n</p>",
-    "js": "$scope.country = 'SV';\n\n$scope.remote = function (search) {\n\treturn $countries.search(search);\n};\n$scope.validate = function (value) {\n\treturn $countries.validate(value);\n};",
-    "service": {
-        "name": "$countries",
-        "deps": ["$http", "$q"],
-        "js": "var options = {\n\turl: 'http://services.groupkt.com/country/',\n\tmethod: 'GET',\n\tcache: true,\n\ttransformResponse: function (data) {\n\t\tvar result = angular.fromJson(data).RestResponse.result;\n\t\tif (!angular.isArray(result)) result = [result];\n\t\treturn result.map(function (country) {\n\t\t\treturn {\n\t\t\t\tname: country.name,\n\t\t\t\tcode: country.alpha2_code\n\t\t\t};\n\t\t});\n\t}\n};\n\nfunction Countries() {}\nCountries.prototype.search = function (search) {\n\tif (!search) return $q.resolve([]);\n\tvar settings = angular.copy(options);\n\tsettings.url += 'search';\n\tsettings.params = { text: search };\n\treturn $http(settings);\n};\nCountries.prototype.validate = function (value) {\n\tif (!value) return $q.resolve([]);\n\tvar settings = angular.copy(options);\n\tsettings.url += 'get/iso2code/' + value;\n\treturn $http(settings);\n};\n\nreturn new Countries();"
-    }
-};
-exports.old_ex_apis = {
-    "title": "APIs",
-    "html": "<div class=\"btn-group\">\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.open()\">\n\t\tOpen\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.focus()\">\n\t\tFocus\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.close()\">\n\t\tClose\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.fetch()\">\n\t\tFetch\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.set('SXM')\">\n\t\tSet <code>SXM</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.set('ITA')\">\n\t\tSet <code>ITA</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.unset('ITA')\">\n\t\tUnset <code>ITA</code>\n\t</button>\n\t<button class=\"btn btn-default\" ng-click=\"countriesAPI.unset()\">\n\t\tUnset all\n\t</button>\n</div>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"countries\"\n\tmulti=\"true\"\n\tapi=\"countriesAPI\"\n\tremote=\"remoteConfig\"\n\tremote-param=\"text\"\n\tlabel-attr=\"name\"\n\tvalue-attr=\"alpha3_code\"\n\tplaceholder=\"Choose one or more countries...\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"countries|json\"></code>\n</p>",
-    "js": "$scope.remoteConfig = {\n\tcache: false,\n\turl: \"http://services.groupkt.com/country/search\",\n\ttransformResponse: function (data) {\n\t\treturn angular.fromJson(data).RestResponse.result;\n\t}\n};"
-};
-exports.old_ex_change_options_dynamically = {
-    "title": "Change options dynamically",
-    "html": "<div class=\"btn-group\">\n\t<button class=\"btn btn-default\"\n\t\tng-class=\"{active:zone=='global'}\"\n\t\tng-click=\"zone='global'\">\n\t\tGlobal Rivers\n\t</button>\n\t<button class=\"btn btn-default\"\n\t\tng-class=\"{active:zone=='european'}\"\n\t\tng-click=\"zone='european'\">\n\t\tEuropean Rivers\n\t</button>\n</div>\n\n<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"river\"\n\toptions=\"rivers\"\n\tlabel-attr=\"name\"\n\tplaceholder=\"Select a river...\"></select>\n\n<dl class=\"dl-horizontal\">\n\t<dt>River</dt>\n\t<dd ng-bind=\"river.name || '-'\"></dd>\n\t\n\t<dt>Length</dt>\n\t<dd ng-bind=\"river.length ? (river.length | number) + ' km' : '-'\"></dd>\n\t\n\t<dt>Outflow</dt>\n\t<dd ng-bind=\"river.outflow || '-'\"></dd>\n</dl>\n\n<p>\n\tCurrent value: <code ng-bind=\"river|json\"></code>\n</p>",
-    "js": "$scope.zone = \"global\";\n\n$scope.globalRivers = [\n\t{ name: \"Nile\",        length: 6690, outflow: \"Mediterranean\" },\n\t{ name: \"Amazon\",      length: 6296, outflow: \"Atlantic Ocean\" },\n\t{ name: \"Mississippi\", length: 5970, outflow: \"Gulf of Mexico\" },\n\t{ name: \"Yangtze\",     length: 5797, outflow: \"China Sea\" },\n\t{ name: \"Ob\",          length: 5567, outflow: \"Gulf of Ob\" },\n\t{ name: \"Yellow\",      length: 4667, outflow: \"Gulf of Chihli\" },\n\t{ name: \"Yenisei\",     length: 4506, outflow: \"Arctic Ocean\" },\n\t{ name: \"Paraná\",      length: 4498, outflow: \"Río de la Plata\" },\n\t{ name: \"Irtish\",      length: 4438, outflow: \"Ob River\" },\n\t{ name: \"Chambeshi\",   length: 4371, outflow: \"Atlantic Ocean\" }\n];\n\n$scope.europeanRivers = [\n\t{ name: \"Volga\",       length: 3692, outflow: \"Caspian Sea\" },\n\t{ name: \"Danube\",      length: 2860, outflow: \"Black Sea\" },\n\t{ name: \"Ural\",        length: 2428, outflow: \"Caspian Sea\" },\n\t{ name: \"Dnieper\",     length: 2290, outflow: \"Black Sea\" },\n\t{ name: \"Don\",         length: 1950, outflow: \"Sea of Azov\" },\n\t{ name: \"Pechora\",     length: 1809, outflow: \"Arctic Ocean\" },\n\t{ name: \"Kama\",        length: 1805, outflow: \"Volga\" },\n\t{ name: \"Oka\",         length: 1500, outflow: \"Volga\" },\n\t{ name: \"Belaya\",      length: 1430, outflow: \"Kama\" },\n\t{ name: \"Dniester\",    length: 1362, outflow: \"Black Sea\" }\n];\n\n$scope.$watch('zone', function (zone) {\n\t$scope.rivers = $scope[zone + 'Rivers'];\n\t// select first\n\t$scope.river = $scope.rivers[0];\n});"
-};
-exports.old_ex_create_custom_options = {
-    "title": "Create custom options",
-    "html": "<select set-watch-count selector-on-steroids steroids=\"false\"\n\tmodel=\"myHobbies\"\n\tmulti=\"true\"\n\toptions=\"hobbies\"\n\tvalue-attr=\"value\"\n\tplaceholder=\"Which are your hobbies? (type something that is not in the list)\"\n\tcreate=\"createFunction(input)\"></select>\n\n<p>\n\tCurrent value: <code ng-bind=\"myHobbies|json\"></code>\n</p>",
-    "js": "$scope.hobbies =[\n\t{ value: 0, label: \"Basketball\" },\n\t{ value: 1, label: \"Videogames\" },\n\t{ value: 2, label: \"Travelling\" }\n];\n\n$scope.createFunction = function (input) {\n\t// format the option and return it\n\treturn {\n\t\tvalue: $scope.hobbies.length,\n\t\tlabel: input\n\t};\n};"
-};
-exports.old_ex_create_custom_options_using_promise = {
-    "title": "Create custom options (using <code>Promise</code>)",
-    "html": "<div ng-show=\"!creation.active\">\n\t<select set-watch-count selector-on-steroids steroids=\"false\"\n\t\tmodel=\"myHobbies\"\n\t\tmulti=\"true\"\n\t\toptions=\"hobbies\"\n\t\tvalue-attr=\"value\"\n\t\tplaceholder=\"Which are your hobbies? (type something that is not in the list)\"\n\t\tcreate=\"creation.show(input)\"></select>\n\t\n\t<p>\n\t\tCurrent value: <code ng-bind=\"myHobbies|json\"></code>\n\t</p>\n</div>\n\n<form ng-show=\"creation.active\" ng-submit=\"creation.insert()\">\n\t<div class=\"form-group\">\n\t\t<label>Value</label>\n\t\t<input ng-model=\"creation.value\" required autofocus\n\t\t\tplaceholder=\"value\" class=\"form-control\">\n\t</div>\n\t<div class=\"form-group\">\n\t\t<label>Label</label>\n\t\t<input ng-model=\"creation.label\" required\n\t\t\tplaceholder=\"label\" class=\"form-control\">\n\t</div>\n\t<button type=\"submit\" class=\"btn btn-success\">\n\t\tInsert value!\n\t</button>\n\t<button type=\"button\" class=\"btn btn-default\"\n\t\tng-click=\"creation.cancel()\">\n\t\tCancel\n\t</button>\n</form>",
-    "js": "$scope.hobbies = [\n\t{ value: 0, label: \"Basketball\" },\n\t{ value: 1, label: \"Videogames\" },\n\t{ value: 2, label: \"Travelling\" }\n];\n\n$scope.creation = {\n\tactive: false,\n\tdeferred: null,\n\tshow: function (input) {\n\t\tthis.deferred = $q.defer();\n\t\tthis.active   = true;\n\t\tthis.value    = $scope.hobbies.length;\n\t\tthis.label    = input;\n\t\treturn this.deferred.promise;\n\t},\n\tinsert: function () {\n\t\tthis.active = false;\n\t\tthis.deferred.resolve({\n\t\t\tvalue: this.value,\n\t\t\tlabel: this.label\n\t\t});\n\t},\n\tcancel: function () {\n\t\tthis.active = false;\n\t\tthis.deferred.reject();\n\t}\n};"
-};
-
 
 /***/ })
 /******/ ]);

@@ -9,6 +9,9 @@
         <meta name="viewport"
             content="width=device-width, initial-scale=1">
 
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
         <title>Angular Selector On Steroids</title>
 
         <meta name="description"
@@ -62,6 +65,11 @@
             .r-pane {
                 flex-grow: 1;
                 flex-basis: 0;
+                padding: 50px;
+            }
+            
+            .l-pane {
+                border-right: 5px solid;
             }
         </style>
 
@@ -80,15 +88,21 @@
                     <section ng-repeat="example in examples track by $index"
                         ng-init="tab='view'">
                         <div class="navbar">
-                            <!-- <ul class="nav nav-pills navbar-right">
-                                    <li plunker></li>
-                                </ul> -->
+                            <ul class="nav nav-pills navbar-right">
+                                <li ng-class="{active:tab=='view'}"
+                                    ng-show="!example.service"><a ng-click="tab='view'">View</a></li>
+                                <li ng-class="{active:tab=='html'}"
+                                    ng-show="!example.service"><a ng-click="tab='html'">HTML</a></li>
+                                <li ng-class="{active:tab=='js'}"
+                                    ng-show="!example.service && example.js"><a ng-click="tab='js'">JS</a></li>
+                                <!-- <li plunker></li> -->
+                            </ul>
                             <h4 ng-bind-html="example.title|trustAsHtml"></h4>
                         </div>
                         <!-- <div class="tab-content"
-                                ng-if="example.service">
-                                <h4><span plunker></span></h4>
-                            </div> -->
+                            ng-if="example.service">
+                            <h4><span plunker></span></h4>
+                        </div> -->
                         <div class="tab-content"
                             ng-if="!example.service">
                             <div class="tab-pane example"
@@ -115,9 +129,15 @@
                     <section ng-repeat="example in oldExamples track by $index"
                         ng-init="tab='view'">
                         <div class="navbar">
-                            <!-- <ul class="nav nav-pills navbar-right">
-                                    <li plunker></li>
-                                </ul> -->
+                            <ul class="nav nav-pills navbar-right">
+                                <li ng-class="{active:tab=='view'}"
+                                    ng-show="!example.service"><a ng-click="tab='view'">View</a></li>
+                                <li ng-class="{active:tab=='html'}"
+                                    ng-show="!example.service"><a ng-click="tab='html'">HTML</a></li>
+                                <li ng-class="{active:tab=='js'}"
+                                    ng-show="!example.service && example.js"><a ng-click="tab='js'">JS</a></li>
+                                <!-- <li plunker></li> -->
+                            </ul>
                             <h4 ng-bind-html="example.title|trustAsHtml"></h4>
                         </div>
 
@@ -143,6 +163,6 @@
         </div>
 
 
-    <script type="text/javascript" src="app.js?4b02573891b5dc769adc"></script></body>
+    <script type="text/javascript" src="app.js?02e6398125954e602d26"></script></body>
 
 </html>
