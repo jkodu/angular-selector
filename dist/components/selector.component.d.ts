@@ -3,6 +3,8 @@ import { ISelector } from './selector.interfaces';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
 export declare class SelectorComponent {
     private $filter;
     private $timeout;
