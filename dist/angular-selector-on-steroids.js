@@ -6204,7 +6204,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         return;
                     }
                     // hide selected items
-                    console.log('watch::group');
                     filterOptions();
                     _this.$timeout(function () {
                         // set input width
@@ -6268,7 +6267,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         return;
                     }
                     ;
-                    console.log('watch::value');
                     _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
                         // updateSelected();
                         filterOptions();
