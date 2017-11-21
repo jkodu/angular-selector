@@ -15,6 +15,7 @@
         "test": "npm run lint && karma start",
         "serve": "http-server ./demo/dist",
         "serve-no-build": "http-server ./demo/no_build_tool",
+        "setup": "npm i && cd ./demo && npm i",
         "dev": "npm run build &&  cd ./demo && webpack --watch --watch-poll",
         "ghp": "git subtree push --prefix demo/dist origin gh-pages"
     },

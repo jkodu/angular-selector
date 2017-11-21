@@ -376,9 +376,11 @@ export class SelectorComponent {
                             : fetchValidation(scope.value)
                         ).then(() => {
                             // NOTE: Here used to be watcher for search attribute, wich now is moved to $viewChangeListener.
-                            scope.$watch('search', () => {
-                                scope.$evalAsync(fetch(false));
-                            });
+                            _watchers.push(
+                                scope.$watch('search', () => {
+                                    scope.$evalAsync(fetch(false));
+                                })
+                            );
                         });
                 });
             }
@@ -609,7 +611,7 @@ export class SelectorComponent {
                     option = scope.filteredOptions[scope.highlighted];
                 }
 
-                if(!option) {
+                if (!option) {
                     return;
                 }
 
@@ -815,7 +817,10 @@ export class SelectorComponent {
             };
 
             _watchers.push(
-                scope.$watch('[search, options, value]', () => {
+                scope.$watchGroup(['search', 'options', 'value'], (nV, oV) => {
+                    if (JSON.stringify(nV) === JSON.stringify(oV)) {
+                        return;
+                    }
                     // hide selected items
                     filterOptions();
                     this.$timeout(() => {
@@ -826,7 +831,7 @@ export class SelectorComponent {
                             dropdownPosition();
                         }
                     });
-                }, true)
+                })
             );
 
             // Update value
@@ -865,41 +870,43 @@ export class SelectorComponent {
             // Update selected values
             const updateSelected = () => {
                 const _oldSelectedValues = angular.copy(scope.selectedValues);
-                scope.selectedValues =
-                    (!scope.multiple)
-                        ? (scope.options || [])
-                            .filter((option) => {
-                                return optionEquals(option);
-                            })
-                            .slice(0, 1)
-                        : (scope.value || [])
-                            .map((value) => {
-                                return filter(scope.options, (option) => {
-                                    return optionEquals(option, value);
-                                })[0];
-                            })
-                            .filter((value) => {
-                                return angular.isDefined(value);
-                            })
-                            .slice(0, scope.limit);
+                if (!scope.multiple) {
+                    const o = (scope.options || []);
+                    const f = o.filter((option) => {
+                        return optionEquals(option);
+                    });
+                    const nV = f.slice(0, 1);
+                    scope.selectedValues = nV;
+                } else {
+                    const o = (scope.value || []);
+                    const f = o.map((value) => {
+                        return filter(scope.options, (option) => {
+                            return optionEquals(option, value);
+                        })[0];
+                    }).filter((value) => {
+                        return angular.isDefined(value);
+                    });
+                    const nV = f.slice(0, scope.limit);
+                    scope.selectedValues = nV;
+                }
                 _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
             };
 
-            // _watchers.push(
-            // scope.$watch('value', (newValue, oldValue) => {
-            //     if (angular.equals(newValue, oldValue)) {
-            //         return;
-            //     };
-            //     this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
-            //         ? angular.noop
-            //         : fetchValidation(newValue)
-            //     ).then(() => {
-            //         updateSelected();
-            //         filterOptions();
-            //         updateValue();
-            //     });
-            // }, true)
-            // );
+            _watchers.push(
+                scope.$watch('value', (newValue, oldValue) => {
+                    if (angular.equals(newValue, oldValue)) {
+                        return;
+                    };
+                    this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
+                        ? angular.noop
+                        : fetchValidation(newValue)
+                    ).then(() => {
+                        // updateSelected();
+                        filterOptions();
+                        updateValue();
+                    });
+                }, true)
+            );
 
             // DOM event listeners
             _subscribers.push(
