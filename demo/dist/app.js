@@ -6106,8 +6106,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 var DOM_SELECTOR_CONTAINER = angular.element(element[0]);
                 var DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
                 var DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
-                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT_EVENT_FOCUS_BLUR = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur')) : _Observable.Observable.empty();
-                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT_EVENT_ENTER_KEYDOWN = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown')) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'input')) : _Observable.Observable.empty();
                 var OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN ? _Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown') : _Observable.Observable.empty();
                 var OBSERVABLE_FOR_WINDOW_RESIZE = _this.$window ? _Observable.Observable.fromEvent(_this.$window, 'resze') : _Observable.Observable.empty();
                 var inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
@@ -6144,7 +6143,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 }, function (error) {
                     _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));
-                // Default: listen to window resize event
+                // // Default: listen to window resize event
                 _subscribers.push(OBSERVABLE_FOR_WINDOW_RESIZE.subscribe(function (e) {
                     dropdownPosition();
                 }, function (error) {
@@ -6170,37 +6169,39 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 //         }
                 //     }
                 // };
-                var _onSelectedValuesChanged = function _onSelectedValuesChanged(oldValue, newValue, triggerChange) {
-                    if (angular.equals(newValue, oldValue)) {
-                        return;
-                    }
-                    updateValue();
-                    if (angular.isFunction(scope.change)) {
-                        scope.change(scope.multiple ? {
-                            newValue: newValue,
-                            oldValue: oldValue
-                        } : {
-                            newValue: (newValue || [])[0],
-                            oldValue: (oldValue || [])[0]
-                        });
-                    }
-                    if (scope.steroids) {
-                        _this.$timeout(function () {
-                            scope.selectedValuesInput$.next({
-                                groupAttr: scope.groupAttr,
-                                valueAttr: scope.valueAttr,
-                                labelAttr: scope.labelAttr,
-                                getObjValue: scope.getObjValue,
-                                unset: scope.unset,
-                                selectedValues: scope.selectedValues,
-                                multiple: scope.multiple,
-                                disabled: scope.disabled
+                var _onSelectedValuesChanged = function _onSelectedValuesChanged(oldValue, newValue) {
+                    setTimeout(function () {
+                        if (angular.equals(newValue, oldValue)) {
+                            return;
+                        }
+                        updateValue();
+                        if (angular.isFunction(scope.change)) {
+                            scope.change(scope.multiple ? {
+                                newValue: newValue,
+                                oldValue: oldValue
+                            } : {
+                                newValue: (newValue || [])[0],
+                                oldValue: (oldValue || [])[0]
                             });
-                        });
-                    }
+                        }
+                        if (scope.steroids) {
+                            _this.$timeout(function () {
+                                scope.selectedValuesInput$.next({
+                                    groupAttr: scope.groupAttr,
+                                    valueAttr: scope.valueAttr,
+                                    labelAttr: scope.labelAttr,
+                                    getObjValue: scope.getObjValue,
+                                    unset: scope.unset,
+                                    selectedValues: scope.selectedValues,
+                                    multiple: scope.multiple,
+                                    disabled: scope.disabled
+                                });
+                            });
+                        }
+                    });
                 };
                 var _onFilteredOptionsChanged = function _onFilteredOptionsChanged() {
-                    _this.$timeout(function () {
+                    setTimeout(function () {
                         scope.filteredOptionsInput$.next({
                             groupAttr: scope.groupAttr,
                             valueAttr: scope.valueAttr,
@@ -6606,7 +6607,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             }
                         case _selector.CONSTANTS.KEYS.enter:
                             {
-                                console.log('action::enter');
                                 if (scope.isOpen) {
                                     if (attrs.create && scope.search && scope.highlighted == -1) {
                                         scope.createOption(e.target.value);
@@ -6710,7 +6710,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     DOM_SELECTOR_INPUT.val('');
                     setInputWidth();
                     _this.$timeout(function () {
-                        scope.search = '';
+                        scope.$apply(function () {
+                            scope.search = '';
+                        });
                     });
                 };
                 _watchers.push(scope.$watch('[search, options, value]', function () {
@@ -6740,7 +6742,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     updateSelected();
                 }));
                 // Update selected values
-                var updateSelected = function updateSelected() {
+                var updateSelected = function updateSelected(previousValue) {
                     var _oldSelectedValues = angular.copy(scope.selectedValues);
                     if (!scope.multiple) {
                         var o = scope.options || [];
@@ -6750,35 +6752,37 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         var nV = f.slice(0, 1);
                         scope.selectedValues = nV;
                     } else {
-                        var _o = scope.value || [];
-                        var _f = _o.map(function (value) {
-                            var matches = filter(scope.options, function (option) {
+                        scope.selectedValues = (scope.value || []).map(function (value) {
+                            return filter(scope.options, function (option) {
                                 return optionEquals(option, value);
-                            });
-                            var match = matches[0];
-                            return match;
+                            })[0];
                         }).filter(function (value) {
                             return angular.isDefined(value);
-                        });
-                        var _nV = _f.slice(0, scope.limit);
-                        scope.selectedValues = _nV;
+                        }).slice(0, scope.limit);
                     }
                     _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 };
-                var _lastWatchInvokvedTime = null;
+                var _timePrevious = Date.now();
                 _watchers.push(scope.$watch('value', function (newValue, oldValue) {
+                    var _timeNow = Date.now();
+                    if (_timeNow - _timePrevious <= 2) {
+                        return;
+                    }
+                    _timePrevious = _timeNow;
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
-                    console.log('watch::value', JSON.stringify(oldValue), JSON.stringify(newValue), Date.now());
+                    console.log('watch::value', scope.search, JSON.stringify(oldValue), JSON.stringify(newValue), Date.now());
                     _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
-                        updateSelected();
-                        filterOptions();
-                        updateValue();
+                        if ((scope.options || []).length > 0) {
+                            updateSelected(oldValue);
+                            filterOptions();
+                            updateValue();
+                        }
                     });
                 }, true));
                 // DOM event listeners
-                _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT_EVENT_FOCUS_BLUR.subscribe(function (e) {
+                _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe(function (e) {
                     if (e.type === 'focus') {
                         _this.$timeout(function () {
                             scope.$apply(open);
@@ -6787,28 +6791,14 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (e.type === 'blur') {
                         close();
                     }
-                }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
-                }));
-                _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT_EVENT_ENTER_KEYDOWN.subscribe(function (e) {
-                    if (e.keyCode === _selector.CONSTANTS.KEYS.enter) {
-                        _this.$timeout(function () {
-                            // scope.$apply(() => {
+                    if (e.type === 'keydown') {
+                        scope.$apply(function () {
                             keydown(e);
-                            // });
                         });
                     }
-                    // if (e.keyCode === 'keydown' ) {
-                    //     scope.$apply(() => {
-                    //         keydown(e);
-                    //     });
-                    // }
-                    // if (e.type === 'keydown' && (e as KeyboardEvent).keyCode === CONSTANTS.KEYS.enter) {
-                    //     scope.$apply(() => {
-                    //         keydown(e);
-                    //     });
-                    // }
-                    setInputWidth();
+                    if (e.type === 'input') {
+                        setInputWidth();
+                    }
                 }, function (error) {
                     _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));
@@ -41738,13 +41728,19 @@ new sos.AngularSelectorOnSteroids().init();
 // import AngularSelectorOnSteroids from '../src/index';
 // new AngularSelectorOnSteroids().init();
 var examples = [
-    // ex_single_element,
-    // ex_multiple_element,
-    // ex_return_entire_obj,
-    // ex_custom_template,
-    // ex_fill_options_from_html,
-    // ex_rtl_support,
+    examples_1.ex_single_element,
+    examples_1.ex_multiple_element,
+    examples_1.ex_return_entire_obj,
+    examples_1.ex_custom_template,
+    examples_1.ex_fill_options_from_html,
+    examples_1.ex_rtl_support,
     examples_1.ex_remote_fetching,
+    examples_1.ex_remote_fetching_with_validation,
+    examples_1.ex_remote_fetching_with_custom_service,
+    examples_1.ex_apis,
+    examples_1.ex_change_options_dynamically,
+    examples_1.ex_create_custom_options,
+    examples_1.ex_create_custom_options_using_promise
 ];
 var oldExamples = [
     oldExamples_1.old_ex_single_element,
@@ -41766,9 +41762,6 @@ angular
     .controller('AngularSelectorDemoCtrl', ['$scope', function ($scope) {
         $scope.examples = examples;
         $scope.oldExamples = oldExamples;
-        $scope.setNewValue = function () {
-            (angular.element(document.querySelector('.selector-container'))).scope().countries = ['DK', 'AF'];
-        };
     }])
     .filter('trustAsHtml', ['$sce', function ($sce) {
         return function (input) {

@@ -131,7 +131,7 @@ export class SelectorComponent {
                 })
             );
 
-            // Default: listen to window resize event
+            // // Default: listen to window resize event
             _subscribers.push(
                 OBSERVABLE_FOR_WINDOW_RESIZE.subscribe((e: Event) => {
                     dropdownPosition();
@@ -162,40 +162,42 @@ export class SelectorComponent {
             // };
 
             const _onSelectedValuesChanged = (oldValue, newValue) => {
-                if (angular.equals(newValue, oldValue)) {
-                    return;
-                }
-                updateValue();
-                if (angular.isFunction(scope.change)) {
-                    scope.change(scope.multiple
-                        ? {
-                            newValue: newValue,
-                            oldValue: oldValue
-                        }
-                        : {
-                            newValue: (newValue || [])[0],
-                            oldValue: (oldValue || [])[0]
-                        }
-                    );
-                }
-                if (scope.steroids) {
-                    this.$timeout(() => {
-                        scope.selectedValuesInput$.next({
-                            groupAttr: scope.groupAttr,
-                            valueAttr: scope.valueAttr,
-                            labelAttr: scope.labelAttr,
-                            getObjValue: scope.getObjValue,
-                            unset: scope.unset,
-                            selectedValues: scope.selectedValues,
-                            multiple: scope.multiple,
-                            disabled: scope.disabled
-                        } as ISelector.SelectedItemsComponent.Input$);
-                    })
-                }
+                setTimeout(() => {
+                    if (angular.equals(newValue, oldValue)) {
+                        return;
+                    }
+                    updateValue();
+                    if (angular.isFunction(scope.change)) {
+                        scope.change(scope.multiple
+                            ? {
+                                newValue: newValue,
+                                oldValue: oldValue
+                            }
+                            : {
+                                newValue: (newValue || [])[0],
+                                oldValue: (oldValue || [])[0]
+                            }
+                        );
+                    }
+                    if (scope.steroids) {
+                        this.$timeout(() => {
+                            scope.selectedValuesInput$.next({
+                                groupAttr: scope.groupAttr,
+                                valueAttr: scope.valueAttr,
+                                labelAttr: scope.labelAttr,
+                                getObjValue: scope.getObjValue,
+                                unset: scope.unset,
+                                selectedValues: scope.selectedValues,
+                                multiple: scope.multiple,
+                                disabled: scope.disabled
+                            } as ISelector.SelectedItemsComponent.Input$);
+                        })
+                    }
+                });
             };
 
             const _onFilteredOptionsChanged = () => {
-                this.$timeout(() => {
+                setTimeout(() => {
                     scope.filteredOptionsInput$.next({
                         groupAttr: scope.groupAttr,
                         valueAttr: scope.valueAttr,
@@ -635,9 +637,7 @@ export class SelectorComponent {
                     (scope.selectedValues || []).length >= scope.limit) {
                     close();
                 }
-
                 _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
-
                 resetInput();
                 selectCtrl.$setDirty();
             };
@@ -691,7 +691,6 @@ export class SelectorComponent {
                         }
                     case CONSTANTS.KEYS.enter:
                         {
-                            console.log('action::enter');
                             if (scope.isOpen) {
                                 if (attrs.create && scope.search && scope.highlighted == -1) {
                                     scope.createOption(e.target.value);
@@ -856,7 +855,7 @@ export class SelectorComponent {
             );
 
             // Update selected values
-            const updateSelected = () => {
+            const updateSelected = (previousValue?: Array<any>) => {
                 const _oldSelectedValues = angular.copy(scope.selectedValues);
                 if (!scope.multiple) {
                     const o = (scope.options || []);
@@ -866,36 +865,41 @@ export class SelectorComponent {
                     const nV = f.slice(0, 1);
                     scope.selectedValues = nV;
                 } else {
-                    const o = (scope.value || []);
-                    const f = o.map((value) => {
-                        let matches = filter(scope.options, (option) => {
-                            return optionEquals(option, value);
-                        });
-                        let match = matches[0];
-                        return match;
-                    }).filter((value) => {
-                        return angular.isDefined(value);
-                    });
-                    const nV = f.slice(0, scope.limit);
-                    scope.selectedValues = nV;
+                    scope.selectedValues = (scope.value || [])
+                        .map((value) => {
+                            return filter(scope.options, (option) => {
+                                return optionEquals(option, value);
+                            })[0];
+                        }).filter(function (value) { return angular.isDefined(value); }).slice(0, scope.limit);
                 }
                 _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
             };
 
-            let _lastWatchInvokvedTime = null;
+            let _timePrevious = Date.now();
+
             _watchers.push(
                 scope.$watch('value', (newValue, oldValue) => {
+
+                    const _timeNow = Date.now();
+                    if ((_timeNow - _timePrevious) <= 2) { // edge case to handle double digest
+                        return;
+                    }
+                    _timePrevious = _timeNow;
+
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
-                    console.log('watch::value', JSON.stringify(oldValue), JSON.stringify(newValue), Date.now());
+
+                    console.log('watch::value', scope.search, JSON.stringify(oldValue), JSON.stringify(newValue), Date.now());
                     this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
                         ? angular.noop
                         : fetchValidation(newValue)
                     ).then(() => {
-                        updateSelected();
-                        filterOptions();
-                        updateValue();
+                        if ((scope.options || []).length > 0) {
+                            updateSelected(oldValue as any);
+                            filterOptions();
+                            updateValue();
+                        }
                     });
                 }, true)
             );
