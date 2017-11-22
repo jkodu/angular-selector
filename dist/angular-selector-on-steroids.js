@@ -5652,11 +5652,8 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 var DOM_SELECTOR_CONTAINER = angular.element(element[0]);
                 var DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
                 var DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
-                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown').map(function (k) {
-                    return k.currentTarget.value;
-                }), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'input').map(function (k) {
-                    return k.currentTarget.value;
-                })) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT_EVENT_FOCUS_BLUR = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur')) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT_EVENT_ENTER_KEYDOWN = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown')) : _Observable.Observable.empty();
                 var OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN ? _Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown') : _Observable.Observable.empty();
                 var OBSERVABLE_FOR_WINDOW_RESIZE = _this.$window ? _Observable.Observable.fromEvent(_this.$window, 'resze') : _Observable.Observable.empty();
                 var inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
@@ -5719,7 +5716,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 //         }
                 //     }
                 // };
-                var _onSelectedValuesChanged = function _onSelectedValuesChanged(oldValue, newValue) {
+                var _onSelectedValuesChanged = function _onSelectedValuesChanged(oldValue, newValue, triggerChange) {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
@@ -5844,7 +5841,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                     promise.then(function (response) {
                         _this.$timeout(function () {
-                            safeApply(scope, function () {
+                            scope.$apply(function () {
                                 var options = response.data || response;
                                 scope.options = options;
                                 filterOptions();
@@ -5854,7 +5851,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         });
                     }, function (error) {
                         _this.$timeout(function () {
-                            safeApply(scope, function () {
+                            scope.$apply(function () {
                                 scope.loading = false;
                             });
                         });
@@ -5887,12 +5884,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 if (scope.remote) {
                     _this.$timeout(function () {
                         _this.$q.when(!scope.hasValue() || !scope.remoteValidation ? angular.noop : fetchValidation(scope.value)).then(function () {
-                            // NOTE: Here used to be watcher for search attribute, wich now is moved to $viewChangeListener.
-                            // _watchers.push(
-                            //     scope.$watch('search', () => {
-                            //         scope.$evalAsync(fetch(false));
-                            //     })
-                            // );
+                            _watchers.push(scope.$watch('search', function () {
+                                scope.$evalAsync(fetch(false));
+                            }));
                         });
                     });
                 }
@@ -6114,6 +6108,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!scope.multiple || scope.closeAfterSelection || (scope.selectedValues || []).length >= scope.limit) {
                         close();
                     }
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                     resetInput();
                     selectCtrl.$setDirty();
                 };
@@ -6124,6 +6119,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     } else {
                         scope.selectedValues.splice(angular.isDefined(index) ? index : scope.selectedValues.length - 1, 1);
                     }
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                     resetInput();
                     selectCtrl.$setDirty();
                 };
@@ -6235,6 +6231,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         }
                         ;
                     }
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                     _onFilteredOptionsChanged();
                 };
                 // Input width utilities
@@ -6259,13 +6256,10 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     DOM_SELECTOR_INPUT.val('');
                     setInputWidth();
                     _this.$timeout(function () {
-                        safeApply(scope, function () {
-                            scope.search = '';
-                        });
+                        scope.search = '';
                     });
                 };
-                _watchers.push(scope.$watch('search', function (nV, oV) {
-                    // scope.$watchGroup(['search', 'options', 'value'], (nV, oV) => {
+                _watchers.push(scope.$watch('[search, options, value]', function () {
                     // hide selected items
                     filterOptions();
                     _this.$timeout(function () {
@@ -6284,16 +6278,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                     setValue(!scope.multiple ? origin[0] : origin);
                 };
-                _watchers.push(scope.$watch('selectedValues', function (newValue, oldValue) {
-                    if (angular.equals(newValue, oldValue)) {
-                        return;
-                    }
-                    updateValue();
-                    _onSelectedValuesChanged(oldValue, newValue);
-                    if (angular.isFunction(scope.change)) {
-                        scope.change(scope.multiple ? { newValue: newValue, oldValue: oldValue } : { newValue: (newValue || [])[0], oldValue: (oldValue || [])[0] });
-                    }
-                }, true));
                 _watchers.push(scope.$watchCollection('options', function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
@@ -6303,6 +6287,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 }));
                 // Update selected values
                 var updateSelected = function updateSelected() {
+                    var _oldSelectedValues = angular.copy(scope.selectedValues);
                     if (!scope.multiple) {
                         var o = scope.options || [];
                         var f = o.filter(function (option) {
@@ -6324,42 +6309,52 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         var _nV = _f.slice(0, scope.limit);
                         scope.selectedValues = _nV;
                     }
+                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 };
+                var _lastWatchInvokvedTime = null;
                 _watchers.push(scope.$watch('value', function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
-                    console.log('watch::value');
+                    console.log('watch::value', JSON.stringify(oldValue), JSON.stringify(newValue), Date.now());
                     _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
                         updateSelected();
                         filterOptions();
                         updateValue();
                     });
                 }, true));
-                var safeApply = function safeApply(scope, fn) {
-                    var phase = scope.$root.$$phase;
-                    if (phase == '$apply' || phase == '$digest') {
-                        scope.$eval(fn);
-                    } else {
-                        scope.$apply(fn);
-                    }
-                };
                 // DOM event listeners
-                _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe(function (e) {
+                _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT_EVENT_FOCUS_BLUR.subscribe(function (e) {
                     if (e.type === 'focus') {
-                        safeApply(scope, open);
-                    }
-                    if (e.type === 'blur') {
-                        safeApply(scope, close);
-                    }
-                    if (e.type === 'keydown') {
                         _this.$timeout(function () {
-                            keydown(e);
+                            scope.$apply(open);
                         });
                     }
-                    if (e.type === 'input') {
-                        setInputWidth();
+                    if (e.type === 'blur') {
+                        close();
                     }
+                }, function (error) {
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
+                }));
+                _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT_EVENT_ENTER_KEYDOWN.subscribe(function (e) {
+                    if (e.keyCode === _selector.CONSTANTS.KEYS.enter) {
+                        _this.$timeout(function () {
+                            // scope.$apply(() => {
+                            keydown(e);
+                            // });
+                        });
+                    }
+                    // if (e.keyCode === 'keydown' ) {
+                    //     scope.$apply(() => {
+                    //         keydown(e);
+                    //     });
+                    // }
+                    // if (e.type === 'keydown' && (e as KeyboardEvent).keyCode === CONSTANTS.KEYS.enter) {
+                    //     scope.$apply(() => {
+                    //         keydown(e);
+                    //     });
+                    // }
+                    setInputWidth();
                 }, function (error) {
                     _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));

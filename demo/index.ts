@@ -80,7 +80,7 @@ angular
     $scope.oldExamples = oldExamples;
 
     $scope.setNewValue = function() {
-      (<any>(angular.element(document.querySelector('.selector-container'))).scope()).countries = ['DK'];
+      (<any>(angular.element(document.querySelector('.selector-container'))).scope()).countries = ['DK', 'AF'];
     };
   }])
   .filter('trustAsHtml', ['$sce', function ($sce) {
