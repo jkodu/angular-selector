@@ -37,7 +37,7 @@ import {
 } from './oldExamples';
 
 import * as sos from '../dist/angular-selector-on-steroids';
-new sos.AngularSelectorOnSteroids().init();
+new sos.AngularSelectorOnSteroids().init(true);
 // import AngularSelectorOnSteroids from '../src/index';
 // new AngularSelectorOnSteroids().init();
 
@@ -78,6 +78,23 @@ angular
   .controller('AngularSelectorDemoCtrl', ['$scope', function ($scope) {
     $scope.examples = examples;
     $scope.oldExamples = oldExamples;
+
+    // let someCountries = ["AX", "AS", "AL", "AD", "AQ", "AG", "AO", "DZ", "AU"];
+    // let _prevIndex = 0;
+    // setInterval(() => {
+    //   if (_prevIndex >= someCountries.length) {
+    //     _prevIndex = 0
+    //   }
+    //   console.log(_prevIndex);
+    //   let s = (angular.element(document.querySelector('.selector-container')).scope() as any);
+    //   if (s) {
+    //     $scope.$apply(() => {
+    //       s.countries = [someCountries[_prevIndex]];
+    //     })
+    //   }
+    //   _prevIndex++;
+    // }, 1)
+
   }])
   .filter('trustAsHtml', ['$sce', function ($sce) {
     return function (input) {

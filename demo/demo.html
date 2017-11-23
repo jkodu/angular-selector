@@ -9,8 +9,8 @@
         <meta name="viewport"
             content="width=device-width, initial-scale=1">
 
-        <!-- <link rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
         <title>Angular Selector On Steroids</title>
 
@@ -87,7 +87,14 @@
                     <section ng-repeat="example in examples track by $index"
                         ng-init="tab='view'">
                         <div class="navbar">
-
+                            <ul class="nav nav-pills navbar-right">
+                                <li ng-class="{active:tab=='view'}"
+                                    ng-show="!example.service"><a ng-click="tab='view'">View</a></li>
+                                <li ng-class="{active:tab=='html'}"
+                                    ng-show="!example.service"><a ng-click="tab='html'">HTML</a></li>
+                                <li ng-class="{active:tab=='js'}"
+                                    ng-show="!example.service && example.js"><a ng-click="tab='js'">JS</a></li>
+                            </ul>
                             <h4 ng-bind-html="example.title|trustAsHtml"></h4>
                         </div>
                         <div class="tab-content"
@@ -106,6 +113,41 @@
                 </article>
             </div>
 
+            <div class="r-pane">
+
+                <h4>
+                    Angular Selector - Examples
+                </h4>
+
+                <article class="examples">
+                    <section ng-repeat="example in oldExamples track by $index"
+                        ng-init="tab='view'">
+                        <div class="navbar">
+                            <ul class="nav nav-pills navbar-right">
+                                <li ng-class="{active:tab=='view'}"
+                                    ng-show="!example.service"><a ng-click="tab='view'">View</a></li>
+                                <li ng-class="{active:tab=='html'}"
+                                    ng-show="!example.service"><a ng-click="tab='html'">HTML</a></li>
+                                <li ng-class="{active:tab=='js'}"
+                                    ng-show="!example.service && example.js"><a ng-click="tab='js'">JS</a></li>
+                            </ul>
+                            <h4 ng-bind-html="example.title|trustAsHtml"></h4>
+                        </div>
+                        <div class="tab-content"
+                            ng-if="!example.service">
+                            <div class="tab-pane example"
+                                ng-class="{active:tab=='view'}"></div>
+                            <pre class="tab-pane"
+                                ng-class="{active:tab=='html'}"
+                                ng-bind-html="example.html|highlight:'html'"></pre>
+                            <pre class="tab-pane"
+                                ng-class="{active:tab=='js'}"
+                                ng-bind-html="example.js|highlight:'javascript'"
+                                ng-if="example.js"></pre>
+                        </div>
+                    </section>
+                </article>
+            </div>
         </div>
     </body>
 

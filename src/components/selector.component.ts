@@ -330,20 +330,16 @@ export class SelectorComponent {
                 promise.then(
                     (response) => {
                         this.$timeout(() => {
-                            scope.$apply(() => {
-                                const options = response.data || response;
-                                scope.options = options;
-                                filterOptions();
-                                scope.loading = false;
-                                initDeferred.resolve();
-                            });
+                            const options = response.data || response;
+                            scope.options = options;
+                            filterOptions();
+                            scope.loading = false;
+                            initDeferred.resolve();
                         });
                     },
                     (error) => {
                         this.$timeout(() => {
-                            scope.$apply(() => {
-                                scope.loading = false;
-                            });
+                            scope.loading = false;
                         });
                         initDeferred.reject();
                         const errorMsg = 'Error while fetching data: ' + (error.message || error);
@@ -507,10 +503,10 @@ export class SelectorComponent {
             // Dropdown utilities
             const dropdownPosition = () => {
                 const label = DOM_SELECTOR_INPUT.parent()[0];
-                const styles = CONSTANTS.FUNCTIONS.GET_DOM_STYLES(label);
-                const marginTop = parseFloat((<any>styles).marginTop || 0);
-                const marginLeft = parseFloat((<any>styles).marginLeft || 0);
                 if (label) {
+                    const styles = CONSTANTS.FUNCTIONS.GET_DOM_STYLES(label);
+                    const marginTop = parseFloat((<any>styles).marginTop || 0);
+                    const marginLeft = parseFloat((<any>styles).marginLeft || 0);
                     DOM_SELECTOR_DROPDOWN.css({
                         top: (label.offsetTop + label.offsetHeight + marginTop) + 'px',
                         left: (label.offsetLeft + marginLeft) + 'px',
@@ -816,23 +812,18 @@ export class SelectorComponent {
                 DOM_SELECTOR_INPUT.val('');
                 setInputWidth();
                 this.$timeout(() => {
-                    scope.$apply(() => {
-                        scope.search = '';
-                    });
+                    scope.search = '';
                 });
             };
 
             _watchers.push(
-                scope.$watch('[search, options, value]', () => {
+                // scope.$watch('[search, options, value]', () => {
+                scope.$watch('search', () => {
                     // hide selected items
                     filterOptions();
                     this.$timeout(() => {
                         // set input width
                         setInputWidth();
-                        // repositionate dropdown
-                        if (scope.isOpen) {
-                            dropdownPosition();
-                        }
                     });
                 })
             );
@@ -855,7 +846,7 @@ export class SelectorComponent {
             );
 
             // Update selected values
-            const updateSelected = (previousValue?: Array<any>) => {
+            const updateSelected = () => {
                 const _oldSelectedValues = angular.copy(scope.selectedValues);
                 if (!scope.multiple) {
                     const o = (scope.options || []);
@@ -873,18 +864,16 @@ export class SelectorComponent {
                         }).filter(function (value) { return angular.isDefined(value); }).slice(0, scope.limit);
                 }
                 _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
+                // repositionate dropdown
+                if (scope.isOpen) {
+                    dropdownPosition();
+                }
             };
 
             let _timePrevious = Date.now();
 
             _watchers.push(
                 scope.$watch('value', (newValue, oldValue) => {
-
-                    const _timeNow = Date.now();
-                    if ((_timeNow - _timePrevious) <= 2) { // edge case to handle double digest
-                        return;
-                    }
-                    _timePrevious = _timeNow;
 
                     if (angular.equals(newValue, oldValue)) {
                         return;
@@ -903,7 +892,7 @@ export class SelectorComponent {
                         : fetchValidation(newValue)
                     ).then(() => {
                         if ((scope.options || []).length > 0) {
-                            updateSelected(oldValue as any);
+                            updateSelected();
                             filterOptions();
                             updateValue();
                         }
@@ -917,7 +906,7 @@ export class SelectorComponent {
                 OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe((e: FocusEvent | KeyboardEvent | Event) => {
                     if (e.type === 'focus') {
                         this.$timeout(() => {
-                            scope.$apply(open);
+                            open();
                         });
                     }
                     if (e.type === 'blur') {

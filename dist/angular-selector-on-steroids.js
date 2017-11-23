@@ -5842,19 +5842,15 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                     promise.then(function (response) {
                         _this.$timeout(function () {
-                            scope.$apply(function () {
-                                var options = response.data || response;
-                                scope.options = options;
-                                filterOptions();
-                                scope.loading = false;
-                                initDeferred.resolve();
-                            });
+                            var options = response.data || response;
+                            scope.options = options;
+                            filterOptions();
+                            scope.loading = false;
+                            initDeferred.resolve();
                         });
                     }, function (error) {
                         _this.$timeout(function () {
-                            scope.$apply(function () {
-                                scope.loading = false;
-                            });
+                            scope.loading = false;
                         });
                         initDeferred.reject();
                         var errorMsg = 'Error while fetching data: ' + (error.message || error);
@@ -5995,10 +5991,10 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 // Dropdown utilities
                 var dropdownPosition = function dropdownPosition() {
                     var label = DOM_SELECTOR_INPUT.parent()[0];
-                    var styles = _selector.CONSTANTS.FUNCTIONS.GET_DOM_STYLES(label);
-                    var marginTop = parseFloat(styles.marginTop || 0);
-                    var marginLeft = parseFloat(styles.marginLeft || 0);
                     if (label) {
+                        var styles = _selector.CONSTANTS.FUNCTIONS.GET_DOM_STYLES(label);
+                        var marginTop = parseFloat(styles.marginTop || 0);
+                        var marginLeft = parseFloat(styles.marginLeft || 0);
                         DOM_SELECTOR_DROPDOWN.css({
                             top: label.offsetTop + label.offsetHeight + marginTop + 'px',
                             left: label.offsetLeft + marginLeft + 'px',
@@ -6256,21 +6252,17 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     DOM_SELECTOR_INPUT.val('');
                     setInputWidth();
                     _this.$timeout(function () {
-                        scope.$apply(function () {
-                            scope.search = '';
-                        });
+                        scope.search = '';
                     });
                 };
-                _watchers.push(scope.$watch('[search, options, value]', function () {
+                _watchers.push(
+                // scope.$watch('[search, options, value]', () => {
+                scope.$watch('search', function () {
                     // hide selected items
                     filterOptions();
                     _this.$timeout(function () {
                         // set input width
                         setInputWidth();
-                        // repositionate dropdown
-                        if (scope.isOpen) {
-                            dropdownPosition();
-                        }
                     });
                 }));
                 // Update value
@@ -6288,7 +6280,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     updateSelected();
                 }));
                 // Update selected values
-                var updateSelected = function updateSelected(previousValue) {
+                var updateSelected = function updateSelected() {
                     var _oldSelectedValues = angular.copy(scope.selectedValues);
                     if (!scope.multiple) {
                         var o = scope.options || [];
@@ -6307,14 +6299,13 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         }).slice(0, scope.limit);
                     }
                     _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
+                    // repositionate dropdown
+                    if (scope.isOpen) {
+                        dropdownPosition();
+                    }
                 };
                 var _timePrevious = Date.now();
                 _watchers.push(scope.$watch('value', function (newValue, oldValue) {
-                    var _timeNow = Date.now();
-                    if (_timeNow - _timePrevious <= 2) {
-                        return;
-                    }
-                    _timePrevious = _timeNow;
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
@@ -6323,7 +6314,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                     _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
                         if ((scope.options || []).length > 0) {
-                            updateSelected(oldValue);
+                            updateSelected();
                             filterOptions();
                             updateValue();
                         }
@@ -6333,7 +6324,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe(function (e) {
                     if (e.type === 'focus') {
                         _this.$timeout(function () {
-                            scope.$apply(open);
+                            open();
                         });
                     }
                     if (e.type === 'blur') {
