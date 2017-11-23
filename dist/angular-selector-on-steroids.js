@@ -6318,7 +6318,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
-                    console.log('watch::value', scope.search, JSON.stringify(oldValue), JSON.stringify(newValue), Date.now());
+                    if (_this.debug) {
+                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'info', 'watch::value, ' + scope.search + ', ' + JSON.stringify(oldValue) + ', ' + JSON.stringify(newValue) + ', ' + Date.now());
+                    }
                     _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
                         if ((scope.options || []).length > 0) {
                             updateSelected(oldValue);

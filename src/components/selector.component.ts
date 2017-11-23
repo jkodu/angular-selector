@@ -890,7 +890,14 @@ export class SelectorComponent {
                         return;
                     }
 
-                    console.log('watch::value', scope.search, JSON.stringify(oldValue), JSON.stringify(newValue), Date.now());
+                    if (this.debug) {
+                        CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(
+                            this.$log,
+                            'info',
+                            `watch::value, ${scope.search}, ${JSON.stringify(oldValue)}, ${JSON.stringify(newValue)}, ${Date.now()}`
+                        );
+                    }
+
                     this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
                         ? angular.noop
                         : fetchValidation(newValue)
