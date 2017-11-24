@@ -69,7 +69,9 @@ export const CONSTANTS = {
                             input='selectedValuesInput$'>
                         </sos-selected-items>
                     </ul>
+
                     <input 
+                        sos-input-expander='selectedValuesInput$'
                         ng-model="search"                         
                         placeholder="{{!hasValue() ? placeholder : ''}}" 
                         ng-model-options="{debounce: debounce}"
@@ -77,6 +79,7 @@ export const CONSTANTS = {
                         ng-readonly="disableSearch" 
                         ng-required="required && !hasValue()" 
                         autocomplete="off">
+                        
                     <div ng-if="!multiple || loading" 
                         class="selector-helper selector-global-helper" 
                         ng-click="!disabled && removeButton && unset()">

@@ -166,7 +166,13 @@ export class SelectorComponent {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
+
+                    if (newValue.length <= 0) {
+
+                    }
+
                     updateValue();
+
                     if (angular.isFunction(scope.change)) {
                         scope.change(scope.multiple
                             ? {
@@ -462,23 +468,46 @@ export class SelectorComponent {
             };
 
             const reInitMultiple = () => {
-                this.$timeout(setInputWidth);
+                this.$timeout(resetInput); // TODO: Could lead to bug
                 if (scope.remote) {
                     this.$timeout(fetch(false));
                 }
                 initDeferred
                     .promise
-                    .then(() => {
+                    .then(
+                    () => {
                         initialize();
-                    }, () => {
+                    },
+                    () => {
                         if (this.debug) {
                             CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'debug', `Cannot initialize, promise init error!`);
                         }
                     });
             }
 
+
+            // registering all Mutations
+            const _m1 = new MutationObserver((event) => {
+                const _target = (event[0].target as HTMLElement);
+                const _inputElem = angular.element(_target).find('input');
+                if (_inputElem) {
+                    selectCtrl[inputCtrl.$touched
+                        ? '$setTouched'
+                        : '$setUntouched']();
+                    selectCtrl[inputCtrl.$pristine
+                        ? '$setPristine'
+                        : '$setDirty']();
+                }
+            })
+            _m1.observe(DOM_SELECTOR_CONTAINER[0], {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+            _mutations.push(_m1);
+
+
             let _previousClassString: string = null;
-            const m2 = new MutationObserver((event) => {
+            const _m2 = new MutationObserver((event) => {
                 const newClassString = (event[0].target as HTMLElement).classList.toString();
                 if (_previousClassString &&
                     newClassString !== _previousClassString) {
@@ -494,11 +523,22 @@ export class SelectorComponent {
                 }
                 _previousClassString = newClassString;
             })
-            m2.observe(DOM_SELECTOR_CONTAINER[0], {
+            _m2.observe(DOM_SELECTOR_CONTAINER[0], {
                 attributes: true,
                 attributeFilter: ['class']
             });
-            _mutations.push(m2);
+            _mutations.push(_m2);
+
+
+            const _m3 = new MutationObserver((event) => {
+                reAssessWidth();
+            });
+            _m3.observe(DOM_SELECTOR_INPUT[0], {
+                attributes: true,
+                attributeFilter: ['placeholder']
+            });
+            _mutations.push(_m3);
+
 
             // Dropdown utilities
             const dropdownPosition = () => {
@@ -652,8 +692,6 @@ export class SelectorComponent {
                 }
 
                 _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
-
-                resetInput();
                 selectCtrl.$setDirty();
             };
 
@@ -779,38 +817,43 @@ export class SelectorComponent {
             };
 
             // Input width utilities
-            const measureWidth = () => {
-                let width;
+            const reAssessWidth = () => {
+
+                let _measureText = ``;
+                if (DOM_SELECTOR_INPUT[0].value &&
+                    DOM_SELECTOR_INPUT[0].value.length > 0) {
+                    // value exists
+                    _measureText = DOM_SELECTOR_INPUT[0].value;
+                } else {
+                    // no value
+                    // replace with place holder if selected values are none
+                    if (scope.selectedValues.length > 0) {
+                        _measureText = ``
+                    } else {
+                        _measureText = DOM_SELECTOR_INPUT[0].getAttribute('placeholder');
+                    }
+                }
+
                 const styles = CONSTANTS.FUNCTIONS.GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
-                const shadow = angular.element('<span class="selector-shadow"></span>');
-
-                shadow.text(DOM_SELECTOR_INPUT.val() || (!scope.hasValue() ? scope.placeholder : '') || '');
+                const shadow = angular.element(`<span class="selector-shadow"></span>`);
+                shadow.text(_measureText);
                 angular.element(document.body).append(shadow);
-                angular.forEach([
-                    'fontFamily',
-                    'fontSize',
-                    'fontWeight',
-                    'fontStyle',
-                    'letterSpacing',
-                    'textTransform',
-                    'wordSpacing',
-                    'textIndent'
-                ], (style) => {
-                    shadow.css(style, styles[style]);
-                });
-                width = shadow[0].offsetWidth;
+                shadow.css({
+                    'fontFamily': styles['fontFamily'],
+                    'fontSize': styles['fontSize'],
+                    'fontWeight': styles['fontWeight'],
+                    'fontStyle': styles['fontStyle'],
+                    'letterSpacing': styles['letterSpacing'],
+                    'textTransform': styles['textTransform'],
+                    'wordSpacing': styles['wordSpacing'],
+                    'textIndent': styles['textIndent']
+                })
+                DOM_SELECTOR_INPUT.css('width', shadow[0].offsetWidth + 'px');
                 shadow.remove();
-                return width;
-            };
-
-            const setInputWidth = () => {
-                const width = measureWidth() + 1;
-                DOM_SELECTOR_INPUT.css('width', width + 'px');
-            };
+            }
 
             const resetInput = () => {
                 DOM_SELECTOR_INPUT.val('');
-                setInputWidth();
                 this.$timeout(() => {
                     scope.search = '';
                 });
@@ -821,10 +864,10 @@ export class SelectorComponent {
                 scope.$watch('search', () => {
                     // hide selected items
                     filterOptions();
-                    this.$timeout(() => {
-                        // set input width
-                        setInputWidth();
-                    });
+                    // this.$timeout(() => {
+                    //     // set input width
+                    //     setInputWidth();
+                    // });
                 })
             );
 
@@ -918,30 +961,13 @@ export class SelectorComponent {
                         });
                     }
                     if (e.type === 'input') {
-                        setInputWidth();
+                        reAssessWidth();
                     }
                 }, (error: any) => {
                     CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
                 })
             );
 
-            const m1 = new MutationObserver((event) => {
-                const _target = (event[0].target as HTMLElement);
-                const _inputElem = angular.element(_target).find('input');
-                if (_inputElem) {
-                    selectCtrl[inputCtrl.$touched
-                        ? '$setTouched'
-                        : '$setUntouched']();
-                    selectCtrl[inputCtrl.$pristine
-                        ? '$setPristine'
-                        : '$setDirty']();
-                }
-            })
-            m1.observe(DOM_SELECTOR_CONTAINER[0], {
-                attributes: true,
-                attributeFilter: ['class']
-            });
-            _mutations.push(m1);
 
             // Expose APIs
             scope.api.fetch = fetch;
