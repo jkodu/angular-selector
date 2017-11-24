@@ -87,10 +87,13 @@ export class SelectorComponent {
                 )
                 : Observable.empty();
             const OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN
-                ? Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown')
+                ? Observable.merge(
+                    Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'pointerdown'),
+                    Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown')
+                )
                 : Observable.empty();
             const OBSERVABLE_FOR_WINDOW_RESIZE = this.$window
-                ? Observable.fromEvent(this.$window, 'resze')
+                ? Observable.fromEvent(this.$window, 'resize')
                 : Observable.empty();
 
             let inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
@@ -124,6 +127,7 @@ export class SelectorComponent {
             // Default: listen to dropdown dom event
             _subscribers.push(
                 OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN.subscribe((e: Event) => {
+                    console.log('dropdown mousedown');
                     e.preventDefault();
                     e.stopPropagation();
                 }, (error) => {
@@ -899,12 +903,14 @@ export class SelectorComponent {
                     const nV = f.slice(0, 1);
                     scope.selectedValues = nV;
                 } else {
-                    scope.selectedValues = (scope.value || [])
-                        .map((value) => {
-                            return filter(scope.options, (option) => {
-                                return optionEquals(option, value);
-                            })[0];
-                        }).filter(function (value) { return angular.isDefined(value); }).slice(0, scope.limit);
+                    scope.selectedValues = (scope.options && scope.options.length > 0)
+                        ? (scope.value || [])
+                            .map((value) => {
+                                return filter((scope.options || []), (option) => {
+                                    return optionEquals(option, value);
+                                })[0];
+                            }).filter(function (value) { return angular.isDefined(value); }).slice(0, scope.limit)
+                        : scope.selectedValues;
                 }
                 _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 // repositionate dropdown
@@ -934,11 +940,9 @@ export class SelectorComponent {
                         ? angular.noop
                         : fetchValidation(newValue)
                     ).then(() => {
-                        if ((scope.options || []).length > 0) {
-                            updateSelected();
-                            filterOptions();
-                            updateValue();
-                        }
+                        updateSelected();
+                        filterOptions();
+                        updateValue();
                     });
                 }, true)
             );

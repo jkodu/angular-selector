@@ -70,8 +70,7 @@ export const CONSTANTS = {
                         </sos-selected-items>
                     </ul>
 
-                    <input 
-                        sos-input-expander='selectedValuesInput$'
+                    <input
                         ng-model="search"                         
                         placeholder="{{!hasValue() ? placeholder : ''}}" 
                         ng-model-options="{debounce: debounce}"
