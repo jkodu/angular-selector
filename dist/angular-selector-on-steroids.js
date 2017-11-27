@@ -5984,9 +5984,11 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         scope.selectedValues = _nV;
                     }
                     // repositionate dropdown
-                    if (scope.isOpen) {
-                        dropdownPosition();
-                    }
+                    _this.$timeout(function () {
+                        if (scope.isOpen) {
+                            dropdownPosition();
+                        }
+                    });
                 };
                 _watchers.push(scope.$watch('value', function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue)) {

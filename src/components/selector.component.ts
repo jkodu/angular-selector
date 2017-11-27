@@ -938,9 +938,11 @@ export class SelectorComponent {
                     scope.selectedValues = nV;
                 }
                 // repositionate dropdown
-                if (scope.isOpen) {
-                    dropdownPosition();
-                }
+                this.$timeout(() => {
+                    if (scope.isOpen) {
+                        dropdownPosition();
+                    }
+                });
             };
 
             _watchers.push(
