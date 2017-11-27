@@ -17,7 +17,7 @@ export class SelectorSelectedItemsComponent {
         input: '<'
     };
 
-    constructor(private $log: angular.ILogService, private debug: boolean) { }
+    constructor(private $log: angular.ILogService, private $timeout: angular.ITimeoutService, private debug: boolean) { }
 
     link(scope: ISelector.SelectedItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
 
@@ -64,9 +64,11 @@ export class SelectorSelectedItemsComponent {
                             return;
                         }
                         const index = parseInt(el.replace('sos-data-index-', ''));
-                        if (_parentReferences['unset']) {
-                            _parentReferences['unset'](index < -1 ? -1 : index);
-                        }
+                        this.$timeout(() => {
+                            if (_parentReferences['unset']) {
+                                _parentReferences['unset'](index < -1 ? -1 : index);
+                            }
+                        });
                     }
                 }
                 e.stopPropagation();
@@ -139,10 +141,10 @@ export class SelectorSelectedItemsComponent {
     }
 
     public static Factory(debug: boolean) {
-        let directive = ($log) => {
-            return new SelectorSelectedItemsComponent($log, debug);
+        let directive = ($log, $timeout) => {
+            return new SelectorSelectedItemsComponent($log, $timeout, debug);
         };
-        directive['$inject'] = ['$log'];
+        directive['$inject'] = ['$log', '$timeout'];
         return directive;
     }
 }

@@ -138,7 +138,7 @@ export const CONSTANTS = {
 
         }
     },
-    FUNCTIONS: {     
+    FUNCTIONS: {
         CONSOLE_LOGGER: ($log, type, message: string) => { // TODO: pass method to invoke
             if ($log[type]) {
                 $log[type](`Component: Selector On Sterorids: ${message}`);
@@ -152,6 +152,14 @@ export const CONSTANTS = {
                 : (element.ownerDocument && element.ownerDocument.defaultView.opener)
                     ? element.ownerDocument.defaultView.getComputedStyle(element)
                     : window.getComputedStyle(element);
+        },
+        GET_GUID: () => {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         }
     }
 }

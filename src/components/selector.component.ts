@@ -6,11 +6,11 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { CONSTANTS } from './selector.constants';
 import { debug } from 'util';
+import { SelectorInstanceManagerService } from './selector.instance.manager.service';
 
 export class SelectorComponent {
 
@@ -54,9 +54,11 @@ export class SelectorComponent {
         private $filter: angular.IFilterService,
         private $timeout: angular.ITimeoutService,
         private $window: angular.IWindowService,
+        private $document: angular.IDocumentService,
         private $http: angular.IHttpService,
         private $q: angular.IQService,
         private $log: angular.ILogService,
+        private SelectorInstanceManagerService: SelectorInstanceManagerService,
         private debug) {
     }
 
@@ -69,6 +71,7 @@ export class SelectorComponent {
 
         transclude(scope, (clone: any, scope: ISelector.BaseComponent.Scope) => {
 
+            const _guid = CONSTANTS.FUNCTIONS.GET_GUID();
             let _watchers: Array<any> = [];
             let _mutations: Array<any> = [];
             let _subscribers: Array<Subscription> = [];
@@ -76,7 +79,9 @@ export class SelectorComponent {
             const filter = this.$filter('filter');
             const DOM_SELECTOR_CONTAINER = angular.element(element[0]);
             const DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
+            const DOM_SELECTOR_INPUT_WRAPPER = angular.element(element[0].querySelector('.selector-input'));
             const DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
+
 
             const OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT
                 ? Observable.merge(
@@ -89,11 +94,20 @@ export class SelectorComponent {
             const OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN
                 ? Observable.merge(
                     Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'pointerdown'),
-                    Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown')
+                    Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown'),
                 )
                 : Observable.empty();
-            const OBSERVABLE_FOR_WINDOW_RESIZE = this.$window
-                ? Observable.fromEvent(this.$window, 'resize')
+            const OBSERVABLE_FOR_WINDOW_EVENTS = this.$window
+                ? Observable.merge(
+                    Observable.fromEvent(this.$window, 'resize'),
+                    Observable.fromEvent(this.$window, 'blur')
+                )
+                : Observable.empty();
+            const OBSERVABLE_FOR_DOM_SELECTOR_INPUT_WRAPPER = DOM_SELECTOR_INPUT_WRAPPER
+                ? Observable.fromEvent(DOM_SELECTOR_INPUT_WRAPPER, 'click')
+                : Observable.empty();
+            const OBSERVABLE_FOR_DOCUMENT_CLICK = this.$document
+                ? Observable.fromEvent(this.$document, 'click')
                 : Observable.empty();
 
             let inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
@@ -122,27 +136,63 @@ export class SelectorComponent {
                 selectedValuesInput$: new Subject(),
                 filteredOptionsInput$: new Subject()
             };
+            let _currentFocusedElement = null;
 
             // DEFAULTS
             // Default: listen to dropdown dom event
             _subscribers.push(
-                OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN.subscribe((e: Event) => {
-                    console.log('dropdown mousedown');
-                    e.preventDefault();
-                    e.stopPropagation();
-                }, (error) => {
-                    CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
-                })
+                OBSERVABLE_FOR_DOCUMENT_CLICK
+                    .subscribe((e: Event) => {
+                        _currentFocusedElement = null;
+                        if (scope.isOpen
+                            && this.$document[0].activeElement !== DOM_SELECTOR_INPUT) {
+                            close();
+                        }
+                    })
+            );
+
+            _subscribers.push(
+                OBSERVABLE_FOR_DOM_SELECTOR_INPUT_WRAPPER
+                    .subscribe((e: Event) => {
+                        if (DOM_SELECTOR_INPUT) {
+                            DOM_SELECTOR_INPUT[0].focus();
+                        }
+                        e.preventDefault();
+                        e.stopPropagation();
+                    })
+            );
+
+            _subscribers.push(
+                OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN
+                    .subscribe((e: Event) => {
+                        _currentFocusedElement = 'FOCUSED_ELEMENT_DROPDOWN';
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }, (error) => {
+                        CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
+                    })
             );
 
             // // Default: listen to window resize event
             _subscribers.push(
-                OBSERVABLE_FOR_WINDOW_RESIZE.subscribe((e: Event) => {
-                    dropdownPosition();
-                }, (error) => {
-                    CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
-                })
-            )
+                OBSERVABLE_FOR_WINDOW_EVENTS
+                    .subscribe((e: Event) => {
+                        if (e.type === 'resize') {
+                            if (scope.isOpen) {
+                                dropdownPosition();
+                            }
+                        }
+                        if (e.type === 'blur') {
+                            if (scope.isOpen) {
+                                close();
+                            }
+                        }
+                        e.preventDefault();
+                    }, (error) => {
+                        CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
+                    })
+            );
 
             // Default attributes
             if (!angular.isDefined(scope.value) && scope.multiple) {
@@ -166,7 +216,7 @@ export class SelectorComponent {
             // };
 
             const _onSelectedValuesChanged = (oldValue, newValue) => {
-                setTimeout(() => {
+                this.$timeout(() => {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
@@ -189,25 +239,24 @@ export class SelectorComponent {
                             }
                         );
                     }
+
                     if (scope.steroids) {
-                        this.$timeout(() => {
-                            scope.selectedValuesInput$.next({
-                                groupAttr: scope.groupAttr,
-                                valueAttr: scope.valueAttr,
-                                labelAttr: scope.labelAttr,
-                                getObjValue: scope.getObjValue,
-                                unset: scope.unset,
-                                selectedValues: scope.selectedValues,
-                                multiple: scope.multiple,
-                                disabled: scope.disabled
-                            } as ISelector.SelectedItemsComponent.Input$);
-                        })
+                        scope.selectedValuesInput$.next({
+                            groupAttr: scope.groupAttr,
+                            valueAttr: scope.valueAttr,
+                            labelAttr: scope.labelAttr,
+                            getObjValue: scope.getObjValue,
+                            unset: scope.unset,
+                            selectedValues: scope.selectedValues,
+                            multiple: scope.multiple,
+                            disabled: scope.disabled
+                        } as ISelector.SelectedItemsComponent.Input$);
                     }
                 });
             };
 
             const _onFilteredOptionsChanged = () => {
-                setTimeout(() => {
+                this.$timeout(() => {
                     scope.filteredOptionsInput$.next({
                         groupAttr: scope.groupAttr,
                         valueAttr: scope.valueAttr,
@@ -575,6 +624,7 @@ export class SelectorComponent {
             };
 
             const close = () => {
+                _currentFocusedElement = null;
                 scope.isOpen = false;
                 resetInput();
                 // Note: not necessary to make a fetch call on close
@@ -708,6 +758,7 @@ export class SelectorComponent {
                             }
                             decrementHighlighted();
                             e.preventDefault();
+                            e.stopPropagation();
                             break;
                         }
                     case CONSTANTS.KEYS.down:
@@ -719,6 +770,7 @@ export class SelectorComponent {
                                 incrementHighlighted();
                             }
                             e.preventDefault();
+                            e.stopPropagation();
                             break;
                         }
                     case CONSTANTS.KEYS.escape:
@@ -739,6 +791,7 @@ export class SelectorComponent {
                                     }
                                 }
                                 e.preventDefault();
+                                e.stopPropagation();
                             }
                             break;
                         }
@@ -754,6 +807,7 @@ export class SelectorComponent {
                                         scope.search = search;
                                     });
                                 e.preventDefault();
+                                e.stopPropagation();
                             }
                             break;
                         }
@@ -772,6 +826,7 @@ export class SelectorComponent {
                         {
                             if (!scope.multiple && scope.hasValue()) {
                                 e.preventDefault();
+                                e.stopPropagation();
                             } else {
                                 open();
                                 scope.highlight(0);
@@ -852,7 +907,7 @@ export class SelectorComponent {
                     'wordSpacing': styles['wordSpacing'],
                     'textIndent': styles['textIndent']
                 })
-                DOM_SELECTOR_INPUT.css('width', shadow[0].offsetWidth + 'px');
+                DOM_SELECTOR_INPUT.css('width', ((shadow[0].offsetWidth) + 1) + 'px');
                 shadow.remove();
             }
 
@@ -888,6 +943,7 @@ export class SelectorComponent {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
                     };
+                    filterOptions();
                     updateSelected();
                 })
             );
@@ -903,7 +959,7 @@ export class SelectorComponent {
                     const nV = f.slice(0, 1);
                     scope.selectedValues = nV;
                 } else {
-                    scope.selectedValues = (scope.options && scope.options.length > 0)
+                    const nV = (scope.options && scope.options.length > 0)
                         ? (scope.value || [])
                             .map((value) => {
                                 return filter((scope.options || []), (option) => {
@@ -911,6 +967,7 @@ export class SelectorComponent {
                                 })[0];
                             }).filter(function (value) { return angular.isDefined(value); }).slice(0, scope.limit)
                         : scope.selectedValues;
+                    scope.selectedValues = nV;
                 }
                 _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 // repositionate dropdown
@@ -918,8 +975,6 @@ export class SelectorComponent {
                     dropdownPosition();
                 }
             };
-
-            let _timePrevious = Date.now();
 
             _watchers.push(
                 scope.$watch('value', (newValue, oldValue) => {
@@ -940,9 +995,11 @@ export class SelectorComponent {
                         ? angular.noop
                         : fetchValidation(newValue)
                     ).then(() => {
-                        updateSelected();
-                        filterOptions();
-                        updateValue();
+                        this.$timeout(() => {
+                            updateSelected();
+                            filterOptions();
+                            updateValue();
+                        });
                     });
                 }, true)
             );
@@ -950,26 +1007,32 @@ export class SelectorComponent {
 
             // DOM event listeners
             _subscribers.push(
-                OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe((e: FocusEvent | KeyboardEvent | Event) => {
-                    if (e.type === 'focus') {
-                        this.$timeout(() => {
-                            open();
-                        });
-                    }
-                    if (e.type === 'blur') {
-                        close();
-                    }
-                    if (e.type === 'keydown') {
-                        scope.$apply(() => {
-                            keydown(e);
-                        });
-                    }
-                    if (e.type === 'input') {
-                        reAssessWidth();
-                    }
-                }, (error: any) => {
-                    CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
-                })
+                OBSERVABLE_FOR_DOM_SELECTOR_INPUT
+                    .subscribe((e: FocusEvent | KeyboardEvent | Event) => {
+                        if (e.type === 'focus') {
+                            // close others
+                            this.SelectorInstanceManagerService.closeAll();
+                            this.$timeout(() => {
+                                _currentFocusedElement = DOM_SELECTOR_INPUT;
+                                open();
+                            });
+                        }
+                        if (e.type === 'blur') {
+                            if (scope.isOpen && _currentFocusedElement !== 'FOCUSED_ELEMENT_DROPDOWN') {
+                                close();
+                            }
+                        }
+                        if (e.type === 'keydown') {
+                            scope.$apply(() => {
+                                keydown(e);
+                            });
+                        }
+                        if (e.type === 'input') {
+                            reAssessWidth();
+                        }
+                    }, (error: any) => {
+                        CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'error', error);
+                    })
             );
 
 
@@ -1004,6 +1067,9 @@ export class SelectorComponent {
                     scope.unset(index - i);
                 });
             };
+
+            // register instance
+            this.SelectorInstanceManagerService.add(_guid, scope.api);
 
             // destroy
             scope.$on('$destroy', () => {
@@ -1041,16 +1107,18 @@ export class SelectorComponent {
 
 
     public static Factory(debug: boolean) {
-        let directive = ($filter, $timeout, $window, $http, $q, $log) => {
-            return new SelectorComponent($filter, $timeout, $window, $http, $q, $log, debug);
+        let directive = ($filter, $timeout, $window, $document, $http, $q, $log, SelectorInstanceManagerService) => {
+            return new SelectorComponent($filter, $timeout, $window, $document, $http, $q, $log, SelectorInstanceManagerService, debug);
         };
         directive['$inject'] = [
             '$filter',
             '$timeout',
             '$window',
+            '$document',
             '$http',
             '$q',
-            '$log'
+            '$log',
+            'SelectorInstanceManagerService'
         ];
         return directive;
     }

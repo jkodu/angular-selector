@@ -2,7 +2,17 @@ import { Subject } from 'rxjs/Subject';
 
 export namespace ISelector {
 
+    export interface IApi {
+        fetch(triggeredFromAction: boolean);
+        open();
+        close();
+        focus();
+        set(value);
+        unset(value);
+    }
+
     export namespace BaseComponent {
+
         export interface Scope extends angular.IScope {
             name,
             value,
@@ -19,7 +29,7 @@ export namespace ISelector {
             create,
             limit,
             rtl,
-            api, // to type this
+            api : ISelector.IApi, // to type this
             change,
             remote,
             remoteParam,
@@ -41,15 +51,11 @@ export namespace ISelector {
             highlight;
             highlighted;
             isOpen;
-
             filteredOptions: Array<any>;
             filteredOptionsInput$: Subject<ISelector.DropdownItemsComponent.Input$>;
-
             createOption;
-
             selectedValues: Array<any>;
             selectedValuesInput$: Subject<ISelector.SelectedItemsComponent.Input$>;
-
             set(option?: any): void;
             unset(index?: number): void;
 

@@ -17,7 +17,7 @@ export class SelectorDropdownItemsComponent {
         input: '<'
     };
 
-    constructor(private $log: angular.ILogService, private debug: boolean) { }
+    constructor(private $log: angular.ILogService, private $timeout: angular.ITimeoutService, private debug: boolean) { }
 
     link(scope: ISelector.DropdownItemsComponent.Scope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes) {
 
@@ -72,26 +72,31 @@ export class SelectorDropdownItemsComponent {
         ).subscribe((e: Event | MouseEvent) => {
             if (e.type === 'mouseover') {
                 const el = e.srcElement.getAttribute('id');
-                if(!el) {
+                if (!el) {
                     return;
                 }
                 const index = parseInt(el.replace('sos-data-index-', ''));
-                if (_parentReferences['highlight']) {
-                    _parentReferences['highlight'](index < -1 ? -1 : index);
-                }
+
+                this.$timeout(() => {
+                    if (_parentReferences['highlight']) {
+                        _parentReferences['highlight'](index < -1 ? -1 : index);
+                    }
+                });
             }
             if (e.type === 'click') {
                 const el = e.srcElement.getAttribute('id');
-                if(!el) {
+                if (!el) {
                     return;
                 }
                 const index = parseInt(el.replace('sos-data-index-', ''));
-                if (_parentReferences['highlight']) {
-                    _parentReferences['highlight'](index < -1 ? -1 : index);
-                }
-                if (_parentReferences['set']) {
-                    _parentReferences['set'](undefined);
-                }
+                // if (_parentReferences['highlight']) {
+                //     _parentReferences['highlight'](index < -1 ? -1 : index);
+                // }
+                this.$timeout(() => {
+                    if (_parentReferences['set']) {
+                        _parentReferences['set'](undefined);
+                    }
+                });
             }
             e.stopPropagation();
         });
@@ -161,10 +166,13 @@ export class SelectorDropdownItemsComponent {
     }
 
     public static Factory(debug: boolean) {
-        let directive = ($log) => {
-            return new SelectorDropdownItemsComponent($log, debug);
+        let directive = ($log, $timeout) => {
+            return new SelectorDropdownItemsComponent($log, $timeout, debug);
         };
-        directive['$inject'] = ['$log'];
+        directive['$inject'] = [
+            '$log',
+            '$timeout'
+        ];
         return directive;
     }
 }
