@@ -215,48 +215,8 @@ export class SelectorComponent {
             //     }
             // };
 
-            const _onSelectedValuesChanged = (oldValue, newValue) => {
-                this.$timeout(() => {
-                    if (angular.equals(newValue, oldValue)) {
-                        return;
-                    }
-
-                    if (newValue.length <= 0) {
-
-                    }
-
-                    updateValue();
-
-                    if (angular.isFunction(scope.change)) {
-                        scope.change(scope.multiple
-                            ? {
-                                newValue: newValue,
-                                oldValue: oldValue
-                            }
-                            : {
-                                newValue: (newValue || [])[0],
-                                oldValue: (oldValue || [])[0]
-                            }
-                        );
-                    }
-
-                    if (scope.steroids) {
-                        scope.selectedValuesInput$.next({
-                            groupAttr: scope.groupAttr,
-                            valueAttr: scope.valueAttr,
-                            labelAttr: scope.labelAttr,
-                            getObjValue: scope.getObjValue,
-                            unset: scope.unset,
-                            selectedValues: scope.selectedValues,
-                            multiple: scope.multiple,
-                            disabled: scope.disabled
-                        } as ISelector.SelectedItemsComponent.Input$);
-                    }
-                });
-            };
-
-            const _onFilteredOptionsChanged = () => {
-                this.$timeout(() => {
+            const _triggerSteroidsForFilteredOptions = () => {
+                if (scope.steroids) {
                     scope.filteredOptionsInput$.next({
                         groupAttr: scope.groupAttr,
                         valueAttr: scope.valueAttr,
@@ -267,7 +227,7 @@ export class SelectorComponent {
                         set: scope.set,
                         highlight: scope.highlight
                     } as ISelector.DropdownItemsComponent.Input$);
-                });
+                }
             }
 
             angular.forEach([
@@ -517,6 +477,7 @@ export class SelectorComponent {
                     updateSelected();
                     filterOptions();
                     updateValue();
+                    _triggerSteroidsForSelectedValues();
                 }
             };
 
@@ -655,7 +616,7 @@ export class SelectorComponent {
                         scope.highlighted = (scope.filteredOptions.length + index) % scope.filteredOptions.length;
                     }
                 }
-                _onFilteredOptionsChanged();
+                _triggerSteroidsForFilteredOptions();
             };
 
             const scrollToHighlighted = () => {
@@ -713,8 +674,6 @@ export class SelectorComponent {
                 if (!option) {
                     return;
                 }
-
-                const _oldSelectedValues = angular.copy(scope.selectedValues);
                 if (!scope.multiple) {
                     scope.selectedValues = [option];
                 }
@@ -730,13 +689,11 @@ export class SelectorComponent {
                     (scope.selectedValues || []).length >= scope.limit) {
                     close();
                 }
-                _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 resetInput();
                 selectCtrl.$setDirty();
             };
 
             scope.unset = (index) => {
-                const _oldSelectedValues = angular.copy(scope.selectedValues);
                 if (!scope.multiple) {
                     scope.selectedValues = [];
                 }
@@ -747,8 +704,6 @@ export class SelectorComponent {
                             : scope.selectedValues.length - 1,
                         1);
                 }
-
-                _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 selectCtrl.$setDirty();
             };
 
@@ -856,8 +811,6 @@ export class SelectorComponent {
 
             const filterOptions = () => {
                 scope.filteredOptions = filter(scope.options || [], scope.search);
-
-                const _oldSelectedValues = angular.copy(scope.selectedValues);
                 if (!angular.isArray(scope.selectedValues)) {
                     scope.selectedValues = [];
                 }
@@ -872,10 +825,7 @@ export class SelectorComponent {
                         scope.highlight(index);
                     };
                 }
-
-                _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
-
-                _onFilteredOptionsChanged();
+                _triggerSteroidsForFilteredOptions();
             };
 
             // Input width utilities
@@ -933,6 +883,20 @@ export class SelectorComponent {
                 })
             );
 
+            _watchers.push(
+                scope.$watch('selectedValues', function (newValue, oldValue) {
+                    if (angular.equals(newValue, oldValue)) {
+                        return;
+                    }
+                    updateValue();
+                    if (angular.isFunction(scope.change)) {
+                        scope.change(scope.multiple
+                            ? { newValue: newValue, oldValue: oldValue }
+                            : { newValue: (newValue || [])[0], oldValue: (oldValue || [])[0] });
+                    }
+                }, true)
+            );
+
             // Update value
             const updateValue = (origin?) => {
                 if (!angular.isDefined(origin)) {
@@ -946,14 +910,13 @@ export class SelectorComponent {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
                     };
-                    filterOptions();
+                    // filterOptions();
                     updateSelected();
                 })
             );
 
             // Update selected values
             const updateSelected = () => {
-                const _oldSelectedValues = angular.copy(scope.selectedValues);
                 if (!scope.multiple) {
                     const o = (scope.options || []);
                     const f = o.filter((option) => {
@@ -972,7 +935,6 @@ export class SelectorComponent {
                         : scope.selectedValues;
                     scope.selectedValues = nV;
                 }
-                _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                 // repositionate dropdown
                 if (scope.isOpen) {
                     dropdownPosition();
@@ -998,15 +960,30 @@ export class SelectorComponent {
                         ? angular.noop
                         : fetchValidation(newValue)
                     ).then(() => {
-                        this.$timeout(() => {
-                            updateSelected();
-                            filterOptions();
-                            updateValue();
-                        });
+                        // this.$timeout(() => {
+                        updateSelected();
+                        filterOptions();
+                        updateValue();
+                        _triggerSteroidsForSelectedValues();
+                        // });
                     });
                 }, true)
             );
 
+            const _triggerSteroidsForSelectedValues = () => {
+                if (scope.steroids) {
+                    scope.selectedValuesInput$.next({
+                        groupAttr: scope.groupAttr,
+                        valueAttr: scope.valueAttr,
+                        labelAttr: scope.labelAttr,
+                        getObjValue: scope.getObjValue,
+                        unset: scope.unset,
+                        selectedValues: scope.selectedValues,
+                        multiple: scope.multiple,
+                        disabled: scope.disabled
+                    } as ISelector.SelectedItemsComponent.Input$);
+                }
+            }
 
             // DOM event listeners
             _subscribers.push(
@@ -1020,7 +997,7 @@ export class SelectorComponent {
                                 open();
                             });
                         }
-                        if (e.type === 'blur') {                            
+                        if (e.type === 'blur') {
                             if (scope.isOpen && _currentFocusedElement !== 'FOCUSED_ELEMENT_DROPDOWN') {
                                 close();
                             }

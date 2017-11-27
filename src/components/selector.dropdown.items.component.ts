@@ -77,11 +77,9 @@ export class SelectorDropdownItemsComponent {
                 }
                 const index = parseInt(el.replace('sos-data-index-', ''));
 
-                this.$timeout(() => {
-                    if (_parentReferences['highlight']) {
-                        _parentReferences['highlight'](index < -1 ? -1 : index);
-                    }
-                });
+                if (_parentReferences['highlight']) {
+                    _parentReferences['highlight'](index < -1 ? -1 : index);
+                }
             }
             if (e.type === 'click') {
                 const el = e.srcElement.getAttribute('id');
@@ -92,11 +90,11 @@ export class SelectorDropdownItemsComponent {
                 if (_parentReferences['highlight']) {
                     _parentReferences['highlight'](index < -1 ? -1 : index);
                 }
-                this.$timeout(() => {
-                    if (_parentReferences['set']) {
-                        _parentReferences['set'](undefined);
-                    }
-                });
+
+                if (_parentReferences['set']) {
+                    _parentReferences['set'](undefined);
+                }
+
             }
             e.stopPropagation();
         });

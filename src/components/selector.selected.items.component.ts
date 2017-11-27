@@ -64,11 +64,9 @@ export class SelectorSelectedItemsComponent {
                             return;
                         }
                         const index = parseInt(el.replace('sos-data-index-', ''));
-                        this.$timeout(() => {
-                            if (_parentReferences['unset']) {
-                                _parentReferences['unset'](index < -1 ? -1 : index);
-                            }
-                        });
+                        if (_parentReferences['unset']) {
+                            _parentReferences['unset'](index < -1 ? -1 : index);
+                        }
                     }
                 }
                 e.stopPropagation();

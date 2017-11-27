@@ -2809,11 +2809,9 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                         return;
                     }
                     var index = parseInt(el.replace('sos-data-index-', ''));
-                    _this.$timeout(function () {
-                        if (_parentReferences['highlight']) {
-                            _parentReferences['highlight'](index < -1 ? -1 : index);
-                        }
-                    });
+                    if (_parentReferences['highlight']) {
+                        _parentReferences['highlight'](index < -1 ? -1 : index);
+                    }
                 }
                 if (e.type === 'click') {
                     var _el = e.srcElement.getAttribute('id');
@@ -2824,11 +2822,9 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                     if (_parentReferences['highlight']) {
                         _parentReferences['highlight'](_index < -1 ? -1 : _index);
                     }
-                    _this.$timeout(function () {
-                        if (_parentReferences['set']) {
-                            _parentReferences['set'](undefined);
-                        }
-                    });
+                    if (_parentReferences['set']) {
+                        _parentReferences['set'](undefined);
+                    }
                 }
                 e.stopPropagation();
             });
@@ -5449,11 +5445,9 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
                             return;
                         }
                         var index = parseInt(el.replace('sos-data-index-', ''));
-                        _this.$timeout(function () {
-                            if (_parentReferences['unset']) {
-                                _parentReferences['unset'](index < -1 ? -1 : index);
-                            }
-                        });
+                        if (_parentReferences['unset']) {
+                            _parentReferences['unset'](index < -1 ? -1 : index);
+                        }
                     }
                 }
                 e.stopPropagation();
@@ -5708,38 +5702,8 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 //         }
                 //     }
                 // };
-                var _onSelectedValuesChanged = function _onSelectedValuesChanged(oldValue, newValue) {
-                    _this.$timeout(function () {
-                        if (angular.equals(newValue, oldValue)) {
-                            return;
-                        }
-                        if (newValue.length <= 0) {}
-                        updateValue();
-                        if (angular.isFunction(scope.change)) {
-                            scope.change(scope.multiple ? {
-                                newValue: newValue,
-                                oldValue: oldValue
-                            } : {
-                                newValue: (newValue || [])[0],
-                                oldValue: (oldValue || [])[0]
-                            });
-                        }
-                        if (scope.steroids) {
-                            scope.selectedValuesInput$.next({
-                                groupAttr: scope.groupAttr,
-                                valueAttr: scope.valueAttr,
-                                labelAttr: scope.labelAttr,
-                                getObjValue: scope.getObjValue,
-                                unset: scope.unset,
-                                selectedValues: scope.selectedValues,
-                                multiple: scope.multiple,
-                                disabled: scope.disabled
-                            });
-                        }
-                    });
-                };
-                var _onFilteredOptionsChanged = function _onFilteredOptionsChanged() {
-                    _this.$timeout(function () {
+                var _triggerSteroidsForFilteredOptions = function _triggerSteroidsForFilteredOptions() {
+                    if (scope.steroids) {
                         scope.filteredOptionsInput$.next({
                             groupAttr: scope.groupAttr,
                             valueAttr: scope.valueAttr,
@@ -5750,7 +5714,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             set: scope.set,
                             highlight: scope.highlight
                         });
-                    });
+                    }
                 };
                 angular.forEach(['name', 'valueAttr', 'labelAttr'], function (attr) {
                     if (!attrs[attr]) {
@@ -5944,6 +5908,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         updateSelected();
                         filterOptions();
                         updateValue();
+                        _triggerSteroidsForSelectedValues();
                     }
                 };
                 var reInitMultiple = function reInitMultiple() {
@@ -6057,7 +6022,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             scope.highlighted = (scope.filteredOptions.length + index) % scope.filteredOptions.length;
                         }
                     }
-                    _onFilteredOptionsChanged();
+                    _triggerSteroidsForFilteredOptions();
                 };
                 var scrollToHighlighted = function scrollToHighlighted() {
                     var dd = DOM_SELECTOR_DROPDOWN[0];
@@ -6109,7 +6074,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!option) {
                         return;
                     }
-                    var _oldSelectedValues = angular.copy(scope.selectedValues);
                     if (!scope.multiple) {
                         scope.selectedValues = [option];
                     } else {
@@ -6123,18 +6087,15 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!scope.multiple || scope.closeAfterSelection || (scope.selectedValues || []).length >= scope.limit) {
                         close();
                     }
-                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                     resetInput();
                     selectCtrl.$setDirty();
                 };
                 scope.unset = function (index) {
-                    var _oldSelectedValues = angular.copy(scope.selectedValues);
                     if (!scope.multiple) {
                         scope.selectedValues = [];
                     } else {
                         scope.selectedValues.splice(angular.isDefined(index) ? index : scope.selectedValues.length - 1, 1);
                     }
-                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                     selectCtrl.$setDirty();
                 };
                 var keydown = function keydown(e) {
@@ -6234,7 +6195,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 };
                 var filterOptions = function filterOptions() {
                     scope.filteredOptions = filter(scope.options || [], scope.search);
-                    var _oldSelectedValues = angular.copy(scope.selectedValues);
                     if (!angular.isArray(scope.selectedValues)) {
                         scope.selectedValues = [];
                     }
@@ -6249,8 +6209,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         }
                         ;
                     }
-                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
-                    _onFilteredOptionsChanged();
+                    _triggerSteroidsForFilteredOptions();
                 };
                 // Input width utilities
                 var reAssessWidth = function reAssessWidth() {
@@ -6300,6 +6259,15 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     //     setInputWidth();
                     // });
                 }));
+                _watchers.push(scope.$watch('selectedValues', function (newValue, oldValue) {
+                    if (angular.equals(newValue, oldValue)) {
+                        return;
+                    }
+                    updateValue();
+                    if (angular.isFunction(scope.change)) {
+                        scope.change(scope.multiple ? { newValue: newValue, oldValue: oldValue } : { newValue: (newValue || [])[0], oldValue: (oldValue || [])[0] });
+                    }
+                }, true));
                 // Update value
                 var updateValue = function updateValue(origin) {
                     if (!angular.isDefined(origin)) {
@@ -6312,12 +6280,11 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         return;
                     }
                     ;
-                    filterOptions();
+                    // filterOptions();
                     updateSelected();
                 }));
                 // Update selected values
                 var updateSelected = function updateSelected() {
-                    var _oldSelectedValues = angular.copy(scope.selectedValues);
                     if (!scope.multiple) {
                         var o = scope.options || [];
                         var f = o.filter(function (option) {
@@ -6335,7 +6302,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         }).slice(0, scope.limit) : scope.selectedValues;
                         scope.selectedValues = _nV;
                     }
-                    _onSelectedValuesChanged(_oldSelectedValues, scope.selectedValues);
                     // repositionate dropdown
                     if (scope.isOpen) {
                         dropdownPosition();
@@ -6349,13 +6315,28 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'info', 'watch::value, ' + scope.search + ', ' + JSON.stringify(oldValue) + ', ' + JSON.stringify(newValue) + ', ' + Date.now());
                     }
                     _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
-                        _this.$timeout(function () {
-                            updateSelected();
-                            filterOptions();
-                            updateValue();
-                        });
+                        // this.$timeout(() => {
+                        updateSelected();
+                        filterOptions();
+                        updateValue();
+                        _triggerSteroidsForSelectedValues();
+                        // });
                     });
                 }, true));
+                var _triggerSteroidsForSelectedValues = function _triggerSteroidsForSelectedValues() {
+                    if (scope.steroids) {
+                        scope.selectedValuesInput$.next({
+                            groupAttr: scope.groupAttr,
+                            valueAttr: scope.valueAttr,
+                            labelAttr: scope.labelAttr,
+                            getObjValue: scope.getObjValue,
+                            unset: scope.unset,
+                            selectedValues: scope.selectedValues,
+                            multiple: scope.multiple,
+                            disabled: scope.disabled
+                        });
+                    }
+                };
                 // DOM event listeners
                 _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe(function (e) {
                     if (e.type === 'focus') {
