@@ -3275,9 +3275,9 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                         return;
                     }
                     var _index = parseInt(_el.replace('sos-data-index-', ''));
-                    // if (_parentReferences['highlight']) {
-                    //     _parentReferences['highlight'](index < -1 ? -1 : index);
-                    // }
+                    if (_parentReferences['highlight']) {
+                        _parentReferences['highlight'](_index < -1 ? -1 : _index);
+                    }
                     _this.$timeout(function () {
                         if (_parentReferences['set']) {
                             _parentReferences['set'](undefined);
