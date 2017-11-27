@@ -6033,6 +6033,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     _currentFocusedElement = null;
                     scope.isOpen = false;
                     resetInput();
+                    _this.$timeout(function () {
+                        reAssessWidth();
+                    });
                     // Note: not necessary to make a fetch call on close
                     // if (scope.remote) {
                     //     this.$timeout(fetch);

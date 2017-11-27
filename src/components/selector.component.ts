@@ -627,6 +627,9 @@ export class SelectorComponent {
                 _currentFocusedElement = null;
                 scope.isOpen = false;
                 resetInput();
+                this.$timeout(() => {
+                    reAssessWidth();
+                });
                 // Note: not necessary to make a fetch call on close
                 // if (scope.remote) {
                 //     this.$timeout(fetch);
@@ -1017,7 +1020,7 @@ export class SelectorComponent {
                                 open();
                             });
                         }
-                        if (e.type === 'blur') {
+                        if (e.type === 'blur') {                            
                             if (scope.isOpen && _currentFocusedElement !== 'FOCUSED_ELEMENT_DROPDOWN') {
                                 close();
                             }
