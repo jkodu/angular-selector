@@ -574,7 +574,9 @@ export class SelectorComponent {
                     (scope.selectedValues || []).length >= scope.limit) {
                     return;
                 }
-                scope.isOpen = true;
+                this.$timeout(() => {
+                    scope.isOpen = true;
+                });
                 dropdownPosition();
                 if (scope.remote) {
                     this.$timeout(fetch(true));
@@ -956,17 +958,27 @@ export class SelectorComponent {
                         );
                     }
 
-                    this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
-                        ? angular.noop
-                        : fetchValidation(newValue)
-                    ).then(() => {
-                        // this.$timeout(() => {
-                        updateSelected();
-                        filterOptions();
-                        updateValue();
-                        _triggerSteroidsForSelectedValues();
-                        // });
-                    });
+                    this.$q
+                        .when(!scope.remote || !scope.remoteValidation || !scope.hasValue()
+                            ? angular.noop
+                            : fetchValidation(newValue)
+                        )
+                        .then(() => {
+                            if (!scope.remote) {
+                                updateSelected();
+                                filterOptions();
+                                // updateValue();
+                                _triggerSteroidsForSelectedValues();
+                            } else {
+                                this.$timeout(() => {
+                                    updateSelected();
+                                    filterOptions();
+                                    // updateValue();
+                                    _triggerSteroidsForSelectedValues();
+                                });
+                            }
+
+                        });
                 }, true)
             );
 
