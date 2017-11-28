@@ -499,29 +499,24 @@ export class SelectorComponent {
                     });
             }
 
+            _watchers.push(
+                scope.$watch(() => {
+                    return inputCtrl.$pristine;
+                }, ($pristine) => {
+                    selectCtrl[$pristine ? '$setPristine' : '$setDirty']();
+                })
+            );
 
-            // registering all Mutations
-            const _m1 = new MutationObserver((event) => {
-                const _target = (event[0].target as HTMLElement);
-                const _inputElem = angular.element(_target).find('input');
-                if (_inputElem) {
-                    selectCtrl[inputCtrl.$touched
-                        ? '$setTouched'
-                        : '$setUntouched']();
-                    selectCtrl[inputCtrl.$pristine
-                        ? '$setPristine'
-                        : '$setDirty']();
-                }
-            })
-            _m1.observe(DOM_SELECTOR_CONTAINER[0], {
-                attributes: true,
-                attributeFilter: ['class']
-            });
-            _mutations.push(_m1);
-
+            _watchers.push(
+                scope.$watch(() => {
+                    return inputCtrl.$touched;
+                }, ($touched) => {
+                    selectCtrl[$touched ? '$setTouched' : '$setUntouched']();
+                })
+            );
 
             let _previousClassString: string = null;
-            const _m2 = new MutationObserver((event) => {
+            const _mutationForClassChanges = new MutationObserver((event) => {
                 const newClassString = (event[0].target as HTMLElement).classList.toString();
                 if (_previousClassString &&
                     newClassString !== _previousClassString) {
@@ -537,21 +532,21 @@ export class SelectorComponent {
                 }
                 _previousClassString = newClassString;
             })
-            _m2.observe(DOM_SELECTOR_CONTAINER[0], {
+            _mutationForClassChanges.observe(DOM_SELECTOR_CONTAINER[0], {
                 attributes: true,
                 attributeFilter: ['class']
             });
-            _mutations.push(_m2);
+            _mutations.push(_mutationForClassChanges);
 
 
-            const _m3 = new MutationObserver((event) => {
+            const _mutationForPlaceholderChanges = new MutationObserver((event) => {
                 reAssessWidth();
             });
-            _m3.observe(DOM_SELECTOR_INPUT[0], {
+            _mutationForPlaceholderChanges.observe(DOM_SELECTOR_INPUT[0], {
                 attributes: true,
                 attributeFilter: ['placeholder']
             });
-            _mutations.push(_m3);
+            _mutations.push(_mutationForPlaceholderChanges);
 
 
             // Dropdown utilities
@@ -746,8 +741,16 @@ export class SelectorComponent {
                                     scope.createOption(e.target.value);
                                 }
                                 else {
-                                    if (scope.filteredOptions.length) {
-                                        scope.set();
+                                    if (scope.remote) {
+                                        this.$timeout(() => {
+                                            if (scope.filteredOptions.length) {
+                                                scope.set();
+                                            }
+                                        });
+                                    } else {
+                                        if (scope.filteredOptions.length) {
+                                            scope.set();
+                                        }
                                     }
                                 }
                                 e.preventDefault();
@@ -886,7 +889,7 @@ export class SelectorComponent {
             );
 
             _watchers.push(
-                scope.$watch('selectedValues', function (newValue, oldValue) {
+                scope.$watch('selectedValues', (newValue, oldValue) => {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
@@ -912,7 +915,9 @@ export class SelectorComponent {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
                     };
-                    // filterOptions();
+                    if (!scope.remote) {
+                        filterOptions();
+                    }
                     updateSelected();
                 })
             );
@@ -938,11 +943,9 @@ export class SelectorComponent {
                     scope.selectedValues = nV;
                 }
                 // repositionate dropdown
-                this.$timeout(() => {
-                    if (scope.isOpen) {
-                        dropdownPosition();
-                    }
-                });
+                if (scope.isOpen) {
+                    dropdownPosition();
+                }
             };
 
             _watchers.push(
@@ -969,15 +972,19 @@ export class SelectorComponent {
                             if (!scope.remote) {
                                 updateSelected();
                                 filterOptions();
-                                // updateValue();
                                 _triggerSteroidsForSelectedValues();
                             } else {
-                                this.$timeout(() => {
+                                if (!scope.multiple) {
                                     updateSelected();
                                     filterOptions();
-                                    // updateValue();
                                     _triggerSteroidsForSelectedValues();
-                                });
+                                } else {
+                                    this.$timeout(() => {
+                                        updateSelected();
+                                        filterOptions();
+                                        _triggerSteroidsForSelectedValues();
+                                    });
+                                }
                             }
 
                         });
