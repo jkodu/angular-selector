@@ -29,7 +29,7 @@ export namespace ISelector {
             create,
             limit,
             rtl,
-            api : ISelector.IApi, // to type this
+            api: ISelector.IApi, // to type this
             change,
             remote,
             remoteParam,
@@ -61,6 +61,8 @@ export namespace ISelector {
 
             // optional rendering of rows in angular
             steroids: boolean;
+            // optional cancellable requests
+            cancelPendingXhr: boolean;
         }
     }
 

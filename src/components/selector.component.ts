@@ -1,5 +1,5 @@
 declare const angular;
-
+import nanoId from 'nanoid';
 import { ISelector } from './selector.interfaces';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
@@ -47,7 +47,8 @@ export class SelectorComponent {
         dropdownItemTemplate: '=?',
         dropdownCreateTemplate: '=?',
         dropdownGroupTemplate: '=?',
-        steroids: '<'
+        steroids: '<',
+        cancelPendingXhr: '<'
     };
 
     constructor(
@@ -71,7 +72,7 @@ export class SelectorComponent {
 
         transclude(scope, (clone: any, scope: ISelector.BaseComponent.Scope) => {
 
-            const _guid = CONSTANTS.FUNCTIONS.GET_GUID();
+            const _guid = nanoId(15);
             let _watchers: Array<any> = [];
             let _mutations: Array<any> = [];
             let _subscribers: Array<Subscription> = [];
@@ -133,6 +134,7 @@ export class SelectorComponent {
                 dropdownCreateTemplate: 'selector-on-steroids/item-create.html',
                 dropdownGroupTemplate: 'selector-on-steroids/group-default.html',
                 steroids: true,
+                cancelPendingXhr: false,
                 selectedValuesInput$: new Subject(),
                 filteredOptionsInput$: new Subject()
             };
@@ -316,6 +318,8 @@ export class SelectorComponent {
                     .length > 0 : !!scope.value;
             };
 
+            let _previousXhrCancellers: angular.IDeferred<any>[] = [];
+
             // Remote fetching
             const request = (paramName, paramValue, remote, remoteParam) => {
                 let promise;
@@ -333,6 +337,24 @@ export class SelectorComponent {
                 scope.options = [];
                 remoteOptions[paramName] = paramValue;
                 promise = remote(remoteOptions);
+
+                if (scope.cancelPendingXhr) {
+                    // cancel pending request
+                    if (_previousXhrCancellers && _previousXhrCancellers.length > 1) {
+                        _previousXhrCancellers[0].resolve(`Previous XHR Request Aborted`);
+                        _previousXhrCancellers.shift();
+                        if (debug) {
+                            CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(this.$log, 'debug', `Previous XHR Request Aborted via promise.timeout, please handle status === -1 (AngularJs 1.6.x) to not break the promise chain via transformResponse or promise error callback.`);
+                        }
+                    }
+                    // add timeout
+                    if (promise) {
+                        // reset timeout every single time.
+                        const _xhrCanceller = this.$q.defer();
+                        promise.timeout = _xhrCanceller.promise;
+                        _previousXhrCancellers.push(_xhrCanceller);
+                    }
+                }
 
                 if (typeof promise.then !== 'function') {
                     const settings = {
@@ -357,6 +379,9 @@ export class SelectorComponent {
                         });
                     },
                     (error) => {
+                        if (scope.cancelPendingXhr && error.status === -1) {
+                            return;
+                        }
                         this.$timeout(() => {
                             scope.loading = false;
                         });
@@ -686,7 +711,7 @@ export class SelectorComponent {
                     (scope.selectedValues || []).length >= scope.limit) {
                     close();
                 }
-                resetInput();
+                // resetInput();
                 selectCtrl.$setDirty();
             };
 
@@ -765,10 +790,11 @@ export class SelectorComponent {
                                 const search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
                                 scope.unset();
                                 // open();
-                                if (scope.softDelete && !scope.disableSearch)
+                                if (scope.softDelete && !scope.disableSearch) {
                                     this.$timeout(() => {
                                         scope.search = search;
                                     });
+                                }
                                 e.preventDefault();
                                 e.stopPropagation();
                             }
@@ -835,7 +861,7 @@ export class SelectorComponent {
 
             // Input width utilities
             const reAssessWidth = () => {
-
+                
                 let _measureText = ``;
                 if (DOM_SELECTOR_INPUT[0].value &&
                     DOM_SELECTOR_INPUT[0].value.length > 0) {
@@ -894,6 +920,7 @@ export class SelectorComponent {
                         return;
                     }
                     updateValue();
+                    dropdownPosition();
                     if (angular.isFunction(scope.change)) {
                         scope.change(scope.multiple
                             ? { newValue: newValue, oldValue: oldValue }
@@ -958,7 +985,7 @@ export class SelectorComponent {
                     if (this.debug) {
                         CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(
                             this.$log,
-                            'info',
+                            'debug',
                             `watch::value, ${scope.search}, ${JSON.stringify(oldValue)}, ${JSON.stringify(newValue)}, ${Date.now()}`
                         );
                     }
@@ -1074,6 +1101,14 @@ export class SelectorComponent {
 
             // destroy
             scope.$on('$destroy', () => {
+                if (this.debug) {
+                    CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(
+                        this.$log,
+                        'debug',
+                        `Destroying Selector instance with id: ${_guid}`
+                    );
+                }
+
                 // dispose watchers
                 if (_watchers && _watchers.length) {
                     // call all unbind on the watchers
@@ -1101,6 +1136,9 @@ export class SelectorComponent {
                     });
                     _subscribers = null;
                 }
+
+                //remove instance
+                this.SelectorInstanceManagerService.remove(_guid);
             });
 
         });

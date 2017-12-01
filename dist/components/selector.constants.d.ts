@@ -26,6 +26,5 @@ export declare const CONSTANTS: {
     FUNCTIONS: {
         CONSOLE_LOGGER: ($log: any, type: any, message: string) => void;
         GET_DOM_STYLES: (element: HTMLElement) => {};
-        GET_GUID: () => string;
     };
 };
