@@ -2813,12 +2813,14 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                         return;
                     }
                     var _index = parseInt(_el.replace('sos-data-index-', ''));
-                    if (_parentReferences['highlight']) {
-                        _parentReferences['highlight'](_index < -1 ? -1 : _index);
-                    }
-                    if (_parentReferences['set']) {
-                        _parentReferences['set'](undefined);
-                    }
+                    _this.$timeout(function () {
+                        if (_parentReferences['highlight']) {
+                            _parentReferences['highlight'](_index < -1 ? -1 : _index);
+                        }
+                        if (_parentReferences['set']) {
+                            _parentReferences['set'](undefined);
+                        }
+                    });
                 }
                 e.stopPropagation();
             });
@@ -6020,7 +6022,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 var close = function close() {
                     _currentFocusedElement = null;
                     scope.isOpen = false;
-                    resetInput();
+                    // resetInput();
                     _this.$timeout(function () {
                         reAssessWidth();
                     });
@@ -6087,6 +6089,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     });
                 };
                 scope.set = function (option) {
+                    // if (scope.remote && !scope.multiple) {
+                    resetInput();
+                    // }
                     if (scope.multiple && (scope.selectedValues || []).length >= scope.limit) {
                         return;
                     }
@@ -6110,7 +6115,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!scope.multiple || scope.closeAfterSelection || (scope.selectedValues || []).length >= scope.limit) {
                         close();
                     }
-                    // resetInput();
                     selectCtrl.$setDirty();
                 };
                 scope.unset = function (index) {
@@ -6178,7 +6182,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                                 if (!DOM_SELECTOR_INPUT.val()) {
                                     var search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
                                     scope.unset();
-                                    // open();
+                                    open();
                                     if (scope.softDelete && !scope.disableSearch) {
                                         _this.$timeout(function () {
                                             scope.search = search;
@@ -6343,6 +6347,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         dropdownPosition();
                     }
                 };
+                var _prevValueWatchInvokedTimeStamp = null;
                 _watchers.push(scope.$watch('value', function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue)) {
                         return;
@@ -6356,17 +6361,17 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             filterOptions();
                             _triggerSteroidsForSelectedValues();
                         } else {
-                            // if (!scope.multiple) {
-                            //     updateSelected();
-                            //     filterOptions();
-                            //     _triggerSteroidsForSelectedValues();
-                            // } else {
-                            _this.$timeout(function () {
+                            if (!scope.multiple) {
                                 updateSelected();
                                 filterOptions();
                                 _triggerSteroidsForSelectedValues();
-                            });
-                            // }
+                            } else {
+                                _this.$timeout(function () {
+                                    updateSelected();
+                                    filterOptions();
+                                    _triggerSteroidsForSelectedValues();
+                                });
+                            }
                         }
                     });
                 }, true));

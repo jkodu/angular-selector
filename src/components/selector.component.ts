@@ -609,7 +609,7 @@ export class SelectorComponent {
             const close = () => {
                 _currentFocusedElement = null;
                 scope.isOpen = false;
-                resetInput();
+                // resetInput();
                 this.$timeout(() => {
                     reAssessWidth();
                 });
@@ -685,7 +685,9 @@ export class SelectorComponent {
             };
 
             scope.set = (option?: any) => {
-
+                // if (scope.remote && !scope.multiple) {
+                resetInput();
+                // }
                 if (scope.multiple &&
                     (scope.selectedValues || []).length >= scope.limit) {
                     return;
@@ -711,7 +713,7 @@ export class SelectorComponent {
                     (scope.selectedValues || []).length >= scope.limit) {
                     close();
                 }
-                // resetInput();
+
                 selectCtrl.$setDirty();
             };
 
@@ -789,7 +791,7 @@ export class SelectorComponent {
                             if (!DOM_SELECTOR_INPUT.val()) {
                                 const search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
                                 scope.unset();
-                                // open();
+                                open();
                                 if (scope.softDelete && !scope.disableSearch) {
                                     this.$timeout(() => {
                                         scope.search = search;
@@ -861,7 +863,7 @@ export class SelectorComponent {
 
             // Input width utilities
             const reAssessWidth = () => {
-                
+
                 let _measureText = ``;
                 if (DOM_SELECTOR_INPUT[0].value &&
                     DOM_SELECTOR_INPUT[0].value.length > 0) {
@@ -974,6 +976,8 @@ export class SelectorComponent {
                     dropdownPosition();
                 }
             };
+
+            let _prevValueWatchInvokedTimeStamp = null;
 
             _watchers.push(
                 scope.$watch('value', (newValue, oldValue) => {

@@ -87,13 +87,14 @@ export class SelectorDropdownItemsComponent {
                     return;
                 }
                 const index = parseInt(el.replace('sos-data-index-', ''));
-                if (_parentReferences['highlight']) {
-                    _parentReferences['highlight'](index < -1 ? -1 : index);
-                }
-
-                if (_parentReferences['set']) {
-                    _parentReferences['set'](undefined);
-                }
+                this.$timeout(() => {
+                    if (_parentReferences['highlight']) {
+                        _parentReferences['highlight'](index < -1 ? -1 : index);
+                    }
+                    if (_parentReferences['set']) {
+                        _parentReferences['set'](undefined);
+                    }
+                });
 
             }
             e.stopPropagation();
