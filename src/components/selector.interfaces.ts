@@ -60,9 +60,9 @@ export namespace ISelector {
             unset(index?: number): void;
 
             // optional rendering of rows in angular
-            steroids: boolean;
+            steroids?: boolean;
             // optional cancellable requests
-            cancelPendingXhr: boolean;
+            cancelPendingXhr?: boolean;
         }
     }
 

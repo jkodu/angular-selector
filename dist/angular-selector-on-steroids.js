@@ -5643,7 +5643,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     dropdownItemTemplate: 'selector-on-steroids/item-default.html',
                     dropdownCreateTemplate: 'selector-on-steroids/item-create.html',
                     dropdownGroupTemplate: 'selector-on-steroids/group-default.html',
-                    steroids: true,
+                    steroids: false,
                     cancelPendingXhr: false,
                     selectedValuesInput$: new _Subject.Subject(),
                     filteredOptionsInput$: new _Subject.Subject()
@@ -5794,7 +5794,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     promise = remote(remoteOptions);
                     if (scope.cancelPendingXhr) {
                         // cancel pending request
-                        if (_previousXhrCancellers && _previousXhrCancellers.length > 1) {
+                        if (_previousXhrCancellers && _previousXhrCancellers.length >= 1) {
                             _previousXhrCancellers[0].resolve('Previous XHR Request Aborted');
                             _previousXhrCancellers.shift();
                             if (_util.debug) {
