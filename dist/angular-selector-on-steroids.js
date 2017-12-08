@@ -755,11 +755,12 @@ var CONSTANTS = exports.CONSTANTS = {
             return '<div></div>';
         },
         TEMPLATE_SELECTOR: function TEMPLATE_SELECTOR() {
-            return '<div class="selector-container"\n                ng-attr-dir="{{ rtl ? \'rtl\' : \'ltr\' }}"\n                ng-class="{\n                    open: isOpen, \n                    empty: !filteredOptions.length && \n                        (!create || !search), multiple: multiple, \n                        \'has-value\': hasValue(), \n                        rtl: rtl, \n                        \'loading\': loading, \n                        \'remove-button\': removeButton, \n                        disabled: disabled}">\n                <select name="{{name}}"\n                    ng-hide="true"\n                    ng-required="required && !hasValue()"\n                    ng-model="selectedValues"\n                    multiple\n                    ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">\n                </select>\n                <label class="selector-input">\n                    <ul class="selector-values">\n                        <li \n                            ng-if="steroids === false"\n                            ng-repeat="(index, option) in selectedValues track by $index">\n                            <div ng-include="viewItemTemplate"></div>\n                            <div \n                                ng-if="multiple" \n                                class="selector-helper" \n                                ng-click="!disabled && unset(index)">\n                                <span class="selector-icon"></span>\n                            </div>\n                        </li>\n                        <sos-selected-items\n                            ng-if="steroids === true"\n                            input=\'selectedValuesInput$\'>\n                        </sos-selected-items>\n                    </ul>\n\n                    <input\n                        ng-model="search"                         \n                        placeholder="{{!hasValue() ? placeholder : \'\'}}" \n                        ng-model-options="{debounce: debounce}"\n                        ng-disabled="disabled" \n                        ng-readonly="disableSearch" \n                        ng-required="required && !hasValue()" \n                        autocomplete="off">\n                        \n                    <div ng-if="!multiple || loading" \n                        class="selector-helper selector-global-helper" \n                        ng-click="!disabled && removeButton && unset()">\n                        <span class="selector-icon"></span>\n                    </div>\n                </label>\n                <ul class="selector-dropdown">\n        \n                    <li \n                        class="selector-option create"\n                        ng-class="{active: highlighted == -1}"\n                        ng-if="create && search"\n                        ng-include="dropdownCreateTemplate"\n                        ng-mouseover="highlight(-1)"\n                        ng-click="createOption(search)">\n                    </li>\n        \n                    <li \n                        class="selector-option loading"\n                        ng-show="loading === true">\n                        Loading...\n                    </li>\n        \n                    <li \n                        class="selector-option no-data"\n                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"\n                        >\n                        No Data\n                    </li>\n        \n                    <sos-dropdown-items\n                        ng-if="steroids === true"\n                        ng-show=\'filteredOptions.length > 0\'\n                        input=\'filteredOptionsInput$\'>\n                    </sos-dropdown-items>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-repeat-start="(index, option) in filteredOptions track by $index"\n                        class="selector-optgroup"\n                        ng-include="dropdownGroupTemplate"\n                        ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">\n                    </li>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-show="filteredOptions.length > 0"\n                        ng-repeat-end\n                        ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"\n                        class="selector-option js-data-item"\n                        ng-include="dropdownItemTemplate"\n                        ng-mouseover="highlight(index)"\n                        ng-click="set()">\n                    </li>\n                </ul>\n            </div>';
+            return '<div class="selector-container"\n                ng-attr-dir="{{ rtl ? \'rtl\' : \'ltr\' }}"\n                ng-class="{\n                    open: isOpen,\n                    empty: !filteredOptions.length &&\n                        (!create || !search), multiple: multiple,\n                        \'has-value\': hasValue(),\n                        rtl: rtl,\n                        \'loading\': loading,\n                        \'remove-button\': removeButton,\n                        disabled: disabled}">\n                <select name="{{name}}"\n                    ng-hide="true"\n                    ng-required="required && !hasValue()"\n                    ng-model="selectedValues"\n                    multiple\n                    ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">\n                </select>\n                <label class="selector-input">\n                    <ul class="selector-values">\n                        <li\n                            ng-if="steroids === false"\n                            ng-repeat="(index, option) in selectedValues track by $index">\n                            <div ng-include="viewItemTemplate"></div>\n                            <div\n                                ng-if="multiple"\n                                class="selector-helper"\n                                ng-click="!disabled && unset(index)">\n                                <span class="selector-icon"></span>\n                            </div>\n                        </li>\n                        <sos-selected-items\n                            ng-if="steroids === true"\n                            input=\'selectedValuesInput$\'>\n                        </sos-selected-items>\n                    </ul>\n\n                    <input\n                        ng-model="search"\n                        placeholder="{{!hasValue() ? placeholder : \'\'}}"\n                        ng-model-options="{debounce: debounce}"\n                        ng-disabled="disabled"\n                        ng-readonly="disableSearch"\n                        ng-required="required && !hasValue()"\n                        autocomplete="off">\n\n                    <div ng-if="!multiple || loading"\n                        class="selector-helper selector-global-helper"\n                        ng-click="!disabled && removeButton && unset()">\n                        <span class="selector-icon"></span>\n                    </div>\n                </label>\n                <ul class="selector-dropdown">\n\n                    <li\n                        class="selector-option create"\n                        ng-class="{active: highlighted == -1}"\n                        ng-if="create && search"\n                        ng-include="dropdownCreateTemplate"\n                        ng-mouseover="highlight(-1)"\n                        ng-click="createOption(search)">\n                    </li>\n\n                    <li\n                        class="selector-option loading"\n                        ng-show="loading === true">\n                        Loading...\n                    </li>\n\n                    <li\n                        class="selector-option no-data"\n                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"\n                        >\n                        No Data\n                    </li>\n\n                    <sos-dropdown-items\n                        ng-if="steroids === true"\n                        ng-show=\'filteredOptions.length > 0\'\n                        input=\'filteredOptionsInput$\'>\n                    </sos-dropdown-items>\n\n                    <li\n                        ng-if="steroids === false"\n                        ng-repeat-start="(index, option) in filteredOptions track by $index"\n                        class="selector-optgroup"\n                        ng-include="dropdownGroupTemplate"\n                        ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">\n                    </li>\n\n                    <li\n                        ng-if="steroids === false"\n                        ng-show="filteredOptions.length > 0"\n                        ng-repeat-end\n                        ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"\n                        class="selector-option js-data-item"\n                        ng-include="dropdownItemTemplate"\n                        ng-mouseover="highlight(index)"\n                        ng-click="set()">\n                    </li>\n                </ul>\n            </div>';
         }
     },
     FUNCTIONS: {
         CONSOLE_LOGGER: function CONSOLE_LOGGER($log, type, message) {
+            // TODO: pass method to invoke
             if ($log[type]) {
                 $log[type]('Component: Selector On Sterorids: ' + message);
             } else {
@@ -2096,6 +2097,8 @@ var MODULE_NAME = 'selectorOnSteroids';
 var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () {
     function AngularSelectorOnSteroids() {
         _classCallCheck(this, AngularSelectorOnSteroids);
+
+        return;
     }
 
     _createClass(AngularSelectorOnSteroids, [{
@@ -2755,6 +2758,7 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
         this.scope = {
             input: '<'
         };
+        return;
     }
 
     _createClass(SelectorDropdownItemsComponent, [{
@@ -2802,7 +2806,7 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                     if (!el) {
                         return;
                     }
-                    var index = parseInt(el.replace('sos-data-index-', ''));
+                    var index = parseInt(el.replace('sos-data-index-', ''), 10);
                     if (_parentReferences['highlight']) {
                         _parentReferences['highlight'](index < -1 ? -1 : index);
                     }
@@ -2812,7 +2816,7 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                     if (!_el) {
                         return;
                     }
-                    var _index = parseInt(_el.replace('sos-data-index-', ''));
+                    var _index = parseInt(_el.replace('sos-data-index-', ''), 10);
                     _this.$timeout(function () {
                         if (_parentReferences['highlight']) {
                             _parentReferences['highlight'](_index < -1 ? -1 : _index);
@@ -2860,6 +2864,7 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                     }
                 }, function (error) {
                     _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', 'Cannot initialize, Selector Dropdown Items Component!');
+                    throw new Error(error);
                 }));
             }
             scope.$on('$destroy', function () {
@@ -5404,6 +5409,7 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
         this.scope = {
             input: '<'
         };
+        return;
     }
 
     _createClass(SelectorSelectedItemsComponent, [{
@@ -5440,7 +5446,7 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
                         if (!el) {
                             return;
                         }
-                        var index = parseInt(el.replace('sos-data-index-', ''));
+                        var index = parseInt(el.replace('sos-data-index-', ''), 10);
                         if (_parentReferences['unset']) {
                             _parentReferences['unset'](index < -1 ? -1 : index);
                         }
@@ -5486,6 +5492,7 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
                     }
                 }, function (error) {
                     _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', 'Cannot initialize, Selector Selected Items Component!');
+                    throw new Error(error);
                 }));
             }
             scope.$on('$destroy', function () {
@@ -5692,13 +5699,11 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 if (!angular.isDefined(scope.value) && scope.multiple) {
                     scope.value = [];
                 }
-                ;
                 // this is where default initialization happens
                 angular.forEach(defaults, function (value, key) {
                     if (!angular.isDefined(scope[key])) {
                         scope[key] = value;
                     }
-                    ;
                 });
                 // create custom scope properties
                 // scope.onNgModelChanged = (propertyName, oldValue, newValue) => { // watch alternative - model change listener
@@ -5726,7 +5731,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!attrs[attr]) {
                         attrs[attr] = scope[attr];
                     }
-                    ;
                 });
                 // Options' utilities
                 var optionValue = function optionValue(option) {
@@ -5737,7 +5741,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!angular.isDefined(obj)) {
                         obj = {};
                     }
-                    ;
                     path = angular.isArray(path) ? path : path.split('.');
                     key = path.shift();
                     if (key.indexOf('[') > 0) {
@@ -5786,7 +5789,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         return _this.$q.reject();
                     }
                     if (!angular.isDefined(remote)) {
-                        throw 'Remote attribute is not defined';
+                        throw new Error('Remote attribute is not defined');
                     }
                     scope.loading = true;
                     scope.options = [];
@@ -5878,7 +5881,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         if (!key.match(/^\$/)) {
                             object[key] = value;
                         }
-                        ;
                     });
                     if (option.value) {
                         setObjValue(object, scope.valueAttr || 'value', option.value);
@@ -5890,26 +5892,27 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         setObjValue(object, scope.groupAttr, group);
                     }
                     scope.options.push(object);
-                    if (element.attr('selected') && (scope.multiple || !scope.hasValue())) if (!scope.multiple) {
-                        if (!scope.value) {
-                            scope.value = optionValue(object);
+                    if (element.attr('selected') && (scope.multiple || !scope.hasValue())) {
+                        if (!scope.multiple) {
+                            if (!scope.value) {
+                                scope.value = optionValue(object);
+                            }
+                        } else {
+                            if (!scope.value) {
+                                scope.value = [];
+                            }
+                            scope.value.push(optionValue(object));
                         }
-                        ;
-                    } else {
-                        if (!scope.value) {
-                            scope.value = [];
-                        }
-                        scope.value.push(optionValue(object));
                     }
                 };
                 var fillWithHtml = function fillWithHtml() {
                     scope.options = [];
                     angular.forEach(clone, function (element) {
                         var tagName = (element.tagName || '').toLowerCase();
-                        if (tagName == 'option') {
+                        if (tagName === 'option') {
                             optionToObject(element);
                         }
-                        if (tagName == 'optgroup') {
+                        if (tagName === 'optgroup') {
                             angular.forEach(element.querySelectorAll('option'), function (option) {
                                 optionToObject(option, (element.attributes.label || {}).value);
                             });
@@ -6040,7 +6043,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     scrollToHighlighted();
                 };
                 scope.highlight = function (index) {
-                    if (attrs.create && scope.search && index == -1) {
+                    if (attrs.create && scope.search && index === -1) {
                         scope.highlighted = -1;
                     } else {
                         if (scope.filteredOptions.length) {
@@ -6095,7 +6098,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (scope.multiple && (scope.selectedValues || []).length >= scope.limit) {
                         return;
                     }
-                    ;
                     if (!angular.isDefined(option)) {
                         option = scope.filteredOptions[scope.highlighted];
                     }
@@ -6157,7 +6159,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         case _selector.CONSTANTS.KEYS.enter:
                             {
                                 if (scope.isOpen) {
-                                    if (attrs.create && scope.search && scope.highlighted == -1) {
+                                    if (attrs.create && scope.search && scope.highlighted === -1) {
                                         scope.createOption(e.target.value);
                                     } else {
                                         if (scope.remote) {
@@ -6244,7 +6246,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         if (index >= 0) {
                             scope.highlight(index);
                         }
-                        ;
                     }
                     _triggerSteroidsForFilteredOptions();
                 };
@@ -6268,14 +6269,14 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     shadow.text(_measureText);
                     angular.element(document.body).append(shadow);
                     shadow.css({
-                        'fontFamily': styles['fontFamily'],
-                        'fontSize': styles['fontSize'],
-                        'fontWeight': styles['fontWeight'],
-                        'fontStyle': styles['fontStyle'],
-                        'letterSpacing': styles['letterSpacing'],
-                        'textTransform': styles['textTransform'],
-                        'wordSpacing': styles['wordSpacing'],
-                        'textIndent': styles['textIndent']
+                        fontFamily: styles['fontFamily'],
+                        fontSize: styles['fontSize'],
+                        fontWeight: styles['fontWeight'],
+                        fontStyle: styles['fontStyle'],
+                        letterSpacing: styles['letterSpacing'],
+                        textTransform: styles['textTransform'],
+                        wordSpacing: styles['wordSpacing'],
+                        textIndent: styles['textIndent']
                     });
                     DOM_SELECTOR_INPUT.css('width', shadow[0].offsetWidth + 1 + 'px');
                     shadow.remove();
@@ -6317,7 +6318,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
                     }
-                    ;
                     if (!scope.remote) {
                         filterOptions();
                     }
@@ -6470,7 +6470,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         });
                         _subscribers = null;
                     }
-                    //remove instance
+                    // remove instance
                     _this.SelectorInstanceManagerService.remove(_guid);
                 });
             });
@@ -7805,6 +7805,7 @@ var SelectorInstanceManagerService = exports.SelectorInstanceManagerService = fu
         _classCallCheck(this, SelectorInstanceManagerService);
 
         this._instances = {};
+        return;
     }
 
     _createClass(SelectorInstanceManagerService, [{

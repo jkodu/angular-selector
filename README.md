@@ -113,6 +113,6 @@ Licensed under the MIT license.
 ### Local Development
 - npm install
 - npm run build-prod - generates a dist directory ready for publishing.
-- npm run build - generates the demo/dist directory for local development (no watch).
+- npm run build - generates the sandbox/dist directory for local development (no watch).
 - npm run dev - builds and watches both source and sandbox directory for local development.
 - npm run serve - boots up a http-server and serves the demo directory.

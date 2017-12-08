@@ -51,6 +51,5 @@ module.exports = {
             filename: 'index.html',
             template: 'index.html'
         })
-    ],
-    watch: true
+    ]
 }
