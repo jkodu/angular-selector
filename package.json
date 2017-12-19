@@ -1,6 +1,6 @@
 {
     "name": "angular-selector-on-steroids",
-    "version": "14.0.0",
+    "version": "14.2.0",
     "description": "",
     "main": "dist/angular-selector-on-steroids.js",
     "types": "dist/index.d.ts",
@@ -8,10 +8,9 @@
         "dist"
     ],
     "scripts": {
-        "dev::setup": "npm i && cd ./sandbox && npm i",
-        "dev::src": "shx rm -rf sandbox/dist && webpack --watch --watch-poll",
-        "dev::sandbox": "cd ./sandbox && webpack --watch --watch-poll",
-        "dev": "npm run dev::setup && npm run dev::src && npm run dev::sandbox",
+        "setup": "npm i && cd ./sandbox && npm i",
+        "dev": "shx rm -rf sandbox/dist && webpack --watch --watch-poll",
+        "sandbox": "cd ./sandbox && webpack --watch --watch-poll",
         "prettier": "prettier --write \"src/**/*.ts\" \"sandbox/src/**/*.ts\"",
         "lint": "tslint 'src/**/*.ts' 'sandbox/src/**/*.ts'",
         "test": "npm run lint && karma start",
