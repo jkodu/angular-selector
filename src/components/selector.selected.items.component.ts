@@ -1,18 +1,18 @@
-import { ISelector } from './selector.interfaces';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/fromEvent';
-import { Subscription } from 'rxjs/Subscription';
-import { CONSTANTS } from './selector.constants';
-const hyperx = require('hyperx');
-import * as vdom from 'virtual-dom';
+import { ISelector } from "./selector.interfaces";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/merge";
+import "rxjs/add/observable/fromEvent";
+import { Subscription } from "rxjs/Subscription";
+import { CONSTANTS } from "./selector.constants";
+const hyperx = require("hyperx");
+import * as vdom from "virtual-dom";
 
 export class SelectorSelectedItemsComponent {
   public replace: boolean = true;
-  public restrict: string = 'E';
-  public templateUrl: string = 'selector-on-steroids/selector-selected-item.html';
+  public restrict: string = "E";
+  public templateUrl: string = "selector-on-steroids/selector-selected-item.html";
   public scope: ISelector.SelectedItemsComponent.Scope | any = {
-    input: '<',
+    input: "<"
   };
 
   constructor(
@@ -26,7 +26,7 @@ export class SelectorSelectedItemsComponent {
     let directive = ($log, $timeout) => {
       return new SelectorSelectedItemsComponent($log, $timeout, debug);
     };
-    directive['$inject'] = ['$log', '$timeout'];
+    directive["$inject"] = ["$log", "$timeout"];
     return directive;
   }
 
@@ -36,7 +36,7 @@ export class SelectorSelectedItemsComponent {
     attrs: angular.IAttributes
   ) {
     const hx = hyperx(vdom.h, {
-      vdom: true,
+      vdom: true
     });
 
     let _subscribers: Subscription[] = [];
@@ -54,10 +54,13 @@ export class SelectorSelectedItemsComponent {
       filteredOptions: any[],
       parentReferences: any
     ) => {
-      let boundValue = parentReferences.getObjValue(option, parentReferences.labelAttr);
+      let boundValue = parentReferences.getObjValue(
+        option,
+        parentReferences.labelAttr
+      );
       boundValue = boundValue
         ? boundValue
-        : typeof option === 'object' ? JSON.stringify(option) : option;
+        : typeof option === "object" ? JSON.stringify(option) : option;
       const closeButton = parentReferences.multiple
         ? hx`<div class="selector-helper"><span class="selector-icon" id="sos-data-index-${
             index
@@ -67,28 +70,37 @@ export class SelectorSelectedItemsComponent {
     };
 
     const getRenderableItems = (items: Array<any>) => {
-      const liList = hx`${items.map((currentValue: any, index: number, array: Array<any>) => {
-        return hx`${GET_SELECTED_ITEM_TEMPLATE(currentValue, index, array, _parentReferences)}`;
-      })}`;
+      const liList = hx`${items.map(
+        (currentValue: any, index: number, array: Array<any>) => {
+          return hx`${GET_SELECTED_ITEM_TEMPLATE(
+            currentValue,
+            index,
+            array,
+            _parentReferences
+          )}`;
+        }
+      )}`;
       const tpl = hx`<div>${liList}</div>`;
       return tpl;
     };
 
-    Observable.fromEvent(element[0], 'click').subscribe((e: Event | MouseEvent) => {
-      if (e.type === 'click') {
-        if (e.srcElement.classList.contains('selector-icon')) {
-          const el = e.srcElement.getAttribute('id');
-          if (!el) {
-            return;
-          }
-          const index = parseInt(el.replace('sos-data-index-', ''), 10);
-          if (_parentReferences['unset']) {
-            _parentReferences['unset'](index < -1 ? -1 : index);
+    Observable.fromEvent(element[0], "click").subscribe(
+      (e: Event | MouseEvent) => {
+        if (e.type === "click") {
+          if (e.srcElement.classList.contains("selector-icon")) {
+            const el = e.srcElement.getAttribute("id");
+            if (!el) {
+              return;
+            }
+            const index = parseInt(el.replace("sos-data-index-", ""), 10);
+            if (_parentReferences["unset"]) {
+              _parentReferences["unset"](index < -1 ? -1 : index);
+            }
           }
         }
+        e.stopPropagation();
       }
-      e.stopPropagation();
-    });
+    );
 
     if (scope.input) {
       // TODO: Move to post link?
@@ -98,21 +110,21 @@ export class SelectorSelectedItemsComponent {
             if (inputData.selectedValues) {
               if (!_isBooted) {
                 if (
-                  !_parentReferences.hasOwnProperty('groupAttr') ||
-                  !_parentReferences.hasOwnProperty('valueAttr') ||
-                  !_parentReferences.hasOwnProperty('labelAttr') ||
-                  !_parentReferences.hasOwnProperty('getObjValue') ||
-                  !_parentReferences.hasOwnProperty('unset') ||
-                  !_parentReferences.hasOwnProperty('multiple') ||
-                  !_parentReferences.hasOwnProperty('disabled')
+                  !_parentReferences.hasOwnProperty("groupAttr") ||
+                  !_parentReferences.hasOwnProperty("valueAttr") ||
+                  !_parentReferences.hasOwnProperty("labelAttr") ||
+                  !_parentReferences.hasOwnProperty("getObjValue") ||
+                  !_parentReferences.hasOwnProperty("unset") ||
+                  !_parentReferences.hasOwnProperty("multiple") ||
+                  !_parentReferences.hasOwnProperty("disabled")
                 ) {
-                  _parentReferences['groupAttr'] = inputData.groupAttr;
-                  _parentReferences['valueAttr'] = inputData.valueAttr;
-                  _parentReferences['labelAttr'] = inputData.labelAttr;
-                  _parentReferences['getObjValue'] = inputData.getObjValue;
-                  _parentReferences['unset'] = inputData.unset;
-                  _parentReferences['multiple'] = inputData.multiple;
-                  _parentReferences['disabled'] = inputData.disabled;
+                  _parentReferences["groupAttr"] = inputData.groupAttr;
+                  _parentReferences["valueAttr"] = inputData.valueAttr;
+                  _parentReferences["labelAttr"] = inputData.labelAttr;
+                  _parentReferences["getObjValue"] = inputData.getObjValue;
+                  _parentReferences["unset"] = inputData.unset;
+                  _parentReferences["multiple"] = inputData.multiple;
+                  _parentReferences["disabled"] = inputData.disabled;
                   _isBooted = true;
                 }
               }
@@ -135,7 +147,7 @@ export class SelectorSelectedItemsComponent {
               if (this.debug) {
                 CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(
                   this.$log,
-                  'debug',
+                  "debug",
                   `Re-drawing selected items/ options.`
                 );
               }
@@ -144,7 +156,7 @@ export class SelectorSelectedItemsComponent {
           (error: any) => {
             CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(
               this.$log,
-              'error',
+              "error",
               `Cannot initialize, Selector Selected Items Component!`
             );
             throw new Error(error);
@@ -153,7 +165,7 @@ export class SelectorSelectedItemsComponent {
       );
     }
 
-    scope.$on('$destroy', () => {
+    scope.$on("$destroy", () => {
       // dispose subscribers
       if (_subscribers && _subscribers.length) {
         _subscribers.forEach((s: Subscription) => {

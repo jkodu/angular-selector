@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/Subject';
+import { Subject } from "rxjs/Subject";
 
 export namespace ISelector {
   export interface IApi {
@@ -33,6 +33,7 @@ export namespace ISelector {
       remoteParam;
       remoteValidation;
       remoteValidationParam;
+      remoteCancelPendingXhr?: boolean; // optional cancellable requests
       removeButton;
       softDelete;
       closeAfterSelection;
@@ -41,8 +42,6 @@ export namespace ISelector {
       dropdownCreateTemplate;
       dropdownGroupTemplate;
       steroids?: boolean; // optional rendering of rows in angular
-      cancelPendingXhr?: boolean; // optional cancellable requests
-
       // CUSTOM MEMBERS ADDED to scope by old code, USED IN BINDINGS.
       getObjValue;
       hasValue;

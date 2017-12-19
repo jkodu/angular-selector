@@ -740,31 +740,31 @@ var CONSTANTS = exports.CONSTANTS = {
     },
     TEMPLATES: {
         TEMPLATE_ITEM_CREATE: function TEMPLATE_ITEM_CREATE() {
-            return 'Add <i ng-bind="search"></i>';
+            return "Add <i ng-bind=\"search\"></i>";
         },
         TEMPLATE_ITEM_DEFAULT: function TEMPLATE_ITEM_DEFAULT() {
-            return '<span ng-bind="getObjValue(option, labelAttr) || option"></span>';
+            return "<span ng-bind=\"getObjValue(option, labelAttr) || option\"></span>";
         },
         TEMPLATE_GROUP_DEFAULT: function TEMPLATE_GROUP_DEFAULT() {
-            return '<span ng-bind="getObjValue(option, groupAttr)"></span>';
+            return "<span ng-bind=\"getObjValue(option, groupAttr)\"></span>";
         },
         TEMPLATE_SELECTOR_SELECTED_ITEMS: function TEMPLATE_SELECTOR_SELECTED_ITEMS() {
-            return '<div></div>';
+            return "<div></div>";
         },
         TEMPLATE_SELECTOR_DROPDOWN_ITEMS: function TEMPLATE_SELECTOR_DROPDOWN_ITEMS() {
-            return '<div></div>';
+            return "<div></div>";
         },
         TEMPLATE_SELECTOR: function TEMPLATE_SELECTOR() {
-            return '<div class="selector-container"\n                ng-attr-dir="{{ rtl ? \'rtl\' : \'ltr\' }}"\n                ng-class="{\n                    open: isOpen,\n                    empty: !filteredOptions.length &&\n                        (!create || !search), multiple: multiple,\n                        \'has-value\': hasValue(),\n                        rtl: rtl,\n                        \'loading\': loading,\n                        \'remove-button\': removeButton,\n                        disabled: disabled}">\n                <select name="{{name}}"\n                    ng-hide="true"\n                    ng-required="required && !hasValue()"\n                    ng-model="selectedValues"\n                    multiple\n                    ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">\n                </select>\n                <label class="selector-input">\n                    <ul class="selector-values">\n                        <li\n                            ng-if="steroids === false"\n                            ng-repeat="(index, option) in selectedValues track by $index">\n                            <div ng-include="viewItemTemplate"></div>\n                            <div\n                                ng-if="multiple"\n                                class="selector-helper"\n                                ng-click="!disabled && unset(index)">\n                                <span class="selector-icon"></span>\n                            </div>\n                        </li>\n                        <sos-selected-items\n                            ng-if="steroids === true"\n                            input=\'selectedValuesInput$\'>\n                        </sos-selected-items>\n                    </ul>\n\n                    <input\n                        ng-model="search"\n                        placeholder="{{!hasValue() ? placeholder : \'\'}}"\n                        ng-model-options="{debounce: debounce}"\n                        ng-disabled="disabled"\n                        ng-readonly="disableSearch"\n                        ng-required="required && !hasValue()"\n                        autocomplete="off">\n\n                    <div ng-if="!multiple || loading"\n                        class="selector-helper selector-global-helper"\n                        ng-click="!disabled && removeButton && unset()">\n                        <span class="selector-icon"></span>\n                    </div>\n                </label>\n                <ul class="selector-dropdown">\n\n                    <li\n                        class="selector-option create"\n                        ng-class="{active: highlighted == -1}"\n                        ng-if="create && search"\n                        ng-include="dropdownCreateTemplate"\n                        ng-mouseover="highlight(-1)"\n                        ng-click="createOption(search)">\n                    </li>\n\n                    <li\n                        class="selector-option loading"\n                        ng-show="loading === true">\n                        Loading...\n                    </li>\n\n                    <li\n                        class="selector-option no-data"\n                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"\n                        >\n                        No Data\n                    </li>\n\n                    <sos-dropdown-items\n                        ng-if="steroids === true"\n                        ng-show=\'filteredOptions.length > 0\'\n                        input=\'filteredOptionsInput$\'>\n                    </sos-dropdown-items>\n\n                    <li\n                        ng-if="steroids === false"\n                        ng-repeat-start="(index, option) in filteredOptions track by $index"\n                        class="selector-optgroup"\n                        ng-include="dropdownGroupTemplate"\n                        ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">\n                    </li>\n\n                    <li\n                        ng-if="steroids === false"\n                        ng-show="filteredOptions.length > 0"\n                        ng-repeat-end\n                        ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"\n                        class="selector-option js-data-item"\n                        ng-include="dropdownItemTemplate"\n                        ng-mouseover="highlight(index)"\n                        ng-click="set()">\n                    </li>\n                </ul>\n            </div>';
+            return "<div class=\"selector-container\"\n                ng-attr-dir=\"{{ rtl ? 'rtl' : 'ltr' }}\"\n                ng-class=\"{\n                    open: isOpen,\n                    empty: !filteredOptions.length &&\n                        (!create || !search), multiple: multiple,\n                        'has-value': hasValue(),\n                        rtl: rtl,\n                        'loading': loading,\n                        'remove-button': removeButton,\n                        disabled: disabled}\">\n                <select name=\"{{name}}\"\n                    ng-hide=\"true\"\n                    ng-required=\"required && !hasValue()\"\n                    ng-model=\"selectedValues\"\n                    multiple\n                    ng-options=\"option as getObjValue(option, labelAttr) for option in selectedValues\">\n                </select>\n                <label class=\"selector-input\">\n                    <ul class=\"selector-values\">\n                        <li\n                            ng-if=\"steroids === false && loading === false\"\n                            ng-repeat=\"(index, option) in selectedValues track by $index\">\n                            <div ng-include=\"viewItemTemplate\"></div>\n                            <div\n                                ng-if=\"multiple\"\n                                class=\"selector-helper\"\n                                ng-click=\"!disabled && unset(index)\">\n                                <span class=\"selector-icon\"></span>\n                            </div>\n                        </li>\n                        <sos-selected-items\n                            ng-if=\"steroids === true && loading === false\"\n                            input='selectedValuesInput$'>\n                        </sos-selected-items>\n                    </ul>\n\n                    <input\n                        ng-model=\"search\"\n                        placeholder=\"{{!hasValue() ? placeholder : ''}}\"\n                        ng-model-options=\"{debounce: debounce}\"\n                        ng-disabled=\"disabled\"\n                        ng-readonly=\"disableSearch\"\n                        ng-required=\"required && !hasValue()\"\n                        autocomplete=\"off\">\n\n                    <div ng-if=\"!multiple || loading\"\n                        class=\"selector-helper selector-global-helper\"\n                        ng-click=\"!disabled && removeButton && unset()\">\n                        <span class=\"selector-icon\"></span>\n                    </div>\n                </label>\n                <ul class=\"selector-dropdown\">\n\n                    <li\n                        class=\"selector-option create\"\n                        ng-class=\"{active: highlighted == -1}\"\n                        ng-if=\"create && search\"\n                        ng-include=\"dropdownCreateTemplate\"\n                        ng-mouseover=\"highlight(-1)\"\n                        ng-click=\"createOption(search)\">\n                    </li>\n\n                    <li\n                        class=\"selector-option loading\"\n                        ng-show=\"loading === true\">\n                        Loading...\n                    </li>\n\n                    <li\n                        class=\"selector-option no-data\"\n                        ng-show=\"!loading && (!filteredOptions || filteredOptions.length <= 0)\"\n                        >\n                        No Data\n                    </li>\n\n                    <sos-dropdown-items\n                        ng-if=\"steroids === true && loading === false\"\n                        ng-show='filteredOptions.length > 0'\n                        input='filteredOptionsInput$'>\n                    </sos-dropdown-items>\n\n                    <li\n                        ng-if=\"steroids === false && loading === false\"\n                        ng-repeat-start=\"(index, option) in filteredOptions track by $index\"\n                        class=\"selector-optgroup\"\n                        ng-include=\"dropdownGroupTemplate\"\n                        ng-show=\"filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))\">\n                    </li>\n\n                    <li\n                        ng-if=\"steroids === false && loading === false\"\n                        ng-show=\"filteredOptions.length > 0\"\n                        ng-repeat-end\n                        ng-class=\"{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}\"\n                        class=\"selector-option js-data-item\"\n                        ng-include=\"dropdownItemTemplate\"\n                        ng-mouseover=\"highlight(index)\"\n                        ng-click=\"set()\">\n                    </li>\n                </ul>\n            </div>";
         }
     },
     FUNCTIONS: {
         CONSOLE_LOGGER: function CONSOLE_LOGGER($log, type, message) {
             // TODO: pass method to invoke
             if ($log[type]) {
-                $log[type]('Component: Selector On Sterorids: ' + message);
+                $log[type]("Component: Selector On Sterorids: " + message);
             } else {
-                $log['debug']('Component: Selector On Sterorids: ' + message);
+                $log["debug"]("Component: Selector On Sterorids: " + message);
             }
         },
         GET_DOM_STYLES: function GET_DOM_STYLES(element) {
@@ -2092,7 +2092,7 @@ var _selectorInstanceManager = __webpack_require__(98);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MODULE_NAME = 'selectorOnSteroids';
+var MODULE_NAME = "selectorOnSteroids";
 
 var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () {
     function AngularSelectorOnSteroids() {
@@ -2102,18 +2102,18 @@ var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () 
     }
 
     _createClass(AngularSelectorOnSteroids, [{
-        key: 'init',
+        key: "init",
         value: function init() {
             var debug = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-            var module = angular.module(MODULE_NAME, []).run(['$templateCache', function ($templateCache) {
-                $templateCache.put('selector-on-steroids/selector.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR());
-                $templateCache.put('selector-on-steroids/selector-dropdown-item.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_DROPDOWN_ITEMS());
-                $templateCache.put('selector-on-steroids/selector-selected-item.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_SELECTED_ITEMS());
-                $templateCache.put('selector-on-steroids/item-create.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_CREATE());
-                $templateCache.put('selector-on-steroids/item-default.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_DEFAULT());
-                $templateCache.put('selector-on-steroids/group-default.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_GROUP_DEFAULT());
-            }]).service('SelectorInstanceManagerService', _selectorInstanceManager.SelectorInstanceManagerService).directive('sosSelectedItems', _selectorSelectedItems.SelectorSelectedItemsComponent.Factory(debug)).directive('sosDropdownItems', _selectorDropdownItems.SelectorDropdownItemsComponent.Factory(debug)).directive(MODULE_NAME, _selector2.SelectorComponent.Factory(debug));
+            var module = angular.module(MODULE_NAME, []).run(["$templateCache", function ($templateCache) {
+                $templateCache.put("selector-on-steroids/selector.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR());
+                $templateCache.put("selector-on-steroids/selector-dropdown-item.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_DROPDOWN_ITEMS());
+                $templateCache.put("selector-on-steroids/selector-selected-item.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_SELECTED_ITEMS());
+                $templateCache.put("selector-on-steroids/item-create.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_CREATE());
+                $templateCache.put("selector-on-steroids/item-default.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_DEFAULT());
+                $templateCache.put("selector-on-steroids/group-default.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_GROUP_DEFAULT());
+            }]).service("SelectorInstanceManagerService", _selectorInstanceManager.SelectorInstanceManagerService).directive("sosSelectedItems", _selectorSelectedItems.SelectorSelectedItemsComponent.Factory(debug)).directive("sosDropdownItems", _selectorDropdownItems.SelectorDropdownItemsComponent.Factory(debug)).directive(MODULE_NAME, _selector2.SelectorComponent.Factory(debug));
             return module;
         }
     }]);
@@ -2718,12 +2718,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['<li class="selector-option js-data-item ', '" id="sos-data-index-', '">', '</li>'], ['<li class="selector-option js-data-item ', '" id="sos-data-index-', '">', '</li>']),
-    _templateObject2 = _taggedTemplateLiteral(['<li class="selector-optgroup">', '</li>'], ['<li class="selector-optgroup">', '</li>']),
-    _templateObject3 = _taggedTemplateLiteral([''], ['']),
-    _templateObject4 = _taggedTemplateLiteral(['', ''], ['', '']),
-    _templateObject5 = _taggedTemplateLiteral(['<span>', '', '</span>'], ['<span>', '', '</span>']),
-    _templateObject6 = _taggedTemplateLiteral(['<div>', '</div>'], ['<div>', '</div>']);
+var _templateObject = _taggedTemplateLiteral(["<li class=\"selector-option js-data-item ", "\" id=\"sos-data-index-", "\">", "</li>"], ["<li class=\"selector-option js-data-item ", "\" id=\"sos-data-index-", "\">", "</li>"]),
+    _templateObject2 = _taggedTemplateLiteral(["<li class=\"selector-optgroup\">", "</li>"], ["<li class=\"selector-optgroup\">", "</li>"]),
+    _templateObject3 = _taggedTemplateLiteral([""], [""]),
+    _templateObject4 = _taggedTemplateLiteral(["", ""], ["", ""]),
+    _templateObject5 = _taggedTemplateLiteral(["<span>", "", "</span>"], ["<span>", "", "</span>"]),
+    _templateObject6 = _taggedTemplateLiteral(["<div>", "</div>"], ["<div>", "</div>"]);
 
 var _Observable = __webpack_require__(0);
 
@@ -2753,16 +2753,16 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
         this.$timeout = $timeout;
         this.debug = debug;
         this.replace = true;
-        this.restrict = 'E';
-        this.templateUrl = 'selector-on-steroids/selector-dropdown-item.html';
+        this.restrict = "E";
+        this.templateUrl = "selector-on-steroids/selector-dropdown-item.html";
         this.scope = {
-            input: '<'
+            input: "<"
         };
         return;
     }
 
     _createClass(SelectorDropdownItemsComponent, [{
-        key: 'link',
+        key: "link",
         value: function link(scope, element, attrs) {
             var _this = this;
 
@@ -2776,9 +2776,9 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
             var _tree = null;
             var _rootNode = null;
             var GET_DROPDOWN_ITEM_TEMPLATE = function GET_DROPDOWN_ITEM_TEMPLATE(option, index, filteredOptions, highlighted) {
-                var cls = (highlighted === index ? 'active' : '') + ' ' + (_parentReferences.groupAttr && _parentReferences.getObjValue(option, _parentReferences.groupAttr) ? 'grouped' : '');
+                var cls = (highlighted === index ? "active" : "") + " " + (_parentReferences.groupAttr && _parentReferences.getObjValue(option, _parentReferences.groupAttr) ? "grouped" : "");
                 var boundValue = _parentReferences.getObjValue(option, _parentReferences.labelAttr);
-                boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
+                boundValue = boundValue ? boundValue : (typeof option === "undefined" ? "undefined" : _typeof(option)) === "object" ? JSON.stringify(option) : option;
                 return hx(_templateObject, cls, index, boundValue);
             };
             var GET_DROPDOWN_GROUP_TEMPLATE = function GET_DROPDOWN_GROUP_TEMPLATE(option, index, filteredOptions) {
@@ -2800,29 +2800,29 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                 var tpl = hx(_templateObject6, liList);
                 return tpl;
             };
-            _Observable.Observable.merge(_Observable.Observable.fromEvent(element[0], 'mouseenter'), _Observable.Observable.fromEvent(element[0], 'click')).subscribe(function (e) {
-                if (e.type === 'mouseover') {
-                    var el = e.srcElement.getAttribute('id');
+            _Observable.Observable.merge(_Observable.Observable.fromEvent(element[0], "mouseenter"), _Observable.Observable.fromEvent(element[0], "click")).subscribe(function (e) {
+                if (e.type === "mouseover") {
+                    var el = e.srcElement.getAttribute("id");
                     if (!el) {
                         return;
                     }
-                    var index = parseInt(el.replace('sos-data-index-', ''), 10);
-                    if (_parentReferences['highlight']) {
-                        _parentReferences['highlight'](index < -1 ? -1 : index);
+                    var index = parseInt(el.replace("sos-data-index-", ""), 10);
+                    if (_parentReferences["highlight"]) {
+                        _parentReferences["highlight"](index < -1 ? -1 : index);
                     }
                 }
-                if (e.type === 'click') {
-                    var _el = e.srcElement.getAttribute('id');
+                if (e.type === "click") {
+                    var _el = e.srcElement.getAttribute("id");
                     if (!_el) {
                         return;
                     }
-                    var _index = parseInt(_el.replace('sos-data-index-', ''), 10);
+                    var _index = parseInt(_el.replace("sos-data-index-", ""), 10);
                     _this.$timeout(function () {
-                        if (_parentReferences['highlight']) {
-                            _parentReferences['highlight'](_index < -1 ? -1 : _index);
+                        if (_parentReferences["highlight"]) {
+                            _parentReferences["highlight"](_index < -1 ? -1 : _index);
                         }
-                        if (_parentReferences['set']) {
-                            _parentReferences['set'](undefined);
+                        if (_parentReferences["set"]) {
+                            _parentReferences["set"](undefined);
                         }
                     });
                 }
@@ -2833,13 +2833,13 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                 _subscribers.push(scope.input.subscribe(function (inputData) {
                     if (inputData.filteredOptions && inputData.filteredOptions.length) {
                         if (!_isBooted) {
-                            if (!_parentReferences.hasOwnProperty('groupAttr') || !_parentReferences.hasOwnProperty('valueAttr') || !_parentReferences.hasOwnProperty('labelAttr') || !_parentReferences.hasOwnProperty('getObjValue') || !_parentReferences.hasOwnProperty('set') || !_parentReferences.hasOwnProperty('highlight')) {
-                                _parentReferences['groupAttr'] = inputData.groupAttr;
-                                _parentReferences['valueAttr'] = inputData.valueAttr;
-                                _parentReferences['labelAttr'] = inputData.labelAttr;
-                                _parentReferences['getObjValue'] = inputData.getObjValue;
-                                _parentReferences['set'] = inputData.set;
-                                _parentReferences['highlight'] = inputData.highlight;
+                            if (!_parentReferences.hasOwnProperty("groupAttr") || !_parentReferences.hasOwnProperty("valueAttr") || !_parentReferences.hasOwnProperty("labelAttr") || !_parentReferences.hasOwnProperty("getObjValue") || !_parentReferences.hasOwnProperty("set") || !_parentReferences.hasOwnProperty("highlight")) {
+                                _parentReferences["groupAttr"] = inputData.groupAttr;
+                                _parentReferences["valueAttr"] = inputData.valueAttr;
+                                _parentReferences["labelAttr"] = inputData.labelAttr;
+                                _parentReferences["getObjValue"] = inputData.getObjValue;
+                                _parentReferences["set"] = inputData.set;
+                                _parentReferences["highlight"] = inputData.highlight;
                                 _isBooted = true;
                             }
                         }
@@ -2859,15 +2859,15 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                             }
                         }
                         if (_this.debug) {
-                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Re-drawing items/ options.');
+                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Re-drawing items/ options.");
                         }
                     }
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', 'Cannot initialize, Selector Dropdown Items Component!');
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", "Cannot initialize, Selector Dropdown Items Component!");
                     throw new Error(error);
                 }));
             }
-            scope.$on('$destroy', function () {
+            scope.$on("$destroy", function () {
                 // dispose subscribers
                 if (_subscribers && _subscribers.length) {
                     _subscribers.forEach(function (s) {
@@ -2878,12 +2878,12 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
             });
         }
     }], [{
-        key: 'Factory',
+        key: "Factory",
         value: function Factory(debug) {
             var directive = function directive($log, $timeout) {
                 return new SelectorDropdownItemsComponent($log, $timeout, debug);
             };
-            directive['$inject'] = ['$log', '$timeout'];
+            directive["$inject"] = ["$log", "$timeout"];
             return directive;
         }
     }]);
@@ -5370,11 +5370,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['<div class="selector-helper"><span class="selector-icon" id="sos-data-index-', '"></span></div>'], ['<div class="selector-helper"><span class="selector-icon" id="sos-data-index-', '"></span></div>']),
-    _templateObject2 = _taggedTemplateLiteral([''], ['']),
-    _templateObject3 = _taggedTemplateLiteral(['<li>', ' ', '</li>'], ['<li>', ' ', '</li>']),
-    _templateObject4 = _taggedTemplateLiteral(['', ''], ['', '']),
-    _templateObject5 = _taggedTemplateLiteral(['<div>', '</div>'], ['<div>', '</div>']);
+var _templateObject = _taggedTemplateLiteral(["<div class=\"selector-helper\"><span class=\"selector-icon\" id=\"sos-data-index-", "\"></span></div>"], ["<div class=\"selector-helper\"><span class=\"selector-icon\" id=\"sos-data-index-", "\"></span></div>"]),
+    _templateObject2 = _taggedTemplateLiteral([""], [""]),
+    _templateObject3 = _taggedTemplateLiteral(["<li>", " ", "</li>"], ["<li>", " ", "</li>"]),
+    _templateObject4 = _taggedTemplateLiteral(["", ""], ["", ""]),
+    _templateObject5 = _taggedTemplateLiteral(["<div>", "</div>"], ["<div>", "</div>"]);
 
 var _Observable = __webpack_require__(0);
 
@@ -5404,16 +5404,16 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
         this.$timeout = $timeout;
         this.debug = debug;
         this.replace = true;
-        this.restrict = 'E';
-        this.templateUrl = 'selector-on-steroids/selector-selected-item.html';
+        this.restrict = "E";
+        this.templateUrl = "selector-on-steroids/selector-selected-item.html";
         this.scope = {
-            input: '<'
+            input: "<"
         };
         return;
     }
 
     _createClass(SelectorSelectedItemsComponent, [{
-        key: 'link',
+        key: "link",
         value: function link(scope, element, attrs) {
             var _this = this;
 
@@ -5428,7 +5428,7 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
             var _rootNode = null;
             var GET_SELECTED_ITEM_TEMPLATE = function GET_SELECTED_ITEM_TEMPLATE(option, index, filteredOptions, parentReferences) {
                 var boundValue = parentReferences.getObjValue(option, parentReferences.labelAttr);
-                boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
+                boundValue = boundValue ? boundValue : (typeof option === "undefined" ? "undefined" : _typeof(option)) === "object" ? JSON.stringify(option) : option;
                 var closeButton = parentReferences.multiple ? hx(_templateObject, index) : hx(_templateObject2);
                 return hx(_templateObject3, boundValue, closeButton);
             };
@@ -5439,16 +5439,16 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
                 var tpl = hx(_templateObject5, liList);
                 return tpl;
             };
-            _Observable.Observable.fromEvent(element[0], 'click').subscribe(function (e) {
-                if (e.type === 'click') {
-                    if (e.srcElement.classList.contains('selector-icon')) {
-                        var el = e.srcElement.getAttribute('id');
+            _Observable.Observable.fromEvent(element[0], "click").subscribe(function (e) {
+                if (e.type === "click") {
+                    if (e.srcElement.classList.contains("selector-icon")) {
+                        var el = e.srcElement.getAttribute("id");
                         if (!el) {
                             return;
                         }
-                        var index = parseInt(el.replace('sos-data-index-', ''), 10);
-                        if (_parentReferences['unset']) {
-                            _parentReferences['unset'](index < -1 ? -1 : index);
+                        var index = parseInt(el.replace("sos-data-index-", ""), 10);
+                        if (_parentReferences["unset"]) {
+                            _parentReferences["unset"](index < -1 ? -1 : index);
                         }
                     }
                 }
@@ -5459,14 +5459,14 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
                 _subscribers.push(scope.input.subscribe(function (inputData) {
                     if (inputData.selectedValues) {
                         if (!_isBooted) {
-                            if (!_parentReferences.hasOwnProperty('groupAttr') || !_parentReferences.hasOwnProperty('valueAttr') || !_parentReferences.hasOwnProperty('labelAttr') || !_parentReferences.hasOwnProperty('getObjValue') || !_parentReferences.hasOwnProperty('unset') || !_parentReferences.hasOwnProperty('multiple') || !_parentReferences.hasOwnProperty('disabled')) {
-                                _parentReferences['groupAttr'] = inputData.groupAttr;
-                                _parentReferences['valueAttr'] = inputData.valueAttr;
-                                _parentReferences['labelAttr'] = inputData.labelAttr;
-                                _parentReferences['getObjValue'] = inputData.getObjValue;
-                                _parentReferences['unset'] = inputData.unset;
-                                _parentReferences['multiple'] = inputData.multiple;
-                                _parentReferences['disabled'] = inputData.disabled;
+                            if (!_parentReferences.hasOwnProperty("groupAttr") || !_parentReferences.hasOwnProperty("valueAttr") || !_parentReferences.hasOwnProperty("labelAttr") || !_parentReferences.hasOwnProperty("getObjValue") || !_parentReferences.hasOwnProperty("unset") || !_parentReferences.hasOwnProperty("multiple") || !_parentReferences.hasOwnProperty("disabled")) {
+                                _parentReferences["groupAttr"] = inputData.groupAttr;
+                                _parentReferences["valueAttr"] = inputData.valueAttr;
+                                _parentReferences["labelAttr"] = inputData.labelAttr;
+                                _parentReferences["getObjValue"] = inputData.getObjValue;
+                                _parentReferences["unset"] = inputData.unset;
+                                _parentReferences["multiple"] = inputData.multiple;
+                                _parentReferences["disabled"] = inputData.disabled;
                                 _isBooted = true;
                             }
                         }
@@ -5487,15 +5487,15 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
                             }
                         }
                         if (_this.debug) {
-                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Re-drawing selected items/ options.');
+                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Re-drawing selected items/ options.");
                         }
                     }
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', 'Cannot initialize, Selector Selected Items Component!');
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", "Cannot initialize, Selector Selected Items Component!");
                     throw new Error(error);
                 }));
             }
-            scope.$on('$destroy', function () {
+            scope.$on("$destroy", function () {
                 // dispose subscribers
                 if (_subscribers && _subscribers.length) {
                     _subscribers.forEach(function (s) {
@@ -5506,12 +5506,12 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
             });
         }
     }], [{
-        key: 'Factory',
+        key: "Factory",
         value: function Factory(debug) {
             var directive = function directive($log, $timeout) {
                 return new SelectorSelectedItemsComponent($log, $timeout, debug);
             };
-            directive['$inject'] = ['$log', '$timeout'];
+            directive["$inject"] = ["$log", "$timeout"];
             return directive;
         }
     }]);
@@ -5570,46 +5570,46 @@ var SelectorComponent = exports.SelectorComponent = function () {
         this.$log = $log;
         this.SelectorInstanceManagerService = SelectorInstanceManagerService;
         this.debug = debug;
-        this.restrict = 'EAC';
+        this.restrict = "EAC";
         this.replace = true;
         this.transclude = true;
-        this.templateUrl = 'selector-on-steroids/selector.html';
+        this.templateUrl = "selector-on-steroids/selector.html";
         this.scope = {
-            name: '@?',
-            value: '=model',
-            disabled: '=?disable',
-            disableSearch: '=?',
-            required: '=?require',
-            multiple: '=?multi',
-            placeholder: '@?',
-            valueAttr: '@',
-            labelAttr: '@?',
-            groupAttr: '@?',
-            options: '=?',
-            debounce: '=?',
-            create: '&?',
-            limit: '=?',
-            rtl: '=?',
-            api: '=?',
-            change: '&?',
-            remote: '&?',
-            remoteParam: '@?',
-            remoteValidation: '&?',
-            remoteValidationParam: '@?',
-            removeButton: '=?',
-            softDelete: '=?',
-            closeAfterSelection: '=?',
-            viewItemTemplate: '=?',
-            dropdownItemTemplate: '=?',
-            dropdownCreateTemplate: '=?',
-            dropdownGroupTemplate: '=?',
-            steroids: '<',
-            cancelPendingXhr: '<'
+            name: "@?",
+            value: "=model",
+            disabled: "=?disable",
+            disableSearch: "=?",
+            required: "=?require",
+            multiple: "=?multi",
+            placeholder: "@?",
+            valueAttr: "@",
+            labelAttr: "@?",
+            groupAttr: "@?",
+            options: "=?",
+            debounce: "=?",
+            create: "&?",
+            limit: "=?",
+            rtl: "=?",
+            api: "=?",
+            change: "&?",
+            remote: "&?",
+            remoteParam: "@?",
+            remoteValidation: "&?",
+            remoteValidationParam: "@?",
+            remoteCancelPendingXhr: "<",
+            removeButton: "=?",
+            softDelete: "=?",
+            closeAfterSelection: "=?",
+            viewItemTemplate: "=?",
+            dropdownItemTemplate: "=?",
+            dropdownCreateTemplate: "=?",
+            dropdownGroupTemplate: "=?",
+            steroids: "<"
         };
     }
 
     _createClass(SelectorComponent, [{
-        key: 'link',
+        key: "link",
         value: function link(scope, element, attrs, controller, transclude) {
             var _this = this;
 
@@ -5618,40 +5618,40 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 var _watchers = [];
                 var _mutations = [];
                 var _subscribers = [];
-                var filter = _this.$filter('filter');
+                var filter = _this.$filter("filter");
                 var DOM_SELECTOR_CONTAINER = angular.element(element[0]);
-                var DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
-                var DOM_SELECTOR_INPUT_WRAPPER = angular.element(element[0].querySelector('.selector-input'));
-                var DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
-                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'input')) : _Observable.Observable.empty();
-                var OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'pointerdown'), _Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown')) : _Observable.Observable.empty();
-                var OBSERVABLE_FOR_WINDOW_EVENTS = _this.$window ? _Observable.Observable.merge(_Observable.Observable.fromEvent(_this.$window, 'resize'), _Observable.Observable.fromEvent(_this.$window, 'blur')) : _Observable.Observable.empty();
-                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT_WRAPPER = DOM_SELECTOR_INPUT_WRAPPER ? _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT_WRAPPER, 'click') : _Observable.Observable.empty();
-                var OBSERVABLE_FOR_DOCUMENT_CLICK = _this.$document ? _Observable.Observable.fromEvent(_this.$document, 'click') : _Observable.Observable.empty();
-                var inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
-                var selectCtrl = element.find('select').controller('ngModel');
+                var DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector(".selector-dropdown"));
+                var DOM_SELECTOR_INPUT_WRAPPER = angular.element(element[0].querySelector(".selector-input"));
+                var DOM_SELECTOR_INPUT = angular.element(element[0].querySelector(".selector-input input"));
+                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, "focus"), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, "blur"), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, "keydown"), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, "input")) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, "pointerdown"), _Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, "mousedown")) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_WINDOW_EVENTS = _this.$window ? _Observable.Observable.merge(_Observable.Observable.fromEvent(_this.$window, "resize"), _Observable.Observable.fromEvent(_this.$window, "blur")) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT_WRAPPER = DOM_SELECTOR_INPUT_WRAPPER ? _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT_WRAPPER, "click") : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOCUMENT_CLICK = _this.$document ? _Observable.Observable.fromEvent(_this.$document, "click") : _Observable.Observable.empty();
+                var inputCtrl = DOM_SELECTOR_INPUT.controller("ngModel");
+                var selectCtrl = element.find("select").controller("ngModel");
                 var initDeferred = _this.$q.defer();
                 var defaults = {
                     api: {},
-                    search: '',
+                    search: "",
                     disableSearch: false,
                     selectedValues: [],
                     highlighted: 0,
                     valueAttr: null,
-                    labelAttr: 'label',
-                    groupAttr: 'group',
+                    labelAttr: "label",
+                    groupAttr: "group",
                     options: [],
                     debounce: 0,
                     limit: Infinity,
-                    remoteParam: 'q',
-                    remoteValidationParam: 'value',
+                    remoteParam: "q",
+                    remoteValidationParam: "value",
+                    remoteCancelPendingXhr: false,
                     removeButton: true,
-                    viewItemTemplate: 'selector-on-steroids/item-default.html',
-                    dropdownItemTemplate: 'selector-on-steroids/item-default.html',
-                    dropdownCreateTemplate: 'selector-on-steroids/item-create.html',
-                    dropdownGroupTemplate: 'selector-on-steroids/group-default.html',
+                    viewItemTemplate: "selector-on-steroids/item-default.html",
+                    dropdownItemTemplate: "selector-on-steroids/item-default.html",
+                    dropdownCreateTemplate: "selector-on-steroids/item-create.html",
+                    dropdownGroupTemplate: "selector-on-steroids/group-default.html",
                     steroids: false,
-                    cancelPendingXhr: false,
                     selectedValuesInput$: new _Subject.Subject(),
                     filteredOptionsInput$: new _Subject.Subject()
                 };
@@ -5672,28 +5672,28 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     e.stopPropagation();
                 }));
                 _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN.subscribe(function (e) {
-                    _currentFocusedElement = 'FOCUSED_ELEMENT_DROPDOWN';
+                    _currentFocusedElement = "FOCUSED_ELEMENT_DROPDOWN";
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", error);
                 }));
                 // // Default: listen to window resize event
                 _subscribers.push(OBSERVABLE_FOR_WINDOW_EVENTS.subscribe(function (e) {
-                    if (e.type === 'resize') {
+                    if (e.type === "resize") {
                         if (scope.isOpen) {
                             dropdownPosition();
                         }
                     }
-                    if (e.type === 'blur') {
+                    if (e.type === "blur") {
                         if (scope.isOpen) {
                             close();
                         }
                     }
                     e.preventDefault();
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", error);
                 }));
                 // Default attributes
                 if (!angular.isDefined(scope.value) && scope.multiple) {
@@ -5727,7 +5727,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         });
                     }
                 };
-                angular.forEach(['name', 'valueAttr', 'labelAttr'], function (attr) {
+                angular.forEach(["name", "valueAttr", "labelAttr"], function (attr) {
                     if (!attrs[attr]) {
                         attrs[attr] = scope[attr];
                     }
@@ -5741,9 +5741,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!angular.isDefined(obj)) {
                         obj = {};
                     }
-                    path = angular.isArray(path) ? path : path.split('.');
+                    path = angular.isArray(path) ? path : path.split(".");
                     key = path.shift();
-                    if (key.indexOf('[') > 0) {
+                    if (key.indexOf("[") > 0) {
                         var match = key.match(/(\w+)\[(\d+)\]/);
                         if (match !== null) {
                             obj = obj[match[1]];
@@ -5760,9 +5760,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!angular.isDefined(obj) || !angular.isDefined(path)) {
                         return obj;
                     }
-                    path = angular.isArray(path) ? path : path.split('.');
+                    path = angular.isArray(path) ? path : path.split(".");
                     var key = path.shift();
-                    if (key.indexOf('[') > 0) {
+                    if (key.indexOf("[") > 0) {
                         var match = key.match(/(\w+)\[(\d+)\]/);
                         if (match !== null) {
                             obj = obj[match[1]];
@@ -5789,19 +5789,19 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         return _this.$q.reject();
                     }
                     if (!angular.isDefined(remote)) {
-                        throw new Error('Remote attribute is not defined');
+                        throw new Error("Remote attribute is not defined");
                     }
                     scope.loading = true;
                     scope.options = [];
                     remoteOptions[paramName] = paramValue;
                     promise = remote(remoteOptions);
-                    if (scope.cancelPendingXhr) {
+                    if (scope.remote && scope.remoteCancelPendingXhr) {
                         // cancel pending request
                         if (_previousXhrCancellers && _previousXhrCancellers.length >= 1) {
-                            _previousXhrCancellers[0].resolve('Previous XHR Request Aborted');
+                            _previousXhrCancellers[0].resolve("Previous XHR Request Aborted");
                             _previousXhrCancellers.shift();
                             if (_util.debug) {
-                                _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Previous XHR Request Aborted via promise.timeout, please handle status === -1 (AngularJs 1.6.x) to not break the promise chain via transformResponse or promise error callback.');
+                                _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Previous XHR Request Aborted via promise.timeout, please handle status === -1 (AngularJs 1.6.x) to not break the promise chain via transformResponse or promise error callback.");
                             }
                         }
                         // add timeout
@@ -5812,9 +5812,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             _previousXhrCancellers.push(_xhrCanceller);
                         }
                     }
-                    if (typeof promise.then !== 'function') {
+                    if (typeof promise.then !== "function") {
                         var settings = {
-                            method: 'GET',
+                            method: "GET",
                             cache: true,
                             params: {}
                         };
@@ -5832,28 +5832,28 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             initDeferred.resolve();
                         });
                     }, function (error) {
-                        if (scope.cancelPendingXhr && error.status === -1) {
+                        if (scope.remote && scope.remoteCancelPendingXhr && error.status === -1) {
                             return;
                         }
                         _this.$timeout(function () {
                             scope.loading = false;
                         });
                         initDeferred.reject();
-                        var errorMsg = 'Error while fetching data: ' + (error.message || error);
-                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', errorMsg);
+                        var errorMsg = "Error while fetching data: " + (error.message || error);
+                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", errorMsg);
                         throw errorMsg;
                     });
                     return promise;
                 };
                 var fetch = function fetch(triggeredFromAction) {
                     if (triggeredFromAction) {
-                        return request('search', scope.search || '', scope.remote, scope.remoteParam);
+                        return request("search", scope.search || "", scope.remote, scope.remoteParam);
                     } else {
-                        return request('search', scope.search || '', scope.remote, scope.remoteParam);
+                        return request("search", scope.search || "", scope.remote, scope.remoteParam);
                     }
                 };
                 var fetchValidation = function fetchValidation(value) {
-                    return request('value', value, scope.remoteValidation, scope.remoteValidationParam);
+                    return request("value", value, scope.remoteValidation, scope.remoteValidationParam);
                 };
                 if (!angular.isDefined(scope.remote)) {
                     scope.remote = false;
@@ -5867,7 +5867,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 if (scope.remote) {
                     _this.$timeout(function () {
                         _this.$q.when(!scope.hasValue() || !scope.remoteValidation ? angular.noop : fetchValidation(scope.value)).then(function () {
-                            _watchers.push(scope.$watch('search', function () {
+                            _watchers.push(scope.$watch("search", function () {
                                 scope.$evalAsync(fetch(false));
                             }));
                         });
@@ -5883,7 +5883,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         }
                     });
                     if (option.value) {
-                        setObjValue(object, scope.valueAttr || 'value', option.value);
+                        setObjValue(object, scope.valueAttr || "value", option.value);
                     }
                     if (element.text()) {
                         setObjValue(object, scope.labelAttr, element.text().trim());
@@ -5892,7 +5892,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         setObjValue(object, scope.groupAttr, group);
                     }
                     scope.options.push(object);
-                    if (element.attr('selected') && (scope.multiple || !scope.hasValue())) {
+                    if (element.attr("selected") && (scope.multiple || !scope.hasValue())) {
                         if (!scope.multiple) {
                             if (!scope.value) {
                                 scope.value = optionValue(object);
@@ -5908,12 +5908,12 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 var fillWithHtml = function fillWithHtml() {
                     scope.options = [];
                     angular.forEach(clone, function (element) {
-                        var tagName = (element.tagName || '').toLowerCase();
-                        if (tagName === 'option') {
+                        var tagName = (element.tagName || "").toLowerCase();
+                        if (tagName === "option") {
                             optionToObject(element);
                         }
-                        if (tagName === 'optgroup') {
-                            angular.forEach(element.querySelectorAll('option'), function (option) {
+                        if (tagName === "optgroup") {
+                            angular.forEach(element.querySelectorAll("option"), function (option) {
                                 optionToObject(option, (element.attributes.label || {}).value);
                             });
                         }
@@ -5950,26 +5950,26 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         initialize();
                     }, function () {
                         if (_this.debug) {
-                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Cannot initialize, promise init error!');
+                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Cannot initialize, promise init error!");
                         }
                     });
                 };
                 _watchers.push(scope.$watch(function () {
                     return inputCtrl.$pristine;
                 }, function ($pristine) {
-                    selectCtrl[$pristine ? '$setPristine' : '$setDirty']();
+                    selectCtrl[$pristine ? "$setPristine" : "$setDirty"]();
                 }));
                 _watchers.push(scope.$watch(function () {
                     return inputCtrl.$touched;
                 }, function ($touched) {
-                    selectCtrl[$touched ? '$setTouched' : '$setUntouched']();
+                    selectCtrl[$touched ? "$setTouched" : "$setUntouched"]();
                 }));
                 var _previousClassString = null;
                 var _mutationForClassChanges = new MutationObserver(function (event) {
                     var newClassString = event[0].target.classList.toString();
                     if (_previousClassString && newClassString !== _previousClassString) {
-                        var newHasMultiple = newClassString.indexOf('multiple') !== -1;
-                        var oldHasMultiple = _previousClassString.indexOf('multiple') !== -1;
+                        var newHasMultiple = newClassString.indexOf("multiple") !== -1;
+                        var oldHasMultiple = _previousClassString.indexOf("multiple") !== -1;
                         if (newHasMultiple !== oldHasMultiple) {
                             reInitMultiple();
                         }
@@ -5982,7 +5982,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 });
                 _mutationForClassChanges.observe(DOM_SELECTOR_CONTAINER[0], {
                     attributes: true,
-                    attributeFilter: ['class']
+                    attributeFilter: ["class"]
                 });
                 _mutations.push(_mutationForClassChanges);
                 var _mutationForPlaceholderChanges = new MutationObserver(function (event) {
@@ -5990,7 +5990,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 });
                 _mutationForPlaceholderChanges.observe(DOM_SELECTOR_INPUT[0], {
                     attributes: true,
-                    attributeFilter: ['placeholder']
+                    attributeFilter: ["placeholder"]
                 });
                 _mutations.push(_mutationForPlaceholderChanges);
                 // Dropdown utilities
@@ -6001,9 +6001,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         var marginTop = parseFloat(styles.marginTop || 0);
                         var marginLeft = parseFloat(styles.marginLeft || 0);
                         DOM_SELECTOR_DROPDOWN.css({
-                            top: label.offsetTop + label.offsetHeight + marginTop + 'px',
-                            left: label.offsetLeft + marginLeft + 'px',
-                            width: label.offsetWidth + 'px'
+                            top: label.offsetTop + label.offsetHeight + marginTop + "px",
+                            left: label.offsetLeft + marginLeft + "px",
+                            width: label.offsetWidth + "px"
                         });
                     }
                 };
@@ -6054,7 +6054,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 };
                 var scrollToHighlighted = function scrollToHighlighted() {
                     var dd = DOM_SELECTOR_DROPDOWN[0];
-                    var option = dd.querySelectorAll('li.selector-option.js-data-item')[scope.highlighted];
+                    var option = dd.querySelectorAll("li.selector-option.js-data-item")[scope.highlighted];
                     var styles = _selector.CONSTANTS.FUNCTIONS.GET_DOM_STYLES(option);
                     var marginTop = parseFloat(styles.marginTop || 0);
                     var marginBottom = parseFloat(styles.marginBottom || 0);
@@ -6083,7 +6083,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             });
                         } else {
                             setObjValue(option, scope.labelAttr, value);
-                            setObjValue(option, scope.valueAttr || 'value', value);
+                            setObjValue(option, scope.valueAttr || "value", value);
                         }
                         return option;
                     }()).then(function (option) {
@@ -6182,7 +6182,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         case _selector.CONSTANTS.KEYS.backspace:
                             {
                                 if (!DOM_SELECTOR_INPUT.val()) {
-                                    var search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
+                                    var search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || "");
                                     scope.unset();
                                     open();
                                     if (scope.softDelete && !scope.disableSearch) {
@@ -6251,7 +6251,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 };
                 // Input width utilities
                 var reAssessWidth = function reAssessWidth() {
-                    var _measureText = '';
+                    var _measureText = "";
                     if (DOM_SELECTOR_INPUT[0].value && DOM_SELECTOR_INPUT[0].value.length > 0) {
                         // value exists
                         _measureText = DOM_SELECTOR_INPUT[0].value;
@@ -6259,37 +6259,37 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         // no value
                         // replace with place holder if selected values are none
                         if (scope.selectedValues.length > 0) {
-                            _measureText = '';
+                            _measureText = "";
                         } else {
-                            _measureText = DOM_SELECTOR_INPUT[0].getAttribute('placeholder');
+                            _measureText = DOM_SELECTOR_INPUT[0].getAttribute("placeholder");
                         }
                     }
                     var styles = _selector.CONSTANTS.FUNCTIONS.GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
-                    var shadow = angular.element('<span class="selector-shadow"></span>');
+                    var shadow = angular.element("<span class=\"selector-shadow\"></span>");
                     shadow.text(_measureText);
                     angular.element(document.body).append(shadow);
                     shadow.css({
-                        fontFamily: styles['fontFamily'],
-                        fontSize: styles['fontSize'],
-                        fontWeight: styles['fontWeight'],
-                        fontStyle: styles['fontStyle'],
-                        letterSpacing: styles['letterSpacing'],
-                        textTransform: styles['textTransform'],
-                        wordSpacing: styles['wordSpacing'],
-                        textIndent: styles['textIndent']
+                        fontFamily: styles["fontFamily"],
+                        fontSize: styles["fontSize"],
+                        fontWeight: styles["fontWeight"],
+                        fontStyle: styles["fontStyle"],
+                        letterSpacing: styles["letterSpacing"],
+                        textTransform: styles["textTransform"],
+                        wordSpacing: styles["wordSpacing"],
+                        textIndent: styles["textIndent"]
                     });
-                    DOM_SELECTOR_INPUT.css('width', shadow[0].offsetWidth + 1 + 'px');
+                    DOM_SELECTOR_INPUT.css("width", shadow[0].offsetWidth + 1 + "px");
                     shadow.remove();
                 };
                 var resetInput = function resetInput() {
-                    DOM_SELECTOR_INPUT.val('');
+                    DOM_SELECTOR_INPUT.val("");
                     _this.$timeout(function () {
-                        scope.search = '';
+                        scope.search = "";
                     });
                 };
                 _watchers.push(
                 // scope.$watch('[search, options, value]', () => {
-                scope.$watch('search', function () {
+                scope.$watch("search", function () {
                     // hide selected items
                     filterOptions();
                     // this.$timeout(() => {
@@ -6297,14 +6297,17 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     //     setInputWidth();
                     // });
                 }));
-                _watchers.push(scope.$watch('selectedValues', function (newValue, oldValue) {
+                _watchers.push(scope.$watch("selectedValues", function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
                     updateValue();
                     dropdownPosition();
                     if (angular.isFunction(scope.change)) {
-                        scope.change(scope.multiple ? { newValue: newValue, oldValue: oldValue } : { newValue: (newValue || [])[0], oldValue: (oldValue || [])[0] });
+                        scope.change(scope.multiple ? { newValue: newValue, oldValue: oldValue } : {
+                            newValue: (newValue || [])[0],
+                            oldValue: (oldValue || [])[0]
+                        });
                     }
                 }, true));
                 // Update value
@@ -6314,7 +6317,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                     setValue(!scope.multiple ? origin[0] : origin);
                 };
-                _watchers.push(scope.$watchCollection('options', function (newValue, oldValue) {
+                _watchers.push(scope.$watchCollection("options", function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
                     }
@@ -6348,12 +6351,12 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                 };
                 var _prevValueWatchInvokedTimeStamp = null;
-                _watchers.push(scope.$watch('value', function (newValue, oldValue) {
+                _watchers.push(scope.$watch("value", function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
                     if (_this.debug) {
-                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'watch::value, ' + scope.search + ', ' + JSON.stringify(oldValue) + ', ' + JSON.stringify(newValue) + ', ' + Date.now());
+                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "watch::value, " + scope.search + ", " + JSON.stringify(oldValue) + ", " + JSON.stringify(newValue) + ", " + Date.now());
                     }
                     _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
                         if (!scope.remote) {
@@ -6391,7 +6394,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 };
                 // DOM event listeners
                 _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe(function (e) {
-                    if (e.type === 'focus') {
+                    if (e.type === "focus") {
                         // close others
                         _this.SelectorInstanceManagerService.closeAll();
                         _this.$timeout(function () {
@@ -6399,21 +6402,21 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             open();
                         });
                     }
-                    if (e.type === 'blur') {
-                        if (scope.isOpen && _currentFocusedElement !== 'FOCUSED_ELEMENT_DROPDOWN') {
+                    if (e.type === "blur") {
+                        if (scope.isOpen && _currentFocusedElement !== "FOCUSED_ELEMENT_DROPDOWN") {
                             close();
                         }
                     }
-                    if (e.type === 'keydown') {
+                    if (e.type === "keydown") {
                         scope.$apply(function () {
                             keydown(e);
                         });
                     }
-                    if (e.type === 'input') {
+                    if (e.type === "input") {
                         reAssessWidth();
                     }
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", error);
                 }));
                 // Expose APIs
                 scope.api.fetch = fetch;
@@ -6441,9 +6444,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 // register instance
                 _this.SelectorInstanceManagerService.add(_guid, scope.api);
                 // destroy
-                scope.$on('$destroy', function () {
+                scope.$on("$destroy", function () {
                     if (_this.debug) {
-                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Destroying Selector instance with id: ' + _guid);
+                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Destroying Selector instance with id: " + _guid);
                     }
                     // dispose watchers
                     if (_watchers && _watchers.length) {
@@ -6476,12 +6479,12 @@ var SelectorComponent = exports.SelectorComponent = function () {
             });
         }
     }], [{
-        key: 'Factory',
+        key: "Factory",
         value: function Factory(debug) {
             var directive = function directive($filter, $timeout, $window, $document, $http, $q, $log, SelectorInstanceManagerService) {
                 return new SelectorComponent($filter, $timeout, $window, $document, $http, $q, $log, SelectorInstanceManagerService, debug);
             };
-            directive['$inject'] = ['$filter', '$timeout', '$window', '$document', '$http', '$q', '$log', 'SelectorInstanceManagerService'];
+            directive["$inject"] = ["$filter", "$timeout", "$window", "$document", "$http", "$q", "$log", "SelectorInstanceManagerService"];
             return directive;
         }
     }]);

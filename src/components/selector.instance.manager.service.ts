@@ -1,4 +1,4 @@
-import { ISelector } from './selector.interfaces';
+import { ISelector } from "./selector.interfaces";
 
 // wire up a service. to build a focus manager and instance manager
 export class SelectorInstanceManagerService {

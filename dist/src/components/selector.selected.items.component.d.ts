@@ -1,7 +1,7 @@
 /// <reference types="angular" />
-import { ISelector } from './selector.interfaces';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/fromEvent';
+import { ISelector } from "./selector.interfaces";
+import "rxjs/add/observable/merge";
+import "rxjs/add/observable/fromEvent";
 export declare class SelectorSelectedItemsComponent {
     private $log;
     private $timeout;

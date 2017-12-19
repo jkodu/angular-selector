@@ -13,7 +13,7 @@ export const CONSTANTS = {
     rightCmd: 93,
     ctrl: 17,
     alt: 18,
-    tab: 9,
+    tab: 9
   },
   TEMPLATES: {
     TEMPLATE_ITEM_CREATE: () => {
@@ -53,7 +53,7 @@ export const CONSTANTS = {
                 <label class="selector-input">
                     <ul class="selector-values">
                         <li
-                            ng-if="steroids === false"
+                            ng-if="steroids === false && loading === false"
                             ng-repeat="(index, option) in selectedValues track by $index">
                             <div ng-include="viewItemTemplate"></div>
                             <div
@@ -64,7 +64,7 @@ export const CONSTANTS = {
                             </div>
                         </li>
                         <sos-selected-items
-                            ng-if="steroids === true"
+                            ng-if="steroids === true && loading === false"
                             input='selectedValuesInput$'>
                         </sos-selected-items>
                     </ul>
@@ -109,13 +109,13 @@ export const CONSTANTS = {
                     </li>
 
                     <sos-dropdown-items
-                        ng-if="steroids === true"
+                        ng-if="steroids === true && loading === false"
                         ng-show='filteredOptions.length > 0'
                         input='filteredOptionsInput$'>
                     </sos-dropdown-items>
 
                     <li
-                        ng-if="steroids === false"
+                        ng-if="steroids === false && loading === false"
                         ng-repeat-start="(index, option) in filteredOptions track by $index"
                         class="selector-optgroup"
                         ng-include="dropdownGroupTemplate"
@@ -123,7 +123,7 @@ export const CONSTANTS = {
                     </li>
 
                     <li
-                        ng-if="steroids === false"
+                        ng-if="steroids === false && loading === false"
                         ng-show="filteredOptions.length > 0"
                         ng-repeat-end
                         ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"
@@ -134,7 +134,7 @@ export const CONSTANTS = {
                     </li>
                 </ul>
             </div>`;
-    },
+    }
   },
   FUNCTIONS: {
     CONSOLE_LOGGER: ($log, type, message: string) => {
@@ -142,7 +142,7 @@ export const CONSTANTS = {
       if ($log[type]) {
         $log[type](`Component: Selector On Sterorids: ${message}`);
       } else {
-        $log['debug'](`Component: Selector On Sterorids: ${message}`);
+        $log["debug"](`Component: Selector On Sterorids: ${message}`);
       }
     },
     GET_DOM_STYLES: (element: HTMLElement) => {
@@ -151,6 +151,6 @@ export const CONSTANTS = {
         : element.ownerDocument && element.ownerDocument.defaultView.opener
           ? element.ownerDocument.defaultView.getComputedStyle(element)
           : window.getComputedStyle(element);
-    },
-  },
+    }
+  }
 };

@@ -69,7 +69,7 @@ const app = angular.module('MyApp', ['selectorOnSteroids']);
 Parameter | Type | Default | Description
 ---|---|---|---
 steroids | `Boolean` | `false` | Enable/disable the get performance boost in rendering and data marshalling.
-cancelPendingXhr | `Boolean` | `false` | Enable/disable pending request cancellation, on new XHR requests.
+
 model | `Property` | | Two-way binding property that models the `select` view.
 name | `String` | | Input name attribute.
 disable | `Boolean` | `false` | Enable/disable the select. Note the name is `disable` not `disabled` to avoid collisions with the HTML5 disabled attribute.
@@ -88,6 +88,7 @@ api | `Object` | `{}` | This object is equipped with the methods for interacting
 create | `Boolean` or `Function` or `Promise` | | Allows users to type the label of their own options and push them into the list. You can pass a function that returns the full format of the option, using `input` as parameter, a `Promise`, or set it to `true` to let Angular Selector create an object with the default properties given by `valueAttr` and `labelAttr`. Check out ["Create custom options"](http://indrimuska.github.io/angular-selector/) and ["Create custom options (using `Promise`)"](http://indrimuska.github.io/angular-selector/) examples.
 change | `Function` | | Callback fired every time the selected values change. It provides two parameters: `newValue` and `oldValue`.
 remote | `Object` or `Promise` | <pre>{<br>  method: 'GET',<br>  cache: true,<br>  params: {}<br>}</pre> | You can use remote data fetching with the native `$http` service or with your own custom service. In the first case this parameter must be the configuration object to pass to the native `$http` service ([docs](https://docs.angularjs.org/api/ng/service/$http#usage)). In the second case, `remote` is a function that returns a Promise object.
+remoteCancelPendingXhr | `Boolean` | `false` | Enable/disable pending request cancellation, on new XHR requests.
 remoteParam | `String` | `"q"` | If `remote` attribute is used with the native `$http` service, this parameter is the name of the query key in the `params` object. You should use this to perform server-side filtering.
 remoteValidation | `Object` or `Promise` | <pre>{<br>  method: 'GET',<br>  cache: true,<br>  params: {}<br>}</pre> | This should be used to perform validation after a "manual" update of the model. It has the same structure of the `remote` property, check out ["Remote fetching and validation"](http://indrimuska.github.io/angular-selector/) example.
 remoteValidationParam | `String` | `"value"` | If `remoteValidation` attribute is used with the native `$http` service, this parameter is the name of the query key in the `params` object.
@@ -111,8 +112,10 @@ dropdownGroupTemplate | `String` | `"selector/group-default.html"` | Template UR
 Licensed under the MIT license.
 
 ### Local Development
-- npm install
-- npm run build-prod - generates a dist directory ready for publishing.
-- npm run build - generates the sandbox/dist directory for local development (no watch).
-- npm run dev - builds and watches both source and sandbox directory for local development.
-- npm run serve - boots up a http-server and serves the demo directory.
+
+Steps | Command | Description
+---|---|---
+1 | npm run dev | Builds the code in development mode, this compiles component code and also sandbox usage code for easier testing during development. All source code is watched for changes and assets are re-built.
+2 | npm run serve | Boots a http server of the sandbox directory. Typically on http://localhost:8080. Run this in a separate terminal instance.
+3 | npm run lint | Pre-commit (optional step) for linting and enforcing code legiblity.
+4 | npm run dist | Generate library in ./dist directory, ready to be published/ consumed. Refer Usage section.

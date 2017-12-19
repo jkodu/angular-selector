@@ -1,4 +1,4 @@
-import './components/selector.pcss';
+import "./components/selector.pcss";
 export declare class AngularSelectorOnSteroids {
     constructor();
     init(debug?: boolean): any;

@@ -1,6 +1,6 @@
 {
     "name": "angular-selector-on-steroids",
-    "version": "13.2.0",
+    "version": "14.0.0",
     "description": "",
     "main": "dist/angular-selector-on-steroids.js",
     "types": "dist/index.d.ts",
@@ -12,9 +12,8 @@
         "dev::src": "shx rm -rf sandbox/dist && webpack --watch --watch-poll",
         "dev::sandbox": "cd ./sandbox && webpack --watch --watch-poll",
         "dev": "npm run dev::setup && npm run dev::src && npm run dev::sandbox",
-        "dev::prettier": "prettier --write \"src/**/*.ts\" \"sandbox/src/**/*.ts\"",
-        "dev::lint": "tslint 'src/**/*.ts' 'sandbox/src/**/*.ts'",
-        "lint": "npm run dev::lint && npm run dev::prettier",
+        "prettier": "prettier --write \"src/**/*.ts\" \"sandbox/src/**/*.ts\"",
+        "lint": "tslint 'src/**/*.ts' 'sandbox/src/**/*.ts'",
         "test": "npm run lint && karma start",
         "dist": "shx rm -rf dist && webpack",
         "serve": "http-server ./sandbox/dist",
@@ -64,7 +63,8 @@
         "uglify-es": "^3.1.5",
         "uglifyjs-webpack-plugin": "^1.0.0-rc.0",
         "webpack": "^3.5.6",
-        "webpack-build-notifier": "^0.1.13"
+        "webpack-build-notifier": "^0.1.13",
+        "webpack-dev-server": "^2.9.7"
     },
     "dependencies": {
         "angular": "^1.6.6",

@@ -18,15 +18,6 @@ import {
   ex_change_options_dynamically,
   ex_create_custom_options,
   ex_create_custom_options_using_promise
-
-
-
-
-
-
-
-  
-
 } from './examples';
 
 import {
@@ -45,8 +36,9 @@ import {
   old_ex_create_custom_options_using_promise
 } from './oldExamples';
 
-import * as sos from '../dist/angular-selector-on-steroids';
-new sos.AngularSelectorOnSteroids().init(true);
+
+// import * as sos from '../dist/angular-selector-on-steroids';
+// new sos.AngularSelectorOnSteroids().init(true);
 // import AngularSelectorOnSteroids from '../src/index';
 // new AngularSelectorOnSteroids().init();
 
