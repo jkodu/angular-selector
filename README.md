@@ -70,7 +70,6 @@ const app = angular.module('MyApp', ['selectorOnSteroids']);
 Parameter | Type | Default | Description
 ---|---|---|---
 steroids | `Boolean` | `false` | Enable/disable the get performance boost in rendering and data marshalling.
-
 model | `Property` | | Two-way binding property that models the `select` view.
 name | `String` | | Input name attribute.
 disable | `Boolean` | `false` | Enable/disable the select. Note the name is `disable` not `disabled` to avoid collisions with the HTML5 disabled attribute.
