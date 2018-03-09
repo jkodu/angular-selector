@@ -26,14 +26,14 @@ The [angular-selector](https://npmjs.org/package/angular-selector) although a we
 - Just [AngularJS](https://angularjs.org/)!
 - Other dependencies are bundled into the UMD module.
 
-### Features 
+### Features
 - The feature set remains the same as the forked component, please refer original documentation [here](https://github.com/indrimuska/angular-selector).
 - The extra added feature is called *steroids*. To enable better rendering and performance boost, set **steroids=true** in the configuration object.
 - 100% fallback (reverse compatible) to orignial component logic, by setting a boolean values  **steroids=false** the older way of rendering and non-performance component can be used.
 
 ### Limitations
-- As the template generation & DOM Manipulation logic was moved [virtual-dom](https://www.npmjs.com/package/virtual-dom) and [hyperx](https://www.npmjs.com/package/hyperx) the current generated template abides by label & value attribute passed for binding interpolation. 
-- For any complex dropdown or view item template a JSON structure of the object is shown. Kindly fallback to non-steroids version  **steroids=false** if you need custom and complex template logic. 
+- As the template generation & DOM Manipulation logic was moved [virtual-dom](https://www.npmjs.com/package/virtual-dom) and [hyperx](https://www.npmjs.com/package/hyperx) the current generated template abides by label & value attribute passed for binding interpolation.
+- For any complex dropdown or view item template a JSON structure of the object is shown. Kindly fallback to non-steroids version  **steroids=false** if you need custom and complex template logic.
 
 ### Examples
 - I have extended the example to a comparitive example of previous (**steroids=false**) vs new (**steroids=true**) implementation, to highlight difference in performance.
@@ -54,12 +54,12 @@ const app = angular.module('MyApp', ['selectorOnSteroids']);
 ```
 
 ```html
-<select 
+<select
     selector-on-steroids
-    steroids="true"    
-    model="selectedObj" 
-    options="arrayOfOptions" 
-    value-attr="code" 
+    steroids="true"
+    model="selectedObj"
+    options="arrayOfOptions"
+    value-attr="code"
     >
 </select>
 ```
@@ -115,7 +115,7 @@ Licensed under the MIT license.
 Steps | Command | Description
 ---|---|---
 1 | npm run setup | Installs all dependencies `node_modules` etc., that are necessary for building the project.
-2 | npm run dev | Builds the code in development mode, this compiles component code and also sandbox code. All source code is watched for changes and assets are re-built. Run this in a separate terminal instance.
+2 | npm run dev | Builds the code in development mode, this compiles component code and also sandbox  code. All source code is watched for changes and assets are re-built. Run this in a separate terminal instance.
 3 | npm run sandbox | Compiles sandbox usage code for sandbox testing the library/ module. All source code is watched for changes and assets are re-built. Run this in a separate terminal instance.
 4 | npm run serve | Boots a http server of the sandbox directory. Typically on http://localhost:8080. Run this in a separate terminal instance.
 5 | npm run prettier | Optional & Opinionated pretti-fying of code.
