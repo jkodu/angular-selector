@@ -7,7 +7,7 @@
 		exports["AngularSelectorOnSteroids"] = factory();
 	else
 		root["AngularSelectorOnSteroids"] = factory();
-})(this, function() {
+})(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -80,9 +80,9 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 var root_1 = __webpack_require__(2);
-var toSubscriber_1 = __webpack_require__(43);
+var toSubscriber_1 = __webpack_require__(42);
 var observable_1 = __webpack_require__(21);
-var pipe_1 = __webpack_require__(46);
+var pipe_1 = __webpack_require__(45);
 /**
  * A representation of any set of values over any amount of time. This is the most basic building block
  * of RxJS.
@@ -237,7 +237,7 @@ var Observable = (function () {
             operator.call(sink, this.source);
         }
         else {
-            sink.add(this.source ? this._subscribe(sink) : this._trySubscribe(sink));
+            sink.add(this.source || !sink.syncErrorThrowable ? this._subscribe(sink) : this._trySubscribe(sink));
         }
         if (sink.syncErrorThrowable) {
             sink.syncErrorThrowable = false;
@@ -473,6 +473,7 @@ var Subscriber = (function (_super) {
                 }
                 if (typeof destinationOrNext === 'object') {
                     if (destinationOrNext instanceof Subscriber) {
+                        this.syncErrorThrowable = destinationOrNext.syncErrorThrowable;
                         this.destination = destinationOrNext;
                         this.destination.add(this);
                     }
@@ -806,12 +807,12 @@ module.exports = g;
 
 "use strict";
 
-var isArray_1 = __webpack_require__(44);
+var isArray_1 = __webpack_require__(43);
 var isObject_1 = __webpack_require__(18);
 var isFunction_1 = __webpack_require__(12);
 var tryCatch_1 = __webpack_require__(19);
 var errorObject_1 = __webpack_require__(13);
-var UnsubscriptionError_1 = __webpack_require__(45);
+var UnsubscriptionError_1 = __webpack_require__(44);
 /**
  * Represents a disposable resource, such as the execution of an Observable. A
  * Subscription has one important method, `unsubscribe`, that takes no argument
@@ -1081,7 +1082,7 @@ exports.$$rxSubscriber = exports.rxSubscriber;
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var merge_1 = __webpack_require__(48);
+var merge_1 = __webpack_require__(47);
 Observable_1.Observable.merge = merge_1.merge;
 //# sourceMappingURL=merge.js.map
 
@@ -1092,7 +1093,7 @@ Observable_1.Observable.merge = merge_1.merge;
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var fromEvent_1 = __webpack_require__(61);
+var fromEvent_1 = __webpack_require__(59);
 Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
 //# sourceMappingURL=fromEvent.js.map
 
@@ -1199,111 +1200,6 @@ exports.$$observable = exports.observable;
 
 "use strict";
 
-var Observable_1 = __webpack_require__(0);
-var ArrayObservable_1 = __webpack_require__(50);
-var mergeAll_1 = __webpack_require__(52);
-var isScheduler_1 = __webpack_require__(24);
-/* tslint:enable:max-line-length */
-function merge() {
-    var observables = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        observables[_i - 0] = arguments[_i];
-    }
-    return function (source) { return source.lift.call(mergeStatic.apply(void 0, [source].concat(observables))); };
-}
-exports.merge = merge;
-/* tslint:enable:max-line-length */
-/**
- * Creates an output Observable which concurrently emits all values from every
- * given input Observable.
- *
- * <span class="informal">Flattens multiple Observables together by blending
- * their values into one Observable.</span>
- *
- * <img src="./img/merge.png" width="100%">
- *
- * `merge` subscribes to each given input Observable (as arguments), and simply
- * forwards (without doing any transformation) all the values from all the input
- * Observables to the output Observable. The output Observable only completes
- * once all input Observables have completed. Any error delivered by an input
- * Observable will be immediately emitted on the output Observable.
- *
- * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var timer = Rx.Observable.interval(1000);
- * var clicksOrTimer = Rx.Observable.merge(clicks, timer);
- * clicksOrTimer.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // timer will emit ascending values, one every second(1000ms) to console
- * // clicks logs MouseEvents to console everytime the "document" is clicked
- * // Since the two streams are merged you see these happening
- * // as they occur.
- *
- * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
- * var timer1 = Rx.Observable.interval(1000).take(10);
- * var timer2 = Rx.Observable.interval(2000).take(6);
- * var timer3 = Rx.Observable.interval(500).take(10);
- * var concurrent = 2; // the argument
- * var merged = Rx.Observable.merge(timer1, timer2, timer3, concurrent);
- * merged.subscribe(x => console.log(x));
- *
- * // Results in the following:
- * // - First timer1 and timer2 will run concurrently
- * // - timer1 will emit a value every 1000ms for 10 iterations
- * // - timer2 will emit a value every 2000ms for 6 iterations
- * // - after timer1 hits it's max iteration, timer2 will
- * //   continue, and timer3 will start to run concurrently with timer2
- * // - when timer2 hits it's max iteration it terminates, and
- * //   timer3 will continue to emit a value every 500ms until it is complete
- *
- * @see {@link mergeAll}
- * @see {@link mergeMap}
- * @see {@link mergeMapTo}
- * @see {@link mergeScan}
- *
- * @param {...ObservableInput} observables Input Observables to merge together.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
- * Observables being subscribed to concurrently.
- * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
- * concurrency of input Observables.
- * @return {Observable} an Observable that emits items that are the result of
- * every input Observable.
- * @static true
- * @name merge
- * @owner Observable
- */
-function mergeStatic() {
-    var observables = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        observables[_i - 0] = arguments[_i];
-    }
-    var concurrent = Number.POSITIVE_INFINITY;
-    var scheduler = null;
-    var last = observables[observables.length - 1];
-    if (isScheduler_1.isScheduler(last)) {
-        scheduler = observables.pop();
-        if (observables.length > 1 && typeof observables[observables.length - 1] === 'number') {
-            concurrent = observables.pop();
-        }
-    }
-    else if (typeof last === 'number') {
-        concurrent = observables.pop();
-    }
-    if (scheduler === null && observables.length === 1 && observables[0] instanceof Observable_1.Observable) {
-        return observables[0];
-    }
-    return mergeAll_1.mergeAll(concurrent)(new ArrayObservable_1.ArrayObservable(observables, scheduler));
-}
-exports.mergeStatic = mergeStatic;
-//# sourceMappingURL=merge.js.map
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -1386,7 +1282,7 @@ exports.EmptyObservable = EmptyObservable;
 //# sourceMappingURL=EmptyObservable.js.map
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1398,15 +1294,15 @@ exports.isScheduler = isScheduler;
 //# sourceMappingURL=isScheduler.js.map
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var diff = __webpack_require__(63)
-var patch = __webpack_require__(66)
-var h = __webpack_require__(72)
-var create = __webpack_require__(81)
-var VNode = __webpack_require__(32)
-var VText = __webpack_require__(33)
+var diff = __webpack_require__(61)
+var patch = __webpack_require__(64)
+var h = __webpack_require__(70)
+var create = __webpack_require__(79)
+var VNode = __webpack_require__(31)
+var VText = __webpack_require__(32)
 
 module.exports = {
     diff: diff,
@@ -1419,7 +1315,7 @@ module.exports = {
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var version = __webpack_require__(4)
@@ -1447,7 +1343,7 @@ VirtualPatch.prototype.type = "VirtualPatch"
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isVNode = __webpack_require__(5)
@@ -1493,7 +1389,7 @@ function renderThunk(thunk, previous) {
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1505,12 +1401,12 @@ module.exports = function isObject(x) {
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
-var minDoc = __webpack_require__(68);
+var minDoc = __webpack_require__(66);
 
 var doccy;
 
@@ -1529,17 +1425,17 @@ module.exports = doccy;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var document = __webpack_require__(29)
+var document = __webpack_require__(28)
 
-var applyProperties = __webpack_require__(31)
+var applyProperties = __webpack_require__(30)
 
 var isVNode = __webpack_require__(5)
 var isVText = __webpack_require__(9)
 var isWidget = __webpack_require__(1)
-var handleThunk = __webpack_require__(27)
+var handleThunk = __webpack_require__(26)
 
 module.exports = createElement
 
@@ -1581,10 +1477,10 @@ function createElement(vnode, opts) {
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(28)
+var isObject = __webpack_require__(27)
 var isHook = __webpack_require__(11)
 
 module.exports = applyProperties
@@ -1684,7 +1580,7 @@ function getPrototype(value) {
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var version = __webpack_require__(4)
@@ -1762,7 +1658,7 @@ VirtualNode.prototype.type = "VirtualNode"
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var version = __webpack_require__(4)
@@ -1778,10 +1674,10 @@ VirtualText.prototype.type = "VirtualText"
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var attrToProp = __webpack_require__(82)
+var attrToProp = __webpack_require__(80)
 
 var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
 var ATTR_KEY = 5, ATTR_KEY_W = 6
@@ -1955,6 +1851,8 @@ module.exports = function (h, opts) {
           state = COMMENT
         } else if (state === TEXT || state === COMMENT) {
           reg += c
+        } else if (state === OPEN && c === '/' && reg.length) {
+          // no-op, self closing tag without a space <br/>
         } else if (state === OPEN && /\s/.test(c)) {
           res.push([OPEN, reg])
           reg = ''
@@ -2065,7 +1963,7 @@ function selfClosing (tag) { return closeRE.test(tag) }
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2076,14 +1974,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Init = undefined;
 
-var _selector = __webpack_require__(36);
+var _selector = __webpack_require__(35);
 
 var Init = exports.Init = function Init(debug) {
     return new _selector.AngularSelectorOnSteroids().BootUp(debug);
 };
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2096,17 +1994,17 @@ exports.AngularSelectorOnSteroids = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-__webpack_require__(37);
+__webpack_require__(36);
 
 var _selector = __webpack_require__(6);
 
-var _selectorDropdownItems = __webpack_require__(42);
+var _selectorDropdownItems = __webpack_require__(41);
 
-var _selectorSelectedItems = __webpack_require__(83);
+var _selectorSelectedItems = __webpack_require__(81);
 
-var _selector2 = __webpack_require__(84);
+var _selector2 = __webpack_require__(82);
 
-var _selectorInstanceManager = __webpack_require__(99);
+var _selectorInstanceManager = __webpack_require__(97);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2137,13 +2035,13 @@ var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () 
 }();
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(38);
+var content = __webpack_require__(37);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -2151,7 +2049,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(40)(content, options);
+var update = __webpack_require__(39)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2168,21 +2066,21 @@ if(false) {
 }
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(39)(undefined);
+exports = module.exports = __webpack_require__(38)(false);
 // imports
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n@keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n[selector] {\r\n    display: none;\r\n}\r\n\r\n.selector {\r\n    display: none;\r\n}\r\n\r\n.selector-container {\r\n    display: block;\r\n    position: relative;\r\n    font-size: 1em;\r\n    line-height: normal;\r\n    color: #495c68;\r\n    //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n}\r\n\r\n.selector-container input {\r\n        font-size: 1em;\r\n        line-height: normal;\r\n        color: #495c68;\r\n        //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n        outline: none;\r\n        background: none !important;\r\n        border-color: transparent !important;\r\n        display: inline-block;\r\n        cursor: pointer;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        display: inline;\r\n    }\r\n\r\n.selector-container.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.rtl .selector-helper {\r\n            right: inherit;\r\n            left: 0;\r\n        }\r\n\r\n.selector-container .selector-values {\r\n        list-style: none;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        float: left;\r\n    }\r\n\r\n.selector-container .selector-values >li,\r\n        .selector-container .selector-values >div li {\r\n            padding: 0;\r\n            margin: 0;\r\n            border: 0;\r\n            display: inline;\r\n        }\r\n\r\n.selector-container .selector-values >li >div, .selector-container .selector-values >div li >div {\r\n                padding: 0;\r\n                margin: 0;\r\n                border: 0;\r\n                display: inline;\r\n            }\r\n\r\n.selector-container.open input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.open .selector-input {\r\n            background: none;\r\n            border-bottom-color: #eee;\r\n            padding-right: 2.6em;\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px 4px 0 0;\r\n        }\r\n\r\n.selector-container.open .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.open .selector-dropdown {\r\n            display: block;\r\n        }\r\n\r\n.selector-container.open.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.open.empty .selector-input {\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px;\r\n            border-bottom-color: #bbb;\r\n        }\r\n\r\n.selector-container.has-value input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.has-value.remove-button .selector-helper {\r\n                border-left: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon:after {\r\n                    content: '\\D7';\r\n                    display: table-cell;\r\n                    position: relative;\r\n                    top: 0;\r\n                    left: 0;\r\n                    margin: 0;\r\n                    border: none;\r\n                    height: 100%;\r\n                    text-align: center;\r\n                    vertical-align: middle;\r\n                }\r\n\r\n.selector-container.has-value.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.disabled {\r\n        opacity: .6;\r\n    }\r\n\r\n.selector-container.multiple input {\r\n            float: left;\r\n            padding: .2em .6em;\r\n            margin: 0 .15em .25em;\r\n            border-width: 1px;\r\n            border-style: solid;\r\n            float: left;\r\n            line-height: normal;\r\n        }\r\n\r\n.selector-container.multiple .selector-values {\r\n            float: left; \r\n            margin-right: 8px;\r\n        }\r\n\r\n.selector-container.multiple .selector-values >li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple .selector-values >div li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple.rtl input {\r\n                float: right;\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values {\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values >li,\r\n                .selector-container.multiple.rtl .selector-values >div li {\r\n                    float: right;\r\n                }\r\n\r\n.selector-container.multiple.rtl.remove-button .selector-values>li, \r\n            .selector-container.multiple.rtl.remove-button .selector-values>div li, \r\n            .selector-container.multiple.rtl  {\r\n                padding-right: .6em;\r\n                padding-left: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple .selector-input {\r\n            padding: .5em .55em .2em .55em !important;\r\n            cursor: text;\r\n            background: #fff;\r\n            //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);\r\n        }\r\n\r\n.selector-container.multiple.remove-button .selector-helper {\r\n                display: block;\r\n                width: 1.3em;\r\n                border-left: 1px solid #0987d6;\r\n                cursor: pointer;\r\n            }\r\n\r\n.selector-container.multiple.remove-button .selector-helper:hover {\r\n                    background: rgba(0, 0, 0, .1);\r\n                }\r\n\r\n.selector-container.multiple.remove-button .selector-values>li,\r\n            .selector-container.multiple.remove-button .selector-values>div li {\r\n                padding-right: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #0987d6;\r\n            }\r\n\r\n.selector-container.multiple .selector-helper {\r\n            display: none;\r\n        }\r\n\r\n.selector-container.multiple.loading .selector-input {\r\n                padding-right: 3em !important;\r\n            }\r\n\r\n.selector-container.multiple.loading .selector-global-helper {\r\n                margin: .75em .8em;\r\n                border-left: none;\r\n                border-right: none;\r\n            }\r\n\r\n.selector-container.multiple.loading.rtl .selector-input {\r\n                    padding-right: .55em !important;\r\n                    padding-left: 3em !important;\r\n                }\r\n\r\n.selector-container.multiple.loading.rtl.has-value .selector-input {\r\n                    padding-right: .25em !important;\r\n                }\r\n\r\n.selector-container.multiple.has-value .selector-input {\r\n            padding-left: .35em !important;\r\n            padding-right: .35em !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon:after {\r\n                    content: '';\r\n                    width: 100%;\r\n                    height: 100%;\r\n                    margin: 0;\r\n                    top: 0;\r\n                    left: 0;\r\n                    opacity: .5;\r\n                    border-top: 1px solid #545a6a;\r\n                    border-bottom: 1px solid #d4d4db;\r\n                    border-left: 1px solid #545a6a;\r\n                    border-right: 1px solid #d4d4db;\r\n                    -webkit-animation: selector-rotate .5s linear infinite;\r\n                            animation: selector-rotate .5s linear infinite;\r\n                    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                    border-radius: 100%;\r\n                }\r\n\r\n.selector-container.loading .selector-helper.selector-global-helper {\r\n            width: 1.3em;\r\n            height: 1.3em;\r\n            margin: .65em .7em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value .selector-input {\r\n            padding-right: 3.5em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 3.5em;\r\n        }\r\n\r\n.selector-input {\r\n    display: block;\r\n    margin: 0;\r\n    position: relative;\r\n    width: 100%;\r\n    padding: .8em 2.6em .7em .7em;\r\n    overflow: hidden;\r\n    cursor: pointer;\r\n    border: 1px solid #bbb;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 0 rgba(0, 0, 0, .05), inset 0 1px 0 rgba(255, 255, 255, .8);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 4px;\r\n    font-weight: inherit;\r\n    background-color: #f9f9f9;\r\n    background-image: linear-gradient(#fafafa, #eee);\r\n}\r\n\r\n.selector-input input {\r\n        padding-left: 0 !important;\r\n        padding-right: 0 !important;\r\n        border-left: 0 !important;\r\n        border-right: 0 !important;\r\n        max-width: 100% !important;\r\n    }\r\n\r\n.selector-helper {\r\n    position: absolute;\r\n    display: block;\r\n    width: 2.6em;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n}\r\n\r\n.selector-helper .selector-icon {\r\n        display: block;\r\n        position: relative;\r\n        height: 100%;\r\n    }\r\n\r\n.selector-helper .selector-icon:after {\r\n            content: '';\r\n            display: block;\r\n            position: absolute;\r\n            top: 50%;\r\n            left: 50%;\r\n            margin-top: -.1em;\r\n            margin-left: -.4em;\r\n            width: 0;\r\n            height: 0;\r\n            border: .4em solid #888;\r\n            border-left-color: transparent;\r\n            border-right-color: transparent;\r\n            border-bottom: none;\r\n        }\r\n\r\n.selector-shadow {\r\n    padding-left: 0 !important;\r\n    padding-right: 0 !important;\r\n    border-left: 0 !important;\r\n    border-right: 0 !important;\r\n    max-width: 100% !important;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    white-space: pre;\r\n    margin: 0;\r\n}\r\n\r\n.selector-dropdown {\r\n    display: none;\r\n    list-style: none;\r\n    padding: 0 !important;\r\n    margin: 0 !important;\r\n    position: absolute;\r\n    z-index: 1;\r\n    background: #fff;\r\n    border: 1px solid #ccc;\r\n    border-top: 0;\r\n    max-height: 15.5em;\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n    z-index: 1000;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 0 0 3px 3px;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    \r\n}\r\n\r\n.selector-dropdown >li,\r\n    .selector-dropdown >div li {\r\n        padding: .65em .8em;\r\n        overflow: hidden;\r\n        cursor: pointer;\r\n    }\r\n\r\n.selector-dropdown .selector-optgroup {\r\n        background: #fefefe;\r\n        border-top: 1px solid #eee;\r\n        border-bottom: 1px solid #eee;\r\n    }\r\n\r\n.selector-dropdown .selector-option:hover {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.grouped {\r\n            padding-left: 1.6em;\r\n        }\r\n\r\n.selector-dropdown .selector-option.active {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.no-data{\r\n\r\n        }\r\n\r\n.selector-dropdown .selector-option.loading{\r\n            \r\n        }\r\n\r\n.selector-dropdown .selector-option.create {\r\n            color: rgba(73, 92, 104, .6);\r\n        }\r\n\r\n.selector-dropdown .selector-option.create.active {\r\n                color: #495c68;\r\n            }", ""]);
+exports.push([module.i, "@keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n[selector] {\r\n    display: none;\r\n}\r\n\r\n.selector {\r\n    display: none;\r\n}\r\n\r\n.selector-container {\r\n    display: block;\r\n    position: relative;\r\n    font-size: 1em;\r\n    line-height: normal;\r\n    color: #495c68;\r\n    //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n}\r\n\r\n.selector-container input {\r\n        font-size: 1em;\r\n        line-height: normal;\r\n        color: #495c68;\r\n        //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n        outline: none;\r\n        background: none !important;\r\n        border-color: transparent !important;\r\n        display: inline-block;\r\n        cursor: pointer;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        display: inline;\r\n    }\r\n\r\n.selector-container.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.rtl .selector-helper {\r\n            right: inherit;\r\n            left: 0;\r\n        }\r\n\r\n.selector-container .selector-values {\r\n        list-style: none;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        float: left;\r\n    }\r\n\r\n.selector-container .selector-values >li,\r\n        .selector-container .selector-values >div li {\r\n            padding: 0;\r\n            margin: 0;\r\n            border: 0;\r\n            display: inline;\r\n        }\r\n\r\n.selector-container .selector-values >li >div, .selector-container .selector-values >div li >div {\r\n                padding: 0;\r\n                margin: 0;\r\n                border: 0;\r\n                display: inline;\r\n            }\r\n\r\n.selector-container.open input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.open .selector-input {\r\n            background: none;\r\n            border-bottom-color: #eee;\r\n            padding-right: 2.6em;\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px 4px 0 0;\r\n        }\r\n\r\n.selector-container.open .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.open .selector-dropdown {\r\n            display: block;\r\n        }\r\n\r\n.selector-container.open.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.open.empty .selector-input {\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px;\r\n            border-bottom-color: #bbb;\r\n        }\r\n\r\n.selector-container.has-value input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.has-value.remove-button .selector-helper {\r\n                border-left: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon:after {\r\n                    content: '\\D7';\r\n                    display: table-cell;\r\n                    position: relative;\r\n                    top: 0;\r\n                    left: 0;\r\n                    margin: 0;\r\n                    border: none;\r\n                    height: 100%;\r\n                    text-align: center;\r\n                    vertical-align: middle;\r\n                }\r\n\r\n.selector-container.has-value.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.disabled {\r\n        opacity: .6;\r\n    }\r\n\r\n.selector-container.multiple input {\r\n            float: left;\r\n            padding: .2em .6em;\r\n            margin: 0 .15em .25em;\r\n            border-width: 1px;\r\n            border-style: solid;\r\n            float: left;\r\n            line-height: normal;\r\n        }\r\n\r\n.selector-container.multiple .selector-values {\r\n            float: left; \r\n            margin-right: 8px;\r\n        }\r\n\r\n.selector-container.multiple .selector-values >li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple .selector-values >div li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple.rtl input {\r\n                float: right;\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values {\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values >li,\r\n                .selector-container.multiple.rtl .selector-values >div li {\r\n                    float: right;\r\n                }\r\n\r\n.selector-container.multiple.rtl.remove-button .selector-values>li, \r\n            .selector-container.multiple.rtl.remove-button .selector-values>div li, \r\n            .selector-container.multiple.rtl  {\r\n                padding-right: .6em;\r\n                padding-left: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple .selector-input {\r\n            padding: .5em .55em .2em .55em !important;\r\n            cursor: text;\r\n            background: #fff;\r\n            //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);\r\n        }\r\n\r\n.selector-container.multiple.remove-button .selector-helper {\r\n                display: block;\r\n                width: 1.3em;\r\n                border-left: 1px solid #0987d6;\r\n                cursor: pointer;\r\n            }\r\n\r\n.selector-container.multiple.remove-button .selector-helper:hover {\r\n                    background: rgba(0, 0, 0, .1);\r\n                }\r\n\r\n.selector-container.multiple.remove-button .selector-values>li,\r\n            .selector-container.multiple.remove-button .selector-values>div li {\r\n                padding-right: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #0987d6;\r\n            }\r\n\r\n.selector-container.multiple .selector-helper {\r\n            display: none;\r\n        }\r\n\r\n.selector-container.multiple.loading .selector-input {\r\n                padding-right: 3em !important;\r\n            }\r\n\r\n.selector-container.multiple.loading .selector-global-helper {\r\n                margin: .75em .8em;\r\n                border-left: none;\r\n                border-right: none;\r\n            }\r\n\r\n.selector-container.multiple.loading.rtl .selector-input {\r\n                    padding-right: .55em !important;\r\n                    padding-left: 3em !important;\r\n                }\r\n\r\n.selector-container.multiple.loading.rtl.has-value .selector-input {\r\n                    padding-right: .25em !important;\r\n                }\r\n\r\n.selector-container.multiple.has-value .selector-input {\r\n            padding-left: .35em !important;\r\n            padding-right: .35em !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon:after {\r\n                    content: '';\r\n                    width: 100%;\r\n                    height: 100%;\r\n                    margin: 0;\r\n                    top: 0;\r\n                    left: 0;\r\n                    opacity: .5;\r\n                    border-top: 1px solid #545a6a;\r\n                    border-bottom: 1px solid #d4d4db;\r\n                    border-left: 1px solid #545a6a;\r\n                    border-right: 1px solid #d4d4db;\r\n                    animation: selector-rotate .5s linear infinite;\r\n                    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                    border-radius: 100%;\r\n                }\r\n\r\n.selector-container.loading .selector-helper.selector-global-helper {\r\n            width: 1.3em;\r\n            height: 1.3em;\r\n            margin: .65em .7em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value .selector-input {\r\n            padding-right: 3.5em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 3.5em;\r\n        }\r\n\r\n.selector-input {\r\n    display: block;\r\n    margin: 0;\r\n    position: relative;\r\n    width: 100%;\r\n    padding: .8em 2.6em .7em .7em;\r\n    overflow: hidden;\r\n    cursor: pointer;\r\n    border: 1px solid #bbb;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 0 rgba(0, 0, 0, .05), inset 0 1px 0 rgba(255, 255, 255, .8);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 4px;\r\n    font-weight: inherit;\r\n    background-color: #f9f9f9;\r\n    background-image: linear-gradient(#fafafa, #eee);\r\n}\r\n\r\n.selector-input input {\r\n        padding-left: 0 !important;\r\n        padding-right: 0 !important;\r\n        border-left: 0 !important;\r\n        border-right: 0 !important;\r\n        max-width: 100% !important;\r\n    }\r\n\r\n.selector-helper {\r\n    position: absolute;\r\n    display: block;\r\n    width: 2.6em;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n}\r\n\r\n.selector-helper .selector-icon {\r\n        display: block;\r\n        position: relative;\r\n        height: 100%;\r\n    }\r\n\r\n.selector-helper .selector-icon:after {\r\n            content: '';\r\n            display: block;\r\n            position: absolute;\r\n            top: 50%;\r\n            left: 50%;\r\n            margin-top: -.1em;\r\n            margin-left: -.4em;\r\n            width: 0;\r\n            height: 0;\r\n            border: .4em solid #888;\r\n            border-left-color: transparent;\r\n            border-right-color: transparent;\r\n            border-bottom: none;\r\n        }\r\n\r\n.selector-shadow {\r\n    padding-left: 0 !important;\r\n    padding-right: 0 !important;\r\n    border-left: 0 !important;\r\n    border-right: 0 !important;\r\n    max-width: 100% !important;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    white-space: pre;\r\n    margin: 0;\r\n}\r\n\r\n.selector-dropdown {\r\n    display: none;\r\n    list-style: none;\r\n    padding: 0 !important;\r\n    margin: 0 !important;\r\n    position: absolute;\r\n    z-index: 1;\r\n    background: #fff;\r\n    border: 1px solid #ccc;\r\n    border-top: 0;\r\n    max-height: 15.5em;\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n    z-index: 1000;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 0 0 3px 3px;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    \r\n}\r\n\r\n.selector-dropdown >li,\r\n    .selector-dropdown >div li {\r\n        padding: .65em .8em;\r\n        overflow: hidden;\r\n        cursor: pointer;\r\n    }\r\n\r\n.selector-dropdown .selector-optgroup {\r\n        background: #fefefe;\r\n        border-top: 1px solid #eee;\r\n        border-bottom: 1px solid #eee;\r\n    }\r\n\r\n.selector-dropdown .selector-option:hover {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.grouped {\r\n            padding-left: 1.6em;\r\n        }\r\n\r\n.selector-dropdown .selector-option.active {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.no-data{\r\n\r\n        }\r\n\r\n.selector-dropdown .selector-option.loading{\r\n            \r\n        }\r\n\r\n.selector-dropdown .selector-option.create {\r\n            color: rgba(73, 92, 104, .6);\r\n        }\r\n\r\n.selector-dropdown .selector-option.create.active {\r\n                color: #495c68;\r\n            }", ""]);
 
 // exports
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports) {
 
 /*
@@ -2264,7 +2162,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -2310,7 +2208,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(41);
+var	fixUrls = __webpack_require__(40);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -2623,7 +2521,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports) {
 
 
@@ -2718,7 +2616,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2748,7 +2646,7 @@ __webpack_require__(16);
 
 var _selector = __webpack_require__(6);
 
-var _virtualDom = __webpack_require__(25);
+var _virtualDom = __webpack_require__(24);
 
 var vdom = _interopRequireWildcard(_virtualDom);
 
@@ -2758,7 +2656,7 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var hyperx = __webpack_require__(34);
+var hyperx = __webpack_require__(33);
 
 var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = function () {
     function SelectorDropdownItemsComponent($log, $timeout, debug) {
@@ -2907,7 +2805,7 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
 }();
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2933,7 +2831,7 @@ exports.toSubscriber = toSubscriber;
 //# sourceMappingURL=toSubscriber.js.map
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2942,7 +2840,7 @@ exports.isArray = Array.isArray || (function (x) { return x && typeof x.length =
 //# sourceMappingURL=isArray.js.map
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2973,12 +2871,12 @@ exports.UnsubscriptionError = UnsubscriptionError;
 //# sourceMappingURL=UnsubscriptionError.js.map
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var noop_1 = __webpack_require__(47);
+var noop_1 = __webpack_require__(46);
 /* tslint:enable:max-line-length */
 function pipe() {
     var fns = [];
@@ -3004,7 +2902,7 @@ exports.pipeFromArray = pipeFromArray;
 //# sourceMappingURL=pipe.js.map
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3015,24 +2913,15 @@ exports.noop = noop;
 //# sourceMappingURL=noop.js.map
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var merge_1 = __webpack_require__(49);
-exports.merge = merge_1.mergeStatic;
-//# sourceMappingURL=merge.js.map
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var merge_1 = __webpack_require__(22);
-var merge_2 = __webpack_require__(22);
-exports.mergeStatic = merge_2.mergeStatic;
+var Observable_1 = __webpack_require__(0);
+var ArrayObservable_1 = __webpack_require__(48);
+var isScheduler_1 = __webpack_require__(23);
+var mergeAll_1 = __webpack_require__(50);
 /* tslint:enable:max-line-length */
 /**
  * Creates an output Observable which concurrently emits all values from every
@@ -3043,41 +2932,55 @@ exports.mergeStatic = merge_2.mergeStatic;
  *
  * <img src="./img/merge.png" width="100%">
  *
- * `merge` subscribes to each given input Observable (either the source or an
- * Observable given as argument), and simply forwards (without doing any
- * transformation) all the values from all the input Observables to the output
- * Observable. The output Observable only completes once all input Observables
- * have completed. Any error delivered by an input Observable will be immediately
- * emitted on the output Observable.
+ * `merge` subscribes to each given input Observable (as arguments), and simply
+ * forwards (without doing any transformation) all the values from all the input
+ * Observables to the output Observable. The output Observable only completes
+ * once all input Observables have completed. Any error delivered by an input
+ * Observable will be immediately emitted on the output Observable.
  *
  * @example <caption>Merge together two Observables: 1s interval and clicks</caption>
  * var clicks = Rx.Observable.fromEvent(document, 'click');
  * var timer = Rx.Observable.interval(1000);
- * var clicksOrTimer = clicks.merge(timer);
+ * var clicksOrTimer = Rx.Observable.merge(clicks, timer);
  * clicksOrTimer.subscribe(x => console.log(x));
+ *
+ * // Results in the following:
+ * // timer will emit ascending values, one every second(1000ms) to console
+ * // clicks logs MouseEvents to console everytime the "document" is clicked
+ * // Since the two streams are merged you see these happening
+ * // as they occur.
  *
  * @example <caption>Merge together 3 Observables, but only 2 run concurrently</caption>
  * var timer1 = Rx.Observable.interval(1000).take(10);
  * var timer2 = Rx.Observable.interval(2000).take(6);
  * var timer3 = Rx.Observable.interval(500).take(10);
  * var concurrent = 2; // the argument
- * var merged = timer1.merge(timer2, timer3, concurrent);
+ * var merged = Rx.Observable.merge(timer1, timer2, timer3, concurrent);
  * merged.subscribe(x => console.log(x));
+ *
+ * // Results in the following:
+ * // - First timer1 and timer2 will run concurrently
+ * // - timer1 will emit a value every 1000ms for 10 iterations
+ * // - timer2 will emit a value every 2000ms for 6 iterations
+ * // - after timer1 hits it's max iteration, timer2 will
+ * //   continue, and timer3 will start to run concurrently with timer2
+ * // - when timer2 hits it's max iteration it terminates, and
+ * //   timer3 will continue to emit a value every 500ms until it is complete
  *
  * @see {@link mergeAll}
  * @see {@link mergeMap}
  * @see {@link mergeMapTo}
  * @see {@link mergeScan}
  *
- * @param {ObservableInput} other An input Observable to merge with the source
- * Observable. More than one input Observables may be given as argument.
+ * @param {...ObservableInput} observables Input Observables to merge together.
  * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of input
  * Observables being subscribed to concurrently.
  * @param {Scheduler} [scheduler=null] The IScheduler to use for managing
  * concurrency of input Observables.
- * @return {Observable} An Observable that emits items that are the result of
+ * @return {Observable} an Observable that emits items that are the result of
  * every input Observable.
- * @method merge
+ * @static true
+ * @name merge
  * @owner Observable
  */
 function merge() {
@@ -3085,13 +2988,28 @@ function merge() {
     for (var _i = 0; _i < arguments.length; _i++) {
         observables[_i - 0] = arguments[_i];
     }
-    return merge_1.merge.apply(void 0, observables)(this);
+    var concurrent = Number.POSITIVE_INFINITY;
+    var scheduler = null;
+    var last = observables[observables.length - 1];
+    if (isScheduler_1.isScheduler(last)) {
+        scheduler = observables.pop();
+        if (observables.length > 1 && typeof observables[observables.length - 1] === 'number') {
+            concurrent = observables.pop();
+        }
+    }
+    else if (typeof last === 'number') {
+        concurrent = observables.pop();
+    }
+    if (scheduler === null && observables.length === 1 && observables[0] instanceof Observable_1.Observable) {
+        return observables[0];
+    }
+    return mergeAll_1.mergeAll(concurrent)(new ArrayObservable_1.ArrayObservable(observables, scheduler));
 }
 exports.merge = merge;
 //# sourceMappingURL=merge.js.map
 
 /***/ }),
-/* 50 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3102,9 +3020,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Observable_1 = __webpack_require__(0);
-var ScalarObservable_1 = __webpack_require__(51);
-var EmptyObservable_1 = __webpack_require__(23);
-var isScheduler_1 = __webpack_require__(24);
+var ScalarObservable_1 = __webpack_require__(49);
+var EmptyObservable_1 = __webpack_require__(22);
+var isScheduler_1 = __webpack_require__(23);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @extends {Ignored}
@@ -3219,7 +3137,7 @@ exports.ArrayObservable = ArrayObservable;
 //# sourceMappingURL=ArrayObservable.js.map
 
 /***/ }),
-/* 51 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3283,13 +3201,13 @@ exports.ScalarObservable = ScalarObservable;
 //# sourceMappingURL=ScalarObservable.js.map
 
 /***/ }),
-/* 52 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var mergeMap_1 = __webpack_require__(53);
-var identity_1 = __webpack_require__(60);
+var mergeMap_1 = __webpack_require__(51);
+var identity_1 = __webpack_require__(58);
 /**
  * Converts a higher-order Observable into a first-order Observable which
  * concurrently delivers all values that are emitted on the inner Observables.
@@ -3342,7 +3260,7 @@ exports.mergeAll = mergeAll;
 //# sourceMappingURL=mergeAll.js.map
 
 /***/ }),
-/* 53 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3352,8 +3270,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var subscribeToResult_1 = __webpack_require__(54);
-var OuterSubscriber_1 = __webpack_require__(59);
+var subscribeToResult_1 = __webpack_require__(52);
+var OuterSubscriber_1 = __webpack_require__(57);
 /* tslint:enable:max-line-length */
 /**
  * Projects each source value to an Observable which is merged in the output
@@ -3521,18 +3439,18 @@ exports.MergeMapSubscriber = MergeMapSubscriber;
 //# sourceMappingURL=mergeMap.js.map
 
 /***/ }),
-/* 54 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var root_1 = __webpack_require__(2);
-var isArrayLike_1 = __webpack_require__(55);
-var isPromise_1 = __webpack_require__(56);
+var isArrayLike_1 = __webpack_require__(53);
+var isPromise_1 = __webpack_require__(54);
 var isObject_1 = __webpack_require__(18);
 var Observable_1 = __webpack_require__(0);
-var iterator_1 = __webpack_require__(57);
-var InnerSubscriber_1 = __webpack_require__(58);
+var iterator_1 = __webpack_require__(55);
+var InnerSubscriber_1 = __webpack_require__(56);
 var observable_1 = __webpack_require__(21);
 function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
     var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
@@ -3606,7 +3524,7 @@ exports.subscribeToResult = subscribeToResult;
 //# sourceMappingURL=subscribeToResult.js.map
 
 /***/ }),
-/* 55 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3615,7 +3533,7 @@ exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; 
 //# sourceMappingURL=isArrayLike.js.map
 
 /***/ }),
-/* 56 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3627,7 +3545,7 @@ exports.isPromise = isPromise;
 //# sourceMappingURL=isPromise.js.map
 
 /***/ }),
-/* 57 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3671,7 +3589,7 @@ exports.$$iterator = exports.iterator;
 //# sourceMappingURL=iterator.js.map
 
 /***/ }),
-/* 58 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3713,7 +3631,7 @@ exports.InnerSubscriber = InnerSubscriber;
 //# sourceMappingURL=InnerSubscriber.js.map
 
 /***/ }),
-/* 59 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3749,7 +3667,7 @@ exports.OuterSubscriber = OuterSubscriber;
 //# sourceMappingURL=OuterSubscriber.js.map
 
 /***/ }),
-/* 60 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3761,17 +3679,17 @@ exports.identity = identity;
 //# sourceMappingURL=identity.js.map
 
 /***/ }),
-/* 61 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var FromEventObservable_1 = __webpack_require__(62);
+var FromEventObservable_1 = __webpack_require__(60);
 exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
 //# sourceMappingURL=fromEvent.js.map
 
 /***/ }),
-/* 62 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3993,28 +3911,28 @@ exports.FromEventObservable = FromEventObservable;
 //# sourceMappingURL=FromEventObservable.js.map
 
 /***/ }),
-/* 63 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var diff = __webpack_require__(64)
+var diff = __webpack_require__(62)
 
 module.exports = diff
 
 
 /***/ }),
-/* 64 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArray = __webpack_require__(17)
 
-var VPatch = __webpack_require__(26)
+var VPatch = __webpack_require__(25)
 var isVNode = __webpack_require__(5)
 var isVText = __webpack_require__(9)
 var isWidget = __webpack_require__(1)
 var isThunk = __webpack_require__(10)
-var handleThunk = __webpack_require__(27)
+var handleThunk = __webpack_require__(26)
 
-var diffProps = __webpack_require__(65)
+var diffProps = __webpack_require__(63)
 
 module.exports = diff
 
@@ -4435,10 +4353,10 @@ function appendPatch(apply, patch) {
 
 
 /***/ }),
-/* 65 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(28)
+var isObject = __webpack_require__(27)
 var isHook = __webpack_require__(11)
 
 module.exports = diffProps
@@ -4499,24 +4417,24 @@ function getPrototype(value) {
 
 
 /***/ }),
-/* 66 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var patch = __webpack_require__(67)
+var patch = __webpack_require__(65)
 
 module.exports = patch
 
 
 /***/ }),
-/* 67 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var document = __webpack_require__(29)
+var document = __webpack_require__(28)
 var isArray = __webpack_require__(17)
 
-var render = __webpack_require__(30)
-var domIndex = __webpack_require__(69)
-var patchOp = __webpack_require__(70)
+var render = __webpack_require__(29)
+var domIndex = __webpack_require__(67)
+var patchOp = __webpack_require__(68)
 module.exports = patch
 
 function patch(rootNode, patches, renderOptions) {
@@ -4594,13 +4512,13 @@ function patchIndices(patches) {
 
 
 /***/ }),
-/* 68 */
+/* 66 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 69 */
+/* 67 */
 /***/ (function(module, exports) {
 
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
@@ -4691,15 +4609,15 @@ function ascending(a, b) {
 
 
 /***/ }),
-/* 70 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var applyProperties = __webpack_require__(31)
+var applyProperties = __webpack_require__(30)
 
 var isWidget = __webpack_require__(1)
-var VPatch = __webpack_require__(26)
+var VPatch = __webpack_require__(25)
 
-var updateWidget = __webpack_require__(71)
+var updateWidget = __webpack_require__(69)
 
 module.exports = applyPatch
 
@@ -4848,7 +4766,7 @@ function replaceRoot(oldRoot, newRoot) {
 
 
 /***/ }),
-/* 71 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isWidget = __webpack_require__(1)
@@ -4869,16 +4787,16 @@ function updateWidget(a, b) {
 
 
 /***/ }),
-/* 72 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var h = __webpack_require__(73)
+var h = __webpack_require__(71)
 
 module.exports = h
 
 
 /***/ }),
-/* 73 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4886,17 +4804,17 @@ module.exports = h
 
 var isArray = __webpack_require__(17);
 
-var VNode = __webpack_require__(32);
-var VText = __webpack_require__(33);
+var VNode = __webpack_require__(31);
+var VText = __webpack_require__(32);
 var isVNode = __webpack_require__(5);
 var isVText = __webpack_require__(9);
 var isWidget = __webpack_require__(1);
 var isHook = __webpack_require__(11);
 var isVThunk = __webpack_require__(10);
 
-var parseTag = __webpack_require__(74);
-var softSetHook = __webpack_require__(76);
-var evHook = __webpack_require__(77);
+var parseTag = __webpack_require__(72);
+var softSetHook = __webpack_require__(74);
+var evHook = __webpack_require__(75);
 
 module.exports = h;
 
@@ -5022,13 +4940,13 @@ function errorString(obj) {
 
 
 /***/ }),
-/* 74 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var split = __webpack_require__(75);
+var split = __webpack_require__(73);
 
 var classIdSplit = /([\.#]?[a-zA-Z0-9\u007F-\uFFFF_:-]+)/;
 var notClassId = /^\.|#/;
@@ -5083,7 +5001,7 @@ function parseTag(tag, props) {
 
 
 /***/ }),
-/* 75 */
+/* 73 */
 /***/ (function(module, exports) {
 
 /*!
@@ -5195,7 +5113,7 @@ module.exports = (function split(undef) {
 
 
 /***/ }),
-/* 76 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5219,13 +5137,13 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
 
 
 /***/ }),
-/* 77 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var EvStore = __webpack_require__(78);
+var EvStore = __webpack_require__(76);
 
 module.exports = EvHook;
 
@@ -5253,13 +5171,13 @@ EvHook.prototype.unhook = function(node, propertyName) {
 
 
 /***/ }),
-/* 78 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var OneVersionConstraint = __webpack_require__(79);
+var OneVersionConstraint = __webpack_require__(77);
 
 var MY_VERSION = '7';
 OneVersionConstraint('ev-store', MY_VERSION);
@@ -5280,13 +5198,13 @@ function EvStore(elem) {
 
 
 /***/ }),
-/* 79 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Individual = __webpack_require__(80);
+var Individual = __webpack_require__(78);
 
 module.exports = OneVersion;
 
@@ -5309,7 +5227,7 @@ function OneVersion(moduleName, version, defaultValue) {
 
 
 /***/ }),
-/* 80 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5336,16 +5254,16 @@ function Individual(key, value) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 81 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var createElement = __webpack_require__(30)
+var createElement = __webpack_require__(29)
 
 module.exports = createElement
 
 
 /***/ }),
-/* 82 */
+/* 80 */
 /***/ (function(module, exports) {
 
 module.exports = attributeToProperty
@@ -5370,7 +5288,7 @@ function attributeToProperty (h) {
 
 
 /***/ }),
-/* 83 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5399,7 +5317,7 @@ __webpack_require__(16);
 
 var _selector = __webpack_require__(6);
 
-var _virtualDom = __webpack_require__(25);
+var _virtualDom = __webpack_require__(24);
 
 var vdom = _interopRequireWildcard(_virtualDom);
 
@@ -5409,7 +5327,7 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var hyperx = __webpack_require__(34);
+var hyperx = __webpack_require__(33);
 
 var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = function () {
     function SelectorSelectedItemsComponent($log, $timeout, debug) {
@@ -5535,7 +5453,7 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
 }();
 
 /***/ }),
-/* 84 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5548,7 +5466,7 @@ exports.SelectorComponent = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _nanoid = __webpack_require__(85);
+var _nanoid = __webpack_require__(83);
 
 var _nanoid2 = _interopRequireDefault(_nanoid);
 
@@ -5556,17 +5474,17 @@ var _Observable = __webpack_require__(0);
 
 __webpack_require__(15);
 
-__webpack_require__(87);
+__webpack_require__(85);
 
 __webpack_require__(16);
 
-__webpack_require__(89);
+__webpack_require__(87);
 
-var _Subject = __webpack_require__(92);
+var _Subject = __webpack_require__(90);
 
 var _selector = __webpack_require__(6);
 
-var _util = __webpack_require__(95);
+var _util = __webpack_require__(93);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6508,10 +6426,10 @@ var SelectorComponent = exports.SelectorComponent = function () {
 }();
 
 /***/ }),
-/* 85 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var random = __webpack_require__(86)
+var random = __webpack_require__(84)
 
 var url = '_~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
@@ -6543,7 +6461,7 @@ module.exports = function (size) {
 
 
 /***/ }),
-/* 86 */
+/* 84 */
 /***/ (function(module, exports) {
 
 var crypto = window.crypto || window.msCrypto
@@ -6554,15 +6472,36 @@ module.exports = function (bytes) {
 
 
 /***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(0);
+var empty_1 = __webpack_require__(86);
+Observable_1.Observable.empty = empty_1.empty;
+//# sourceMappingURL=empty.js.map
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var EmptyObservable_1 = __webpack_require__(22);
+exports.empty = EmptyObservable_1.EmptyObservable.create;
+//# sourceMappingURL=empty.js.map
+
+/***/ }),
 /* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var empty_1 = __webpack_require__(88);
-Observable_1.Observable.empty = empty_1.empty;
-//# sourceMappingURL=empty.js.map
+var map_1 = __webpack_require__(88);
+Observable_1.Observable.prototype.map = map_1.map;
+//# sourceMappingURL=map.js.map
 
 /***/ }),
 /* 88 */
@@ -6570,28 +6509,7 @@ Observable_1.Observable.empty = empty_1.empty;
 
 "use strict";
 
-var EmptyObservable_1 = __webpack_require__(23);
-exports.empty = EmptyObservable_1.EmptyObservable.create;
-//# sourceMappingURL=empty.js.map
-
-/***/ }),
-/* 89 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(0);
-var map_1 = __webpack_require__(90);
-Observable_1.Observable.prototype.map = map_1.map;
-//# sourceMappingURL=map.js.map
-
-/***/ }),
-/* 90 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var map_1 = __webpack_require__(91);
+var map_1 = __webpack_require__(89);
 /**
  * Applies a given `project` function to each value emitted by the source
  * Observable, and emits the resulting values as an Observable.
@@ -6632,7 +6550,7 @@ exports.map = map;
 //# sourceMappingURL=map.js.map
 
 /***/ }),
-/* 91 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6727,7 +6645,7 @@ var MapSubscriber = (function (_super) {
 //# sourceMappingURL=map.js.map
 
 /***/ }),
-/* 92 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6740,8 +6658,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Observable_1 = __webpack_require__(0);
 var Subscriber_1 = __webpack_require__(3);
 var Subscription_1 = __webpack_require__(8);
-var ObjectUnsubscribedError_1 = __webpack_require__(93);
-var SubjectSubscription_1 = __webpack_require__(94);
+var ObjectUnsubscribedError_1 = __webpack_require__(91);
+var SubjectSubscription_1 = __webpack_require__(92);
 var rxSubscriber_1 = __webpack_require__(14);
 /**
  * @class SubjectSubscriber<T>
@@ -6901,7 +6819,7 @@ exports.AnonymousSubject = AnonymousSubject;
 //# sourceMappingURL=Subject.js.map
 
 /***/ }),
-/* 93 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6934,7 +6852,7 @@ exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 //# sourceMappingURL=ObjectUnsubscribedError.js.map
 
 /***/ }),
-/* 94 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6980,7 +6898,7 @@ exports.SubjectSubscription = SubjectSubscription;
 //# sourceMappingURL=SubjectSubscription.js.map
 
 /***/ }),
-/* 95 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -7508,7 +7426,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = __webpack_require__(97);
+exports.isBuffer = __webpack_require__(95);
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -7552,7 +7470,7 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = __webpack_require__(98);
+exports.inherits = __webpack_require__(96);
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
@@ -7570,10 +7488,10 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(96)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(94)))
 
 /***/ }),
-/* 96 */
+/* 94 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -7763,7 +7681,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 97 */
+/* 95 */
 /***/ (function(module, exports) {
 
 module.exports = function isBuffer(arg) {
@@ -7774,7 +7692,7 @@ module.exports = function isBuffer(arg) {
 }
 
 /***/ }),
-/* 98 */
+/* 96 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -7803,7 +7721,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 99 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
