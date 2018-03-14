@@ -756,7 +756,7 @@ var CONSTANTS = exports.CONSTANTS = {
             return '<div></div>';
         },
         TEMPLATE_SELECTOR: function TEMPLATE_SELECTOR() {
-            return '<div class="selector-container"\n                ng-attr-dir="{{ rtl ? \'rtl\' : \'ltr\' }}"\n                ng-class="{\n                    open: isOpen, \n                    empty: !filteredOptions.length && \n                        (!create || !search), multiple: multiple, \n                        \'has-value\': hasValue(), \n                        rtl: rtl, \n                        \'loading\': loading, \n                        \'remove-button\': removeButton, \n                        disabled: disabled}">\n                <select name="{{name}}"\n                    ng-hide="true"\n                    ng-required="required && !hasValue()"\n                    ng-model="selectedValues"\n                    multiple\n                    ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">\n                </select>\n                <label class="selector-input">\n                    <ul class="selector-values">\n                        <li \n                            ng-if="steroids === false"\n                            ng-repeat="(index, option) in selectedValues track by $index">\n                            <div ng-include="viewItemTemplate"></div>\n                            <div \n                                ng-if="multiple" \n                                class="selector-helper" \n                                ng-click="!disabled && unset(index)">\n                                <span class="selector-icon"></span>\n                            </div>\n                        </li>\n                        <sos-selected-items\n                            ng-if="steroids === true"\n                            input=\'selectedValuesInput$\'>\n                        </sos-selected-items>\n                    </ul>\n\n                    <input\n                        ng-model="search"                         \n                        placeholder="{{!hasValue() ? placeholder : \'\'}}" \n                        ng-model-options="{debounce: debounce}"\n                        ng-disabled="disabled" \n                        ng-readonly="disableSearch" \n                        ng-required="required && !hasValue()" \n                        autocomplete="off">\n                        \n                    <div ng-if="!multiple || loading" \n                        class="selector-helper selector-global-helper" \n                        ng-click="!disabled && removeButton && unset()">\n                        <span class="selector-icon"></span>\n                    </div>\n                </label>\n                <ul class="selector-dropdown">\n        \n                    <li \n                        class="selector-option create"\n                        ng-class="{active: highlighted == -1}"\n                        ng-if="create && search"\n                        ng-include="dropdownCreateTemplate"\n                        ng-mouseover="highlight(-1)"\n                        ng-click="createOption(search)">\n                    </li>\n        \n                    <li \n                        class="selector-option loading"\n                        ng-show="loading === true">\n                        Loading...\n                    </li>\n        \n                    <li \n                        class="selector-option no-data"\n                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"\n                        >\n                        No Data\n                    </li>\n        \n                    <sos-dropdown-items\n                        ng-if="steroids === true"\n                        ng-show=\'filteredOptions.length > 0\'\n                        input=\'filteredOptionsInput$\'>\n                    </sos-dropdown-items>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-repeat-start="(index, option) in filteredOptions track by $index"\n                        class="selector-optgroup"\n                        ng-include="dropdownGroupTemplate"\n                        ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">\n                    </li>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-show="filteredOptions.length > 0"\n                        ng-repeat-end\n                        ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"\n                        class="selector-option js-data-item"\n                        ng-include="dropdownItemTemplate"\n                        ng-mouseover="highlight(index)"\n                        ng-click="set()">\n                    </li>\n                </ul>\n            </div>';
+            return '<div class="selector-container"\n                ng-attr-dir="{{ rtl ? \'rtl\' : \'ltr\' }}"\n                ng-class="{\n                    open: isOpen,\n                    empty: !filteredOptions.length &&\n                        (!create || !search), multiple: multiple,\n                        \'has-value\': hasValue(),\n                        rtl: rtl,\n                        \'loading\': loading,\n                        \'remove-button\': removeButton,\n                        disabled: disabled}">\n                <select name="{{name}}"\n                    ng-hide="true"\n                    ng-required="required && !hasValue()"\n                    ng-model="selectedValues"\n                    multiple\n                    ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">\n                </select>\n                <label class="selector-input">\n                    <ul class="selector-values">\n                        <li\n                            ng-if="steroids === false"\n                            ng-repeat="(index, option) in selectedValues track by $index">\n                            <div ng-include="viewItemTemplate"></div>\n                            <div\n                                ng-if="multiple"\n                                class="selector-helper"\n                                ng-click="!disabled && unset(index)">\n                                <span class="selector-icon"></span>\n                            </div>\n                        </li>\n                        <sos-selected-items\n                            ng-if="steroids === true"\n                            input=\'selectedValuesInput$\'>\n                        </sos-selected-items>\n                    </ul>\n\n                    <input\n                        ng-model="search"\n                        placeholder="{{!hasValue() ? placeholder : \'\'}}"\n                        ng-model-options="{debounce: debounce}"\n                        ng-disabled="disabled"\n                        ng-readonly="disableSearch"\n                        ng-required="required && !hasValue()"\n                        autocomplete="off">\n\n                    <div ng-if="!multiple || loading"\n                        class="selector-helper selector-global-helper"\n                        ng-click="!disabled && removeButton && unset()">\n                        <span class="selector-icon"></span>\n                    </div>\n                </label>\n                <ul class="selector-dropdown">\n\n                    <li\n                        class="selector-option create"\n                        ng-class="{active: highlighted == -1}"\n                        ng-if="create && search"\n                        ng-include="dropdownCreateTemplate"\n                        ng-mouseover="highlight(-1)"\n                        ng-click="createOption(search)">\n                    </li>\n\n                    <li\n                        class="selector-option loading"\n                        ng-show="loading === true">\n                        Loading...\n                    </li>\n\n                    <li\n                        class="selector-option no-data"\n                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"\n                        >\n                        No Data\n                    </li>\n\n                    <sos-dropdown-items\n                        ng-if="steroids === true"\n                        ng-show=\'filteredOptions.length > 0\'\n                        input=\'filteredOptionsInput$\'>\n                    </sos-dropdown-items>\n\n                    <li\n                        ng-if="steroids === false"\n                        ng-repeat-start="(index, option) in filteredOptions track by $index"\n                        class="selector-optgroup"\n                        ng-include="dropdownGroupTemplate"\n                        ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">\n                    </li>\n\n                    <li\n                        ng-if="steroids === false"\n                        ng-show="filteredOptions.length > 0"\n                        ng-repeat-end\n                        ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"\n                        class="selector-option js-data-item"\n                        ng-include="dropdownItemTemplate"\n                        ng-mouseover="highlight(index)"\n                        ng-click="set()">\n                    </li>\n                </ul>\n            </div>';
         }
     },
     FUNCTIONS: {
@@ -5466,6 +5466,8 @@ var _util = __webpack_require__(92);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var SelectorComponent = exports.SelectorComponent = function () {
@@ -5496,6 +5498,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
             valueAttr: '@',
             labelAttr: '@?',
             groupAttr: '@?',
+            filterAttr: '@?',
             options: '=?',
             debounce: '=?',
             create: '&?',
@@ -5529,7 +5532,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 var _watchers = [];
                 var _mutations = [];
                 var _subscribers = [];
-                var filter = _this.$filter('filter');
+                var ngFilter = _this.$filter('filter');
                 var DOM_SELECTOR_CONTAINER = angular.element(element[0]);
                 var DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
                 var DOM_SELECTOR_INPUT_WRAPPER = angular.element(element[0].querySelector('.selector-input'));
@@ -5551,6 +5554,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     valueAttr: null,
                     labelAttr: 'label',
                     groupAttr: 'group',
+                    filterAttr: '$',
                     options: [],
                     debounce: 0,
                     limit: Infinity,
@@ -5610,13 +5614,11 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 if (!angular.isDefined(scope.value) && scope.multiple) {
                     scope.value = [];
                 }
-                ;
                 // this is where default initialization happens
                 angular.forEach(defaults, function (value, key) {
                     if (!angular.isDefined(scope[key])) {
                         scope[key] = value;
                     }
-                    ;
                 });
                 // create custom scope properties
                 // scope.onNgModelChanged = (propertyName, oldValue, newValue) => { // watch alternative - model change listener
@@ -5640,11 +5642,10 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         });
                     }
                 };
-                angular.forEach(['name', 'valueAttr', 'labelAttr'], function (attr) {
+                angular.forEach(['name', 'valueAttr', 'labelAttr', 'filterAttr'], function (attr) {
                     if (!attrs[attr]) {
                         attrs[attr] = scope[attr];
                     }
-                    ;
                 });
                 // Options' utilities
                 var optionValue = function optionValue(option) {
@@ -5655,7 +5656,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!angular.isDefined(obj)) {
                         obj = {};
                     }
-                    ;
                     path = angular.isArray(path) ? path : path.split('.');
                     key = path.shift();
                     if (key.indexOf('[') > 0) {
@@ -5704,7 +5704,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         return _this.$q.reject();
                     }
                     if (!angular.isDefined(remote)) {
-                        throw 'Remote attribute is not defined';
+                        throw new Error('Remote attribute is not defined');
                     }
                     scope.loading = true;
                     scope.options = [];
@@ -5796,7 +5796,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         if (!key.match(/^\$/)) {
                             object[key] = value;
                         }
-                        ;
                     });
                     if (option.value) {
                         setObjValue(object, scope.valueAttr || 'value', option.value);
@@ -5808,16 +5807,17 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         setObjValue(object, scope.groupAttr, group);
                     }
                     scope.options.push(object);
-                    if (element.attr('selected') && (scope.multiple || !scope.hasValue())) if (!scope.multiple) {
-                        if (!scope.value) {
-                            scope.value = optionValue(object);
+                    if (element.attr('selected') && (scope.multiple || !scope.hasValue())) {
+                        if (!scope.multiple) {
+                            if (!scope.value) {
+                                scope.value = optionValue(object);
+                            }
+                        } else {
+                            if (!scope.value) {
+                                scope.value = [];
+                            }
+                            scope.value.push(optionValue(object));
                         }
-                        ;
-                    } else {
-                        if (!scope.value) {
-                            scope.value = [];
-                        }
-                        scope.value.push(optionValue(object));
                     }
                 };
                 var fillWithHtml = function fillWithHtml() {
@@ -6013,7 +6013,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (scope.multiple && (scope.selectedValues || []).length >= scope.limit) {
                         return;
                     }
-                    ;
                     if (!angular.isDefined(option)) {
                         option = scope.filteredOptions[scope.highlighted];
                     }
@@ -6149,7 +6148,10 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                 };
                 var filterOptions = function filterOptions() {
-                    scope.filteredOptions = filter(scope.options || [], scope.search);
+                    var filterExpression = scope.filterAttr ? _defineProperty({}, scope.filterAttr, scope.search) : scope.search;
+                    scope.filteredOptions = ngFilter(scope.options || [], // array
+                    filterExpression // expression
+                    );
                     if (!angular.isArray(scope.selectedValues)) {
                         scope.selectedValues = [];
                     }
@@ -6162,7 +6164,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         if (index >= 0) {
                             scope.highlight(index);
                         }
-                        ;
                     }
                     _triggerSteroidsForFilteredOptions();
                 };
@@ -6235,7 +6236,6 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
                     }
-                    ;
                     if (!scope.remote) {
                         filterOptions();
                     }
@@ -6252,7 +6252,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         scope.selectedValues = nV;
                     } else {
                         var _nV = scope.options && scope.options.length > 0 ? (scope.value || []).map(function (value) {
-                            return filter(scope.options || [], function (option) {
+                            return ngFilter(scope.options || [], function (option) {
                                 return optionEquals(option, value);
                             })[0];
                         }).filter(function (value) {

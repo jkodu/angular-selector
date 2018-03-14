@@ -51,7 +51,7 @@ const examples = [
   ex_rtl_support,
   ex_remote_fetching,
   ex_remote_fetching_multi,
-  // ex_remote_fetching_with_validation,
+  ex_remote_fetching_with_validation,
   ex_remote_fetching_with_custom_service,
   ex_apis,
   ex_change_options_dynamically,

@@ -1,6 +1,6 @@
 {
     "name": "angular-selector-on-steroids",
-    "version": "14.5.0-alpha",
+    "version": "14.5.0",
     "description": "",
     "main": "dist/angular-selector-on-steroids.js",
     "types": "dist/index.d.ts",
@@ -10,18 +10,13 @@
     ],
     "scripts": {
         "setup": "npm i && cd ./demo && npm i",
-
         "build": "shx rm -rf demo/dist && webpack",
         "dev": "npm run build &&  cd ./demo && webpack --watch --watch-poll",
-        
         "build-prod": "shx rm -rf dist && webpack",
-        "lint": "tslint 'src/**/*.ts' 'demo/src/**/*.ts'",
-        
+        "lint": "tslint 'src/**/*.ts' 'demo/src/**/*.ts'",        
         "test": "npm run lint && karma start",
-        
         "serve": "http-server ./demo/dist",
-        "serve-no-build": "http-server ./demo/no_build_tool",        
-        
+        "serve-no-build": "http-server ./demo/no_build_tool",
         "ghp": "git subtree push --prefix demo/dist origin gh;-pages"
     },
     "keywords": [],
