@@ -1,23 +1,28 @@
 {
     "name": "angular-selector-on-steroids",
-    "version": "14.4.0",
+    "version": "14.5.0-alpha",
     "description": "",
     "main": "dist/angular-selector-on-steroids.js",
     "types": "dist/index.d.ts",
     "files": [
+        "demo/browserImport/index.html",
         "dist"
     ],
     "scripts": {
-        "setup": "npm i && cd ./sandbox && npm i",
-        "dev": "shx rm -rf sandbox/dist && webpack --watch --watch-poll",
-        "sandbox": "cd ./sandbox && webpack --watch --watch-poll",
-        "prettier": "prettier --write \"src/**/*.ts\" \"sandbox/src/**/*.ts\"",
-        "lint": "tslint 'src/**/*.ts' 'sandbox/src/**/*.ts'",
+        "setup": "npm i && cd ./demo && npm i",
+
+        "build": "shx rm -rf demo/dist && webpack",
+        "dev": "npm run build &&  cd ./demo && webpack --watch --watch-poll",
+        
+        "build-prod": "shx rm -rf dist && webpack",
+        "lint": "tslint 'src/**/*.ts' 'demo/src/**/*.ts'",
+        
         "test": "npm run lint && karma start",
-        "dist": "shx rm -rf dist && webpack",
-        "serve": "http-server ./sandbox/dist",
-        "serve-no-build": "http-server ./sandbox/no_build_tool",
-        "gh-pages": "git subtree push --prefix sandbox/dist origin gh-pages"
+        
+        "serve": "http-server ./demo/dist",
+        "serve-no-build": "http-server ./demo/no_build_tool",        
+        
+        "ghp": "git subtree push --prefix demo/dist origin gh;-pages"
     },
     "keywords": [],
     "author": "jkodu",
@@ -41,29 +46,22 @@
         "glob": "^7.1.1",
         "html-webpack-plugin": "^2.24.1",
         "http-server": "^0.10.0",
-        "husky": "^0.14.3",
         "karma": "^1.7.1",
         "karma-chrome-launcher": "^2.2.0",
         "karma-mocha": "^1.3.0",
         "karma-typescript": "3.0.7",
-        "lint-staged": "^6.0.0",
         "mocha": "^3.2.0",
         "pre-commit": "^1.2.2",
-        "prettier": "^1.8.2",
-        "prettier-tslint": "^0.3.0",
         "shx": "^0.2.2",
         "style-loader": "^0.18.2",
         "ts-loader": "^2.3.6",
         "tslint": "^5.7.0",
-        "tslint-config-prettier": "^1.6.0",
         "tslint-config-standard": "^6.0.1",
-        "tslint-plugin-prettier": "^1.3.0",
         "typescript": "^2.5.2",
         "uglify-es": "^3.1.5",
         "uglifyjs-webpack-plugin": "^1.0.0-rc.0",
         "webpack": "^3.5.6",
-        "webpack-build-notifier": "^0.1.13",
-        "webpack-dev-server": "^2.9.7"
+        "webpack-build-notifier": "^0.1.13"
     },
     "dependencies": {
         "angular": "^1.6.6",

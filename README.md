@@ -44,11 +44,10 @@ The [angular-selector](https://npmjs.org/package/angular-selector) although a we
 ```
 npm install --save angular-selector-on-steroids
 ```
-
 Usage:
 ```js
-import * as AngularSelectorOnSteroids from '../dist/angular-selector-on-steroids';
-AngularSelectorOnSteroids().BootUp(); // Pass true or false to enable DEBUG logging
+import * as sos from '../dist/angular-selector-on-steroids';
+new sos.AngularSelectorOnSteroids().init();
 
 const app = angular.module('MyApp', ['selectorOnSteroids']);
 ```
@@ -70,6 +69,7 @@ const app = angular.module('MyApp', ['selectorOnSteroids']);
 Parameter | Type | Default | Description
 ---|---|---|---
 steroids | `Boolean` | `false` | Enable/disable the get performance boost in rendering and data marshalling.
+remoteCancelPendingXhr | `Boolean` | `false` | Enable/disable pending request cancellation, on new XHR requests.
 model | `Property` | | Two-way binding property that models the `select` view.
 name | `String` | | Input name attribute.
 disable | `Boolean` | `false` | Enable/disable the select. Note the name is `disable` not `disabled` to avoid collisions with the HTML5 disabled attribute.
@@ -88,7 +88,6 @@ api | `Object` | `{}` | This object is equipped with the methods for interacting
 create | `Boolean` or `Function` or `Promise` | | Allows users to type the label of their own options and push them into the list. You can pass a function that returns the full format of the option, using `input` as parameter, a `Promise`, or set it to `true` to let Angular Selector create an object with the default properties given by `valueAttr` and `labelAttr`. Check out ["Create custom options"](http://indrimuska.github.io/angular-selector/) and ["Create custom options (using `Promise`)"](http://indrimuska.github.io/angular-selector/) examples.
 change | `Function` | | Callback fired every time the selected values change. It provides two parameters: `newValue` and `oldValue`.
 remote | `Object` or `Promise` | <pre>{<br>  method: 'GET',<br>  cache: true,<br>  params: {}<br>}</pre> | You can use remote data fetching with the native `$http` service or with your own custom service. In the first case this parameter must be the configuration object to pass to the native `$http` service ([docs](https://docs.angularjs.org/api/ng/service/$http#usage)). In the second case, `remote` is a function that returns a Promise object.
-remoteCancelPendingXhr | `Boolean` | `false` | Enable/disable pending request cancellation, on new XHR requests.
 remoteParam | `String` | `"q"` | If `remote` attribute is used with the native `$http` service, this parameter is the name of the query key in the `params` object. You should use this to perform server-side filtering.
 remoteValidation | `Object` or `Promise` | <pre>{<br>  method: 'GET',<br>  cache: true,<br>  params: {}<br>}</pre> | This should be used to perform validation after a "manual" update of the model. It has the same structure of the `remote` property, check out ["Remote fetching and validation"](http://indrimuska.github.io/angular-selector/) example.
 remoteValidationParam | `String` | `"value"` | If `remoteValidation` attribute is used with the native `$http` service, this parameter is the name of the query key in the `params` object.
@@ -112,13 +111,8 @@ dropdownGroupTemplate | `String` | `"selector/group-default.html"` | Template UR
 Licensed under the MIT license.
 
 ### Local Development
-Steps | Command | Description
----|---|---
-1 | npm run setup | Installs all dependencies `node_modules` etc., that are necessary for building the project.
-2 | npm run dev | Builds the code in development mode, this compiles component code and also sandbox code. All source code is watched for changes and assets are re-built. Run this in a separate terminal instance.
-3 | npm run sandbox | Compiles sandbox usage code for sandbox testing the library/ module. All source code is watched for changes and assets are re-built. Run this in a separate terminal instance.
-4 | npm run serve | Boots a http server of the sandbox directory. Typically on http://localhost:8080. Run this in a separate terminal instance.
-5 | npm run prettier | Optional & Opinionated pretti-fying of code.
-6 | npm run lint | Optional & Opinionated linting and enforcing code legiblity.
-7 | npm run dist | Generate library in ./dist directory.
-8 | npm run publish | Publish library/ module. Refer Usage section.
+- npm install
+- npm run build-prod - generates a dist directory ready for publishing.
+- npm run build - generates the demo/dist directory for local development (no watch).
+- npm run dev - builds and watches both source and sandbox directory for local development.
+- npm run serve - boots up a http-server and serves the demo directory.

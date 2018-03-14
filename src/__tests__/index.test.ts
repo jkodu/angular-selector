@@ -1,3 +1,5 @@
-describe("Module Tests", () => {
-  return;
+import * as assert from 'assert';
+
+describe('Module Tests', () => {
+
 });

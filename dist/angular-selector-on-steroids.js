@@ -80,9 +80,9 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 var root_1 = __webpack_require__(2);
-var toSubscriber_1 = __webpack_require__(42);
+var toSubscriber_1 = __webpack_require__(41);
 var observable_1 = __webpack_require__(21);
-var pipe_1 = __webpack_require__(45);
+var pipe_1 = __webpack_require__(44);
 /**
  * A representation of any set of values over any amount of time. This is the most basic building block
  * of RxJS.
@@ -741,31 +741,30 @@ var CONSTANTS = exports.CONSTANTS = {
     },
     TEMPLATES: {
         TEMPLATE_ITEM_CREATE: function TEMPLATE_ITEM_CREATE() {
-            return "Add <i ng-bind=\"search\"></i>";
+            return 'Add <i ng-bind="search"></i>';
         },
         TEMPLATE_ITEM_DEFAULT: function TEMPLATE_ITEM_DEFAULT() {
-            return "<span ng-bind=\"getObjValue(option, labelAttr) || option\"></span>";
+            return '<span ng-bind="getObjValue(option, labelAttr) || option"></span>';
         },
         TEMPLATE_GROUP_DEFAULT: function TEMPLATE_GROUP_DEFAULT() {
-            return "<span ng-bind=\"getObjValue(option, groupAttr)\"></span>";
+            return '<span ng-bind="getObjValue(option, groupAttr)"></span>';
         },
         TEMPLATE_SELECTOR_SELECTED_ITEMS: function TEMPLATE_SELECTOR_SELECTED_ITEMS() {
-            return "<div></div>";
+            return '<div></div>';
         },
         TEMPLATE_SELECTOR_DROPDOWN_ITEMS: function TEMPLATE_SELECTOR_DROPDOWN_ITEMS() {
-            return "<div></div>";
+            return '<div></div>';
         },
         TEMPLATE_SELECTOR: function TEMPLATE_SELECTOR() {
-            return "<div class=\"selector-container\"\n                ng-attr-dir=\"{{ rtl ? 'rtl' : 'ltr' }}\"\n                ng-class=\"{\n                    open: isOpen,\n                    empty: !filteredOptions.length &&\n                        (!create || !search), multiple: multiple,\n                        'has-value': hasValue(),\n                        rtl: rtl,\n                        'loading': loading,\n                        'remove-button': removeButton,\n                        disabled: disabled}\">\n                <select name=\"{{name}}\"\n                    ng-hide=\"true\"\n                    ng-required=\"required && !hasValue()\"\n                    ng-model=\"selectedValues\"\n                    multiple\n                    ng-options=\"option as getObjValue(option, labelAttr) for option in selectedValues\">\n                </select>\n                <label class=\"selector-input\">\n                    <ul class=\"selector-values\">\n                        <li\n                            ng-if=\"steroids === false && loading === false\"\n                            ng-repeat=\"(index, option) in selectedValues track by $index\">\n                            <div ng-include=\"viewItemTemplate\"></div>\n                            <div\n                                ng-if=\"multiple\"\n                                class=\"selector-helper\"\n                                ng-click=\"!disabled && unset(index)\">\n                                <span class=\"selector-icon\"></span>\n                            </div>\n                        </li>\n                        <sos-selected-items\n                            ng-if=\"steroids === true && loading === false\"\n                            input='selectedValuesInput$'>\n                        </sos-selected-items>\n                    </ul>\n\n                    <input\n                        ng-model=\"search\"\n                        placeholder=\"{{!hasValue() ? placeholder : ''}}\"\n                        ng-model-options=\"{debounce: debounce}\"\n                        ng-disabled=\"disabled\"\n                        ng-readonly=\"disableSearch\"\n                        ng-required=\"required && !hasValue()\"\n                        autocomplete=\"off\">\n\n                    <div ng-if=\"!multiple || loading\"\n                        class=\"selector-helper selector-global-helper\"\n                        ng-click=\"!disabled && removeButton && unset()\">\n                        <span class=\"selector-icon\"></span>\n                    </div>\n                </label>\n                <ul class=\"selector-dropdown\">\n\n                    <li\n                        class=\"selector-option create\"\n                        ng-class=\"{active: highlighted == -1}\"\n                        ng-if=\"create && search\"\n                        ng-include=\"dropdownCreateTemplate\"\n                        ng-mouseover=\"highlight(-1)\"\n                        ng-click=\"createOption(search)\">\n                    </li>\n\n                    <li\n                        class=\"selector-option loading\"\n                        ng-show=\"loading === true\">\n                        Loading...\n                    </li>\n\n                    <li\n                        class=\"selector-option no-data\"\n                        ng-show=\"!loading && (!filteredOptions || filteredOptions.length <= 0)\"\n                        >\n                        No Data\n                    </li>\n\n                    <sos-dropdown-items\n                        ng-if=\"steroids === true && loading === false\"\n                        ng-show='filteredOptions.length > 0'\n                        input='filteredOptionsInput$'>\n                    </sos-dropdown-items>\n\n                    <li\n                        ng-if=\"steroids === false && loading === false\"\n                        ng-repeat-start=\"(index, option) in filteredOptions track by $index\"\n                        class=\"selector-optgroup\"\n                        ng-include=\"dropdownGroupTemplate\"\n                        ng-show=\"filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))\">\n                    </li>\n\n                    <li\n                        ng-if=\"steroids === false && loading === false\"\n                        ng-show=\"filteredOptions.length > 0\"\n                        ng-repeat-end\n                        ng-class=\"{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}\"\n                        class=\"selector-option js-data-item\"\n                        ng-include=\"dropdownItemTemplate\"\n                        ng-mouseover=\"highlight(index)\"\n                        ng-click=\"set()\">\n                    </li>\n                </ul>\n            </div>";
+            return '<div class="selector-container"\n                ng-attr-dir="{{ rtl ? \'rtl\' : \'ltr\' }}"\n                ng-class="{\n                    open: isOpen, \n                    empty: !filteredOptions.length && \n                        (!create || !search), multiple: multiple, \n                        \'has-value\': hasValue(), \n                        rtl: rtl, \n                        \'loading\': loading, \n                        \'remove-button\': removeButton, \n                        disabled: disabled}">\n                <select name="{{name}}"\n                    ng-hide="true"\n                    ng-required="required && !hasValue()"\n                    ng-model="selectedValues"\n                    multiple\n                    ng-options="option as getObjValue(option, labelAttr) for option in selectedValues">\n                </select>\n                <label class="selector-input">\n                    <ul class="selector-values">\n                        <li \n                            ng-if="steroids === false"\n                            ng-repeat="(index, option) in selectedValues track by $index">\n                            <div ng-include="viewItemTemplate"></div>\n                            <div \n                                ng-if="multiple" \n                                class="selector-helper" \n                                ng-click="!disabled && unset(index)">\n                                <span class="selector-icon"></span>\n                            </div>\n                        </li>\n                        <sos-selected-items\n                            ng-if="steroids === true"\n                            input=\'selectedValuesInput$\'>\n                        </sos-selected-items>\n                    </ul>\n\n                    <input\n                        ng-model="search"                         \n                        placeholder="{{!hasValue() ? placeholder : \'\'}}" \n                        ng-model-options="{debounce: debounce}"\n                        ng-disabled="disabled" \n                        ng-readonly="disableSearch" \n                        ng-required="required && !hasValue()" \n                        autocomplete="off">\n                        \n                    <div ng-if="!multiple || loading" \n                        class="selector-helper selector-global-helper" \n                        ng-click="!disabled && removeButton && unset()">\n                        <span class="selector-icon"></span>\n                    </div>\n                </label>\n                <ul class="selector-dropdown">\n        \n                    <li \n                        class="selector-option create"\n                        ng-class="{active: highlighted == -1}"\n                        ng-if="create && search"\n                        ng-include="dropdownCreateTemplate"\n                        ng-mouseover="highlight(-1)"\n                        ng-click="createOption(search)">\n                    </li>\n        \n                    <li \n                        class="selector-option loading"\n                        ng-show="loading === true">\n                        Loading...\n                    </li>\n        \n                    <li \n                        class="selector-option no-data"\n                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"\n                        >\n                        No Data\n                    </li>\n        \n                    <sos-dropdown-items\n                        ng-if="steroids === true"\n                        ng-show=\'filteredOptions.length > 0\'\n                        input=\'filteredOptionsInput$\'>\n                    </sos-dropdown-items>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-repeat-start="(index, option) in filteredOptions track by $index"\n                        class="selector-optgroup"\n                        ng-include="dropdownGroupTemplate"\n                        ng-show="filteredOptions.length > 0 && groupAttr && (getObjValue(option, groupAttr) && index == 0 || getObjValue(filteredOptions[index - 1], groupAttr) != getObjValue(option, groupAttr))">\n                    </li>\n        \n                    <li \n                        ng-if="steroids === false"\n                        ng-show="filteredOptions.length > 0"\n                        ng-repeat-end\n                        ng-class="{active: highlighted == index, grouped: groupAttr && getObjValue(option, groupAttr)}"\n                        class="selector-option js-data-item"\n                        ng-include="dropdownItemTemplate"\n                        ng-mouseover="highlight(index)"\n                        ng-click="set()">\n                    </li>\n                </ul>\n            </div>';
         }
     },
     FUNCTIONS: {
         CONSOLE_LOGGER: function CONSOLE_LOGGER($log, type, message) {
-            // TODO: pass method to invoke
             if ($log[type]) {
-                $log[type]("Component: Selector On Sterorids: " + message);
+                $log[type]('Component: Selector On Sterorids: ' + message);
             } else {
-                $log["debug"]("Component: Selector On Sterorids: " + message);
+                $log['debug']('Component: Selector On Sterorids: ' + message);
             }
         },
         GET_DOM_STYLES: function GET_DOM_STYLES(element) {
@@ -807,12 +806,12 @@ module.exports = g;
 
 "use strict";
 
-var isArray_1 = __webpack_require__(43);
+var isArray_1 = __webpack_require__(42);
 var isObject_1 = __webpack_require__(18);
 var isFunction_1 = __webpack_require__(12);
 var tryCatch_1 = __webpack_require__(19);
 var errorObject_1 = __webpack_require__(13);
-var UnsubscriptionError_1 = __webpack_require__(44);
+var UnsubscriptionError_1 = __webpack_require__(43);
 /**
  * Represents a disposable resource, such as the execution of an Observable. A
  * Subscription has one important method, `unsubscribe`, that takes no argument
@@ -1082,7 +1081,7 @@ exports.$$rxSubscriber = exports.rxSubscriber;
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var merge_1 = __webpack_require__(47);
+var merge_1 = __webpack_require__(46);
 Observable_1.Observable.merge = merge_1.merge;
 //# sourceMappingURL=merge.js.map
 
@@ -1093,7 +1092,7 @@ Observable_1.Observable.merge = merge_1.merge;
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var fromEvent_1 = __webpack_require__(59);
+var fromEvent_1 = __webpack_require__(58);
 Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
 //# sourceMappingURL=fromEvent.js.map
 
@@ -1297,10 +1296,10 @@ exports.isScheduler = isScheduler;
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var diff = __webpack_require__(61)
-var patch = __webpack_require__(64)
-var h = __webpack_require__(70)
-var create = __webpack_require__(79)
+var diff = __webpack_require__(60)
+var patch = __webpack_require__(63)
+var h = __webpack_require__(69)
+var create = __webpack_require__(78)
 var VNode = __webpack_require__(31)
 var VText = __webpack_require__(32)
 
@@ -1406,7 +1405,7 @@ module.exports = function isObject(x) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
-var minDoc = __webpack_require__(66);
+var minDoc = __webpack_require__(65);
 
 var doccy;
 
@@ -1677,7 +1676,7 @@ VirtualText.prototype.type = "VirtualText"
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var attrToProp = __webpack_require__(80)
+var attrToProp = __webpack_require__(79)
 
 var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
 var ATTR_KEY = 5, ATTR_KEY_W = 6
@@ -1972,43 +1971,25 @@ function selfClosing (tag) { return closeRE.test(tag) }
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Init = undefined;
-
-var _selector = __webpack_require__(35);
-
-var Init = exports.Init = function Init(debug) {
-    return new _selector.AngularSelectorOnSteroids().BootUp(debug);
-};
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 exports.AngularSelectorOnSteroids = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-__webpack_require__(36);
+__webpack_require__(35);
 
 var _selector = __webpack_require__(6);
 
-var _selectorDropdownItems = __webpack_require__(41);
+var _selectorDropdownItems = __webpack_require__(40);
 
-var _selectorSelectedItems = __webpack_require__(81);
+var _selectorSelectedItems = __webpack_require__(80);
 
-var _selector2 = __webpack_require__(82);
+var _selector2 = __webpack_require__(81);
 
-var _selectorInstanceManager = __webpack_require__(97);
+var _selectorInstanceManager = __webpack_require__(96);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MODULE_NAME = "selectorOnSteroids";
+var MODULE_NAME = 'selectorOnSteroids';
 
 var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () {
     function AngularSelectorOnSteroids() {
@@ -2016,18 +1997,19 @@ var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () 
     }
 
     _createClass(AngularSelectorOnSteroids, [{
-        key: "BootUp",
-        value: function BootUp() {
+        key: 'init',
+        value: function init() {
             var debug = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-            return angular.module(MODULE_NAME, []).run(["$templateCache", function ($templateCache) {
-                $templateCache.put("selector-on-steroids/selector.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR());
-                $templateCache.put("selector-on-steroids/selector-dropdown-item.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_DROPDOWN_ITEMS());
-                $templateCache.put("selector-on-steroids/selector-selected-item.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_SELECTED_ITEMS());
-                $templateCache.put("selector-on-steroids/item-create.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_CREATE());
-                $templateCache.put("selector-on-steroids/item-default.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_DEFAULT());
-                $templateCache.put("selector-on-steroids/group-default.html", _selector.CONSTANTS.TEMPLATES.TEMPLATE_GROUP_DEFAULT());
-            }]).service("SelectorInstanceManagerService", _selectorInstanceManager.SelectorInstanceManagerService).directive("sosSelectedItems", _selectorSelectedItems.SelectorSelectedItemsComponent.Factory(debug)).directive("sosDropdownItems", _selectorDropdownItems.SelectorDropdownItemsComponent.Factory(debug)).directive(MODULE_NAME, _selector2.SelectorComponent.Factory(debug));
+            var module = angular.module(MODULE_NAME, []).run(['$templateCache', function ($templateCache) {
+                $templateCache.put('selector-on-steroids/selector.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR());
+                $templateCache.put('selector-on-steroids/selector-dropdown-item.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_DROPDOWN_ITEMS());
+                $templateCache.put('selector-on-steroids/selector-selected-item.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_SELECTOR_SELECTED_ITEMS());
+                $templateCache.put('selector-on-steroids/item-create.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_CREATE());
+                $templateCache.put('selector-on-steroids/item-default.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_ITEM_DEFAULT());
+                $templateCache.put('selector-on-steroids/group-default.html', _selector.CONSTANTS.TEMPLATES.TEMPLATE_GROUP_DEFAULT());
+            }]).service('SelectorInstanceManagerService', _selectorInstanceManager.SelectorInstanceManagerService).directive('sosSelectedItems', _selectorSelectedItems.SelectorSelectedItemsComponent.Factory(debug)).directive('sosDropdownItems', _selectorDropdownItems.SelectorDropdownItemsComponent.Factory(debug)).directive(MODULE_NAME, _selector2.SelectorComponent.Factory(debug));
+            return module;
         }
     }]);
 
@@ -2035,13 +2017,13 @@ var AngularSelectorOnSteroids = exports.AngularSelectorOnSteroids = function () 
 }();
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(37);
+var content = __webpack_require__(36);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -2049,7 +2031,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(39)(content, options);
+var update = __webpack_require__(38)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2066,21 +2048,21 @@ if(false) {
 }
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(38)(false);
+exports = module.exports = __webpack_require__(37)(false);
 // imports
 
 
 // module
-exports.push([module.i, "@keyframes selector-rotate {\r\n    0% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(-359deg);\r\n    }\r\n    100% {\r\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\r\n        transform: rotateZ(0deg);\r\n    }\r\n}\r\n\r\n[selector] {\r\n    display: none;\r\n}\r\n\r\n.selector {\r\n    display: none;\r\n}\r\n\r\n.selector-container {\r\n    display: block;\r\n    position: relative;\r\n    font-size: 1em;\r\n    line-height: normal;\r\n    color: #495c68;\r\n    //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n}\r\n\r\n.selector-container input {\r\n        font-size: 1em;\r\n        line-height: normal;\r\n        color: #495c68;\r\n        //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\r\n        outline: none;\r\n        background: none !important;\r\n        border-color: transparent !important;\r\n        display: inline-block;\r\n        cursor: pointer;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        display: inline;\r\n    }\r\n\r\n.selector-container.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.rtl .selector-helper {\r\n            right: inherit;\r\n            left: 0;\r\n        }\r\n\r\n.selector-container .selector-values {\r\n        list-style: none;\r\n        padding: 0;\r\n        margin: 0;\r\n        border: 0;\r\n        float: left;\r\n    }\r\n\r\n.selector-container .selector-values >li,\r\n        .selector-container .selector-values >div li {\r\n            padding: 0;\r\n            margin: 0;\r\n            border: 0;\r\n            display: inline;\r\n        }\r\n\r\n.selector-container .selector-values >li >div, .selector-container .selector-values >div li >div {\r\n                padding: 0;\r\n                margin: 0;\r\n                border: 0;\r\n                display: inline;\r\n            }\r\n\r\n.selector-container.open input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.open .selector-input {\r\n            background: none;\r\n            border-bottom-color: #eee;\r\n            padding-right: 2.6em;\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px 4px 0 0;\r\n        }\r\n\r\n.selector-container.open .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.open .selector-dropdown {\r\n            display: block;\r\n        }\r\n\r\n.selector-container.open.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 2.6em;\r\n        }\r\n\r\n.selector-container.open.empty .selector-input {\r\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n            border-radius: 4px;\r\n            border-bottom-color: #bbb;\r\n        }\r\n\r\n.selector-container.has-value input {\r\n            cursor: text;\r\n        }\r\n\r\n.selector-container.has-value.remove-button .selector-helper {\r\n                border-left: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.has-value.remove-button .selector-icon:after {\r\n                    content: '\\D7';\r\n                    display: table-cell;\r\n                    position: relative;\r\n                    top: 0;\r\n                    left: 0;\r\n                    margin: 0;\r\n                    border: none;\r\n                    height: 100%;\r\n                    text-align: center;\r\n                    vertical-align: middle;\r\n                }\r\n\r\n.selector-container.has-value.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #bbb;\r\n            }\r\n\r\n.selector-container.disabled {\r\n        opacity: .6;\r\n    }\r\n\r\n.selector-container.multiple input {\r\n            float: left;\r\n            padding: .2em .6em;\r\n            margin: 0 .15em .25em;\r\n            border-width: 1px;\r\n            border-style: solid;\r\n            float: left;\r\n            line-height: normal;\r\n        }\r\n\r\n.selector-container.multiple .selector-values {\r\n            float: left; \r\n            margin-right: 8px;\r\n        }\r\n\r\n.selector-container.multiple .selector-values >li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple .selector-values >div li {\r\n                padding: .2em .6em;\r\n                margin: 0 .15em .25em;\r\n                border-width: 1px;\r\n                border-style: solid;\r\n                float: left;\r\n                line-height: normal;\r\n                display: inline-block;\r\n                position: relative;\r\n                border-color: #0987d6;\r\n                color: #fff;\r\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\r\n                font-weight: 300;\r\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                border-radius: 3px;\r\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\r\n                background-color: #2dadef;\r\n            }\r\n\r\n.selector-container.multiple.rtl input {\r\n                float: right;\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values {\r\n                float: right;\r\n            }\r\n\r\n.selector-container.multiple.rtl .selector-values >li,\r\n                .selector-container.multiple.rtl .selector-values >div li {\r\n                    float: right;\r\n                }\r\n\r\n.selector-container.multiple.rtl.remove-button .selector-values>li, \r\n            .selector-container.multiple.rtl.remove-button .selector-values>div li, \r\n            .selector-container.multiple.rtl  {\r\n                padding-right: .6em;\r\n                padding-left: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple .selector-input {\r\n            padding: .5em .55em .2em .55em !important;\r\n            cursor: text;\r\n            background: #fff;\r\n            //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);\r\n        }\r\n\r\n.selector-container.multiple.remove-button .selector-helper {\r\n                display: block;\r\n                width: 1.3em;\r\n                border-left: 1px solid #0987d6;\r\n                cursor: pointer;\r\n            }\r\n\r\n.selector-container.multiple.remove-button .selector-helper:hover {\r\n                    background: rgba(0, 0, 0, .1);\r\n                }\r\n\r\n.selector-container.multiple.remove-button .selector-values>li,\r\n            .selector-container.multiple.remove-button .selector-values>div li {\r\n                padding-right: 1.9em;\r\n            }\r\n\r\n.selector-container.multiple.remove-button.rtl .selector-helper {\r\n                border-left: none;\r\n                border-right: 1px solid #0987d6;\r\n            }\r\n\r\n.selector-container.multiple .selector-helper {\r\n            display: none;\r\n        }\r\n\r\n.selector-container.multiple.loading .selector-input {\r\n                padding-right: 3em !important;\r\n            }\r\n\r\n.selector-container.multiple.loading .selector-global-helper {\r\n                margin: .75em .8em;\r\n                border-left: none;\r\n                border-right: none;\r\n            }\r\n\r\n.selector-container.multiple.loading.rtl .selector-input {\r\n                    padding-right: .55em !important;\r\n                    padding-left: 3em !important;\r\n                }\r\n\r\n.selector-container.multiple.loading.rtl.has-value .selector-input {\r\n                    padding-right: .25em !important;\r\n                }\r\n\r\n.selector-container.multiple.has-value .selector-input {\r\n            padding-left: .35em !important;\r\n            padding-right: .35em !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper {\r\n            border-left: none !important;\r\n            border-right: none !important;\r\n        }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon {\r\n                display: table;\r\n                width: 100%;\r\n            }\r\n\r\n.selector-container.loading .selector-global-helper .selector-icon:after {\r\n                    content: '';\r\n                    width: 100%;\r\n                    height: 100%;\r\n                    margin: 0;\r\n                    top: 0;\r\n                    left: 0;\r\n                    opacity: .5;\r\n                    border-top: 1px solid #545a6a;\r\n                    border-bottom: 1px solid #d4d4db;\r\n                    border-left: 1px solid #545a6a;\r\n                    border-right: 1px solid #d4d4db;\r\n                    animation: selector-rotate .5s linear infinite;\r\n                    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n                    border-radius: 100%;\r\n                }\r\n\r\n.selector-container.loading .selector-helper.selector-global-helper {\r\n            width: 1.3em;\r\n            height: 1.3em;\r\n            margin: .65em .7em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value .selector-input {\r\n            padding-right: 3.5em;\r\n        }\r\n\r\n.selector-container.remove-button.has-value.rtl .selector-input {\r\n            padding-right: .7em;\r\n            padding-left: 3.5em;\r\n        }\r\n\r\n.selector-input {\r\n    display: block;\r\n    margin: 0;\r\n    position: relative;\r\n    width: 100%;\r\n    padding: .8em 2.6em .7em .7em;\r\n    overflow: hidden;\r\n    cursor: pointer;\r\n    border: 1px solid #bbb;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 0 rgba(0, 0, 0, .05), inset 0 1px 0 rgba(255, 255, 255, .8);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 4px;\r\n    font-weight: inherit;\r\n    background-color: #f9f9f9;\r\n    background-image: linear-gradient(#fafafa, #eee);\r\n}\r\n\r\n.selector-input input {\r\n        padding-left: 0 !important;\r\n        padding-right: 0 !important;\r\n        border-left: 0 !important;\r\n        border-right: 0 !important;\r\n        max-width: 100% !important;\r\n    }\r\n\r\n.selector-helper {\r\n    position: absolute;\r\n    display: block;\r\n    width: 2.6em;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n}\r\n\r\n.selector-helper .selector-icon {\r\n        display: block;\r\n        position: relative;\r\n        height: 100%;\r\n    }\r\n\r\n.selector-helper .selector-icon:after {\r\n            content: '';\r\n            display: block;\r\n            position: absolute;\r\n            top: 50%;\r\n            left: 50%;\r\n            margin-top: -.1em;\r\n            margin-left: -.4em;\r\n            width: 0;\r\n            height: 0;\r\n            border: .4em solid #888;\r\n            border-left-color: transparent;\r\n            border-right-color: transparent;\r\n            border-bottom: none;\r\n        }\r\n\r\n.selector-shadow {\r\n    padding-left: 0 !important;\r\n    padding-right: 0 !important;\r\n    border-left: 0 !important;\r\n    border-right: 0 !important;\r\n    max-width: 100% !important;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    white-space: pre;\r\n    margin: 0;\r\n}\r\n\r\n.selector-dropdown {\r\n    display: none;\r\n    list-style: none;\r\n    padding: 0 !important;\r\n    margin: 0 !important;\r\n    position: absolute;\r\n    z-index: 1;\r\n    background: #fff;\r\n    border: 1px solid #ccc;\r\n    border-top: 0;\r\n    max-height: 15.5em;\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n    z-index: 1000;\r\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\r\n    border-radius: 0 0 3px 3px;\r\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\r\n    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);\r\n    //Instead of the line below you could use @include box-sizing($bs)\r\n    box-sizing: border-box;\r\n    \r\n}\r\n\r\n.selector-dropdown >li,\r\n    .selector-dropdown >div li {\r\n        padding: .65em .8em;\r\n        overflow: hidden;\r\n        cursor: pointer;\r\n    }\r\n\r\n.selector-dropdown .selector-optgroup {\r\n        background: #fefefe;\r\n        border-top: 1px solid #eee;\r\n        border-bottom: 1px solid #eee;\r\n    }\r\n\r\n.selector-dropdown .selector-option:hover {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.grouped {\r\n            padding-left: 1.6em;\r\n        }\r\n\r\n.selector-dropdown .selector-option.active {\r\n            background: #f5fafd;\r\n        }\r\n\r\n.selector-dropdown .selector-option.no-data{\r\n\r\n        }\r\n\r\n.selector-dropdown .selector-option.loading{\r\n            \r\n        }\r\n\r\n.selector-dropdown .selector-option.create {\r\n            color: rgba(73, 92, 104, .6);\r\n        }\r\n\r\n.selector-dropdown .selector-option.create.active {\r\n                color: #495c68;\r\n            }", ""]);
+exports.push([module.i, "@keyframes selector-rotate {\n    0% {\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\n        transform: rotateZ(-359deg);\n    }\n    100% {\n        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)\n        transform: rotateZ(0deg);\n    }\n}\n\n[selector] {\n    display: none;\n}\n\n.selector {\n    display: none;\n}\n\n.selector-container {\n    display: block;\n    position: relative;\n    font-size: 1em;\n    line-height: normal;\n    color: #495c68;\n    //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\n}\n\n.selector-container input {\n        font-size: 1em;\n        line-height: normal;\n        color: #495c68;\n        //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);\n        outline: none;\n        background: none !important;\n        border-color: transparent !important;\n        display: inline-block;\n        cursor: pointer;\n        padding: 0;\n        margin: 0;\n        border: 0;\n        display: inline;\n    }\n\n.selector-container.rtl .selector-input {\n            padding-right: .7em;\n            padding-left: 2.6em;\n        }\n\n.selector-container.rtl .selector-helper {\n            right: inherit;\n            left: 0;\n        }\n\n.selector-container .selector-values {\n        list-style: none;\n        padding: 0;\n        margin: 0;\n        border: 0;\n        float: left;\n    }\n\n.selector-container .selector-values >li,\n        .selector-container .selector-values >div li {\n            padding: 0;\n            margin: 0;\n            border: 0;\n            display: inline;\n        }\n\n.selector-container .selector-values >li >div, .selector-container .selector-values >div li >div {\n                padding: 0;\n                margin: 0;\n                border: 0;\n                display: inline;\n            }\n\n.selector-container.open input {\n            cursor: text;\n        }\n\n.selector-container.open .selector-input {\n            background: none;\n            border-bottom-color: #eee;\n            padding-right: 2.6em;\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n            border-radius: 4px 4px 0 0;\n        }\n\n.selector-container.open .selector-global-helper {\n            border-left: none !important;\n            border-right: none !important;\n        }\n\n.selector-container.open .selector-dropdown {\n            display: block;\n        }\n\n.selector-container.open.rtl .selector-input {\n            padding-right: .7em;\n            padding-left: 2.6em;\n        }\n\n.selector-container.open.empty .selector-input {\n            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n            border-radius: 4px;\n            border-bottom-color: #bbb;\n        }\n\n.selector-container.has-value input {\n            cursor: text;\n        }\n\n.selector-container.has-value.remove-button .selector-helper {\n                border-left: 1px solid #bbb;\n            }\n\n.selector-container.has-value.remove-button .selector-icon {\n                display: table;\n                width: 100%;\n            }\n\n.selector-container.has-value.remove-button .selector-icon:after {\n                    content: '\\D7';\n                    display: table-cell;\n                    position: relative;\n                    top: 0;\n                    left: 0;\n                    margin: 0;\n                    border: none;\n                    height: 100%;\n                    text-align: center;\n                    vertical-align: middle;\n                }\n\n.selector-container.has-value.remove-button.rtl .selector-helper {\n                border-left: none;\n                border-right: 1px solid #bbb;\n            }\n\n.selector-container.disabled {\n        opacity: .6;\n    }\n\n.selector-container.multiple input {\n            float: left;\n            padding: .2em .6em;\n            margin: 0 .15em .25em;\n            border-width: 1px;\n            border-style: solid;\n            float: left;\n            line-height: normal;\n        }\n\n.selector-container.multiple .selector-values {\n            float: left; \n            margin-right: 8px;\n        }\n\n.selector-container.multiple .selector-values >li {\n                padding: .2em .6em;\n                margin: 0 .15em .25em;\n                border-width: 1px;\n                border-style: solid;\n                float: left;\n                line-height: normal;\n                display: inline-block;\n                position: relative;\n                border-color: #0987d6;\n                color: #fff;\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\n                font-weight: 300;\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n                border-radius: 3px;\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\n                background-color: #2dadef;\n            }\n\n.selector-container.multiple .selector-values >div li {\n                padding: .2em .6em;\n                margin: 0 .15em .25em;\n                border-width: 1px;\n                border-style: solid;\n                float: left;\n                line-height: normal;\n                display: inline-block;\n                position: relative;\n                border-color: #0987d6;\n                color: #fff;\n                //Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n                text-shadow: 0 1px 1px rgba(0, 0, 0, .2);\n                font-weight: 300;\n                //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n                border-radius: 3px;\n                //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n                box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), 0 1px 1px rgba(0, 0, 0, .2);\n                background-color: #2dadef;\n            }\n\n.selector-container.multiple.rtl input {\n                float: right;\n                float: right;\n            }\n\n.selector-container.multiple.rtl .selector-values {\n                float: right;\n            }\n\n.selector-container.multiple.rtl .selector-values >li,\n                .selector-container.multiple.rtl .selector-values >div li {\n                    float: right;\n                }\n\n.selector-container.multiple.rtl.remove-button .selector-values>li, \n            .selector-container.multiple.rtl.remove-button .selector-values>div li, \n            .selector-container.multiple.rtl  {\n                padding-right: .6em;\n                padding-left: 1.9em;\n            }\n\n.selector-container.multiple .selector-input {\n            padding: .5em .55em .2em .55em !important;\n            cursor: text;\n            background: #fff;\n            //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);\n        }\n\n.selector-container.multiple.remove-button .selector-helper {\n                display: block;\n                width: 1.3em;\n                border-left: 1px solid #0987d6;\n                cursor: pointer;\n            }\n\n.selector-container.multiple.remove-button .selector-helper:hover {\n                    background: rgba(0, 0, 0, .1);\n                }\n\n.selector-container.multiple.remove-button .selector-values>li,\n            .selector-container.multiple.remove-button .selector-values>div li {\n                padding-right: 1.9em;\n            }\n\n.selector-container.multiple.remove-button.rtl .selector-helper {\n                border-left: none;\n                border-right: 1px solid #0987d6;\n            }\n\n.selector-container.multiple .selector-helper {\n            display: none;\n        }\n\n.selector-container.multiple.loading .selector-input {\n                padding-right: 3em !important;\n            }\n\n.selector-container.multiple.loading .selector-global-helper {\n                margin: .75em .8em;\n                border-left: none;\n                border-right: none;\n            }\n\n.selector-container.multiple.loading.rtl .selector-input {\n                    padding-right: .55em !important;\n                    padding-left: 3em !important;\n                }\n\n.selector-container.multiple.loading.rtl.has-value .selector-input {\n                    padding-right: .25em !important;\n                }\n\n.selector-container.multiple.has-value .selector-input {\n            padding-left: .35em !important;\n            padding-right: .35em !important;\n        }\n\n.selector-container.loading .selector-global-helper {\n            border-left: none !important;\n            border-right: none !important;\n        }\n\n.selector-container.loading .selector-global-helper .selector-icon {\n                display: table;\n                width: 100%;\n            }\n\n.selector-container.loading .selector-global-helper .selector-icon:after {\n                    content: '';\n                    width: 100%;\n                    height: 100%;\n                    margin: 0;\n                    top: 0;\n                    left: 0;\n                    opacity: .5;\n                    border-top: 1px solid #545a6a;\n                    border-bottom: 1px solid #d4d4db;\n                    border-left: 1px solid #545a6a;\n                    border-right: 1px solid #d4d4db;\n                    animation: selector-rotate .5s linear infinite;\n                    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n                    border-radius: 100%;\n                }\n\n.selector-container.loading .selector-helper.selector-global-helper {\n            width: 1.3em;\n            height: 1.3em;\n            margin: .65em .7em;\n        }\n\n.selector-container.remove-button.has-value .selector-input {\n            padding-right: 3.5em;\n        }\n\n.selector-container.remove-button.has-value.rtl .selector-input {\n            padding-right: .7em;\n            padding-left: 3.5em;\n        }\n\n.selector-input {\n    display: block;\n    margin: 0;\n    position: relative;\n    width: 100%;\n    padding: .8em 2.6em .7em .7em;\n    overflow: hidden;\n    cursor: pointer;\n    border: 1px solid #bbb;\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n    box-shadow: 0 1px 0 rgba(0, 0, 0, .05), inset 0 1px 0 rgba(255, 255, 255, .8);\n    //Instead of the line below you could use @include box-sizing($bs)\n    box-sizing: border-box;\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n    border-radius: 4px;\n    font-weight: inherit;\n    background-color: #f9f9f9;\n    background-image: linear-gradient(#fafafa, #eee);\n}\n\n.selector-input input {\n        padding-left: 0 !important;\n        padding-right: 0 !important;\n        border-left: 0 !important;\n        border-right: 0 !important;\n        max-width: 100% !important;\n    }\n\n.selector-helper {\n    position: absolute;\n    display: block;\n    width: 2.6em;\n    top: 0;\n    right: 0;\n    bottom: 0;\n}\n\n.selector-helper .selector-icon {\n        display: block;\n        position: relative;\n        height: 100%;\n    }\n\n.selector-helper .selector-icon:after {\n            content: '';\n            display: block;\n            position: absolute;\n            top: 50%;\n            left: 50%;\n            margin-top: -.1em;\n            margin-left: -.4em;\n            width: 0;\n            height: 0;\n            border: .4em solid #888;\n            border-left-color: transparent;\n            border-right-color: transparent;\n            border-bottom: none;\n        }\n\n.selector-shadow {\n    padding-left: 0 !important;\n    padding-right: 0 !important;\n    border-left: 0 !important;\n    border-right: 0 !important;\n    max-width: 100% !important;\n    position: absolute;\n    top: 0;\n    left: 0;\n    opacity: 0;\n    visibility: hidden;\n    white-space: pre;\n    margin: 0;\n}\n\n.selector-dropdown {\n    display: none;\n    list-style: none;\n    padding: 0 !important;\n    margin: 0 !important;\n    position: absolute;\n    z-index: 1;\n    background: #fff;\n    border: 1px solid #ccc;\n    border-top: 0;\n    max-height: 15.5em;\n    overflow-x: hidden;\n    overflow-y: auto;\n    z-index: 1000;\n    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)\n    border-radius: 0 0 3px 3px;\n    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)\n    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);\n    //Instead of the line below you could use @include box-sizing($bs)\n    box-sizing: border-box;\n    \n}\n\n.selector-dropdown >li,\n    .selector-dropdown >div li {\n        padding: .65em .8em;\n        overflow: hidden;\n        cursor: pointer;\n    }\n\n.selector-dropdown .selector-optgroup {\n        background: #fefefe;\n        border-top: 1px solid #eee;\n        border-bottom: 1px solid #eee;\n    }\n\n.selector-dropdown .selector-option:hover {\n            background: #f5fafd;\n        }\n\n.selector-dropdown .selector-option.grouped {\n            padding-left: 1.6em;\n        }\n\n.selector-dropdown .selector-option.active {\n            background: #f5fafd;\n        }\n\n.selector-dropdown .selector-option.no-data{\n\n        }\n\n.selector-dropdown .selector-option.loading{\n            \n        }\n\n.selector-dropdown .selector-option.create {\n            color: rgba(73, 92, 104, .6);\n        }\n\n.selector-dropdown .selector-option.create.active {\n                color: #495c68;\n            }", ""]);
 
 // exports
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /*
@@ -2162,7 +2144,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -2208,7 +2190,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(40);
+var	fixUrls = __webpack_require__(39);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -2521,7 +2503,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports) {
 
 
@@ -2616,7 +2598,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2631,12 +2613,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(["<li class=\"selector-option js-data-item ", "\" id=\"sos-data-index-", "\">", "</li>"], ["<li class=\"selector-option js-data-item ", "\" id=\"sos-data-index-", "\">", "</li>"]),
-    _templateObject2 = _taggedTemplateLiteral(["<li class=\"selector-optgroup\">", "</li>"], ["<li class=\"selector-optgroup\">", "</li>"]),
-    _templateObject3 = _taggedTemplateLiteral([""], [""]),
-    _templateObject4 = _taggedTemplateLiteral(["", ""], ["", ""]),
-    _templateObject5 = _taggedTemplateLiteral(["<span>", "", "</span>"], ["<span>", "", "</span>"]),
-    _templateObject6 = _taggedTemplateLiteral(["<div>", "</div>"], ["<div>", "</div>"]);
+var _templateObject = _taggedTemplateLiteral(['<li class="selector-option js-data-item ', '" id="sos-data-index-', '">', '</li>'], ['<li class="selector-option js-data-item ', '" id="sos-data-index-', '">', '</li>']),
+    _templateObject2 = _taggedTemplateLiteral(['<li class="selector-optgroup">', '</li>'], ['<li class="selector-optgroup">', '</li>']),
+    _templateObject3 = _taggedTemplateLiteral([''], ['']),
+    _templateObject4 = _taggedTemplateLiteral(['', ''], ['', '']),
+    _templateObject5 = _taggedTemplateLiteral(['<span>', '', '</span>'], ['<span>', '', '</span>']),
+    _templateObject6 = _taggedTemplateLiteral(['<div>', '</div>'], ['<div>', '</div>']);
 
 var _Observable = __webpack_require__(0);
 
@@ -2666,16 +2648,15 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
         this.$timeout = $timeout;
         this.debug = debug;
         this.replace = true;
-        this.restrict = "E";
-        this.templateUrl = "selector-on-steroids/selector-dropdown-item.html";
+        this.restrict = 'E';
+        this.templateUrl = 'selector-on-steroids/selector-dropdown-item.html';
         this.scope = {
-            input: "<"
+            input: '<'
         };
-        return;
     }
 
     _createClass(SelectorDropdownItemsComponent, [{
-        key: "link",
+        key: 'link',
         value: function link(scope, element, attrs) {
             var _this = this;
 
@@ -2689,9 +2670,9 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
             var _tree = null;
             var _rootNode = null;
             var GET_DROPDOWN_ITEM_TEMPLATE = function GET_DROPDOWN_ITEM_TEMPLATE(option, index, filteredOptions, highlighted) {
-                var cls = (highlighted === index ? "active" : "") + " " + (_parentReferences.groupAttr && _parentReferences.getObjValue(option, _parentReferences.groupAttr) ? "grouped" : "");
+                var cls = (highlighted === index ? 'active' : '') + ' ' + (_parentReferences.groupAttr && _parentReferences.getObjValue(option, _parentReferences.groupAttr) ? 'grouped' : '');
                 var boundValue = _parentReferences.getObjValue(option, _parentReferences.labelAttr);
-                boundValue = boundValue ? boundValue : (typeof option === "undefined" ? "undefined" : _typeof(option)) === "object" ? JSON.stringify(option) : option;
+                boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
                 return hx(_templateObject, cls, index, boundValue);
             };
             var GET_DROPDOWN_GROUP_TEMPLATE = function GET_DROPDOWN_GROUP_TEMPLATE(option, index, filteredOptions) {
@@ -2713,29 +2694,29 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                 var tpl = hx(_templateObject6, liList);
                 return tpl;
             };
-            _Observable.Observable.merge(_Observable.Observable.fromEvent(element[0], "mouseenter"), _Observable.Observable.fromEvent(element[0], "click")).subscribe(function (e) {
-                if (e.type === "mouseover") {
-                    var el = e.srcElement.getAttribute("id");
+            _Observable.Observable.merge(_Observable.Observable.fromEvent(element[0], 'mouseenter'), _Observable.Observable.fromEvent(element[0], 'click')).subscribe(function (e) {
+                if (e.type === 'mouseover') {
+                    var el = e.srcElement.getAttribute('id');
                     if (!el) {
                         return;
                     }
-                    var index = parseInt(el.replace("sos-data-index-", ""), 10);
-                    if (_parentReferences["highlight"]) {
-                        _parentReferences["highlight"](index < -1 ? -1 : index);
+                    var index = parseInt(el.replace('sos-data-index-', ''));
+                    if (_parentReferences['highlight']) {
+                        _parentReferences['highlight'](index < -1 ? -1 : index);
                     }
                 }
-                if (e.type === "click") {
-                    var _el = e.srcElement.getAttribute("id");
+                if (e.type === 'click') {
+                    var _el = e.srcElement.getAttribute('id');
                     if (!_el) {
                         return;
                     }
-                    var _index = parseInt(_el.replace("sos-data-index-", ""), 10);
+                    var _index = parseInt(_el.replace('sos-data-index-', ''));
                     _this.$timeout(function () {
-                        if (_parentReferences["highlight"]) {
-                            _parentReferences["highlight"](_index < -1 ? -1 : _index);
+                        if (_parentReferences['highlight']) {
+                            _parentReferences['highlight'](_index < -1 ? -1 : _index);
                         }
-                        if (_parentReferences["set"]) {
-                            _parentReferences["set"](undefined);
+                        if (_parentReferences['set']) {
+                            _parentReferences['set'](undefined);
                         }
                     });
                 }
@@ -2746,13 +2727,13 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                 _subscribers.push(scope.input.subscribe(function (inputData) {
                     if (inputData.filteredOptions && inputData.filteredOptions.length) {
                         if (!_isBooted) {
-                            if (!_parentReferences.hasOwnProperty("groupAttr") || !_parentReferences.hasOwnProperty("valueAttr") || !_parentReferences.hasOwnProperty("labelAttr") || !_parentReferences.hasOwnProperty("getObjValue") || !_parentReferences.hasOwnProperty("set") || !_parentReferences.hasOwnProperty("highlight")) {
-                                _parentReferences["groupAttr"] = inputData.groupAttr;
-                                _parentReferences["valueAttr"] = inputData.valueAttr;
-                                _parentReferences["labelAttr"] = inputData.labelAttr;
-                                _parentReferences["getObjValue"] = inputData.getObjValue;
-                                _parentReferences["set"] = inputData.set;
-                                _parentReferences["highlight"] = inputData.highlight;
+                            if (!_parentReferences.hasOwnProperty('groupAttr') || !_parentReferences.hasOwnProperty('valueAttr') || !_parentReferences.hasOwnProperty('labelAttr') || !_parentReferences.hasOwnProperty('getObjValue') || !_parentReferences.hasOwnProperty('set') || !_parentReferences.hasOwnProperty('highlight')) {
+                                _parentReferences['groupAttr'] = inputData.groupAttr;
+                                _parentReferences['valueAttr'] = inputData.valueAttr;
+                                _parentReferences['labelAttr'] = inputData.labelAttr;
+                                _parentReferences['getObjValue'] = inputData.getObjValue;
+                                _parentReferences['set'] = inputData.set;
+                                _parentReferences['highlight'] = inputData.highlight;
                                 _isBooted = true;
                             }
                         }
@@ -2772,15 +2753,14 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
                             }
                         }
                         if (_this.debug) {
-                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Re-drawing items/ options.");
+                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Re-drawing items/ options.');
                         }
                     }
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", "Cannot initialize, Selector Dropdown Items Component!");
-                    throw new Error(error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', 'Cannot initialize, Selector Dropdown Items Component!');
                 }));
             }
-            scope.$on("$destroy", function () {
+            scope.$on('$destroy', function () {
                 // dispose subscribers
                 if (_subscribers && _subscribers.length) {
                     _subscribers.forEach(function (s) {
@@ -2791,12 +2771,12 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
             });
         }
     }], [{
-        key: "Factory",
+        key: 'Factory',
         value: function Factory(debug) {
             var directive = function directive($log, $timeout) {
                 return new SelectorDropdownItemsComponent($log, $timeout, debug);
             };
-            directive["$inject"] = ["$log", "$timeout"];
+            directive['$inject'] = ['$log', '$timeout'];
             return directive;
         }
     }]);
@@ -2805,7 +2785,7 @@ var SelectorDropdownItemsComponent = exports.SelectorDropdownItemsComponent = fu
 }();
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2831,7 +2811,7 @@ exports.toSubscriber = toSubscriber;
 //# sourceMappingURL=toSubscriber.js.map
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2840,7 +2820,7 @@ exports.isArray = Array.isArray || (function (x) { return x && typeof x.length =
 //# sourceMappingURL=isArray.js.map
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2871,12 +2851,12 @@ exports.UnsubscriptionError = UnsubscriptionError;
 //# sourceMappingURL=UnsubscriptionError.js.map
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var noop_1 = __webpack_require__(46);
+var noop_1 = __webpack_require__(45);
 /* tslint:enable:max-line-length */
 function pipe() {
     var fns = [];
@@ -2902,7 +2882,7 @@ exports.pipeFromArray = pipeFromArray;
 //# sourceMappingURL=pipe.js.map
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2913,15 +2893,15 @@ exports.noop = noop;
 //# sourceMappingURL=noop.js.map
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var ArrayObservable_1 = __webpack_require__(48);
+var ArrayObservable_1 = __webpack_require__(47);
 var isScheduler_1 = __webpack_require__(23);
-var mergeAll_1 = __webpack_require__(50);
+var mergeAll_1 = __webpack_require__(49);
 /* tslint:enable:max-line-length */
 /**
  * Creates an output Observable which concurrently emits all values from every
@@ -3009,7 +2989,7 @@ exports.merge = merge;
 //# sourceMappingURL=merge.js.map
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3020,7 +3000,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Observable_1 = __webpack_require__(0);
-var ScalarObservable_1 = __webpack_require__(49);
+var ScalarObservable_1 = __webpack_require__(48);
 var EmptyObservable_1 = __webpack_require__(22);
 var isScheduler_1 = __webpack_require__(23);
 /**
@@ -3137,7 +3117,7 @@ exports.ArrayObservable = ArrayObservable;
 //# sourceMappingURL=ArrayObservable.js.map
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3201,13 +3181,13 @@ exports.ScalarObservable = ScalarObservable;
 //# sourceMappingURL=ScalarObservable.js.map
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var mergeMap_1 = __webpack_require__(51);
-var identity_1 = __webpack_require__(58);
+var mergeMap_1 = __webpack_require__(50);
+var identity_1 = __webpack_require__(57);
 /**
  * Converts a higher-order Observable into a first-order Observable which
  * concurrently delivers all values that are emitted on the inner Observables.
@@ -3260,7 +3240,7 @@ exports.mergeAll = mergeAll;
 //# sourceMappingURL=mergeAll.js.map
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3270,8 +3250,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var subscribeToResult_1 = __webpack_require__(52);
-var OuterSubscriber_1 = __webpack_require__(57);
+var subscribeToResult_1 = __webpack_require__(51);
+var OuterSubscriber_1 = __webpack_require__(56);
 /* tslint:enable:max-line-length */
 /**
  * Projects each source value to an Observable which is merged in the output
@@ -3439,18 +3419,18 @@ exports.MergeMapSubscriber = MergeMapSubscriber;
 //# sourceMappingURL=mergeMap.js.map
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var root_1 = __webpack_require__(2);
-var isArrayLike_1 = __webpack_require__(53);
-var isPromise_1 = __webpack_require__(54);
+var isArrayLike_1 = __webpack_require__(52);
+var isPromise_1 = __webpack_require__(53);
 var isObject_1 = __webpack_require__(18);
 var Observable_1 = __webpack_require__(0);
-var iterator_1 = __webpack_require__(55);
-var InnerSubscriber_1 = __webpack_require__(56);
+var iterator_1 = __webpack_require__(54);
+var InnerSubscriber_1 = __webpack_require__(55);
 var observable_1 = __webpack_require__(21);
 function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
     var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
@@ -3524,7 +3504,7 @@ exports.subscribeToResult = subscribeToResult;
 //# sourceMappingURL=subscribeToResult.js.map
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3533,7 +3513,7 @@ exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; 
 //# sourceMappingURL=isArrayLike.js.map
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3545,7 +3525,7 @@ exports.isPromise = isPromise;
 //# sourceMappingURL=isPromise.js.map
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3589,7 +3569,7 @@ exports.$$iterator = exports.iterator;
 //# sourceMappingURL=iterator.js.map
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3631,7 +3611,7 @@ exports.InnerSubscriber = InnerSubscriber;
 //# sourceMappingURL=InnerSubscriber.js.map
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3667,7 +3647,7 @@ exports.OuterSubscriber = OuterSubscriber;
 //# sourceMappingURL=OuterSubscriber.js.map
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3679,17 +3659,17 @@ exports.identity = identity;
 //# sourceMappingURL=identity.js.map
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var FromEventObservable_1 = __webpack_require__(60);
+var FromEventObservable_1 = __webpack_require__(59);
 exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
 //# sourceMappingURL=fromEvent.js.map
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3868,7 +3848,7 @@ var FromEventObservable = (function (_super) {
         else if (isEventTarget(sourceObj)) {
             var source_1 = sourceObj;
             sourceObj.addEventListener(eventName, handler, options);
-            unsubscribe = function () { return source_1.removeEventListener(eventName, handler); };
+            unsubscribe = function () { return source_1.removeEventListener(eventName, handler, options); };
         }
         else if (isJQueryStyleEventEmitter(sourceObj)) {
             var source_2 = sourceObj;
@@ -3911,16 +3891,16 @@ exports.FromEventObservable = FromEventObservable;
 //# sourceMappingURL=FromEventObservable.js.map
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var diff = __webpack_require__(62)
+var diff = __webpack_require__(61)
 
 module.exports = diff
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArray = __webpack_require__(17)
@@ -3932,7 +3912,7 @@ var isWidget = __webpack_require__(1)
 var isThunk = __webpack_require__(10)
 var handleThunk = __webpack_require__(26)
 
-var diffProps = __webpack_require__(63)
+var diffProps = __webpack_require__(62)
 
 module.exports = diff
 
@@ -4353,7 +4333,7 @@ function appendPatch(apply, patch) {
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(27)
@@ -4417,24 +4397,24 @@ function getPrototype(value) {
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var patch = __webpack_require__(65)
+var patch = __webpack_require__(64)
 
 module.exports = patch
 
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(28)
 var isArray = __webpack_require__(17)
 
 var render = __webpack_require__(29)
-var domIndex = __webpack_require__(67)
-var patchOp = __webpack_require__(68)
+var domIndex = __webpack_require__(66)
+var patchOp = __webpack_require__(67)
 module.exports = patch
 
 function patch(rootNode, patches, renderOptions) {
@@ -4512,13 +4492,13 @@ function patchIndices(patches) {
 
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports) {
 
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
@@ -4609,7 +4589,7 @@ function ascending(a, b) {
 
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var applyProperties = __webpack_require__(30)
@@ -4617,7 +4597,7 @@ var applyProperties = __webpack_require__(30)
 var isWidget = __webpack_require__(1)
 var VPatch = __webpack_require__(25)
 
-var updateWidget = __webpack_require__(69)
+var updateWidget = __webpack_require__(68)
 
 module.exports = applyPatch
 
@@ -4766,7 +4746,7 @@ function replaceRoot(oldRoot, newRoot) {
 
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isWidget = __webpack_require__(1)
@@ -4787,16 +4767,16 @@ function updateWidget(a, b) {
 
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var h = __webpack_require__(71)
+var h = __webpack_require__(70)
 
 module.exports = h
 
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4812,9 +4792,9 @@ var isWidget = __webpack_require__(1);
 var isHook = __webpack_require__(11);
 var isVThunk = __webpack_require__(10);
 
-var parseTag = __webpack_require__(72);
-var softSetHook = __webpack_require__(74);
-var evHook = __webpack_require__(75);
+var parseTag = __webpack_require__(71);
+var softSetHook = __webpack_require__(73);
+var evHook = __webpack_require__(74);
 
 module.exports = h;
 
@@ -4940,13 +4920,13 @@ function errorString(obj) {
 
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var split = __webpack_require__(73);
+var split = __webpack_require__(72);
 
 var classIdSplit = /([\.#]?[a-zA-Z0-9\u007F-\uFFFF_:-]+)/;
 var notClassId = /^\.|#/;
@@ -5001,7 +4981,7 @@ function parseTag(tag, props) {
 
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports) {
 
 /*!
@@ -5113,7 +5093,7 @@ module.exports = (function split(undef) {
 
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5137,13 +5117,13 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var EvStore = __webpack_require__(76);
+var EvStore = __webpack_require__(75);
 
 module.exports = EvHook;
 
@@ -5171,13 +5151,13 @@ EvHook.prototype.unhook = function(node, propertyName) {
 
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var OneVersionConstraint = __webpack_require__(77);
+var OneVersionConstraint = __webpack_require__(76);
 
 var MY_VERSION = '7';
 OneVersionConstraint('ev-store', MY_VERSION);
@@ -5198,13 +5178,13 @@ function EvStore(elem) {
 
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Individual = __webpack_require__(78);
+var Individual = __webpack_require__(77);
 
 module.exports = OneVersion;
 
@@ -5227,7 +5207,7 @@ function OneVersion(moduleName, version, defaultValue) {
 
 
 /***/ }),
-/* 78 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5254,7 +5234,7 @@ function Individual(key, value) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 79 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var createElement = __webpack_require__(29)
@@ -5263,7 +5243,7 @@ module.exports = createElement
 
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports) {
 
 module.exports = attributeToProperty
@@ -5288,7 +5268,7 @@ function attributeToProperty (h) {
 
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5303,11 +5283,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(["<div class=\"selector-helper\"><span class=\"selector-icon\" id=\"sos-data-index-", "\"></span></div>"], ["<div class=\"selector-helper\"><span class=\"selector-icon\" id=\"sos-data-index-", "\"></span></div>"]),
-    _templateObject2 = _taggedTemplateLiteral([""], [""]),
-    _templateObject3 = _taggedTemplateLiteral(["<li>", " ", "</li>"], ["<li>", " ", "</li>"]),
-    _templateObject4 = _taggedTemplateLiteral(["", ""], ["", ""]),
-    _templateObject5 = _taggedTemplateLiteral(["<div>", "</div>"], ["<div>", "</div>"]);
+var _templateObject = _taggedTemplateLiteral(['<div class="selector-helper"><span class="selector-icon" id="sos-data-index-', '"></span></div>'], ['<div class="selector-helper"><span class="selector-icon" id="sos-data-index-', '"></span></div>']),
+    _templateObject2 = _taggedTemplateLiteral([''], ['']),
+    _templateObject3 = _taggedTemplateLiteral(['<li>', ' ', '</li>'], ['<li>', ' ', '</li>']),
+    _templateObject4 = _taggedTemplateLiteral(['', ''], ['', '']),
+    _templateObject5 = _taggedTemplateLiteral(['<div>', '</div>'], ['<div>', '</div>']);
 
 var _Observable = __webpack_require__(0);
 
@@ -5337,16 +5317,15 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
         this.$timeout = $timeout;
         this.debug = debug;
         this.replace = true;
-        this.restrict = "E";
-        this.templateUrl = "selector-on-steroids/selector-selected-item.html";
+        this.restrict = 'E';
+        this.templateUrl = 'selector-on-steroids/selector-selected-item.html';
         this.scope = {
-            input: "<"
+            input: '<'
         };
-        return;
     }
 
     _createClass(SelectorSelectedItemsComponent, [{
-        key: "link",
+        key: 'link',
         value: function link(scope, element, attrs) {
             var _this = this;
 
@@ -5361,7 +5340,7 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
             var _rootNode = null;
             var GET_SELECTED_ITEM_TEMPLATE = function GET_SELECTED_ITEM_TEMPLATE(option, index, filteredOptions, parentReferences) {
                 var boundValue = parentReferences.getObjValue(option, parentReferences.labelAttr);
-                boundValue = boundValue ? boundValue : (typeof option === "undefined" ? "undefined" : _typeof(option)) === "object" ? JSON.stringify(option) : option;
+                boundValue = boundValue ? boundValue : (typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' ? JSON.stringify(option) : option;
                 var closeButton = parentReferences.multiple ? hx(_templateObject, index) : hx(_templateObject2);
                 return hx(_templateObject3, boundValue, closeButton);
             };
@@ -5372,16 +5351,16 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
                 var tpl = hx(_templateObject5, liList);
                 return tpl;
             };
-            _Observable.Observable.fromEvent(element[0], "click").subscribe(function (e) {
-                if (e.type === "click") {
-                    if (e.srcElement.classList.contains("selector-icon")) {
-                        var el = e.srcElement.getAttribute("id");
+            _Observable.Observable.fromEvent(element[0], 'click').subscribe(function (e) {
+                if (e.type === 'click') {
+                    if (e.srcElement.classList.contains('selector-icon')) {
+                        var el = e.srcElement.getAttribute('id');
                         if (!el) {
                             return;
                         }
-                        var index = parseInt(el.replace("sos-data-index-", ""), 10);
-                        if (_parentReferences["unset"]) {
-                            _parentReferences["unset"](index < -1 ? -1 : index);
+                        var index = parseInt(el.replace('sos-data-index-', ''));
+                        if (_parentReferences['unset']) {
+                            _parentReferences['unset'](index < -1 ? -1 : index);
                         }
                     }
                 }
@@ -5392,14 +5371,14 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
                 _subscribers.push(scope.input.subscribe(function (inputData) {
                     if (inputData.selectedValues) {
                         if (!_isBooted) {
-                            if (!_parentReferences.hasOwnProperty("groupAttr") || !_parentReferences.hasOwnProperty("valueAttr") || !_parentReferences.hasOwnProperty("labelAttr") || !_parentReferences.hasOwnProperty("getObjValue") || !_parentReferences.hasOwnProperty("unset") || !_parentReferences.hasOwnProperty("multiple") || !_parentReferences.hasOwnProperty("disabled")) {
-                                _parentReferences["groupAttr"] = inputData.groupAttr;
-                                _parentReferences["valueAttr"] = inputData.valueAttr;
-                                _parentReferences["labelAttr"] = inputData.labelAttr;
-                                _parentReferences["getObjValue"] = inputData.getObjValue;
-                                _parentReferences["unset"] = inputData.unset;
-                                _parentReferences["multiple"] = inputData.multiple;
-                                _parentReferences["disabled"] = inputData.disabled;
+                            if (!_parentReferences.hasOwnProperty('groupAttr') || !_parentReferences.hasOwnProperty('valueAttr') || !_parentReferences.hasOwnProperty('labelAttr') || !_parentReferences.hasOwnProperty('getObjValue') || !_parentReferences.hasOwnProperty('unset') || !_parentReferences.hasOwnProperty('multiple') || !_parentReferences.hasOwnProperty('disabled')) {
+                                _parentReferences['groupAttr'] = inputData.groupAttr;
+                                _parentReferences['valueAttr'] = inputData.valueAttr;
+                                _parentReferences['labelAttr'] = inputData.labelAttr;
+                                _parentReferences['getObjValue'] = inputData.getObjValue;
+                                _parentReferences['unset'] = inputData.unset;
+                                _parentReferences['multiple'] = inputData.multiple;
+                                _parentReferences['disabled'] = inputData.disabled;
                                 _isBooted = true;
                             }
                         }
@@ -5420,15 +5399,14 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
                             }
                         }
                         if (_this.debug) {
-                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Re-drawing selected items/ options.");
+                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Re-drawing selected items/ options.');
                         }
                     }
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", "Cannot initialize, Selector Selected Items Component!");
-                    throw new Error(error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', 'Cannot initialize, Selector Selected Items Component!');
                 }));
             }
-            scope.$on("$destroy", function () {
+            scope.$on('$destroy', function () {
                 // dispose subscribers
                 if (_subscribers && _subscribers.length) {
                     _subscribers.forEach(function (s) {
@@ -5439,12 +5417,12 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
             });
         }
     }], [{
-        key: "Factory",
+        key: 'Factory',
         value: function Factory(debug) {
             var directive = function directive($log, $timeout) {
                 return new SelectorSelectedItemsComponent($log, $timeout, debug);
             };
-            directive["$inject"] = ["$log", "$timeout"];
+            directive['$inject'] = ['$log', '$timeout'];
             return directive;
         }
     }]);
@@ -5453,7 +5431,7 @@ var SelectorSelectedItemsComponent = exports.SelectorSelectedItemsComponent = fu
 }();
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5466,7 +5444,7 @@ exports.SelectorComponent = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _nanoid = __webpack_require__(83);
+var _nanoid = __webpack_require__(82);
 
 var _nanoid2 = _interopRequireDefault(_nanoid);
 
@@ -5474,17 +5452,17 @@ var _Observable = __webpack_require__(0);
 
 __webpack_require__(15);
 
-__webpack_require__(85);
+__webpack_require__(84);
 
 __webpack_require__(16);
 
-__webpack_require__(87);
+__webpack_require__(86);
 
-var _Subject = __webpack_require__(90);
+var _Subject = __webpack_require__(89);
 
 var _selector = __webpack_require__(6);
 
-var _util = __webpack_require__(93);
+var _util = __webpack_require__(92);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5503,46 +5481,46 @@ var SelectorComponent = exports.SelectorComponent = function () {
         this.$log = $log;
         this.SelectorInstanceManagerService = SelectorInstanceManagerService;
         this.debug = debug;
-        this.restrict = "EAC";
+        this.restrict = 'EAC';
         this.replace = true;
         this.transclude = true;
-        this.templateUrl = "selector-on-steroids/selector.html";
+        this.templateUrl = 'selector-on-steroids/selector.html';
         this.scope = {
-            name: "@?",
-            value: "=model",
-            disabled: "=?disable",
-            disableSearch: "=?",
-            required: "=?require",
-            multiple: "=?multi",
-            placeholder: "@?",
-            valueAttr: "@",
-            labelAttr: "@?",
-            groupAttr: "@?",
-            options: "=?",
-            debounce: "=?",
-            create: "&?",
-            limit: "=?",
-            rtl: "=?",
-            api: "=?",
-            change: "&?",
-            remote: "&?",
-            remoteParam: "@?",
-            remoteValidation: "&?",
-            remoteValidationParam: "@?",
-            remoteCancelPendingXhr: "<",
-            removeButton: "=?",
-            softDelete: "=?",
-            closeAfterSelection: "=?",
-            viewItemTemplate: "=?",
-            dropdownItemTemplate: "=?",
-            dropdownCreateTemplate: "=?",
-            dropdownGroupTemplate: "=?",
-            steroids: "<"
+            name: '@?',
+            value: '=model',
+            disabled: '=?disable',
+            disableSearch: '=?',
+            required: '=?require',
+            multiple: '=?multi',
+            placeholder: '@?',
+            valueAttr: '@',
+            labelAttr: '@?',
+            groupAttr: '@?',
+            options: '=?',
+            debounce: '=?',
+            create: '&?',
+            limit: '=?',
+            rtl: '=?',
+            api: '=?',
+            change: '&?',
+            remote: '&?',
+            remoteParam: '@?',
+            remoteValidation: '&?',
+            remoteValidationParam: '@?',
+            removeButton: '=?',
+            softDelete: '=?',
+            closeAfterSelection: '=?',
+            viewItemTemplate: '=?',
+            dropdownItemTemplate: '=?',
+            dropdownCreateTemplate: '=?',
+            dropdownGroupTemplate: '=?',
+            steroids: '<',
+            cancelPendingXhr: '<'
         };
     }
 
     _createClass(SelectorComponent, [{
-        key: "link",
+        key: 'link',
         value: function link(scope, element, attrs, controller, transclude) {
             var _this = this;
 
@@ -5551,40 +5529,40 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 var _watchers = [];
                 var _mutations = [];
                 var _subscribers = [];
-                var filter = _this.$filter("filter");
+                var filter = _this.$filter('filter');
                 var DOM_SELECTOR_CONTAINER = angular.element(element[0]);
-                var DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector(".selector-dropdown"));
-                var DOM_SELECTOR_INPUT_WRAPPER = angular.element(element[0].querySelector(".selector-input"));
-                var DOM_SELECTOR_INPUT = angular.element(element[0].querySelector(".selector-input input"));
-                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, "focus"), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, "blur"), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, "keydown"), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, "input")) : _Observable.Observable.empty();
-                var OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, "pointerdown"), _Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, "mousedown")) : _Observable.Observable.empty();
-                var OBSERVABLE_FOR_WINDOW_EVENTS = _this.$window ? _Observable.Observable.merge(_Observable.Observable.fromEvent(_this.$window, "resize"), _Observable.Observable.fromEvent(_this.$window, "blur")) : _Observable.Observable.empty();
-                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT_WRAPPER = DOM_SELECTOR_INPUT_WRAPPER ? _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT_WRAPPER, "click") : _Observable.Observable.empty();
-                var OBSERVABLE_FOR_DOCUMENT_CLICK = _this.$document ? _Observable.Observable.fromEvent(_this.$document, "click") : _Observable.Observable.empty();
-                var inputCtrl = DOM_SELECTOR_INPUT.controller("ngModel");
-                var selectCtrl = element.find("select").controller("ngModel");
+                var DOM_SELECTOR_DROPDOWN = angular.element(element[0].querySelector('.selector-dropdown'));
+                var DOM_SELECTOR_INPUT_WRAPPER = angular.element(element[0].querySelector('.selector-input'));
+                var DOM_SELECTOR_INPUT = angular.element(element[0].querySelector('.selector-input input'));
+                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT = DOM_SELECTOR_INPUT ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'focus'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'blur'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'keydown'), _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT, 'input')) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN = DOM_SELECTOR_DROPDOWN ? _Observable.Observable.merge(_Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'pointerdown'), _Observable.Observable.fromEvent(DOM_SELECTOR_DROPDOWN, 'mousedown')) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_WINDOW_EVENTS = _this.$window ? _Observable.Observable.merge(_Observable.Observable.fromEvent(_this.$window, 'resize'), _Observable.Observable.fromEvent(_this.$window, 'blur')) : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOM_SELECTOR_INPUT_WRAPPER = DOM_SELECTOR_INPUT_WRAPPER ? _Observable.Observable.fromEvent(DOM_SELECTOR_INPUT_WRAPPER, 'click') : _Observable.Observable.empty();
+                var OBSERVABLE_FOR_DOCUMENT_CLICK = _this.$document ? _Observable.Observable.fromEvent(_this.$document, 'click') : _Observable.Observable.empty();
+                var inputCtrl = DOM_SELECTOR_INPUT.controller('ngModel');
+                var selectCtrl = element.find('select').controller('ngModel');
                 var initDeferred = _this.$q.defer();
                 var defaults = {
                     api: {},
-                    search: "",
+                    search: '',
                     disableSearch: false,
                     selectedValues: [],
                     highlighted: 0,
                     valueAttr: null,
-                    labelAttr: "label",
-                    groupAttr: "group",
+                    labelAttr: 'label',
+                    groupAttr: 'group',
                     options: [],
                     debounce: 0,
                     limit: Infinity,
-                    remoteParam: "q",
-                    remoteValidationParam: "value",
-                    remoteCancelPendingXhr: false,
+                    remoteParam: 'q',
+                    remoteValidationParam: 'value',
                     removeButton: true,
-                    viewItemTemplate: "selector-on-steroids/item-default.html",
-                    dropdownItemTemplate: "selector-on-steroids/item-default.html",
-                    dropdownCreateTemplate: "selector-on-steroids/item-create.html",
-                    dropdownGroupTemplate: "selector-on-steroids/group-default.html",
+                    viewItemTemplate: 'selector-on-steroids/item-default.html',
+                    dropdownItemTemplate: 'selector-on-steroids/item-default.html',
+                    dropdownCreateTemplate: 'selector-on-steroids/item-create.html',
+                    dropdownGroupTemplate: 'selector-on-steroids/group-default.html',
                     steroids: false,
+                    cancelPendingXhr: false,
                     selectedValuesInput$: new _Subject.Subject(),
                     filteredOptionsInput$: new _Subject.Subject()
                 };
@@ -5605,38 +5583,40 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     e.stopPropagation();
                 }));
                 _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_DROPDOWN.subscribe(function (e) {
-                    _currentFocusedElement = "FOCUSED_ELEMENT_DROPDOWN";
+                    _currentFocusedElement = 'FOCUSED_ELEMENT_DROPDOWN';
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));
                 // // Default: listen to window resize event
                 _subscribers.push(OBSERVABLE_FOR_WINDOW_EVENTS.subscribe(function (e) {
-                    if (e.type === "resize") {
+                    if (e.type === 'resize') {
                         if (scope.isOpen) {
                             dropdownPosition();
                         }
                     }
-                    if (e.type === "blur") {
+                    if (e.type === 'blur') {
                         if (scope.isOpen) {
                             close();
                         }
                     }
                     e.preventDefault();
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));
                 // Default attributes
                 if (!angular.isDefined(scope.value) && scope.multiple) {
                     scope.value = [];
                 }
+                ;
                 // this is where default initialization happens
                 angular.forEach(defaults, function (value, key) {
                     if (!angular.isDefined(scope[key])) {
                         scope[key] = value;
                     }
+                    ;
                 });
                 // create custom scope properties
                 // scope.onNgModelChanged = (propertyName, oldValue, newValue) => { // watch alternative - model change listener
@@ -5660,10 +5640,11 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         });
                     }
                 };
-                angular.forEach(["name", "valueAttr", "labelAttr"], function (attr) {
+                angular.forEach(['name', 'valueAttr', 'labelAttr'], function (attr) {
                     if (!attrs[attr]) {
                         attrs[attr] = scope[attr];
                     }
+                    ;
                 });
                 // Options' utilities
                 var optionValue = function optionValue(option) {
@@ -5674,9 +5655,10 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!angular.isDefined(obj)) {
                         obj = {};
                     }
-                    path = angular.isArray(path) ? path : path.split(".");
+                    ;
+                    path = angular.isArray(path) ? path : path.split('.');
                     key = path.shift();
-                    if (key.indexOf("[") > 0) {
+                    if (key.indexOf('[') > 0) {
                         var match = key.match(/(\w+)\[(\d+)\]/);
                         if (match !== null) {
                             obj = obj[match[1]];
@@ -5693,9 +5675,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (!angular.isDefined(obj) || !angular.isDefined(path)) {
                         return obj;
                     }
-                    path = angular.isArray(path) ? path : path.split(".");
+                    path = angular.isArray(path) ? path : path.split('.');
                     var key = path.shift();
-                    if (key.indexOf("[") > 0) {
+                    if (key.indexOf('[') > 0) {
                         var match = key.match(/(\w+)\[(\d+)\]/);
                         if (match !== null) {
                             obj = obj[match[1]];
@@ -5722,19 +5704,19 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         return _this.$q.reject();
                     }
                     if (!angular.isDefined(remote)) {
-                        throw new Error("Remote attribute is not defined");
+                        throw 'Remote attribute is not defined';
                     }
                     scope.loading = true;
                     scope.options = [];
                     remoteOptions[paramName] = paramValue;
                     promise = remote(remoteOptions);
-                    if (scope.remote && scope.remoteCancelPendingXhr) {
+                    if (scope.remoteCancelPendingXhr) {
                         // cancel pending request
                         if (_previousXhrCancellers && _previousXhrCancellers.length >= 1) {
-                            _previousXhrCancellers[0].resolve("Previous XHR Request Aborted");
+                            _previousXhrCancellers[0].resolve('Previous XHR Request Aborted');
                             _previousXhrCancellers.shift();
                             if (_util.debug) {
-                                _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Previous XHR Request Aborted via promise.timeout, please handle status === -1 (AngularJs 1.6.x) to not break the promise chain via transformResponse or promise error callback.");
+                                _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Previous XHR Request Aborted via promise.timeout, please handle status === -1 (AngularJs 1.6.x) to not break the promise chain via transformResponse or promise error callback.');
                             }
                         }
                         // add timeout
@@ -5745,9 +5727,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             _previousXhrCancellers.push(_xhrCanceller);
                         }
                     }
-                    if (typeof promise.then !== "function") {
+                    if (typeof promise.then !== 'function') {
                         var settings = {
-                            method: "GET",
+                            method: 'GET',
                             cache: true,
                             params: {}
                         };
@@ -5765,28 +5747,28 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             initDeferred.resolve();
                         });
                     }, function (error) {
-                        if (scope.remote && scope.remoteCancelPendingXhr && error.status === -1) {
+                        if (scope.remoteCancelPendingXhr && error.status === -1) {
                             return;
                         }
                         _this.$timeout(function () {
                             scope.loading = false;
                         });
                         initDeferred.reject();
-                        var errorMsg = "Error while fetching data: " + (error.message || error);
-                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", errorMsg);
+                        var errorMsg = 'Error while fetching data: ' + (error.message || error);
+                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', errorMsg);
                         throw errorMsg;
                     });
                     return promise;
                 };
                 var fetch = function fetch(triggeredFromAction) {
                     if (triggeredFromAction) {
-                        return request("search", scope.search || "", scope.remote, scope.remoteParam);
+                        return request('search', scope.search || '', scope.remote, scope.remoteParam);
                     } else {
-                        return request("search", scope.search || "", scope.remote, scope.remoteParam);
+                        return request('search', scope.search || '', scope.remote, scope.remoteParam);
                     }
                 };
                 var fetchValidation = function fetchValidation(value) {
-                    return request("value", value, scope.remoteValidation, scope.remoteValidationParam);
+                    return request('value', value, scope.remoteValidation, scope.remoteValidationParam);
                 };
                 if (!angular.isDefined(scope.remote)) {
                     scope.remote = false;
@@ -5800,7 +5782,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 if (scope.remote) {
                     _this.$timeout(function () {
                         _this.$q.when(!scope.hasValue() || !scope.remoteValidation ? angular.noop : fetchValidation(scope.value)).then(function () {
-                            _watchers.push(scope.$watch("search", function () {
+                            _watchers.push(scope.$watch('search', function () {
                                 scope.$evalAsync(fetch(false));
                             }));
                         });
@@ -5814,9 +5796,10 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         if (!key.match(/^\$/)) {
                             object[key] = value;
                         }
+                        ;
                     });
                     if (option.value) {
-                        setObjValue(object, scope.valueAttr || "value", option.value);
+                        setObjValue(object, scope.valueAttr || 'value', option.value);
                     }
                     if (element.text()) {
                         setObjValue(object, scope.labelAttr, element.text().trim());
@@ -5825,28 +5808,27 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         setObjValue(object, scope.groupAttr, group);
                     }
                     scope.options.push(object);
-                    if (element.attr("selected") && (scope.multiple || !scope.hasValue())) {
-                        if (!scope.multiple) {
-                            if (!scope.value) {
-                                scope.value = optionValue(object);
-                            }
-                        } else {
-                            if (!scope.value) {
-                                scope.value = [];
-                            }
-                            scope.value.push(optionValue(object));
+                    if (element.attr('selected') && (scope.multiple || !scope.hasValue())) if (!scope.multiple) {
+                        if (!scope.value) {
+                            scope.value = optionValue(object);
                         }
+                        ;
+                    } else {
+                        if (!scope.value) {
+                            scope.value = [];
+                        }
+                        scope.value.push(optionValue(object));
                     }
                 };
                 var fillWithHtml = function fillWithHtml() {
                     scope.options = [];
                     angular.forEach(clone, function (element) {
-                        var tagName = (element.tagName || "").toLowerCase();
-                        if (tagName === "option") {
+                        var tagName = (element.tagName || '').toLowerCase();
+                        if (tagName == 'option') {
                             optionToObject(element);
                         }
-                        if (tagName === "optgroup") {
-                            angular.forEach(element.querySelectorAll("option"), function (option) {
+                        if (tagName == 'optgroup') {
+                            angular.forEach(element.querySelectorAll('option'), function (option) {
                                 optionToObject(option, (element.attributes.label || {}).value);
                             });
                         }
@@ -5883,26 +5865,26 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         initialize();
                     }, function () {
                         if (_this.debug) {
-                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Cannot initialize, promise init error!");
+                            _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Cannot initialize, promise init error!');
                         }
                     });
                 };
                 _watchers.push(scope.$watch(function () {
                     return inputCtrl.$pristine;
                 }, function ($pristine) {
-                    selectCtrl[$pristine ? "$setPristine" : "$setDirty"]();
+                    selectCtrl[$pristine ? '$setPristine' : '$setDirty']();
                 }));
                 _watchers.push(scope.$watch(function () {
                     return inputCtrl.$touched;
                 }, function ($touched) {
-                    selectCtrl[$touched ? "$setTouched" : "$setUntouched"]();
+                    selectCtrl[$touched ? '$setTouched' : '$setUntouched']();
                 }));
                 var _previousClassString = null;
                 var _mutationForClassChanges = new MutationObserver(function (event) {
                     var newClassString = event[0].target.classList.toString();
                     if (_previousClassString && newClassString !== _previousClassString) {
-                        var newHasMultiple = newClassString.indexOf("multiple") !== -1;
-                        var oldHasMultiple = _previousClassString.indexOf("multiple") !== -1;
+                        var newHasMultiple = newClassString.indexOf('multiple') !== -1;
+                        var oldHasMultiple = _previousClassString.indexOf('multiple') !== -1;
                         if (newHasMultiple !== oldHasMultiple) {
                             reInitMultiple();
                         }
@@ -5915,7 +5897,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 });
                 _mutationForClassChanges.observe(DOM_SELECTOR_CONTAINER[0], {
                     attributes: true,
-                    attributeFilter: ["class"]
+                    attributeFilter: ['class']
                 });
                 _mutations.push(_mutationForClassChanges);
                 var _mutationForPlaceholderChanges = new MutationObserver(function (event) {
@@ -5923,7 +5905,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 });
                 _mutationForPlaceholderChanges.observe(DOM_SELECTOR_INPUT[0], {
                     attributes: true,
-                    attributeFilter: ["placeholder"]
+                    attributeFilter: ['placeholder']
                 });
                 _mutations.push(_mutationForPlaceholderChanges);
                 // Dropdown utilities
@@ -5934,9 +5916,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         var marginTop = parseFloat(styles.marginTop || 0);
                         var marginLeft = parseFloat(styles.marginLeft || 0);
                         DOM_SELECTOR_DROPDOWN.css({
-                            top: label.offsetTop + label.offsetHeight + marginTop + "px",
-                            left: label.offsetLeft + marginLeft + "px",
-                            width: label.offsetWidth + "px"
+                            top: label.offsetTop + label.offsetHeight + marginTop + 'px',
+                            left: label.offsetLeft + marginLeft + 'px',
+                            width: label.offsetWidth + 'px'
                         });
                     }
                 };
@@ -5976,7 +5958,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     scrollToHighlighted();
                 };
                 scope.highlight = function (index) {
-                    if (attrs.create && scope.search && index === -1) {
+                    if (attrs.create && scope.search && index == -1) {
                         scope.highlighted = -1;
                     } else {
                         if (scope.filteredOptions.length) {
@@ -5987,7 +5969,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 };
                 var scrollToHighlighted = function scrollToHighlighted() {
                     var dd = DOM_SELECTOR_DROPDOWN[0];
-                    var option = dd.querySelectorAll("li.selector-option.js-data-item")[scope.highlighted];
+                    var option = dd.querySelectorAll('li.selector-option.js-data-item')[scope.highlighted];
                     var styles = _selector.CONSTANTS.FUNCTIONS.GET_DOM_STYLES(option);
                     var marginTop = parseFloat(styles.marginTop || 0);
                     var marginBottom = parseFloat(styles.marginBottom || 0);
@@ -6016,7 +5998,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             });
                         } else {
                             setObjValue(option, scope.labelAttr, value);
-                            setObjValue(option, scope.valueAttr || "value", value);
+                            setObjValue(option, scope.valueAttr || 'value', value);
                         }
                         return option;
                     }()).then(function (option) {
@@ -6031,6 +6013,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     if (scope.multiple && (scope.selectedValues || []).length >= scope.limit) {
                         return;
                     }
+                    ;
                     if (!angular.isDefined(option)) {
                         option = scope.filteredOptions[scope.highlighted];
                     }
@@ -6092,7 +6075,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         case _selector.CONSTANTS.KEYS.enter:
                             {
                                 if (scope.isOpen) {
-                                    if (attrs.create && scope.search && scope.highlighted === -1) {
+                                    if (attrs.create && scope.search && scope.highlighted == -1) {
                                         scope.createOption(e.target.value);
                                     } else {
                                         if (scope.remote) {
@@ -6115,7 +6098,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         case _selector.CONSTANTS.KEYS.backspace:
                             {
                                 if (!DOM_SELECTOR_INPUT.val()) {
-                                    var search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || "");
+                                    var search = scope.getObjValue(scope.selectedValues.slice(-1)[0] || {}, scope.labelAttr || '');
                                     scope.unset();
                                     open();
                                     if (scope.softDelete && !scope.disableSearch) {
@@ -6179,12 +6162,13 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         if (index >= 0) {
                             scope.highlight(index);
                         }
+                        ;
                     }
                     _triggerSteroidsForFilteredOptions();
                 };
                 // Input width utilities
                 var reAssessWidth = function reAssessWidth() {
-                    var _measureText = "";
+                    var _measureText = '';
                     if (DOM_SELECTOR_INPUT[0].value && DOM_SELECTOR_INPUT[0].value.length > 0) {
                         // value exists
                         _measureText = DOM_SELECTOR_INPUT[0].value;
@@ -6192,37 +6176,37 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         // no value
                         // replace with place holder if selected values are none
                         if (scope.selectedValues.length > 0) {
-                            _measureText = "";
+                            _measureText = '';
                         } else {
-                            _measureText = DOM_SELECTOR_INPUT[0].getAttribute("placeholder");
+                            _measureText = DOM_SELECTOR_INPUT[0].getAttribute('placeholder');
                         }
                     }
                     var styles = _selector.CONSTANTS.FUNCTIONS.GET_DOM_STYLES(DOM_SELECTOR_INPUT[0]);
-                    var shadow = angular.element("<span class=\"selector-shadow\"></span>");
+                    var shadow = angular.element('<span class="selector-shadow"></span>');
                     shadow.text(_measureText);
                     angular.element(document.body).append(shadow);
                     shadow.css({
-                        fontFamily: styles["fontFamily"],
-                        fontSize: styles["fontSize"],
-                        fontWeight: styles["fontWeight"],
-                        fontStyle: styles["fontStyle"],
-                        letterSpacing: styles["letterSpacing"],
-                        textTransform: styles["textTransform"],
-                        wordSpacing: styles["wordSpacing"],
-                        textIndent: styles["textIndent"]
+                        'fontFamily': styles['fontFamily'],
+                        'fontSize': styles['fontSize'],
+                        'fontWeight': styles['fontWeight'],
+                        'fontStyle': styles['fontStyle'],
+                        'letterSpacing': styles['letterSpacing'],
+                        'textTransform': styles['textTransform'],
+                        'wordSpacing': styles['wordSpacing'],
+                        'textIndent': styles['textIndent']
                     });
-                    DOM_SELECTOR_INPUT.css("width", shadow[0].offsetWidth + 1 + "px");
+                    DOM_SELECTOR_INPUT.css('width', shadow[0].offsetWidth + 1 + 'px');
                     shadow.remove();
                 };
                 var resetInput = function resetInput() {
-                    DOM_SELECTOR_INPUT.val("");
+                    DOM_SELECTOR_INPUT.val('');
                     _this.$timeout(function () {
-                        scope.search = "";
+                        scope.search = '';
                     });
                 };
                 _watchers.push(
                 // scope.$watch('[search, options, value]', () => {
-                scope.$watch("search", function () {
+                scope.$watch('search', function () {
                     // hide selected items
                     filterOptions();
                     // this.$timeout(() => {
@@ -6230,17 +6214,14 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     //     setInputWidth();
                     // });
                 }));
-                _watchers.push(scope.$watch("selectedValues", function (newValue, oldValue) {
+                _watchers.push(scope.$watch('selectedValues', function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
                     updateValue();
                     dropdownPosition();
                     if (angular.isFunction(scope.change)) {
-                        scope.change(scope.multiple ? { newValue: newValue, oldValue: oldValue } : {
-                            newValue: (newValue || [])[0],
-                            oldValue: (oldValue || [])[0]
-                        });
+                        scope.change(scope.multiple ? { newValue: newValue, oldValue: oldValue } : { newValue: (newValue || [])[0], oldValue: (oldValue || [])[0] });
                     }
                 }, true));
                 // Update value
@@ -6250,10 +6231,11 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                     setValue(!scope.multiple ? origin[0] : origin);
                 };
-                _watchers.push(scope.$watchCollection("options", function (newValue, oldValue) {
+                _watchers.push(scope.$watchCollection('options', function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue) || scope.remote) {
                         return;
                     }
+                    ;
                     if (!scope.remote) {
                         filterOptions();
                     }
@@ -6284,12 +6266,12 @@ var SelectorComponent = exports.SelectorComponent = function () {
                     }
                 };
                 var _prevValueWatchInvokedTimeStamp = null;
-                _watchers.push(scope.$watch("value", function (newValue, oldValue) {
+                _watchers.push(scope.$watch('value', function (newValue, oldValue) {
                     if (angular.equals(newValue, oldValue)) {
                         return;
                     }
                     if (_this.debug) {
-                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "watch::value, " + scope.search + ", " + JSON.stringify(oldValue) + ", " + JSON.stringify(newValue) + ", " + Date.now());
+                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'watch::value, ' + scope.search + ', ' + JSON.stringify(oldValue) + ', ' + JSON.stringify(newValue) + ', ' + Date.now());
                     }
                     _this.$q.when(!scope.remote || !scope.remoteValidation || !scope.hasValue() ? angular.noop : fetchValidation(newValue)).then(function () {
                         if (!scope.remote) {
@@ -6327,7 +6309,7 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 };
                 // DOM event listeners
                 _subscribers.push(OBSERVABLE_FOR_DOM_SELECTOR_INPUT.subscribe(function (e) {
-                    if (e.type === "focus") {
+                    if (e.type === 'focus') {
                         // close others
                         _this.SelectorInstanceManagerService.closeAll();
                         _this.$timeout(function () {
@@ -6335,21 +6317,21 @@ var SelectorComponent = exports.SelectorComponent = function () {
                             open();
                         });
                     }
-                    if (e.type === "blur") {
-                        if (scope.isOpen && _currentFocusedElement !== "FOCUSED_ELEMENT_DROPDOWN") {
+                    if (e.type === 'blur') {
+                        if (scope.isOpen && _currentFocusedElement !== 'FOCUSED_ELEMENT_DROPDOWN') {
                             close();
                         }
                     }
-                    if (e.type === "keydown") {
+                    if (e.type === 'keydown') {
                         scope.$apply(function () {
                             keydown(e);
                         });
                     }
-                    if (e.type === "input") {
+                    if (e.type === 'input') {
                         reAssessWidth();
                     }
                 }, function (error) {
-                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "error", error);
+                    _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'error', error);
                 }));
                 // Expose APIs
                 scope.api.fetch = fetch;
@@ -6377,9 +6359,9 @@ var SelectorComponent = exports.SelectorComponent = function () {
                 // register instance
                 _this.SelectorInstanceManagerService.add(_guid, scope.api);
                 // destroy
-                scope.$on("$destroy", function () {
+                scope.$on('$destroy', function () {
                     if (_this.debug) {
-                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, "debug", "Destroying Selector instance with id: " + _guid);
+                        _selector.CONSTANTS.FUNCTIONS.CONSOLE_LOGGER(_this.$log, 'debug', 'Destroying Selector instance with id: ' + _guid);
                     }
                     // dispose watchers
                     if (_watchers && _watchers.length) {
@@ -6406,18 +6388,18 @@ var SelectorComponent = exports.SelectorComponent = function () {
                         });
                         _subscribers = null;
                     }
-                    // remove instance
+                    //remove instance
                     _this.SelectorInstanceManagerService.remove(_guid);
                 });
             });
         }
     }], [{
-        key: "Factory",
+        key: 'Factory',
         value: function Factory(debug) {
             var directive = function directive($filter, $timeout, $window, $document, $http, $q, $log, SelectorInstanceManagerService) {
                 return new SelectorComponent($filter, $timeout, $window, $document, $http, $q, $log, SelectorInstanceManagerService, debug);
             };
-            directive["$inject"] = ["$filter", "$timeout", "$window", "$document", "$http", "$q", "$log", "SelectorInstanceManagerService"];
+            directive['$inject'] = ['$filter', '$timeout', '$window', '$document', '$http', '$q', '$log', 'SelectorInstanceManagerService'];
             return directive;
         }
     }]);
@@ -6426,10 +6408,10 @@ var SelectorComponent = exports.SelectorComponent = function () {
 }();
 
 /***/ }),
-/* 83 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var random = __webpack_require__(84)
+var random = __webpack_require__(83)
 
 var url = '_~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
@@ -6461,7 +6443,7 @@ module.exports = function (size) {
 
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports) {
 
 var crypto = window.crypto || window.msCrypto
@@ -6472,18 +6454,18 @@ module.exports = function (bytes) {
 
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var empty_1 = __webpack_require__(86);
+var empty_1 = __webpack_require__(85);
 Observable_1.Observable.empty = empty_1.empty;
 //# sourceMappingURL=empty.js.map
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6493,23 +6475,23 @@ exports.empty = EmptyObservable_1.EmptyObservable.create;
 //# sourceMappingURL=empty.js.map
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(0);
-var map_1 = __webpack_require__(88);
+var map_1 = __webpack_require__(87);
 Observable_1.Observable.prototype.map = map_1.map;
 //# sourceMappingURL=map.js.map
 
 /***/ }),
-/* 88 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var map_1 = __webpack_require__(89);
+var map_1 = __webpack_require__(88);
 /**
  * Applies a given `project` function to each value emitted by the source
  * Observable, and emits the resulting values as an Observable.
@@ -6550,7 +6532,7 @@ exports.map = map;
 //# sourceMappingURL=map.js.map
 
 /***/ }),
-/* 89 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6645,7 +6627,7 @@ var MapSubscriber = (function (_super) {
 //# sourceMappingURL=map.js.map
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6658,8 +6640,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Observable_1 = __webpack_require__(0);
 var Subscriber_1 = __webpack_require__(3);
 var Subscription_1 = __webpack_require__(8);
-var ObjectUnsubscribedError_1 = __webpack_require__(91);
-var SubjectSubscription_1 = __webpack_require__(92);
+var ObjectUnsubscribedError_1 = __webpack_require__(90);
+var SubjectSubscription_1 = __webpack_require__(91);
 var rxSubscriber_1 = __webpack_require__(14);
 /**
  * @class SubjectSubscriber<T>
@@ -6819,7 +6801,7 @@ exports.AnonymousSubject = AnonymousSubject;
 //# sourceMappingURL=Subject.js.map
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6852,7 +6834,7 @@ exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 //# sourceMappingURL=ObjectUnsubscribedError.js.map
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6898,7 +6880,7 @@ exports.SubjectSubscription = SubjectSubscription;
 //# sourceMappingURL=SubjectSubscription.js.map
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -7426,7 +7408,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = __webpack_require__(95);
+exports.isBuffer = __webpack_require__(94);
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -7470,7 +7452,7 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = __webpack_require__(96);
+exports.inherits = __webpack_require__(95);
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
@@ -7488,10 +7470,10 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(94)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(93)))
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -7681,7 +7663,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports) {
 
 module.exports = function isBuffer(arg) {
@@ -7692,7 +7674,7 @@ module.exports = function isBuffer(arg) {
 }
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -7721,7 +7703,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7741,7 +7723,6 @@ var SelectorInstanceManagerService = exports.SelectorInstanceManagerService = fu
         _classCallCheck(this, SelectorInstanceManagerService);
 
         this._instances = {};
-        return;
     }
 
     _createClass(SelectorInstanceManagerService, [{

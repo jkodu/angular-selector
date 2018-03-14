@@ -1,6 +1,11 @@
-.DS_Store
 bower_components
+
 node_modules
+demo/node_modules
+
 .tscache
 .sass-cache
+
 .idea
+.vscode
+.DS_Store

@@ -1,4 +1,4 @@
-import { ISelector } from "./selector.interfaces";
+import { ISelector } from './selector.interfaces';
 export declare class SelectorInstanceManagerService {
     private _instances;
     constructor();
