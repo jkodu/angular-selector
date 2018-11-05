@@ -104,9 +104,15 @@ export const CONSTANTS = {
 
                     <li
                         class="selector-option no-data"
-                        ng-show="!loading && (!filteredOptions || filteredOptions.length <= 0)"
+                        ng-show="!loading && !(minCharToSearch && minCharToSearch > search.length) && (!filteredOptions || filteredOptions.length <= 0)"
                         >
                         No Data
+                    </li>
+                    <li
+                        class="selector-option no-data"
+                        ng-show="!loading && (minCharToSearch && minCharToSearch > search.length) && (!filteredOptions || filteredOptions.length <= 0)"
+                        >
+                        Type a character to search
                     </li>
 
                     <sos-dropdown-items

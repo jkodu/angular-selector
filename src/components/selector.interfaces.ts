@@ -44,8 +44,8 @@ export namespace ISelector {
           dropdownItemTemplate,
           dropdownCreateTemplate,
           dropdownGroupTemplate,
-          steroids?: boolean // optional rendering of rows in angular
-
+          steroids?: boolean, // optional rendering of rows in angular
+          minCharToSearch?
             // CUSTOM MEMBERS ADDED to scope by old code, USED IN BINDINGS.
           getObjValue
           hasValue
