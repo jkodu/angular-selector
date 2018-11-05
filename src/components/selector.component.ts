@@ -49,7 +49,8 @@ export class SelectorComponent {
     dropdownCreateTemplate: '=?',
     dropdownGroupTemplate: '=?',
     steroids: '<',
-    cancelPendingXhr: '<'
+    cancelPendingXhr: '<',
+    minCharToSearch: '<'
   }
 
   constructor (
@@ -136,7 +137,8 @@ export class SelectorComponent {
             steroids: false,
             cancelPendingXhr: false,
             selectedValuesInput$: new Subject(),
-            filteredOptionsInput$: new Subject()
+            filteredOptionsInput$: new Subject(),
+            minCharToSearch: 0
           }
         let _currentFocusedElement = null
 
@@ -323,6 +325,9 @@ export class SelectorComponent {
 
             // Remote fetching
         const request = (paramName, paramValue, remote, remoteParam) => {
+          if(scope.minCharToSearch > paramValue.length) {
+            return;
+          }
             let promise
             let remoteOptions = {}
 
